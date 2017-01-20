@@ -3,13 +3,13 @@ import {
 } from '@exponent/ex-navigation';
 
 import HomeScreen from '../screens/HomeScreen';
-import LinksScreen from '../screens/LinksScreen';
+import ProfileScreen from '../screens/ProfileScreen/index.js';
 import SettingsScreen from '../screens/SettingsScreen';
 import RootNavigation from './RootNavigation';
 
 export default createRouter(() => ({
   home: () => HomeScreen,
-  links: () => LinksScreen,
+  profile: () => ProfileScreen,
   settings: () => SettingsScreen,
   rootNavigation: () => RootNavigation,
 }));

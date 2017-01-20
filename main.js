@@ -8,6 +8,7 @@ import {
   View,
 } from 'react-native';
 import {
+  NavigationContext,
   NavigationProvider,
   StackNavigation,
 } from '@exponent/ex-navigation';
@@ -15,8 +16,17 @@ import {
   FontAwesome,
 } from '@exponent/vector-icons';
 
+import { ApolloProvider } from 'react-apollo';
+import Store from './state/Store';
+import Client from './state/Apollo';
+
 import Router from './navigation/Router';
 import cacheAssetsAsync from './utilities/cacheAssetsAsync';
+
+const navigationContext = new NavigationContext({
+  router: Router,
+  store: Store,
+})
 
 class AppContainer extends React.Component {
   state = {
@@ -33,10 +43,6 @@ class AppContainer extends React.Component {
         images: [
           require('./assets/images/exponent-wordmark.png'),
         ],
-        fonts: [
-          FontAwesome.font,
-          {'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf')},
-        ],
       });
     } catch(e) {
       console.warn(
@@ -51,11 +57,16 @@ class AppContainer extends React.Component {
 
   render() {
     if (this.state.appIsReady) {
+      let { notification } = this.props.exp;
+      let initialRoute = Router.getRoute('rootNavigation', {notification});
+
       return (
         <View style={styles.container}>
-          <NavigationProvider router={Router}>
-            <StackNavigation id="root" initialRoute={Router.getRoute('rootNavigation')} />
-          </NavigationProvider>
+          <ApolloProvider store={Store} client={Client}>
+            <NavigationProvider context={navigationContext}>
+              <StackNavigation id="root" initialRoute={initialRoute} />
+            </NavigationProvider>
+          </ApolloProvider>
 
           {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
           {Platform.OS === 'android' && <View style={styles.statusBarUnderlay} />}
@@ -71,8 +82,11 @@ class AppContainer extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
   },
   statusBarUnderlay: {
     height: 24,

@@ -2,6 +2,7 @@ import React from 'react';
 import {
   StyleSheet,
   View,
+  Text
 } from 'react-native';
 import {
   Notifications,
@@ -11,9 +12,6 @@ import {
   TabNavigation,
   TabNavigationItem,
 } from '@exponent/ex-navigation';
-import {
-  FontAwesome,
-} from '@exponent/vector-icons';
 
 import Alerts from '../constants/Alerts';
 import Colors from '../constants/Colors';
@@ -27,42 +25,46 @@ export default class RootNavigation extends React.Component {
   componentWillUnmount() {
     this._notificationSubscription && this._notificationSubscription.remove();
   }
-
+  // renderIcon={isSelected => this._renderIcon('cog', isSelected)}
   render() {
     return (
       <TabNavigation
-        tabBarHeight={56}
+        tabBarHeight={45}
         initialTab="home">
         <TabNavigationItem
           id="home"
-          renderIcon={isSelected => this._renderIcon('home', isSelected)}>
+          title="Feed"
+          renderTitle={isSelected => this._renderTitle('Feed', isSelected)}
+          selectedStyle={styles.selectedTab}>
           <StackNavigation initialRoute="home" />
         </TabNavigationItem>
 
         <TabNavigationItem
-          id="links"
-          renderIcon={isSelected => this._renderIcon('book', isSelected)}>
-          <StackNavigation initialRoute="links" />
+          id="profile"
+          title="Profile"
+          renderTitle={isSelected => this._renderTitle('Profile', isSelected)}
+          selectedStyle={styles.selectedTab}>
+          <StackNavigation initialRoute="profile" />
         </TabNavigationItem>
 
         <TabNavigationItem
           id="settings"
-          renderIcon={isSelected => this._renderIcon('cog', isSelected)}>
+          title="Settings"
+          renderTitle={isSelected => this._renderTitle('Settings', isSelected)}
+          selectedStyle={styles.selectedTab}>
           <StackNavigation initialRoute="settings" />
         </TabNavigationItem>
       </TabNavigation>
     );
   }
 
-  _renderIcon(name, isSelected) {
+  _renderTitle(text: string, isSelected: boolean) {
     return (
-      <FontAwesome
-        name={name}
-        size={32}
-        color={isSelected ? Colors.tabIconSelected : Colors.tabIconDefault}
-      />
+      <Text style={[styles.titleText, isSelected ? styles.selectedTitleText : {}]}>
+        {text}
+      </Text>
     );
-  }
+  };
 
   _registerForPushNotifications() {
     // Send our push token over to our backend so we can receive notifications
@@ -88,7 +90,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
-  selectedTab: {
-    color: Colors.tabIconSelected,
+  titleText: {
+    fontSize: 13,
+    color: "#aaa"
   },
+  selectedTitleText: {
+    color: "#222"
+  },
+  selectedTab: {},
 });

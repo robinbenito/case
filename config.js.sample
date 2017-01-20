@@ -1,0 +1,3 @@
+module.exports = {
+  X_APP_TOKEN: "putxapptokenhere"
+}
