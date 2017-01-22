@@ -13,23 +13,19 @@ export default class ProfileHeader extends Component {
   render() {
     return (
       <View style={styles.header}>
-        <Text style={styles.headerText}>
-          {this.props.user.name}
-        </Text>
-        <HTMLView
-          value={this.props.user.bio}
-          stylesheet={styles}
-        />
-        <Image
-          style={styles.avatar}
-          source={{uri: this.props.user.avatar}}
-        />
-         <SegmentedControlIOS 
-          tintColor="#222" 
-          values={['Channels', 'Blocks']} 
-          selectedIndex={0}
-          onValueChange={(value) => { this.props.onToggleChange(value) }}
-        />
+        <View style={styles.innerHeader}>
+          <Text style={styles.headerText}>
+            {this.props.user.name}
+          </Text>
+          <HTMLView
+            value={this.props.user.bio}
+            stylesheet={styles}
+          />
+          <Image
+            style={styles.avatar}
+            source={{uri: this.props.user.avatar}}
+          />
+        </View>
       </View>
     );
   }
@@ -38,13 +34,15 @@ export default class ProfileHeader extends Component {
 const styles = StyleSheet.create({
   avatar: {
     position: 'absolute',
-    top: 20,
+    top: 0,
     right: 0,
     width: 75,
     height: 75
   },  
   header: {
-    paddingTop: 20,
+    padding: 20,
+  },
+  innerHeader: {
     borderBottomColor: '#eee',
     borderBottomWidth: 1,
     marginBottom: 20

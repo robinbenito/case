@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet,
   View,
+  StyleSheet,
   ListView,
   ActivityIndicator,
   ScrollView,
@@ -12,15 +12,17 @@ import {
 import ProfileHeader from  './ProfileHeader';
 import ChannelList from '../../../components/ChannelList'
 
-import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
-import { withApollo } from 'react-apollo';
-import { filter } from 'graphql-anywhere';
+import { graphql, withApollo } from 'react-apollo';
 
 import HTMLView from 'react-native-htmlview'
 
 @withApollo
 export class ProfileContainer extends Component {
+  state = {
+    loadedOnce: false
+  }
+
   constructor(props) {
     super(props)
     this._onToggleChange = this._onToggleChange.bind(this);
@@ -46,8 +48,8 @@ export class ProfileContainer extends Component {
         </View>
       );
     }
-
-    if (this.props.data.loading && !this.props.user) {
+    
+    if (this.props.data.loading) {
       return (
         <View style={styles.loadingContainer} >
           <ActivityIndicator />
@@ -56,18 +58,15 @@ export class ProfileContainer extends Component {
     }
     
     return (
-      <View style={styles.container} >
+      <ScrollView style={styles.container} >
+        <ProfileHeader
+          onToggleChange={this._onToggleChange}
+          user={this.props.data.user}
+        />
         <ChannelList 
           channels={this.props.data.user.contents} 
-          renderHeader={() => { 
-            return (<ProfileHeader
-
-              onToggleChange={this._onToggleChange}
-              user={this.props.data.user}
-            />);
-          }}
         />
-      </View>
+      </ScrollView>
     );
   }
 }
