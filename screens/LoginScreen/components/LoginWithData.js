@@ -57,7 +57,7 @@ class LoginScreen extends React.Component {
     }
 
     try {
-      await AsyncStorage.setItem('@arena:AuthToken', response.data.login.me.authentication_token);
+      await AsyncStorage.setItem('@arena:CurrentUser', JSON.stringify(response.data.login.me));
     } catch (error) {
       return this.setState({
         error: "Error logging in, please try again"

@@ -59,22 +59,20 @@ class AppContainer extends React.Component {
 
   async _checkLoginStateAsync() {
     try {
-      const authToken = await AsyncStorage.getItem('@arena:AuthToken');
-      this.setState({ loggedIn: !!authToken })
+      const currentUser = await AsyncStorage.getItem('@arena:CurrentUser');
+      this.setState({ loggedIn: !!currentUser })
     } catch (e) {
-      console.warn('Error fetching authToken from localStorage')
+      console.warn('Error fetching currentUser from localStorage')
       this.setState({ loggedIn: false });
     } 
   }
 
   render() {
     if (this.state.appIsReady) {
-      console.log('rendering main page')
       let initialRoute;
       let { notification } = this.props.exp;
 
       if (this.state.loggedIn) {
-        console.log('setting rootNavigation')
         initialRoute = Router.getRoute('rootNavigation', { notification });
       } else {
         initialRoute = Router.getRoute('login');
