@@ -18,13 +18,13 @@ export default class ChannelItem extends Component {
     const containerStyle = {
       'public': styles.channelContainerPublic,
       'closed': styles.channelContainerClosed,
-      'public': styles.channelContainerPublic,
+      'private': styles.channelContainerPrivate,
     }[this.props.channel.kind.visibility];
 
     const textStyle = {
       'public': styles.channelTitlePublic,
       'closed': styles.channelTitleClosed,
-      'public': styles.channelTitlePublic,
+      'private': styles.channelTitlePrivate,
     }[this.props.channel.kind.visibility];
 
     const textColor = Colors[this.props.channel.kind.visibility];
@@ -36,12 +36,12 @@ export default class ChannelItem extends Component {
             {this.props.channel.title}
           </Text>
           <View style={{flex: 1, flexDirection: "row", justifyContent: "space-between"}}>
-            <View style={{}}>
+            <View>
               <Text style={{fontSize: 12, color: textColor}}>
                 {this.props.channel.user.name}
               </Text>
             </View>
-            <View style={{}}>
+            <View>
               <Text style={{fontSize: 12, color: textColor}}>
                 {this.props.channel.updated_at}
               </Text>

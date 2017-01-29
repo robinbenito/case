@@ -19,10 +19,6 @@ import HTMLView from 'react-native-htmlview'
 
 @withApollo
 export class ProfileContainer extends Component {
-  state = {
-    loadedOnce: false
-  }
-
   constructor(props) {
     super(props)
     this._onToggleChange = this._onToggleChange.bind(this);
@@ -100,8 +96,8 @@ const styles = StyleSheet.create({
 });
 
 const ProfileQuery = gql`
-  query ProfileQuery($type: String!){
-    user(id: "damon-zucconi") {
+  query ProfileQuery($type: String!, $userId: ID!){
+    user(id: $userId) {
       id
       initials
       name
@@ -128,5 +124,7 @@ const ProfileQuery = gql`
 `
 
 export const ProfileWithData = graphql(ProfileQuery, { 
-  options: { variables: { type: "channel" } },
+  options: ({ userId }) => {
+    return { variables: { type: "channel", userId: userId } };
+  },
 })(ProfileContainer);

@@ -57,7 +57,8 @@ class LoginScreen extends React.Component {
     }
 
     try {
-      await AsyncStorage.setItem('@arena:CurrentUser', JSON.stringify(response.data.login.me));
+      const currentUser = JSON.stringify(response.data.login.me);
+      await AsyncStorage.setItem('@arena:CurrentUser', currentUser);
     } catch (error) {
       return this.setState({
         error: "Error logging in, please try again"
@@ -130,6 +131,8 @@ const loginMutation = gql`
     login(input: { email: $email, password: $password }) {
       clientMutationId
       me {
+        id
+        slug
         name
         authentication_token
       }
