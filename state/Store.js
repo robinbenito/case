@@ -1,6 +1,5 @@
 // @flow
 
-// $FlowFixMe
 import { createNavigationEnabledStore, NavigationReducer } from '@exponent/ex-navigation';
 import { combineReducers, createStore, compose, applyMiddleware } from 'redux';
 import client from './Apollo.js';

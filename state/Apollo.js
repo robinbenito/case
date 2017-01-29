@@ -2,7 +2,7 @@ import ApolloClient, { createNetworkInterface } from 'apollo-client';
 import Config from '../config';
 
 const networkInterface = createNetworkInterface({
-  uri: 'https://api.are.na/graphql',
+  uri: Config.API_ENDPOINT,
   dataIdFromObject: o => o.id
 });
 
@@ -11,7 +11,6 @@ networkInterface.use([{
     if (!req.options.headers) {
       req.options.headers = {};  // Create the header object if needed.
     }
-    console.log('Config.X_APP_TOKEN', Config.X_APP_TOKEN)
     req.options.headers['X-APP-TOKEN'] = Config.X_APP_TOKEN;
     next();
   }

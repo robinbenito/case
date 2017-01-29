@@ -1,0 +1,135 @@
+import React from 'react';
+import {
+  StyleSheet,
+  Text,
+  TouchableHighlight,
+  View,
+  AsyncStorage
+} from 'react-native';
+
+import stylesheet from '../../../styles/form';
+
+import gql from 'graphql-tag';
+import { graphql, withApollo } from 'react-apollo';
+
+import t from 'tcomb-form-native';
+t.form.Form.stylesheet = stylesheet;
+const Form = t.form.Form;
+
+class LoginScreen extends React.Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      loggedIn: false,
+      user: null,
+      value: {
+        email: "",
+        password: "",
+      }
+    }
+  }
+
+  onChange(value) {
+    this.setState({ value });
+  }
+
+  async onPress(email, password) {
+    const options = {
+      variables: {
+        email: email,
+        password: password,
+      }
+    };
+
+    const { data } = await this.props.mutate(options)
+    this.props.onLogin()    
+  }
+
+  render() {
+    let onButtonPress = this.onPress.bind(
+      this,
+      this.state.value.email,
+      this.state.value.password
+    );
+
+    const email = {
+      label: "Email",
+      keyboardType: 'email-address',
+      autoCapitalize: 'none',
+      placeholder: "Email address",
+    };
+
+    const password = {
+      label: "Password",
+      maxLength: 12,
+      secureTextEntry: true,
+      placeholder: "Password",
+    };
+
+    const loginForm = t.struct({
+      email: t.String,
+      password: t.String
+    });
+
+    let options = {
+      stylesheet: stylesheet,
+      fields: {
+        email,
+        password
+      }
+    }
+
+    return (
+      <View>
+        <Form ref='form'
+          type={loginForm}
+          options={options}
+          value={this.state.value}
+          onChange={this.onChange.bind(this)}
+        />
+        <TouchableHighlight style={styles.button} onPress={onButtonPress}>
+          <Text style={styles.buttonText}>Login</Text>
+        </TouchableHighlight>
+      </View>
+    );
+  }
+}
+
+const loginMutation = gql`
+  mutation loginMutation($email: String!, $password: String!) {
+    login(input: { email: $email, password: $password }) {
+      clientMutationId
+      me {
+        name
+        authentication_token
+      }
+    }
+  }
+`;
+
+export const LoginWithData = graphql(loginMutation)(LoginScreen);
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center', 
+    justifyContent: 'center',
+    padding: 20
+  },
+  buttonText: {
+    fontSize: 14,
+    color: '#000',
+    alignSelf: 'center',
+    fontWeight: '500'
+  },
+  button: {
+    height: 36,
+    width: 300,
+    borderColor: '#000',
+    borderWidth: 1,
+    marginTop: 10,
+    marginBottom: 10,
+    alignSelf: 'center',
+    justifyContent: 'center',
+  }
+});

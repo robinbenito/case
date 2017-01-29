@@ -1,3 +1,4 @@
 module.exports = {
-  X_APP_TOKEN: "putxapptokenhere"
+  X_APP_TOKEN: "apptokenhere",
+  API_ENDPOINT: "http://localhost:3000/graphql"
 }

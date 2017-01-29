@@ -25,12 +25,16 @@ export default class RootNavigation extends React.Component {
   componentWillUnmount() {
     this._notificationSubscription && this._notificationSubscription.remove();
   }
-  // renderIcon={isSelected => this._renderIcon('cog', isSelected)}
+
   render() {
+    console.log('rendering rootNavigation')
     return (
       <TabNavigation
         tabBarHeight={45}
-        initialTab="home">
+        initialTab="home"
+        id="main"
+        navigatorUID="main">
+        
         <TabNavigationItem
           id="home"
           title="Feed"

@@ -1,6 +1,7 @@
 import Exponent from 'exponent';
 import React from 'react';
 import {
+  AsyncStorage,
   AppRegistry,
   Platform,
   StatusBar,
@@ -26,7 +27,7 @@ import cacheAssetsAsync from './utilities/cacheAssetsAsync';
 const navigationContext = new NavigationContext({
   router: Router,
   store: Store,
-})
+});
 
 class AppContainer extends React.Component {
   state = {
@@ -35,13 +36,14 @@ class AppContainer extends React.Component {
 
   componentWillMount() {
     this._loadAssetsAsync();
+    this._checkLoginStateAsync();
   }
 
   async _loadAssetsAsync() {
     try {
       await cacheAssetsAsync({
         images: [
-          require('./assets/images/exponent-wordmark.png'),
+          require('./assets/images/logo.png'),
         ],
       });
     } catch(e) {
@@ -51,14 +53,32 @@ class AppContainer extends React.Component {
       );
       console.log(e.message);
     } finally {
-      this.setState({appIsReady: true});
+      this.setState({ appIsReady: true });
     }
+  }
+
+  async _checkLoginStateAsync() {
+    try {
+      const authToken = await AsyncStorage.getItem('@arena:AuthToken');
+      this.setState({ loggedIn: !!authToken })
+    } catch (e) {
+      console.warn('Error fetching authToken from localStorage')
+      this.setState({ loggedIn: false });
+    } 
   }
 
   render() {
     if (this.state.appIsReady) {
+      console.log('rendering main page')
+      let initialRoute;
       let { notification } = this.props.exp;
-      let initialRoute = Router.getRoute('rootNavigation', {notification});
+
+      if (this.state.loggedIn) {
+        console.log('setting rootNavigation')
+        initialRoute = Router.getRoute('rootNavigation', { notification });
+      } else {
+        initialRoute = Router.getRoute('login');
+      }
 
       return (
         <View style={styles.container}>

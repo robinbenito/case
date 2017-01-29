@@ -1,12 +1,9 @@
 import React from 'react';
 import {
-  Image,
-  Linking,
-  Platform,
+  AsyncStorage,
   ScrollView,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
 } from 'react-native';
 
