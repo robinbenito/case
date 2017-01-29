@@ -22,6 +22,7 @@ class LoginScreen extends React.Component {
     this.state = {
       loggedIn: false,
       user: null,
+      error: null,
       value: {
         email: "",
         password: "",
@@ -33,6 +34,10 @@ class LoginScreen extends React.Component {
     this.setState({ value });
   }
 
+  async storeToken(data) {
+    
+  }
+
   async onPress(email, password) {
     const options = {
       variables: {
@@ -41,7 +46,23 @@ class LoginScreen extends React.Component {
       }
     };
 
-    const { data } = await this.props.mutate(options)
+    console.log('options', options)
+    let response;
+
+    try {
+      response = await this.props.mutate(options)
+    } catch (error) {
+      return this.setState({
+        error: "Login failed, please try again."
+      })
+    }
+
+    try {
+      await AsyncStorage.setItem('@arena:AuthToken', response.data.login.me.authentication_token);
+    } catch (error) {
+      return console.log('AsyncStorage error: ' + error.message);
+    }
+
     this.props.onLogin()    
   }
 
@@ -57,13 +78,20 @@ class LoginScreen extends React.Component {
       keyboardType: 'email-address',
       autoCapitalize: 'none',
       placeholder: "Email address",
+      returnKeyType: "next",
+      onSubmitEditing: (event) => { 
+        this.refs.form.getComponent('password').refs.input.focus(); 
+      }
     };
 
     const password = {
+      ref: "Password",
       label: "Password",
       maxLength: 12,
       secureTextEntry: true,
       placeholder: "Password",
+      returnKeyType: "go",
+      onSubmitEditing: onButtonPress
     };
 
     const loginForm = t.struct({
@@ -87,6 +115,7 @@ class LoginScreen extends React.Component {
           value={this.state.value}
           onChange={this.onChange.bind(this)}
         />
+        <Text style={styles.error}>{this.state.error}</Text>
         <TouchableHighlight style={styles.button} onPress={onButtonPress}>
           <Text style={styles.buttonText}>Login</Text>
         </TouchableHighlight>
@@ -122,6 +151,12 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     fontWeight: '500'
   },
+  error: {
+    color: "red",
+    textAlign: "center",
+    alignSelf: 'center',
+    marginBottom: 2
+  },  
   button: {
     height: 36,
     width: 300,

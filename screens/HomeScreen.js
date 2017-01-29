@@ -17,6 +17,7 @@ export default class HomeScreen extends React.Component {
   }
 
   render() {
+    AsyncStorage.clear()
     return (
       <View style={styles.container}>
         <ScrollView
