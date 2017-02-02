@@ -8,25 +8,23 @@ import {
   ActivityIndicator
 } from 'react-native';
 
+import UserNameText from '../../../components/UserNameText'
 import HTMLView from 'react-native-htmlview';
 
-export default class ProfileHeader extends Component {
+export default class ChannelHeader extends Component {
   render() {
-    const user = this.props.user;
+    const channel = this.props.channel;
+    console.log('channel', channel)
     return (
       <View style={styles.header}>
         <View style={styles.innerHeader}>
           <Text style={styles.headerText}>
-            {user.name}
+            {channel.title}
           </Text>
-          <HTMLView
-            value={user.bio}
-            stylesheet={styles}
-          />
-          <Image
-            style={styles.avatar}
-            source={{uri: user.avatar}}
-          />
+          <View>
+            <Text>by</Text>
+            <UserNameText user={channel.user} />
+          </View>
         </View>
       </View>
     );
@@ -34,13 +32,6 @@ export default class ProfileHeader extends Component {
 }
 
 const styles = StyleSheet.create({
-  avatar: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    width: 75,
-    height: 75
-  },  
   header: {
     padding: 20,
     paddingBottom: 0

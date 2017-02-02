@@ -34,10 +34,6 @@ class LoginScreen extends React.Component {
     this.setState({ value });
   }
 
-  async storeToken(data) {
-    
-  }
-
   async onPress(email, password) {
     const options = {
       variables: {

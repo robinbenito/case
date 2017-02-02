@@ -7,11 +7,15 @@ import {
   TouchableOpacity
 } from 'react-native';
 
+import { withNavigation } from '@exponent/ex-navigation';
+import Router from '../navigation/Router';
 import Colors from '../constants/Colors';
 
+@withNavigation
 export default class ChannelItem extends Component {
+  
   _onPressButton() {
-    console.log("channel pressed")
+    this.props.navigator.push(Router.getRoute('channel', { id: this.props.channel.id }));
   }
   
   render() {
@@ -30,7 +34,7 @@ export default class ChannelItem extends Component {
     const textColor = Colors[this.props.channel.kind.visibility];
 
     return (
-      <TouchableOpacity onPress={this._onPressButton}>
+      <TouchableOpacity onPress={this._onPressButton.bind(this)}>
         <View style={[styles.channelContainer, containerStyle]}>
           <Text style={[styles.channelTitle, textStyle]}>
             {this.props.channel.title}

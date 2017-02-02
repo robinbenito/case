@@ -2,12 +2,18 @@ import React from 'react';
 import {
   AsyncStorage,
   StyleSheet,
-  View,
+  ScrollView,
+  View
 } from 'react-native';
 
-import { ProfileWithData } from './components/ProfileWithData';
+import { ProfileContainerWithData } from './components/ProfileContainer';
+import { ContentsWithData } from '../../components/Contents/ContentsContainer'
 
 export default class ProfileScreen extends React.Component {
+  state = {
+    type: "Channels"
+  }
+
   static route = {
     navigationBar: {
       title: "Profile",
@@ -36,10 +42,11 @@ export default class ProfileScreen extends React.Component {
 
   render() {
     if (this.state.storageSynced) {
+      const userId = this.state.currentUser.slug;
       return (
-        <View style={styles.container}>
-          <ProfileWithData userId={this.state.currentUser.slug} />
-        </View>
+        <ScrollView style={styles.container}>
+          <ProfileContainerWithData userId={userId} />
+        </ScrollView>
       );
     } else {
       return (

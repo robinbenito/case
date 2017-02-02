@@ -7,7 +7,7 @@ import {
 
 import { NavigationActions, withNavigation } from '@exponent/ex-navigation';
 import Store from '../../state/Store';
-import Router from '../../navigation/Router'
+import Router from '../../navigation/Router';
 import { LoginWithData } from './components/LoginWithData';
 
 @withNavigation

@@ -3,17 +3,24 @@ import {
   SegmentedControlIOS
 } from 'react-native';
 
-import HTMLView from 'react-native-htmlview'
-
 export default class ContentsToggle extends Component {
   render() {
+    const values = ['Channels', 'Blocks'];
+    const selectedSegment = this.props.selectedSegment;
+    const selectedIndex = values.findIndex((value) => { 
+      return value == selectedSegment 
+    });
+
     return (
-      <SegmentedControlIOS 
-        tintColor="#222" 
-        values={['Channels', 'Blocks']} 
-        selectedIndex={0}
-        onValueChange={(value) => { this.props.onToggleChange(value) }}
-      />
+      <SegmentedControlIOS
+          tintColor="#000"
+          values={values}
+          selectedIndex={selectedIndex}
+          onChange={(event) => {
+            this.setState({selectedIndex: event.nativeEvent.selectedSegmentIndex});
+          }}
+          onValueChange={this.props.onToggleChange}
+        />
     );
   }
 }
