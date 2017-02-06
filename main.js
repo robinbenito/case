@@ -31,7 +31,8 @@ const navigationContext = new NavigationContext({
 
 class AppContainer extends React.Component {
   state = {
-    appIsReady: false,
+    assetsLoaded: false,
+    storageChecked: false,
   }
 
   componentWillMount() {
@@ -53,22 +54,22 @@ class AppContainer extends React.Component {
       );
       console.log(e.message);
     } finally {
-      this.setState({ appIsReady: true });
+      this.setState({ assetsLoaded: true });
     }
   }
 
   async _checkLoginStateAsync() {
     try {
       const currentUser = await AsyncStorage.getItem('@arena:CurrentUser');
-      this.setState({ loggedIn: !!currentUser })
+      this.setState({ loggedIn: currentUser !== null, storageChecked: true })
     } catch (e) {
       console.warn('Error fetching currentUser from localStorage')
-      this.setState({ loggedIn: false });
+      this.setState({ loggedIn: false, storageChecked: true });
     } 
   }
 
   render() {
-    if (this.state.appIsReady) {
+    if (this.state.assetsLoaded && this.state.storageChecked) {
       let initialRoute;
       let { notification } = this.props.exp;
 
