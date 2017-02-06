@@ -20,7 +20,7 @@ import HTMLView from 'react-native-htmlview'
 @withApollo
 class ContentsContainer extends Component {
   state = {
-    type: "Channels",
+    type: null,
     page: 1
   }
 
@@ -35,7 +35,7 @@ class ContentsContainer extends Component {
       'Channels': 'channel',
     }[value];
 
-    this.setState({ type: value, page: 2 });
+    this.setState({ type: typeValue, page: 2 });
     this.props.data.refetch({ type: typeValue })
   }
 
@@ -54,7 +54,6 @@ class ContentsContainer extends Component {
   }
 
   render() {
-    console.log('render contents')
     if (this.props.data.error) {
       console.log('ContentsContainer -> Error', this.props.data.error, this.props)
       return (
@@ -73,18 +72,25 @@ class ContentsContainer extends Component {
         </View>
       );
     }
+
+    let type = this.state.type || this.props.type;
+
+    const segmentValue = {
+      'block': 'Blocks',
+      'channel': 'Channels',
+    }[type];
     
     return (
       <View style={styles.container}>
         <View style={styles.toggleContainer}>
           <ContentsToggle 
-            selectedSegment={this.state.type} 
+            selectedSegment={segmentValue} 
             onToggleChange={this._onToggleChange}
           />
         </View>
         <ContentsList 
           contents={this.props.data.search} 
-          type={this.state.type} 
+          type={segmentValue} 
           onEndReached={this._onEndReached}
         />
       </View>

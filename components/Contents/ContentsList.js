@@ -27,12 +27,8 @@ export default class ContentsList extends Component {
     })
   }
 
-  loadAnotherPage() {
-    console.log('loadAnotherPage');
-    console.log('loading another page', this);
-  }
-
   render() {
+    console.log('this.props.type', this.props.type)
     const flexStyle = {
       'Channels': {
         flexDirection: 'column'
