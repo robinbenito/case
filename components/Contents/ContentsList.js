@@ -17,7 +17,6 @@ export default class ContentsList extends Component {
     this.state = {
       dataSource: ds.cloneWithRows(props.contents || []),
     };
-    this.loadAnotherPage = this.loadAnotherPage.bind(this);
   }
 
   componentWillReceiveProps(newProps) {
@@ -29,6 +28,7 @@ export default class ContentsList extends Component {
   }
 
   loadAnotherPage() {
+    console.log('loadAnotherPage');
     console.log('loading another page', this);
   }
 
@@ -54,7 +54,7 @@ export default class ContentsList extends Component {
           }
           return (<ChannelItem channel={item}/>);
         }}
-        onEndReached={this.loadAnotherPage.bind(this)}
+        onEndReached={this.props.onEndReached}
       />
     );
   }

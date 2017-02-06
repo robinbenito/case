@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 
 import ChannelHeader from './ChannelHeader';
-// import { ContentsWithData } from '../../components/Contents/ContentsContainer'
+import { ContentsWithData } from '../../../components/Contents/ContentsContainer'
 
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
@@ -36,6 +36,12 @@ export default class ChannelContainer extends React.Component {
     return (
       <ScrollView style={styles.container}>
         <ChannelHeader channel={this.props.data.channel} /> 
+        <ContentsWithData 
+          objectId={this.props.data.channel.slug} 
+          objectType="CHANNEL" 
+          type="block"
+          page={1}
+        />
       </ScrollView>
     )
   }

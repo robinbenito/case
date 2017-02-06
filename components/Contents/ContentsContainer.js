@@ -20,13 +20,13 @@ import HTMLView from 'react-native-htmlview'
 @withApollo
 class ContentsContainer extends Component {
   state = {
-    type: "Channels"
+    type: "Channels",
+    page: 1
   }
 
   constructor(props) {
     super(props)
     this._onToggleChange = this._onToggleChange.bind(this);
-    this._onEndReached = this._onEndReached.bind(this);
   }
 
   _onToggleChange(value) {
@@ -35,13 +35,17 @@ class ContentsContainer extends Component {
       'Channels': 'channel',
     }[value];
 
-    this.setState({ type: value });
+    this.setState({ type: value, page: 2 });
     this.props.data.refetch({ type: typeValue })
   }
 
-  _onEndReached(){
-    console.log('onendreached')
-    console.log('onendreached', this)
+  _onEndReached = () => {
+    currentPage = this.state.page;
+    this.setState({page: currentPage + 1 });
+    console.log('onendreached', this.props, currentPage);
+    if (currentPage < 4) {
+      this.props.loadMore(this.state.page);
+    } 
   }
 
   shouldComponentUpdate(newProps) {
@@ -52,7 +56,7 @@ class ContentsContainer extends Component {
   render() {
     console.log('render contents')
     if (this.props.data.error) {
-      console.log('ContentsContainer -> Error', this.props.data.error)
+      console.log('ContentsContainer -> Error', this.props.data.error, this.props)
       return (
         <View style={styles.loadingContainer} >
           <Text>
@@ -81,7 +85,7 @@ class ContentsContainer extends Component {
         <ContentsList 
           contents={this.props.data.search} 
           type={this.state.type} 
-          onEndReached={this._onEndReached.bind(this)}
+          onEndReached={this._onEndReached}
         />
       </View>
     );
@@ -146,16 +150,15 @@ export const ContentsWithData = graphql(ContentsQuery, {
     let data = props.data;
     return {
       data, 
-      loadMore() {
+      loadMore(page) {
         return props.data.fetchMore({
           variables: {
-            page: 2
+            page: page
           },
           updateQuery: (previousResult, { fetchMoreResult }) => {
-            console.log('updateQuery')
             if (!fetchMoreResult.data) { return previousResult; }
             return Object.assign({}, previousResult, {
-              search: [...previousResult.data.search, ...fetchMoreResult.data.search],
+              search: [...previousResult.search, ...fetchMoreResult.data.search],
             });
           }
         })
