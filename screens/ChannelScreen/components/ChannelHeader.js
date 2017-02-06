@@ -11,19 +11,27 @@ import {
 import UserNameText from '../../../components/UserNameText'
 import HTMLView from 'react-native-htmlview';
 
+import Colors from '../../../constants/Colors';
+
 export default class ChannelHeader extends Component {
   render() {
     const channel = this.props.channel;
-    console.log('channel', channel)
+
+    const textStyle = {
+      'public': styles.channelPublic,
+      'closed': styles.channelClosed,
+      'private': styles.channelPrivate,
+    }[channel.visibility];
+
     return (
       <View style={styles.header}>
         <View style={styles.innerHeader}>
-          <Text style={styles.headerText}>
+          <Text style={[styles.headerText, textStyle]}>
             {channel.title}
           </Text>
-          <View>
-            <Text>by</Text>
-            <UserNameText user={channel.user} />
+          <View style={styles.collaborators}>
+            <Text style={textStyle}>by </Text>
+            <UserNameText style={textStyle} user={channel.user} />
           </View>
         </View>
       </View>
@@ -46,5 +54,17 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     paddingBottom: 20
-  }
+  },
+  collaborators: {
+    flexDirection: 'row',
+  },
+  channelPrivate: {
+    color: Colors.private
+  }, 
+  channelClosed: {
+    color: Colors.closed,
+  }, 
+  channelPublic: {
+    color: Colors.public,
+  },  
 });

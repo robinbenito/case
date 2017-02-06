@@ -1,4 +1,5 @@
 import React from 'react';
+import Router from '../navigation/Router';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { withNavigation } from '@exponent/ex-navigation';
 
@@ -7,15 +8,17 @@ export default class UserNameText extends React.Component {
   render() {
     return (
       <TouchableOpacity onPress={this._goToProfile}>
-        <Text onPress={this._goToProfile}>{this.props.user.name}</Text>
+        <Text 
+          style={[styles.text, this.props.style]} 
+          onPress={this._goToProfile}>
+            {this.props.user.name}
+        </Text>
       </TouchableOpacity>
     )
   }
 
   _goToProfile = () => {
-    if (this.props.navigator.getCurrentIndex() > 0) {
-      this.props.navigator.pop();
-    }
+    this.props.navigator.push(Router.getRoute('profile', { id: this.props.user.slug }));
   }
 }
 
@@ -26,4 +29,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingLeft: 20
   },
+  text: {
+    fontWeight: "bold"
+  }
 });

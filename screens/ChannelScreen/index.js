@@ -11,7 +11,7 @@ import { ChannelContainerWithData } from './components/ChannelContainer';
 export default class ChannelScreen extends React.Component {
   static route = {
     navigationBar: {
-      title: "",
+      title: "Channel",
       backgroundColor: "rgba(255, 255, 255, 0.1)",
       renderLeft: () => { return (<BackButton />) }
     }

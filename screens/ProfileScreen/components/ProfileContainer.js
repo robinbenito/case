@@ -41,7 +41,12 @@ export class ProfileContainer extends React.Component {
     return (
       <View>
         <ProfileHeader user={this.props.data.user} />
-        <ContentsWithData objectId={this.props.userId} objectType="USER" type="channel"/>
+        <ContentsWithData 
+          objectId={this.props.userId} 
+          objectType="USER" 
+          type="channel"
+          page={1}
+        />
       </View>
     );
   }

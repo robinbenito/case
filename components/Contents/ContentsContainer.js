@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 
 import ContentsToggle from './ContentsToggle'
-import ChannelList from '../ChannelList'
+import ContentsList from './ContentsList'
 
 import gql from 'graphql-tag';
 import { graphql, withApollo } from 'react-apollo';
@@ -26,6 +26,7 @@ class ContentsContainer extends Component {
   constructor(props) {
     super(props)
     this._onToggleChange = this._onToggleChange.bind(this);
+    this._onEndReached = this._onEndReached.bind(this);
   }
 
   _onToggleChange(value) {
@@ -38,12 +39,18 @@ class ContentsContainer extends Component {
     this.props.data.refetch({ type: typeValue })
   }
 
+  _onEndReached(){
+    console.log('onendreached')
+    console.log('onendreached', this)
+  }
+
   shouldComponentUpdate(newProps) {
     if (newProps.data && newProps.data.loading) { return false; }
     return true;
   }
 
   render() {
+    console.log('render contents')
     if (this.props.data.error) {
       console.log('ContentsContainer -> Error', this.props.data.error)
       return (
@@ -66,10 +73,15 @@ class ContentsContainer extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.toggleContainer}>
-          <ContentsToggle selectedSegment={this.state.type} onToggleChange={this._onToggleChange}/>
+          <ContentsToggle 
+            selectedSegment={this.state.type} 
+            onToggleChange={this._onToggleChange}
+          />
         </View>
-        <ChannelList 
-          channels={this.props.data.search} 
+        <ContentsList 
+          contents={this.props.data.search} 
+          type={this.state.type} 
+          onEndReached={this._onEndReached.bind(this)}
         />
       </View>
     );
@@ -95,15 +107,26 @@ const styles = StyleSheet.create({
 });
 
 const ContentsQuery = gql`
-  query ContentsQuery($type: String!, $objectId: String, $objectType: ObjectType){
-    search(object_id: $objectId, object_type: $objectType, per: 10, type: $type) {
+  query ContentsQuery($type: String!, $objectId: String, $objectType: ObjectType, $page: Int){
+    search(object_id: $objectId, object_type: $objectType, per: 10, page: $page type: $type) {
       id
       title
       updated_at(relative: true)
       user {
         name
       }
+      klass
       kind {
+        __typename
+        ... on Text {
+          content
+        }
+        ... on Image {
+          image_url(size: DISPLAY)
+        }
+        ... on Link {
+          image_url(size: DISPLAY)
+        }
         ... on Channel {
           visibility
           counts{
@@ -116,7 +139,27 @@ const ContentsQuery = gql`
 `
 
 export const ContentsWithData = graphql(ContentsQuery, { 
-  options: ({ objectId, objectType, type }) => {
-    return { variables: {  objectId, objectType, type } };
+  options: ({ objectId, objectType, type, page }) => {
+    return { variables: {  objectId, objectType, type, page } };
+  },
+  props: (props) => {
+    let data = props.data;
+    return {
+      data, 
+      loadMore() {
+        return props.data.fetchMore({
+          variables: {
+            page: 2
+          },
+          updateQuery: (previousResult, { fetchMoreResult }) => {
+            console.log('updateQuery')
+            if (!fetchMoreResult.data) { return previousResult; }
+            return Object.assign({}, previousResult, {
+              search: [...previousResult.data.search, ...fetchMoreResult.data.search],
+            });
+          }
+        })
+      }
+    };
   },
 })(ContentsContainer);

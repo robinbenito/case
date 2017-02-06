@@ -66,6 +66,7 @@ const styles = StyleSheet.create({
     padding: 15,
     marginTop: 5,
     marginBottom: 5,
+    flex: 1
   },
   channelContainerPrivate: {
     backgroundColor: Colors.privateBackground,

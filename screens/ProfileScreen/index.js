@@ -7,7 +7,9 @@ import {
 } from 'react-native';
 
 import { ProfileContainerWithData } from './components/ProfileContainer';
-import { ContentsWithData } from '../../components/Contents/ContentsContainer'
+import { ContentsWithData } from '../../components/Contents/ContentsContainer';
+
+import BackButton from '../../components/BackButton';
 
 export default class ProfileScreen extends React.Component {
   state = {
@@ -17,7 +19,8 @@ export default class ProfileScreen extends React.Component {
   static route = {
     navigationBar: {
       title: "Profile",
-      backgroundColor: "rgba(255, 255, 255, 0.1)"
+      backgroundColor: "rgba(255, 255, 255, 0.1)",
+      renderLeft: () => { return (<BackButton />) }
     }
   }
 
@@ -40,9 +43,11 @@ export default class ProfileScreen extends React.Component {
     } 
   }
 
+
+
   render() {
     if (this.state.storageSynced) {
-      const userId = this.state.currentUser.slug;
+      const userId = this.props.route.params.id || this.state.currentUser.slug;
       return (
         <ScrollView style={styles.container}>
           <ProfileContainerWithData userId={userId} />

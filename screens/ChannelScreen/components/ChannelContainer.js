@@ -71,6 +71,7 @@ const ChannelQuery = gql`
         name
         slug
       }
+      visibility
     }
   }
 `
