@@ -11,12 +11,16 @@ import {
   StackNavigation,
   TabNavigation,
   TabNavigationItem,
+  withNavigation
 } from '@exponent/ex-navigation';
 
+import Router from '../navigation/Router';
+import Store from '../state/Store';
 import Alerts from '../constants/Alerts';
 import Colors from '../constants/Colors';
 import registerForPushNotificationsAsync from '../api/registerForPushNotificationsAsync';
 
+@withNavigation
 export default class RootNavigation extends React.Component {
   componentDidMount() {
     this._notificationSubscription = this._registerForPushNotifications();
@@ -24,6 +28,19 @@ export default class RootNavigation extends React.Component {
 
   componentWillUnmount() {
     this._notificationSubscription && this._notificationSubscription.remove();
+  }
+
+  onPress(tabItemOnPress, event) {
+    tabItemOnPress();
+    this.props.navigation.performAction(({ tabs, stacks }) => {
+      const { currentNavigatorUID, navigators } = this.props.navigation.navigationState;
+      if (navigators[currentNavigatorUID].routes[0] && 
+          navigators[currentNavigatorUID].routes[0].routeName &&
+          navigators[currentNavigatorUID].routes[0].routeName === currentNavigatorUID &&
+          navigators[currentNavigatorUID].routes.length > 1) {
+            stacks(currentNavigatorUID).immediatelyResetStack([Router.getRoute('profile')], 0);
+      }
+    });
   }
 
   render() {
@@ -38,25 +55,28 @@ export default class RootNavigation extends React.Component {
         <TabNavigationItem
           id="home"
           title="Feed"
+          onPress={this.onPress}
           renderTitle={isSelected => this._renderTitle('Feed', isSelected)}
           selectedStyle={styles.selectedTab}>
-          <StackNavigation initialRoute="home" />
+          <StackNavigation navigatorUID="home" initialRoute="home" />
         </TabNavigationItem>
 
         <TabNavigationItem
           id="profile"
           title="Profile"
+          onPress={this.onPress}
           renderTitle={isSelected => this._renderTitle('Profile', isSelected)}
           selectedStyle={styles.selectedTab}>
-          <StackNavigation initialRoute="profile" />
+          <StackNavigation navigatorUID="profile" initialRoute="profile" />
         </TabNavigationItem>
 
         <TabNavigationItem
           id="settings"
           title="Settings"
+          onPress={this.onPress}
           renderTitle={isSelected => this._renderTitle('Settings', isSelected)}
           selectedStyle={styles.selectedTab}>
-          <StackNavigation initialRoute="settings" />
+          <StackNavigation navigatorUID="settings" initialRoute="settings" />
         </TabNavigationItem>
       </TabNavigation>
     );

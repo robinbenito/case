@@ -40,6 +40,7 @@ class ContentsContainer extends Component {
   }
 
   _onEndReached = () => {
+    console.log('onendreached')
     currentPage = this.state.page;
     this.setState({page: currentPage + 1 });
     console.log('onendreached', this.props, currentPage);
@@ -92,6 +93,7 @@ class ContentsContainer extends Component {
           contents={this.props.data.search} 
           type={segmentValue} 
           onEndReached={this._onEndReached}
+          per={10}
         />
       </View>
     );

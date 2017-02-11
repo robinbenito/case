@@ -44,6 +44,10 @@ export default class ContentsList extends Component {
         contentContainerStyle={[styles.listContainer, flexStyle]}
         dataSource={this.state.dataSource}
         renderHeader={this.props.renderHeader}
+        initialListSize={0}
+        pageSize={this.props.per}
+        onEndReachedThreshold={100}
+        scrollRenderAheadDistance={1000}
         renderRow={(item) => {
           if (item.klass == "Block") {
             return (<BlockItem block={item}/>);

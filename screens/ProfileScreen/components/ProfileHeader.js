@@ -4,8 +4,6 @@ import {
   View,
   Text,
   Image,
-  SegmentedControlIOS,
-  ActivityIndicator
 } from 'react-native';
 
 import HTMLView from 'react-native-htmlview';
