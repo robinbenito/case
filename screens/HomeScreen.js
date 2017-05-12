@@ -24,7 +24,7 @@ export default class HomeScreen extends React.Component {
           contentContainerStyle={styles.contentContainer}>
           <View>
             <Text>
-              Home again, man
+              This is where the feed will be.
             </Text>
           </View>
         </ScrollView>
