@@ -1,6 +1,6 @@
 {
   "name": "case",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Are.na mobile app",
   "author": "Are.na",
   "main": "main.js",
@@ -8,24 +8,24 @@
     "test": "jest"
   },
   "jest": {
-    "preset": "jest-exponent"
+    "preset": "jest-expo"
   },
   "dependencies": {
-    "@exponent/ex-navigation": "~2.7.1",
-    "@exponent/samples": "~1.0.2",
-    "@exponent/vector-icons": "~2.0.3",
+    "@expo/ex-navigation": "^2.11.2",
+    "@expo/samples": "~1.0.2",
+    "@expo/vector-icons": "^4.0.0",
     "apollo-client": "*",
-    "exponent": "*",
+    "expo": "^16.0.0",
     "graphql-anywhere": "^1.0.0",
     "graphql-tag": "^1.1.2",
-    "react": "*",
+    "react": "16.0.0-alpha.6",
     "react-apollo": "*",
-    "react-native": "github:exponentjs/react-native#sdk-13.0.3",
+    "react-native": "github:expo/react-native#sdk-16.0.0",
     "react-native-config": "^0.2.1",
     "react-native-htmlview": "^0.5.0",
     "tcomb-form-native": "^0.6.4"
   },
   "devDependencies": {
-    "jest-exponent": "~0.1.4"
+    "jest-expo": "~0.4.0"
   }
 }

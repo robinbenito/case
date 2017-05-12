@@ -1,6 +1,6 @@
 // @flow
 
-import { createNavigationEnabledStore, NavigationReducer } from '@exponent/ex-navigation';
+import { createNavigationEnabledStore, NavigationReducer } from '@expo/ex-navigation';
 import { combineReducers, createStore, compose, applyMiddleware } from 'redux';
 import client from './Apollo.js';
 

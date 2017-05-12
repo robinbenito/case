@@ -5,7 +5,7 @@ import {
   KeyboardAvoidingView,
 } from 'react-native';
 
-import { NavigationActions, withNavigation } from '@exponent/ex-navigation';
+import { NavigationActions, withNavigation } from '@expo/ex-navigation';
 import Store from '../../state/Store';
 import Router from '../../navigation/Router';
 import { LoginWithData } from './components/LoginWithData';

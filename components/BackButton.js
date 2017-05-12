@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { withNavigation } from '@exponent/ex-navigation';
-import { Ionicons } from '@exponent/vector-icons';
+import { withNavigation } from '@expo/ex-navigation';
+import { Ionicons } from '@expo/vector-icons';
 
 @withNavigation
 export default class BackButton extends React.Component {
