@@ -13,6 +13,7 @@ import LoginScreen from '../screens/LoginScreen';
 export default createRouter(() => ({
   rootNavigation: () => RootNavigation,
   home: () => HomeScreen,
+  camera: () => CameraScreen,
   profile: () => ProfileScreen,
   settings: () => SettingsScreen,
   channel: () => ChannelScreen,

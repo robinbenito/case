@@ -14,6 +14,7 @@ import {
   withNavigation
 } from '@expo/ex-navigation';
 
+import { Ionicons } from '@expo/vector-icons';
 import Router from '../navigation/Router';
 import Store from '../state/Store';
 import Alerts from '../constants/Alerts';
@@ -61,6 +62,19 @@ export default class RootNavigation extends React.Component {
         </TabNavigationItem>
 
         <TabNavigationItem
+          id="camera"
+          onPress={this.onPress}
+          renderIcon={isSelected => (
+          <Ionicons
+            name="ios-add-circle-outline"
+            size={24}
+            color="black"
+          />)}
+          selectedStyle={styles.selectedTab}>
+          <StackNavigation navigatorUID="camera" initialRoute="camera" />
+        </TabNavigationItem>
+
+        <TabNavigationItem
           id="profile"
           title="Profile"
           onPress={this.onPress}
@@ -92,10 +106,10 @@ export default class RootNavigation extends React.Component {
   }
 
   _handleNotification = ({origin, data}) => {
-    this.props.navigator.showLocalAlert(
-      `Push notification ${origin} with data: ${JSON.stringify(data)}`,
-      Alerts.notice
-    );
+    // this.props.navigator.showLocalAlert(
+    //   `Push notification ${origin} with data: ${JSON.stringify(data)}`,
+    //   Alerts.notice
+    // );
   }
 }
 
