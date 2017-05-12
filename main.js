@@ -1,4 +1,4 @@
-import Exponent from 'exponent';
+import Expo from 'expo';
 import React from 'react';
 import {
   AsyncStorage,
@@ -12,10 +12,10 @@ import {
   NavigationContext,
   NavigationProvider,
   StackNavigation,
-} from '@exponent/ex-navigation';
+} from '@expo/ex-navigation';
 import {
   FontAwesome,
-} from '@exponent/vector-icons';
+} from '@expo/vector-icons';
 
 import { ApolloProvider } from 'react-apollo';
 import Store from './state/Store';
@@ -93,7 +93,7 @@ class AppContainer extends React.Component {
       );
     } else {
       return (
-        <Exponent.Components.AppLoading />
+        <Expo.AppLoading />
       );
     }
   }
@@ -113,4 +113,4 @@ const styles = StyleSheet.create({
   },
 });
 
-Exponent.registerRootComponent(AppContainer);
+Expo.registerRootComponent(AppContainer);

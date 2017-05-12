@@ -6,13 +6,13 @@ import {
 } from 'react-native';
 import {
   Notifications,
-} from 'exponent';
+} from 'expo';
 import {
   StackNavigation,
   TabNavigation,
   TabNavigationItem,
   withNavigation
-} from '@exponent/ex-navigation';
+} from '@expo/ex-navigation';
 
 import Router from '../navigation/Router';
 import Store from '../state/Store';
@@ -44,7 +44,6 @@ export default class RootNavigation extends React.Component {
   }
 
   render() {
-    console.log('rendering rootNavigation')
     return (
       <TabNavigation
         tabBarHeight={45}
@@ -69,20 +68,11 @@ export default class RootNavigation extends React.Component {
           selectedStyle={styles.selectedTab}>
           <StackNavigation navigatorUID="profile" initialRoute="profile" />
         </TabNavigationItem>
-
-        <TabNavigationItem
-          id="settings"
-          title="Settings"
-          onPress={this.onPress}
-          renderTitle={isSelected => this._renderTitle('Settings', isSelected)}
-          selectedStyle={styles.selectedTab}>
-          <StackNavigation navigatorUID="settings" initialRoute="settings" />
-        </TabNavigationItem>
       </TabNavigation>
     );
   }
 
-  _renderTitle(text: string, isSelected: boolean) {
+  _renderTitle(text, isSelected) {
     return (
       <Text style={[styles.titleText, isSelected ? styles.selectedTitleText : {}]}>
         {text}

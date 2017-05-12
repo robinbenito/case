@@ -1,7 +1,7 @@
 import React from 'react';
 import Router from '../navigation/Router';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { withNavigation } from '@exponent/ex-navigation';
+import { withNavigation } from '@expo/ex-navigation';
 
 @withNavigation
 export default class UserNameText extends React.Component {

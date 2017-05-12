@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 const { width, height } = Dimensions.get('window');
 
-import { withNavigation } from '@exponent/ex-navigation';
+import { withNavigation } from '@expo/ex-navigation';
 import Router from '../navigation/Router';
 import Colors from '../constants/Colors';
 
