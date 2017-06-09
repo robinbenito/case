@@ -5,10 +5,14 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  TouchableHighlight,
   View,
 } from 'react-native';
 
 import { ImagePicker } from 'expo'
+import { Ionicons } from '@expo/vector-icons';
+
+import IconButton from "../../components/IconButton"
 
 export default class CameraScreen extends React.Component {
   static route = {
@@ -44,10 +48,26 @@ export default class CameraScreen extends React.Component {
 
     return (
       <View style={styles.container}>
-        <Button onPress={showCamera} title="Take picture" />
-        <Button onPress={showPhotos} title="Choose from photos" />
+        <IconButton 
+          onPress={() => showCamera()} 
+          iconName="ios-paper-outline"
+          buttonText="Enter text"
+        />
+        <IconButton 
+          onPress={() => showCamera()} 
+          iconName="ios-camera-outline"
+          buttonText="Take picture"
+        />
+        <IconButton 
+          onPress={() => showPhotos()} 
+          iconName="ios-photos-outline"
+          buttonText="Choose from photos"
+        />
         {image &&
-          <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
+          <Image 
+            source={{ uri: image }}
+            style={{ width: 200, height: 200 }} 
+          />
         }
       </View>
     );
@@ -64,5 +84,5 @@ const styles = StyleSheet.create({
   contentContainer: {
     paddingTop: 80,
     alignItems: "center"
-  },
+  }
 });
