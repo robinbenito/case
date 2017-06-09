@@ -62,7 +62,7 @@ export default class RootNavigation extends React.Component {
         </TabNavigationItem>
 
         <TabNavigationItem
-          id="camera"
+          id="add"
           onPress={this.onPress}
           renderIcon={isSelected => (
           <Ionicons
@@ -71,7 +71,7 @@ export default class RootNavigation extends React.Component {
             color="black"
           />)}
           selectedStyle={styles.selectedTab}>
-          <StackNavigation navigatorUID="camera" initialRoute="camera" />
+          <StackNavigation navigatorUID="add" initialRoute="add" />
         </TabNavigationItem>
 
         <TabNavigationItem
