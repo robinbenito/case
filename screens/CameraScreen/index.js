@@ -49,7 +49,6 @@ export default class CameraScreen extends React.Component {
     return (
       <View style={styles.container}>
         <IconButton 
-          onPress={() => showCamera()} 
           iconName="ios-paper-outline"
           buttonText="Enter text"
         />
