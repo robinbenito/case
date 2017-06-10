@@ -7,7 +7,7 @@ import { withNavigation } from '@expo/ex-navigation';
 export default class UserNameText extends React.Component {
   render() {
     return (
-      <TouchableOpacity onPress={this._goToProfile}>
+      <TouchableOpacity onPress={this.goToProfile}>
         <Text 
           style={[styles.text, this.props.style]} 
           onPress={this._goToProfile}>
@@ -17,7 +17,7 @@ export default class UserNameText extends React.Component {
     )
   }
 
-  _goToProfile = () => {
+  goToProfile() {
     this.props.navigator.push(Router.getRoute('profile', { id: this.props.user.slug }));
   }
 }

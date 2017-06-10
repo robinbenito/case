@@ -17,7 +17,7 @@ import ConnectionItem from '../../../components/ConnectionItem'
 class RecentConnections extends Component {
 
   makeConnection() {
-    
+    console.log('make connection', this)
   }
 
   render() {

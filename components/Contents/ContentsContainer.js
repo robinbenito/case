@@ -29,7 +29,7 @@ class ContentsContainer extends Component {
     this._onToggleChange = this._onToggleChange.bind(this);
   }
 
-  _onToggleChange(value) {
+  onToggleChange(value) {
     const typeValue = {
       'Blocks': 'block',
       'Channels': 'channel',
@@ -39,7 +39,7 @@ class ContentsContainer extends Component {
     this.props.data.refetch({ type: typeValue })
   }
 
-  _onEndReached = () => {
+  onEndReached() {
     console.log('onendreached')
     currentPage = this.state.page;
     this.setState({page: currentPage + 1 });
@@ -86,13 +86,13 @@ class ContentsContainer extends Component {
         <View style={styles.toggleContainer}>
           <ContentsToggle 
             selectedSegment={segmentValue} 
-            onToggleChange={this._onToggleChange}
+            onToggleChange={() => this.onToggleChange()}
           />
         </View>
         <ContentsList 
           contents={this.props.data.search} 
           type={segmentValue} 
-          onEndReached={this._onEndReached}
+          onEndReached={() => this.onEndReached()}
           per={10}
         />
       </View>

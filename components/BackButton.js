@@ -8,7 +8,7 @@ export default class BackButton extends React.Component {
   render() {
     if (this.props.navigator.getCurrentIndex() > 0){
       return (
-        <View onPress={this._goBack} style={styles.container}>
+        <View onPress={this.goBack} style={styles.container}>
           <Ionicons 
             name="ios-arrow-back" 
             size={24} 
@@ -22,7 +22,7 @@ export default class BackButton extends React.Component {
     return (<View/>);
   }
 
-  _goBack = () => {
+  goBack() {
     if (this.props.navigator.getCurrentIndex() > 0) {
       this.props.navigator.pop();
     }
