@@ -28,7 +28,6 @@ export default class ContentsList extends Component {
   }
 
   render() {
-    console.log('this.props.type', this.props.type)
     const flexStyle = {
       'Channels': {
         flexDirection: 'column'
