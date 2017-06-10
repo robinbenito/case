@@ -7,7 +7,6 @@ import HomeScreen from '../screens/HomeScreen';
 import AddScreen from '../screens/AddScreen/index'
 import ProfileScreen from '../screens/ProfileScreen/index';
 import ChannelScreen from '../screens/ChannelScreen/index'
-import SettingsScreen from '../screens/SettingsScreen';
 import LoginScreen from '../screens/LoginScreen';
 
 export default createRouter(() => ({
@@ -15,7 +14,6 @@ export default createRouter(() => ({
   home: () => HomeScreen,
   add: () => AddScreen,
   profile: () => ProfileScreen,
-  settings: () => SettingsScreen,
   channel: () => ChannelScreen,
   login: () => LoginScreen
 }));
