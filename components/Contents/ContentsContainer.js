@@ -14,6 +14,7 @@ import ContentsList from './ContentsList'
 
 import gql from 'graphql-tag';
 import { graphql, withApollo } from 'react-apollo';
+import { padding } from "../../constants/Layout"
 
 import HTMLView from 'react-native-htmlview'
 
@@ -105,15 +106,15 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   toggleContainer: {
-    paddingLeft: 20,
-    paddingRight: 20,
-    paddingBottom: 20
+    paddingLeft: padding,
+    paddingRight: padding,
+    paddingBottom: padding
   },
   loadingContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 20,
+    padding: padding,
     minHeight: 200,
   },
 });

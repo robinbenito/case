@@ -20,7 +20,7 @@ const fragmentMatcher = new IntrospectionFragmentMatcher({
             { name: "Embed" },
             { name: "Block" },
           ],
-        }, // this is just an example, put your own INTERFACE and UNION types here!
+        }, 
       ],
     },
   }

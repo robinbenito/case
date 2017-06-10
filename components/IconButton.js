@@ -9,6 +9,8 @@ import {
 import { ImagePicker } from 'expo'
 import { Ionicons } from '@expo/vector-icons';
 
+import { padding } from '../constants/Layout'
+
 export default class IconButton extends React.Component {
   render() {
     const { iconName, buttonText, onPress } = this.props;
@@ -39,10 +41,10 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     alignSelf: 'center',
     justifyContent: 'center',
-    padding: 10
+    padding: padding / 2
   },
   buttonIcon: {
-    marginRight: 10
+    marginRight: padding / 2
   },
   buttonText: {
     fontSize: 12,
