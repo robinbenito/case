@@ -13,8 +13,9 @@ import { ImagePicker } from 'expo'
 import { Ionicons } from '@expo/vector-icons';
 
 import IconButton from "../../components/IconButton"
+import ConnectScreen from "./components/ConnectScreen"
 
-export default class CameraScreen extends React.Component {
+export default class AddScreen extends React.Component {
   static route = {
     navigationBar: {
       visible: false,
@@ -24,12 +25,19 @@ export default class CameraScreen extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      image: null
+      image: null,
+      text: null
     }
   }
 
-  render() {
-    
+  renderConnectScreen() {
+    const { text, image } = this.state
+    return (
+      <ConnectScreen image={image} text={text}/>
+    )
+  }
+
+  renderMenu() {
     const showCamera = async () => {
       let result = await ImagePicker.launchCameraAsync({});
       if (!result.cancelled) {
@@ -44,10 +52,8 @@ export default class CameraScreen extends React.Component {
       }
     };
 
-    let { image } = this.state;
-
     return (
-      <View style={styles.container}>
+      <View style={styles.menuContainer}>
         <IconButton 
           iconName="ios-paper-outline"
           buttonText="Enter text"
@@ -62,19 +68,20 @@ export default class CameraScreen extends React.Component {
           iconName="ios-photos-outline"
           buttonText="Choose from photos"
         />
-        {image &&
-          <Image 
-            source={{ uri: image }}
-            style={{ width: 200, height: 200 }} 
-          />
-        }
       </View>
     );
+  }
+
+  render() {
+    const { text, image } = this.state
+    const showConnect = text || image
+
+    return showConnect ? this.renderConnectScreen() : this.renderMenu()
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
+  menuContainer: {
     flex: 1,
     alignItems: 'center', 
     justifyContent: 'center',
