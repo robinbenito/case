@@ -64,12 +64,16 @@ export default class RootNavigation extends React.Component {
         <TabNavigationItem
           id="add"
           onPress={this.onPress}
-          renderIcon={isSelected => (
-          <Ionicons
-            name="ios-add-circle-outline"
-            size={24}
-            color="black"
-          />)}
+          renderIcon={isSelected => { 
+            const color = isSelected ? "black" : "#aaa"
+            return (
+              <Ionicons
+                name="ios-add-circle-outline"
+                size={24}
+                color={color}
+              />
+            )
+          }}
           selectedStyle={styles.selectedTab}>
           <StackNavigation navigatorUID="add" initialRoute="add" />
         </TabNavigationItem>
