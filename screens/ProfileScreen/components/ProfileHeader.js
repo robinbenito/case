@@ -1,12 +1,13 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
   StyleSheet,
   View,
   Text,
   Image,
-} from 'react-native';
+} from 'react-native'
 
-import HTMLView from 'react-native-htmlview';
+import HTMLView from 'react-native-htmlview'
+import layout from '../../../constants/Layout'
 
 export default class ProfileHeader extends Component {
   render() {
@@ -40,18 +41,18 @@ const styles = StyleSheet.create({
     height: 75
   },  
   header: {
-    padding: 20,
+    padding: layout.padding,
     paddingBottom: 0
   },
   innerHeader: {
     borderBottomColor: '#eee',
     borderBottomWidth: 1,
-    marginBottom: 20,
+    marginBottom: layout.padding,
     minHeight: 100
   },
   headerText: {
     fontSize: 24,
     fontWeight: 'bold',
-    paddingBottom: 20
+    paddingBottom: layout.padding
   }
 });

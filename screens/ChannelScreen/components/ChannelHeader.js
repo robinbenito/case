@@ -9,9 +9,10 @@ import {
 } from 'react-native';
 
 import UserNameText from '../../../components/UserNameText'
-import HTMLView from 'react-native-htmlview';
+import HTMLView from 'react-native-htmlview'
 
-import Colors from '../../../constants/Colors';
+import colors from '../../../constants/Colors'
+import layout from '../../../constants/Layout'
 
 export default class ChannelHeader extends Component {
   render() {
@@ -41,30 +42,30 @@ export default class ChannelHeader extends Component {
 
 const styles = StyleSheet.create({
   header: {
-    padding: 20,
+    padding: layout.padding,
     paddingBottom: 0
   },
   innerHeader: {
     borderBottomColor: '#eee',
     borderBottomWidth: 1,
-    marginBottom: 20,
+    marginBottom: layout.padding,
     minHeight: 100
   },
   headerText: {
     fontSize: 24,
     fontWeight: 'bold',
-    paddingBottom: 20
+    paddingBottom: layout.padding
   },
   collaborators: {
     flexDirection: 'row',
   },
   channelPrivate: {
-    color: Colors.private
+    color: colors.private
   }, 
   channelClosed: {
-    color: Colors.closed,
+    color: colors.closed,
   }, 
   channelPublic: {
-    color: Colors.public,
+    color: colors.public,
   },  
 });

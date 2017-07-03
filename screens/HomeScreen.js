@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 
 import { MonoText } from '../components/StyledText';
+import layout from '../constants/Layout'
 
 export default class HomeScreen extends React.Component {
   static route = {
@@ -39,7 +40,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   contentContainer: {
-    paddingTop: 80,
+    paddingTop: (layout.padding * 4),
     alignItems: "center"
   },
 });

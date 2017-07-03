@@ -5,18 +5,22 @@ import {
   Text,
 } from 'react-native';
 
-import { gray, channel } from "../../../constants/Colors"
+import colors from "../constants/Colors"
+
+console.log('gray', colors.gray)
 
 export default class Connection extends Component {
   render() {
     const { connection, onPress } = this.props
-    const color = channel[connection.status]
+    const color = colors.channel[connection.visibility]
+
+    console.log('connection', connection)
 
     return (
-      <View style={styles.container} onPress={onPress}>
-        <Text>{connection.user.name}</Text>
-        <Text>/</Text>
-        <Text style={{ color }}>{connection.title}</Text>
+      <View style={styles.connection} onPress={onPress}>
+        <Text style={{ color: colors.gray.text }}>{connection.user.name}</Text>
+        <Text style={{ color: colors.gray.text }} > / </Text>
+        <Text style={{ color: color }}>{connection.title}</Text>
       </View>
     );
   }
@@ -24,10 +28,12 @@ export default class Connection extends Component {
 
 const styles = StyleSheet.create({
   connection: {
+    display: 'flex',
+    flexDirection: 'row',
     marginTop: -1,
-    borderColor: gray.border,
+    borderColor: colors.gray.border,
     borderWidth: 1,
-    backgroundColor: gray.background,
-    color: gray.text,
+    backgroundColor: colors.gray.background,
+    padding: 10
   },
 });

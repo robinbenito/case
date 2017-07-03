@@ -5,16 +5,18 @@ import {
   TouchableHighlight,
   View,
   AsyncStorage
-} from 'react-native';
+} from 'react-native'
 
-import stylesheet from '../../../styles/form';
 
-import gql from 'graphql-tag';
-import { graphql, withApollo } from 'react-apollo';
+import gql from 'graphql-tag'
+import { graphql, withApollo } from 'react-apollo'
 
-import t from 'tcomb-form-native';
-t.form.Form.stylesheet = stylesheet;
-const Form = t.form.Form;
+import t from 'tcomb-form-native'
+import stylesheet from '../../../styles/form'
+t.form.Form.stylesheet = stylesheet
+const Form = t.form.Form
+
+import layout from '../../../constants/Layout'
 
 class LoginScreen extends React.Component {
   constructor (props) {
@@ -143,7 +145,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center', 
     justifyContent: 'center',
-    padding: 20
+    padding: layout.padding
   },
   buttonText: {
     fontSize: 14,

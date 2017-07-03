@@ -14,7 +14,7 @@ import ContentsList from './ContentsList'
 
 import gql from 'graphql-tag';
 import { graphql, withApollo } from 'react-apollo';
-import { padding } from "../../constants/Layout"
+import layout from "../../constants/Layout"
 
 import HTMLView from 'react-native-htmlview'
 
@@ -41,7 +41,6 @@ class ContentsContainer extends Component {
   }
 
   onEndReached() {
-    console.log('onendreached')
     currentPage = this.state.page;
     this.setState({page: currentPage + 1 });
     console.log('onendreached', this.props, currentPage);
@@ -106,15 +105,15 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   toggleContainer: {
-    paddingLeft: padding,
-    paddingRight: padding,
-    paddingBottom: padding
+    paddingLeft: layout.padding,
+    paddingRight: layout.padding,
+    paddingBottom: layout.padding
   },
   loadingContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: padding,
+    padding: layout.padding,
     minHeight: 200,
   },
 });

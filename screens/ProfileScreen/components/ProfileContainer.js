@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import {
   AsyncStorage,
   ActivityIndicator,
@@ -6,13 +6,15 @@ import {
   ScrollView,
   Text,
   View
-} from 'react-native';
+} from 'react-native'
 
-import ProfileHeader from './ProfileHeader';
-import { ContentsWithData } from '../../../components/Contents/ContentsContainer';
+import ProfileHeader from './ProfileHeader'
+import { ContentsWithData } from '../../../components/Contents/ContentsContainer'
 
-import gql from 'graphql-tag';
-import { graphql } from 'react-apollo';
+import gql from 'graphql-tag'
+import { graphql } from 'react-apollo'
+
+import layout from '../../../constants/Layout'
 
 export class ProfileContainer extends React.Component {
   state = {
@@ -60,7 +62,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 20
+    padding: layout.padding
   },
 });
 

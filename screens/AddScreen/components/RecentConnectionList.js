@@ -22,6 +22,7 @@ class RecentConnections extends Component {
 
   render() {
     if (this.props.data.error) {
+      console.log('this.props.data.error', this.props.data.error)
       return (
         <View style={styles.loadingContainer} >
           <Text>
@@ -41,13 +42,18 @@ class RecentConnections extends Component {
 
     let connections = []
 
-    this.props.data.me.recent_connections.each( connection => 
-      connections.push(<ConnectionItem connection={connection} onPress={this.makeConnection}/>)
+    this.props.data.me.recent_connections.forEach( connection => 
+      connections.push(
+        <ConnectionItem 
+          connection={connection} 
+          onPress={this.makeConnection}
+          key={connection.id}
+        />
+      )
     )
     
     return (
       <View style={styles.container}>
-        <Text>{this.props.data.me.name}</Text>
         {connections}
       </View>
     );
@@ -62,7 +68,7 @@ const styles = StyleSheet.create({
 
 const RecentConnectionsQuery = gql`
   query RecentConnectionsQuery {
-    user(id: 15) {
+    me {
       name
       recent_connections(per: 5) {
         user {
@@ -71,7 +77,7 @@ const RecentConnectionsQuery = gql`
         slug
         id
         title
-        status
+        visibility
       }
     }
   }

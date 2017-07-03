@@ -1,14 +1,16 @@
-import React from 'react';
+import React from 'react'
 import {
   Image,
   StyleSheet,
   KeyboardAvoidingView,
-} from 'react-native';
+} from 'react-native'
 
-import { NavigationActions, withNavigation } from '@expo/ex-navigation';
-import Store from '../../state/Store';
-import Router from '../../navigation/Router';
-import { LoginWithData } from './components/LoginWithData';
+import { NavigationActions, withNavigation } from '@expo/ex-navigation'
+import Store from '../../state/Store'
+import Router from '../../navigation/Router'
+import { LoginWithData } from './components/LoginWithData'
+
+import layout from '../../constants/Layout'
 
 @withNavigation
 export default class LoginScreen extends React.Component {
@@ -41,7 +43,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center', 
     justifyContent: 'center',
-    padding: 20
+    padding: layout.padding
   },
   logo: {
     width: 100,

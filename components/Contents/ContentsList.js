@@ -10,7 +10,7 @@ import {
 import ChannelItem from '../ChannelItem'
 import BlockItem from '../BlockItem'
 
-import { padding } from "../../constants/Layout"
+import layout from "../../constants/Layout"
 
 export default class ContentsList extends Component {
   constructor(props) {
@@ -65,8 +65,8 @@ export default class ContentsList extends Component {
 const styles = StyleSheet.create({
   listContainer: {
     flex: 1,
-    paddingRight: padding,
-    paddingLeft: padding,
+    paddingRight: layout.padding,
+    paddingLeft: layout.padding,
     flexWrap: 'wrap',
     justifyContent: 'space-between',
   }

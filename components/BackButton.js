@@ -3,6 +3,8 @@ import { StyleSheet, Text, View } from 'react-native';
 import { withNavigation } from '@expo/ex-navigation';
 import { Ionicons } from '@expo/vector-icons';
 
+import layout from '../constants/Layout'
+
 @withNavigation
 export default class BackButton extends React.Component {
   render() {
@@ -14,7 +16,7 @@ export default class BackButton extends React.Component {
             size={24} 
             color="black" 
             onPress={this._goBack} 
-            style={{paddingLeft: 20, paddingRight: 20}}
+            style={{paddingLeft: layout.padding, paddingRight: layout.padding}}
           />
         </View>
       )

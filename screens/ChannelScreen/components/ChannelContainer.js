@@ -13,6 +13,8 @@ import { ContentsWithData } from '../../../components/Contents/ContentsContainer
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 
+import layout from '../../../constants/Layout'
+
 export default class ChannelContainer extends React.Component {
 
   render() {
@@ -55,7 +57,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 20
+    padding: layout.padding
   },
 });
 

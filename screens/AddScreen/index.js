@@ -15,6 +15,8 @@ import { Ionicons } from '@expo/vector-icons';
 import IconButton from "../../components/IconButton"
 import ConnectScreen from "./components/ConnectScreen"
 
+import layout from '../../constants/Layout'
+
 export default class AddScreen extends React.Component {
   static route = {
     navigationBar: {
@@ -85,10 +87,10 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center', 
     justifyContent: 'center',
-    padding: 20
+    padding: layout.padding
   },
   contentContainer: {
-    paddingTop: 80,
+    paddingTop: (layout.padding * 4),
     alignItems: "center"
   }
 });

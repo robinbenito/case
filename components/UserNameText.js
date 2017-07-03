@@ -3,6 +3,8 @@ import Router from '../navigation/Router';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { withNavigation } from '@expo/ex-navigation';
 
+import layout from '../constants/Layout'
+
 @withNavigation
 export default class UserNameText extends React.Component {
   render() {
@@ -27,7 +29,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingLeft: 20
+    paddingLeft: layout.padding
   },
   text: {
     fontWeight: "bold"
