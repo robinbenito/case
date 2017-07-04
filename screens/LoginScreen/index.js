@@ -5,21 +5,12 @@ import {
   KeyboardAvoidingView,
 } from 'react-native'
 
-import { NavigationActions, withNavigation } from '@expo/ex-navigation'
 import Store from '../../state/Store'
-import Router from '../../navigation/Router'
 import { LoginWithData } from './components/LoginWithData'
 
 import layout from '../../constants/Layout'
 
-@withNavigation
 export default class LoginScreen extends React.Component {
-  static route = {
-    navigationBar: {
-      visible: false
-    }
-  }
-
   _resetStack() {
     let navigatorUID = this.props.navigation.getCurrentNavigatorUID(); 
     Store.dispatch(NavigationActions.replace(navigatorUID, Router.getRoute("rootNavigation")));

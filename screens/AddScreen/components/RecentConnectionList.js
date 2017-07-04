@@ -21,6 +21,7 @@ class RecentConnections extends Component {
   }
 
   render() {
+    conosle.log('hello')
     if (this.props.data.error) {
       console.log('this.props.data.error', this.props.data.error)
       return (

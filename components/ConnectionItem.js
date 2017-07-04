@@ -7,8 +7,6 @@ import {
 
 import colors from "../constants/Colors"
 
-console.log('gray', colors.gray)
-
 export default class Connection extends Component {
   render() {
     const { connection, onPress } = this.props

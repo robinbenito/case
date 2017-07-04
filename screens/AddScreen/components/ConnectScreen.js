@@ -19,10 +19,11 @@ import layout from '../../../constants/Layout'
 export default class ConnectScreen extends React.Component {
   
   search(text) {
-    console.log('hello', text)
+    console.log('connectScreen -> search', text)
   }
 
   render() {
+    console.log('render')
     const { text, image } = this.props
     const { height, width } = Dimensions.get('window')
 
@@ -35,6 +36,7 @@ export default class ConnectScreen extends React.Component {
       borderColor: colors.gray.border
     }
 
+    console.log('rendering this')
     return (
       <KeyboardAvoidingView behavior="position" style={styles.container}>
         <ScrollView>

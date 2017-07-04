@@ -49,6 +49,7 @@ class LoginScreen extends React.Component {
     try {
       response = await this.props.mutate(options)
     } catch (error) {
+      console.log('error', error)
       return this.setState({
         error: "Login failed, please try again."
       })

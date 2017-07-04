@@ -13,18 +13,7 @@ import BackButton from '../../components/BackButton';
 
 export default class ProfileScreen extends React.Component {
   state = {
-    type: "Channels"
-  }
-
-  static route = {
-    navigationBar: {
-      title: "Profile",
-      backgroundColor: "rgba(255, 255, 255, 0.1)",
-      renderLeft: () => { return (<BackButton />) }
-    }
-  }
-
-  state = {
+    type: "Channels",
     currentUser: false,
     storageSynced: false
   }
@@ -47,7 +36,8 @@ export default class ProfileScreen extends React.Component {
 
   render() {
     if (this.state.storageSynced) {
-      const userId = this.props.route.params.id || this.state.currentUser.slug;
+      console.log('this.state.currentUser', this.state.currentUser)
+      const userId = this.state.currentUser.slug;
       return (
         <ScrollView style={styles.container}>
           <ProfileContainerWithData userId={userId} />

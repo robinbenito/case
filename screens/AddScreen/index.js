@@ -18,12 +18,6 @@ import ConnectScreen from "./components/ConnectScreen"
 import layout from '../../constants/Layout'
 
 export default class AddScreen extends React.Component {
-  static route = {
-    navigationBar: {
-      visible: false,
-    },
-  }
-
   constructor (props) {
     super(props)
     this.state = {
@@ -33,6 +27,7 @@ export default class AddScreen extends React.Component {
   }
 
   renderConnectScreen() {
+    console.log('renderConnectScreen')
     const { text, image } = this.state
     return (
       <ConnectScreen image={image} text={text}/>

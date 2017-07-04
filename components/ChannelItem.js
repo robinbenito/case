@@ -7,11 +7,8 @@ import {
   TouchableOpacity
 } from 'react-native';
 
-import { withNavigation } from '@expo/ex-navigation';
-import Router from '../navigation/Router';
 import Colors from '../constants/Colors';
 
-@withNavigation
 export default class ChannelItem extends Component {
   
   _onPressButton() {

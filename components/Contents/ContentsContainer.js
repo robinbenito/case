@@ -27,7 +27,6 @@ class ContentsContainer extends Component {
 
   constructor(props) {
     super(props)
-    this._onToggleChange = this._onToggleChange.bind(this);
   }
 
   onToggleChange(value) {

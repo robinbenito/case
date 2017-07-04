@@ -2,32 +2,17 @@ import Expo from 'expo';
 import React from 'react';
 import {
   AsyncStorage,
-  AppRegistry,
-  Platform,
-  StatusBar,
   StyleSheet,
   View,
 } from 'react-native';
-import {
-  NavigationContext,
-  NavigationProvider,
-  StackNavigation,
-} from '@expo/ex-navigation';
-import {
-  FontAwesome,
-} from '@expo/vector-icons';
+
+import { MainNav, LoginNav } from './navigation/Routes'
 
 import { ApolloProvider } from 'react-apollo';
 import Store from './state/Store';
 import Client from './state/Apollo';
 
-import Router from './navigation/Router';
 import cacheAssetsAsync from './utilities/cacheAssetsAsync';
-
-const navigationContext = new NavigationContext({
-  router: Router,
-  store: Store,
-});
 
 class AppContainer extends React.Component {
   state = {
@@ -63,7 +48,7 @@ class AppContainer extends React.Component {
       const currentUser = await AsyncStorage.getItem('@arena:CurrentUser');
       this.setState({ loggedIn: currentUser !== null, storageChecked: true })
     } catch (e) {
-      console.warn('Error fetching currentUser from localStorage')
+      console.warn('Error fetching currentUser from localStorage', e)
       this.setState({ loggedIn: false, storageChecked: true });
     } 
   }
@@ -71,24 +56,18 @@ class AppContainer extends React.Component {
   render() {
     if (this.state.assetsLoaded && this.state.storageChecked) {
       let initialRoute;
-      let { notification } = this.props.exp;
 
       if (this.state.loggedIn) {
-        initialRoute = Router.getRoute('rootNavigation', { notification });
+        initialRoute = <MainNav/>;
       } else {
-        initialRoute = Router.getRoute('login');
+        initialRoute = <LoginNav/>;
       }
 
       return (
         <View style={styles.container}>
           <ApolloProvider store={Store} client={Client}>
-            <NavigationProvider context={navigationContext}>
-              <StackNavigation id="root" initialRoute={initialRoute} />
-            </NavigationProvider>
+            {initialRoute}
           </ApolloProvider>
-
-          {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-          {Platform.OS === 'android' && <View style={styles.statusBarUnderlay} />}
         </View>
       );
     } else {
@@ -106,10 +85,6 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-  },
-  statusBarUnderlay: {
-    height: 24,
-    backgroundColor: 'rgba(0,0,0,0.2)',
   },
 });
 

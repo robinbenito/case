@@ -1,22 +1,16 @@
 import React from 'react';
 import {
-  AsyncStorage,
   ScrollView,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
 
-import { MonoText } from '../components/StyledText';
-import layout from '../constants/Layout'
+import layout from '../constants/Layout';
+import { Ionicons } from '@expo/vector-icons';
+
 
 export default class HomeScreen extends React.Component {
-  static route = {
-    navigationBar: {
-      visible: false,
-    },
-  }
-
   render() {
     return (
       <View style={styles.container}>

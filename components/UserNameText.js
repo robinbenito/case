@@ -1,11 +1,8 @@
 import React from 'react';
-import Router from '../navigation/Router';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { withNavigation } from '@expo/ex-navigation';
 
 import layout from '../constants/Layout'
 
-@withNavigation
 export default class UserNameText extends React.Component {
   render() {
     return (
