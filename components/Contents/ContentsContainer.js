@@ -140,9 +140,6 @@ const ContentsQuery = gql`
         }
         ... on Channel {
           visibility
-          counts{
-            blocks
-          }
         }
       }
     }

@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center', 
     justifyContent: 'center',
-    padding: layout.padding
+    padding: 40
   },
   buttonText: {
     fontSize: 14,

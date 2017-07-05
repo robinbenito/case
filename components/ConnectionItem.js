@@ -12,8 +12,6 @@ export default class Connection extends Component {
     const { connection, onPress } = this.props
     const color = colors.channel[connection.visibility]
 
-    console.log('connection', connection)
-
     return (
       <View style={styles.connection} onPress={onPress}>
         <Text style={{ color: colors.gray.text }}>{connection.user.name}</Text>

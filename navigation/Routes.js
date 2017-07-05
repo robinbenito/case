@@ -16,9 +16,33 @@ import {
 export const LoginNav = StackNavigator({
   login: { 
     screen: LoginScreen,
-    header: null
+    navigationOptions: ({navigation}) => ({
+      header: null,
+      headerStyle: {
+        backgroundColor: '#fff'
+      },
+      cardStyle: {
+        backgroundColor: '#fff',
+        padding: 40
+      }
+    }),
   }
 });
+
+const ProfileStack = StackNavigator({
+  profile: {
+    screen: ProfileScreen,
+    navigationOptions: ({navigation}) => ({
+      title: `Profile`,
+      headerStyle: {
+        backgroundColor: '#fff'
+      },
+      cardStyle: {
+        backgroundColor: '#fff'
+      }
+    }),
+  }
+})
 
 const tabs = {
   home: { 
@@ -27,7 +51,7 @@ const tabs = {
       tabBarLabel: 'Feed',
       tabBarIcon: (props) => {
         return (
-          <Ionicons name="ios-home-outline" size={24} color={props.tintColor} />
+          <Ionicons name="ios-list-outline" size={24} color={props.tintColor} />
         )
       }
     },
@@ -44,12 +68,13 @@ const tabs = {
     },
   },
   profile: {
-    screen: ProfileScreen,
+    screen: ProfileStack,
     navigationOptions: {
+      title: 'Profile',
       tabBarLabel: 'Profile',
       tabBarIcon: (props) => {
         return (
-          <Ionicons name="ios-person-outline" size={24} color={props.tintColor} />
+          <Ionicons name="ios-hand-outline" size={24} color={props.tintColor} />
         )
       }
     },

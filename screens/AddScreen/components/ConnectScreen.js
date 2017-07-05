@@ -36,7 +36,7 @@ export default class ConnectScreen extends React.Component {
       borderColor: colors.gray.border
     }
 
-    console.log('rendering this')
+    console.log('rendering CONNEctScreen')
     return (
       <KeyboardAvoidingView behavior="position" style={styles.container}>
         <ScrollView>

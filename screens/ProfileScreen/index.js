@@ -36,7 +36,6 @@ export default class ProfileScreen extends React.Component {
 
   render() {
     if (this.state.storageSynced) {
-      console.log('this.state.currentUser', this.state.currentUser)
       const userId = this.state.currentUser.slug;
       return (
         <ScrollView style={styles.container}>
@@ -54,5 +53,6 @@ export default class ProfileScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#fff'
   },
 });

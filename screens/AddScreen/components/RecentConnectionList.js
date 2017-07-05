@@ -21,11 +21,9 @@ class RecentConnections extends Component {
   }
 
   render() {
-    conosle.log('hello')
-    if (this.props.data.error) {
-      console.log('this.props.data.error', this.props.data.error)
+    if (this.props.data && this.props.data.error) {
       return (
-        <View style={styles.loadingContainer} >
+        <View>
           <Text>
             Profile not found
           </Text>
@@ -33,10 +31,10 @@ class RecentConnections extends Component {
       );
     }
     
-    if (this.props.data.loading) {
+    if (this.props.data && this.props.data.loading) {
       return (
-        <View style={styles.loadingContainer} >
-          <ActivityIndicator />
+        <View>
+          <Text>Loading</Text>
         </View>
       );
     }

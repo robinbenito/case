@@ -34,7 +34,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center', 
     justifyContent: 'center',
-    padding: layout.padding
+    padding: 20,
+    backgroundColor: '#fff'
   },
   logo: {
     width: 100,
