@@ -1,17 +1,10 @@
 // @flow
 
-import { createNavigationEnabledStore, NavigationReducer } from '@expo/ex-navigation';
 import { combineReducers, createStore, compose, applyMiddleware } from 'redux';
 import client from './Apollo.js';
 
-const createStoreWithNavigation = createNavigationEnabledStore({
-  createStore,
-  navigationStateKey: 'navigation',
-});
-
-const store = createStoreWithNavigation(
+const store = createStore(
   combineReducers({
-    navigation: NavigationReducer,
     apollo: client.reducer()
   }),
   compose(

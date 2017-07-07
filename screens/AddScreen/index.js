@@ -10,8 +10,6 @@ import {
 } from 'react-native';
 
 import { ImagePicker } from 'expo'
-import { Ionicons } from '@expo/vector-icons';
-
 import IconButton from "../../components/IconButton"
 import ConnectScreen from "./components/ConnectScreen"
 
@@ -86,6 +84,7 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     paddingTop: (layout.padding * 4),
-    alignItems: "center"
+    alignItems: "center",
+    backgroundColor: "#fff"
   }
 });
