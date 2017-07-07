@@ -13,22 +13,6 @@ import {
   Text,
 } from 'react-native';
 
-export const LoginNav = StackNavigator({
-  login: { 
-    screen: LoginScreen,
-    navigationOptions: ({navigation}) => ({
-      header: null,
-      headerStyle: {
-        backgroundColor: '#fff'
-      },
-      cardStyle: {
-        backgroundColor: '#fff',
-        padding: 40
-      }
-    }),
-  }
-});
-
 const ProfileStack = StackNavigator({
   profile: {
     screen: ProfileScreen,
@@ -81,6 +65,7 @@ const tabs = {
   },
 }
 const tabOptions = {
+  initialRouteName: 'home',
   tabBarOptions: {
     tabBarPosition: 'bottom',
     activeTintColor: '#000',
@@ -96,3 +81,27 @@ const tabOptions = {
 }
 
 export const MainNav = TabNavigator(tabs, tabOptions)
+
+export const GlobalNav = StackNavigator({
+  login: { 
+    screen: LoginScreen,
+    navigationOptions: ({navigation}) => ({
+      header: null,
+      headerStyle: {
+        backgroundColor: '#fff'
+      },
+      cardStyle: {
+        backgroundColor: '#fff',
+        padding: 40
+      }
+    }),
+  },
+  main: {
+    screen: MainNav
+  },
+}, { 
+  headerMode: 'screen',
+  navigationOptions: {
+    header: null
+  }
+});

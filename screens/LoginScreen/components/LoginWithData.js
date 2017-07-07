@@ -63,7 +63,6 @@ class LoginScreen extends React.Component {
         error: "Error logging in, please try again"
       })
     }
-
     this.props.onLogin()    
   }
 

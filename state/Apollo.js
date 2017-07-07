@@ -36,7 +36,6 @@ networkInterface.use([{
     if (!req.options.headers) {
       req.options.headers = {};  // Create the header object if needed.
     }
-    console.log('req', req)
     req.options.headers['X-APP-TOKEN'] = Config.X_APP_TOKEN;
     AsyncStorage.getItem('@arena:CurrentUser', (err, result) => {
       if(result) {
@@ -50,7 +49,7 @@ networkInterface.use([{
 
 networkInterface.useAfter([{
   applyAfterware({ response }, next) {
-    console.log('GraphqQL response', response)
+    // console.log('GraphqQL response', response)
     next()
   }
 }]);

@@ -6,7 +6,7 @@ import {
   View,
 } from 'react-native';
 
-import { MainNav, LoginNav } from './navigation/Routes'
+import { GlobalNav } from './navigation/Routes'
 
 import { ApolloProvider } from 'react-apollo';
 import Store from './state/Store';
@@ -55,18 +55,10 @@ class AppContainer extends React.Component {
 
   render() {
     if (this.state.assetsLoaded && this.state.storageChecked) {
-      let initialRoute;
-
-      if (this.state.loggedIn) {
-        initialRoute = <MainNav/>;
-      } else {
-        initialRoute = <LoginNav/>;
-      }
-
       return (
         <View style={styles.container}>
           <ApolloProvider store={Store} client={Client}>
-            {initialRoute}
+            <GlobalNav/>
           </ApolloProvider>
         </View>
       );
