@@ -13,7 +13,6 @@ import layout from '../../constants/Layout'
 
 export default class LoginScreen extends React.Component {
   _resetStack() {
-    NavigationActions.init()
     const resetAction = NavigationActions.reset({
       index: 0,
       actions: [
@@ -24,7 +23,6 @@ export default class LoginScreen extends React.Component {
   }
 
   render() {
-    console.log('rendering login')
     return (
       <KeyboardAvoidingView behavior="padding" style={styles.container}>
         <Image

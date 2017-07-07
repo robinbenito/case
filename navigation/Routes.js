@@ -82,26 +82,29 @@ const tabOptions = {
 
 export const MainNav = TabNavigator(tabs, tabOptions)
 
-export const GlobalNav = StackNavigator({
-  login: { 
-    screen: LoginScreen,
-    navigationOptions: ({navigation}) => ({
-      header: null,
-      headerStyle: {
-        backgroundColor: '#fff'
-      },
-      cardStyle: {
-        backgroundColor: '#fff',
-        padding: 40
-      }
-    }),
-  },
-  main: {
-    screen: MainNav
-  },
-}, { 
-  headerMode: 'screen',
-  navigationOptions: {
-    header: null
-  }
-});
+export const createRootNavigator = (loggedIn = false) => {
+  return StackNavigator({
+    login: { 
+      screen: LoginScreen,
+      navigationOptions: ({navigation}) => ({
+        header: null,
+        headerStyle: {
+          backgroundColor: '#fff'
+        },
+        cardStyle: {
+          backgroundColor: '#fff',
+          padding: 40
+        }
+      }),
+    },
+    main: {
+      screen: MainNav
+    },
+  }, { 
+    headerMode: 'screen',
+    initialRouteName: loggedIn ? 'main' : 'login',
+    navigationOptions: {
+      header: null
+    }
+  });
+}

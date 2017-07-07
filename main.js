@@ -6,7 +6,8 @@ import {
   View,
 } from 'react-native';
 
-import { GlobalNav } from './navigation/Routes'
+import { createRootNavigator } from './navigation/Routes'
+import { NavigationActions } from 'react-navigation'
 
 import { ApolloProvider } from 'react-apollo';
 import Store from './state/Store';
@@ -55,10 +56,11 @@ class AppContainer extends React.Component {
 
   render() {
     if (this.state.assetsLoaded && this.state.storageChecked) {
+      const Navigation = createRootNavigator(this.state.loggedIn)
       return (
         <View style={styles.container}>
           <ApolloProvider store={Store} client={Client}>
-            <GlobalNav/>
+            <Navigation />
           </ApolloProvider>
         </View>
       );
