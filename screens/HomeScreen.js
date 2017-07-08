@@ -11,6 +11,13 @@ import { Ionicons } from '@expo/vector-icons';
 
 
 export default class HomeScreen extends React.Component {
+  static navigationOptions = {
+    header: () => {
+      return (
+        <Text>Connect</Text>
+      )
+    },
+  }
   render() {
     return (
       <View style={styles.container}>

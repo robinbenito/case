@@ -6,23 +6,22 @@ import {
   ActivityIndicator,
   ScrollView,
   Text,
-  Image
+  Image,
 } from 'react-native';
 
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 
-import ConnectionItem from './ConnectionItem'
+import ConnectionItem from './ConnectionItem';
 
 class ConnectionSearch extends Component {
-  
   shouldComponentUpdate(newProps) {
     if (newProps.data && newProps.data.loading) { return false; }
     return true;
   }
 
   render() {
-    const { q } = this.props
+    const { q } = this.props;
 
     if (this.props.data && this.props.data.error) {
       return (
@@ -33,7 +32,7 @@ class ConnectionSearch extends Component {
         </View>
       );
     }
-    
+
     if (this.props.data && this.props.data.loading) {
       return (
         <View>
@@ -42,18 +41,18 @@ class ConnectionSearch extends Component {
       );
     }
 
-    let connections = []
+    const connections = [];
 
-    this.props.data.me.connection_search.forEach( connection => 
+    this.props.data.me.connection_search.forEach(connection =>
       connections.push(
-        <ConnectionItem 
-          connection={connection} 
+        <ConnectionItem
+          connection={connection}
           onPress={this.makeConnection}
           key={connection.id}
-        />
-      )
-    )
-    
+        />,
+      ),
+    );
+
     return (
       <View style={styles.container}>
         {connections}
@@ -78,9 +77,9 @@ const ConnectionSearchQuery = gql`
     }
   }
   ${ConnectionItem.fragments.connection}
-`
+`;
 
-export const ConnectionSearchWithData = graphql(ConnectionSearchQuery)(ConnectionSearch)
+export const ConnectionSearchWithData = graphql(ConnectionSearchQuery)(ConnectionSearch);
 
 const ProfileWithData = graphql(ConnectionSearchQuery, {
   options: ({ q }) => ({ variables: { q } }),

@@ -4,32 +4,33 @@ import {
   Text,
   TouchableHighlight,
   View,
-  AsyncStorage
-} from 'react-native'
+  AsyncStorage,
+} from 'react-native';
 
 
-import gql from 'graphql-tag'
-import { graphql, withApollo } from 'react-apollo'
+import gql from 'graphql-tag';
+import { graphql, withApollo } from 'react-apollo';
 
-import t from 'tcomb-form-native'
-import stylesheet from '../../../styles/form'
-t.form.Form.stylesheet = stylesheet
-const Form = t.form.Form
+import t from 'tcomb-form-native';
+import stylesheet from '../../../styles/form';
 
-import layout from '../../../constants/Layout'
+t.form.Form.stylesheet = stylesheet;
+const Form = t.form.Form;
+
+import layout from '../../../constants/Layout';
 
 class LoginScreen extends React.Component {
-  constructor (props) {
-    super(props)
+  constructor(props) {
+    super(props);
     this.state = {
       loggedIn: false,
       user: null,
       error: null,
       value: {
-        email: "",
-        password: "",
-      }
-    }
+        email: '',
+        password: '',
+      },
+    };
   }
 
   onChange(value) {
@@ -39,20 +40,20 @@ class LoginScreen extends React.Component {
   async onPress(email, password) {
     const options = {
       variables: {
-        email: email,
-        password: password,
-      }
+        email,
+        password,
+      },
     };
 
     let response;
 
     try {
-      response = await this.props.mutate(options)
+      response = await this.props.mutate(options);
     } catch (error) {
-      console.log('error', error)
+      console.log('error', error);
       return this.setState({
-        error: "Login failed, please try again."
-      })
+        error: 'Login failed, please try again.',
+      });
     }
 
     try {
@@ -60,56 +61,57 @@ class LoginScreen extends React.Component {
       await AsyncStorage.setItem('@arena:CurrentUser', currentUser);
     } catch (error) {
       return this.setState({
-        error: "Error logging in, please try again"
-      })
+        error: 'Error logging in, please try again',
+      });
     }
-    this.props.onLogin()    
+    this.props.onLogin();
   }
 
   render() {
-    let onButtonPress = this.onPress.bind(
+    const onButtonPress = this.onPress.bind(
       this,
       this.state.value.email,
-      this.state.value.password
+      this.state.value.password,
     );
 
     const email = {
-      label: "Email",
+      label: 'Email',
       keyboardType: 'email-address',
       autoCapitalize: 'none',
-      placeholder: "Email address",
-      returnKeyType: "next",
-      onSubmitEditing: (event) => { 
-        this.refs.form.getComponent('password').refs.input.focus(); 
-      }
+      placeholder: 'Email address',
+      returnKeyType: 'next',
+      onSubmitEditing: (event) => {
+        this.refs.form.getComponent('password').refs.input.focus();
+      },
     };
 
     const password = {
-      ref: "Password",
-      label: "Password",
+      ref: 'Password',
+      label: 'Password',
       maxLength: 12,
       secureTextEntry: true,
-      placeholder: "Password",
-      returnKeyType: "go",
-      onSubmitEditing: onButtonPress
+      placeholder: 'Password',
+      returnKeyType: 'go',
+      onSubmitEditing: onButtonPress,
     };
 
     const loginForm = t.struct({
       email: t.String,
-      password: t.String
+      password: t.String,
     });
 
-    let options = {
-      stylesheet: stylesheet,
+    const options = {
+      stylesheet,
       fields: {
         email,
-        password
-      }
-    }
+        password,
+      },
+    };
 
     return (
       <View>
-        <Form ref='form'
+        <Form
+          ref="form"
           type={loginForm}
           options={options}
           value={this.state.value}
@@ -143,22 +145,22 @@ export const LoginWithData = graphql(loginMutation)(LoginScreen);
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center', 
+    alignItems: 'center',
     justifyContent: 'center',
-    padding: 40
+    padding: 40,
   },
   buttonText: {
     fontSize: 14,
     color: '#000',
     alignSelf: 'center',
-    fontWeight: '500'
+    fontWeight: '500',
   },
   error: {
-    color: "red",
-    textAlign: "center",
+    color: 'red',
+    textAlign: 'center',
     alignSelf: 'center',
-    marginBottom: 2
-  },  
+    marginBottom: 2,
+  },
   button: {
     height: 36,
     width: 300,
@@ -168,5 +170,5 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     alignSelf: 'center',
     justifyContent: 'center',
-  }
+  },
 });

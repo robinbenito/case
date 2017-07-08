@@ -4,19 +4,18 @@ import {
   StyleSheet,
   ScrollView,
   Text,
-  View
+  View,
 } from 'react-native';
 
 import ChannelHeader from './ChannelHeader';
-import { ContentsWithData } from '../../../components/Contents/ContentsContainer'
+import { ContentsWithData } from '../../../components/Contents/ContentsContainer';
 
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 
-import layout from '../../../constants/Layout'
+import layout from '../../../constants/Layout';
 
 export default class ChannelContainer extends React.Component {
-
   render() {
     if (this.props.data.error) {
       return (
@@ -27,7 +26,7 @@ export default class ChannelContainer extends React.Component {
         </View>
       );
     }
-    
+
     if (this.props.data.loading) {
       return (
         <View style={styles.loadingContainer} >
@@ -37,15 +36,15 @@ export default class ChannelContainer extends React.Component {
     }
     return (
       <ScrollView style={styles.container}>
-        <ChannelHeader channel={this.props.data.channel} /> 
-        <ContentsWithData 
-          objectId={this.props.data.channel.slug} 
-          objectType="CHANNEL" 
+        <ChannelHeader channel={this.props.data.channel} />
+        <ContentsWithData
+          objectId={this.props.data.channel.slug}
+          objectType="CHANNEL"
           type="block"
           page={1}
         />
       </ScrollView>
-    )
+    );
   }
 }
 
@@ -57,7 +56,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: layout.padding
+    padding: layout.padding,
   },
 });
 
@@ -82,6 +81,6 @@ const ChannelQuery = gql`
       visibility
     }
   }
-`
+`;
 
 export const ChannelContainerWithData = graphql(ChannelQuery)(ChannelContainer);

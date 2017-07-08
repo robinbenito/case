@@ -4,18 +4,18 @@ import {
   View,
   Text,
   ListView,
-  ScrollView
+  ScrollView,
 } from 'react-native';
 
-import ChannelItem from '../ChannelItem'
-import BlockItem from '../BlockItem'
+import ChannelItem from '../ChannelItem';
+import BlockItem from '../BlockItem';
 
-import layout from "../../constants/Layout"
+import layout from '../../constants/Layout';
 
 export default class ContentsList extends Component {
   constructor(props) {
     super();
-    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
     this.state = {
       dataSource: ds.cloneWithRows(props.contents || []),
     };
@@ -25,23 +25,23 @@ export default class ContentsList extends Component {
     if (newProps.loading) { return; }
 
     this.setState({
-      dataSource: this.state.dataSource.cloneWithRows(newProps.contents)
-    })
+      dataSource: this.state.dataSource.cloneWithRows(newProps.contents),
+    });
   }
 
   render() {
     const flexStyle = {
-      'Channels': {
-        flexDirection: 'column'
+      Channels: {
+        flexDirection: 'column',
       },
-      'Blocks': {
-        flexDirection: 'row'
-      }
+      Blocks: {
+        flexDirection: 'row',
+      },
     }[this.props.type];
 
     return (
       <ListView
-        style={{flex: 1}}
+        style={{ flex: 1 }}
         contentContainerStyle={[styles.listContainer, flexStyle]}
         dataSource={this.state.dataSource}
         renderHeader={this.props.renderHeader}
@@ -50,16 +50,15 @@ export default class ContentsList extends Component {
         onEndReachedThreshold={100}
         scrollRenderAheadDistance={1000}
         renderRow={(item) => {
-          if (item.klass == "Block") {
-            return (<BlockItem block={item}/>);
+          if (item.klass == 'Block') {
+            return (<BlockItem block={item} />);
           }
-          return (<ChannelItem channel={item}/>);
+          return (<ChannelItem channel={item} />);
         }}
         onEndReached={this.props.onEndReached}
       />
     );
   }
-
 }
 
 const styles = StyleSheet.create({
@@ -69,5 +68,5 @@ const styles = StyleSheet.create({
     paddingLeft: layout.padding,
     flexWrap: 'wrap',
     justifyContent: 'space-between',
-  }
+  },
 });

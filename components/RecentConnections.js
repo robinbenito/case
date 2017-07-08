@@ -6,22 +6,21 @@ import {
   ActivityIndicator,
   ScrollView,
   Text,
-  Image
+  Image,
 } from 'react-native';
 
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 
-import ConnectionItem from './ConnectionItem'
+import ConnectionItem from './ConnectionItem';
 
 class RecentConnections extends Component {
-
   makeConnection(connection) {
-    console.log('make connection', connection)
+    console.log('make connection', connection);
   }
 
   render() {
-    console.log('this.props.data', this.props.data)
+    console.log('this.props.data', this.props.data);
     if (this.props.data && this.props.data.error) {
       return (
         <View>
@@ -31,7 +30,7 @@ class RecentConnections extends Component {
         </View>
       );
     }
-    
+
     if (this.props.data && this.props.data.loading) {
       return (
         <View>
@@ -40,18 +39,18 @@ class RecentConnections extends Component {
       );
     }
 
-    let connections = []
+    const connections = [];
 
-    this.props.data.me.recent_connections.forEach( connection => 
+    this.props.data.me.recent_connections.forEach(connection =>
       connections.push(
-        <ConnectionItem 
-          connection={connection} 
+        <ConnectionItem
+          connection={connection}
           onPress={this.makeConnection}
           key={connection.id}
-        />
-      )
-    )
-    
+        />,
+      ),
+    );
+
     return (
       <View style={styles.container}>
         {connections}
@@ -76,6 +75,6 @@ const RecentConnectionsQuery = gql`
     }
   }
   ${ConnectionItem.fragments.connection}
-`
+`;
 
-export const RecentConnectionsWithData = graphql(RecentConnectionsQuery)(RecentConnections)
+export const RecentConnectionsWithData = graphql(RecentConnectionsQuery)(RecentConnections);

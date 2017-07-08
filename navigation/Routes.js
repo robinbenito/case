@@ -2,9 +2,9 @@ import React from 'react';
 import { StackNavigator, TabNavigator } from 'react-navigation';
 
 import HomeScreen from '../screens/HomeScreen.js';
-import AddScreen from '../screens/AddScreen/index'
+import AddScreen from '../screens/AddScreen/index';
 import ProfileScreen from '../screens/ProfileScreen/index';
-import ChannelScreen from '../screens/ChannelScreen/index'
+import ChannelScreen from '../screens/ChannelScreen/index';
 import LoginScreen from '../screens/LoginScreen';
 
 import { Ionicons } from '@expo/vector-icons';
@@ -16,39 +16,44 @@ import {
 const ProfileStack = StackNavigator({
   profile: {
     screen: ProfileScreen,
-    navigationOptions: ({navigation}) => ({
-      title: `Profile`,
+    navigationOptions: ({ navigation }) => ({
+      title: 'Profile',
       headerStyle: {
-        backgroundColor: '#fff'
+        backgroundColor: '#fff',
       },
       cardStyle: {
-        backgroundColor: '#fff'
-      }
+        backgroundColor: '#fff',
+      },
     }),
-  }
-})
+  },
+});
+
+const AddStack = StackNavigator({
+  choose: {
+    screen: ChooseScreen,
+  },
+  connect: {
+    screen: ConnectScreen,
+  },
+});
 
 const tabs = {
-  home: { 
+  home: {
     screen: HomeScreen,
     navigationOptions: {
       tabBarLabel: 'Feed',
-      tabBarIcon: (props) => {
-        return (
-          <Ionicons name="ios-list-outline" size={24} color={props.tintColor} />
-        )
-      }
+      tabBarIcon: props => (
+        <Ionicons name="ios-list-outline" size={24} color={props.tintColor} />
+      ),
     },
   },
-  add: { 
-    screen: AddScreen,
+  add: {
+    screen: AddStack,
     navigationOptions: {
       tabBarLabel: 'Add',
-      tabBarIcon: (props) => {
-        return (
-          <Ionicons name="ios-add-circle-outline" size={24} color={props.tintColor} />
-        )
-      }
+      tabBarIcon: props => (
+        <Ionicons name="ios-add-circle-outline" size={24} color={props.tintColor} />
+      ),
     },
   },
   profile: {
@@ -56,14 +61,12 @@ const tabs = {
     navigationOptions: {
       title: 'Profile',
       tabBarLabel: 'Profile',
-      tabBarIcon: (props) => {
-        return (
-          <Ionicons name="ios-hand-outline" size={24} color={props.tintColor} />
-        )
-      }
+      tabBarIcon: props => (
+        <Ionicons name="ios-hand-outline" size={24} color={props.tintColor} />
+      ),
     },
   },
-}
+};
 const tabOptions = {
   initialRouteName: 'home',
   tabBarOptions: {
@@ -76,38 +79,36 @@ const tabOptions = {
     },
     tabStyle: {
       backgroundColor: '#fff',
-    }
-  }
-}
+    },
+  },
+};
 
-export const MainNav = TabNavigator(tabs, tabOptions)
+export const MainNav = TabNavigator(tabs, tabOptions);
 
-export const createRootNavigator = (loggedIn = false) => {
-  return StackNavigator({
-    login: { 
-      screen: LoginScreen,
-      navigationOptions: ({navigation}) => ({
-        header: null,
-        headerStyle: {
-          backgroundColor: '#fff'
-        },
-        cardStyle: {
-          backgroundColor: '#fff',
-          padding: 40
-        }
-      }),
-    },
-    main: {
-      screen: MainNav
-    },
-  }, { 
-    headerMode: 'screen',
-    initialRouteName: loggedIn ? 'main' : 'login',
-    cardStyle: {
-      backgroundColor: '#fff'
-    },
-    navigationOptions: {
-      header: null
-    }
-  });
-}
+export const createRootNavigator = (loggedIn = false) => StackNavigator({
+  login: {
+    screen: LoginScreen,
+    navigationOptions: ({ navigation }) => ({
+      header: null,
+      headerStyle: {
+        backgroundColor: '#fff',
+      },
+      cardStyle: {
+        backgroundColor: '#fff',
+        padding: 40,
+      },
+    }),
+  },
+  main: {
+    screen: MainNav,
+  },
+}, {
+  headerMode: 'screen',
+  initialRouteName: loggedIn ? 'main' : 'login',
+  cardStyle: {
+    backgroundColor: '#fff',
+  },
+  navigationOptions: {
+    header: null,
+  },
+});

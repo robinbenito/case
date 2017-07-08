@@ -1,13 +1,13 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import {
   StyleSheet,
   View,
   Text,
   Image,
-} from 'react-native'
+} from 'react-native';
 
-import HTMLView from 'react-native-htmlview'
-import layout from '../../../constants/Layout'
+import HTMLView from 'react-native-htmlview';
+import layout from '../../../constants/Layout';
 
 export default class ProfileHeader extends Component {
   render() {
@@ -24,7 +24,7 @@ export default class ProfileHeader extends Component {
           />
           <Image
             style={styles.avatar}
-            source={{uri: user.avatar}}
+            source={{ uri: user.avatar }}
           />
         </View>
       </View>
@@ -38,21 +38,21 @@ const styles = StyleSheet.create({
     top: 0,
     right: 0,
     width: 75,
-    height: 75
-  },  
+    height: 75,
+  },
   header: {
     padding: layout.padding,
-    paddingBottom: 0
+    paddingBottom: 0,
   },
   innerHeader: {
     borderBottomColor: '#eee',
     borderBottomWidth: 1,
     marginBottom: layout.padding,
-    minHeight: 100
+    minHeight: 100,
   },
   headerText: {
     fontSize: 24,
     fontWeight: 'bold',
-    paddingBottom: layout.padding
-  }
+    paddingBottom: layout.padding,
+  },
 });

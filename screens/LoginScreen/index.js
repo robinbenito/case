@@ -1,15 +1,15 @@
-import React from 'react'
+import React from 'react';
 import {
   Image,
   StyleSheet,
   KeyboardAvoidingView,
-} from 'react-native'
+} from 'react-native';
 
-import { NavigationActions } from 'react-navigation'
-import Store from '../../state/Store'
-import { LoginWithData } from './components/LoginWithData'
+import { NavigationActions } from 'react-navigation';
+import Store from '../../state/Store';
+import { LoginWithData } from './components/LoginWithData';
 
-import layout from '../../constants/Layout'
+import layout from '../../constants/Layout';
 
 export default class LoginScreen extends React.Component {
   _resetStack() {
@@ -17,9 +17,9 @@ export default class LoginScreen extends React.Component {
       index: 0,
       actions: [
         NavigationActions.navigate({ routeName: 'main' }),
-      ]
-    })
-    this.props.navigation.dispatch(resetAction)
+      ],
+    });
+    this.props.navigation.dispatch(resetAction);
   }
 
   render() {
@@ -31,17 +31,17 @@ export default class LoginScreen extends React.Component {
         />
         <LoginWithData onLogin={this._resetStack.bind(this)} />
       </KeyboardAvoidingView>
-    )
+    );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center', 
+    alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
   },
   logo: {
     width: 100,
