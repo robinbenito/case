@@ -11,21 +11,32 @@ import {
   TouchableHighlight,
 } from 'react-native';
 
-import { RecentConnectionsWithData } from "./RecentConnectionList"
+import { RecentConnectionsWithData } from '../../../components/RecentConnections'
+import { ConnectionSearchWithData } from '../../../components/ConnectionSearch'
 
 import colors from '../../../constants/Colors'
 import layout from '../../../constants/Layout'
 
 export default class ConnectScreen extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      isSearching: false,
+      q: null
+    }
+  }
   
   search(text) {
-    console.log('connectScreen -> search', text)
+    this.setState({ 
+      isSearching: text.length,
+      search: text
+    })
   }
 
   render() {
-    console.log('render')
     const { text, image } = this.props
     const { height, width } = Dimensions.get('window')
+    const { search } = this.state
 
     const imageStyle = {
       width: width - (layout.padding * 2),
@@ -36,21 +47,24 @@ export default class ConnectScreen extends React.Component {
       borderColor: colors.gray.border
     }
 
+    const ConnectionContent = this.state.isSearching ? <ConnectionSearchWithData q={search} /> : <RecentConnectionsWithData />
+
     return (
-      <KeyboardAvoidingView behavior="position" style={styles.container}>
-        <ScrollView>
-          <Image 
-            source={{ uri: image }}
-            style={imageStyle} 
-          />
-          <TextInput
-            style={styles.input}
-            onChangeText={(text) => this.search(text)}
-          />
-          <Text style={styles.label}>Recent channels</Text>
-          <RecentConnectionsWithData />
-        </ScrollView>
-      </KeyboardAvoidingView>
+      <ScrollView>
+        <KeyboardAvoidingView behavior="position" style={styles.container}>
+            <Image 
+              source={{ uri: image }}
+              style={imageStyle} 
+            />
+            <TextInput
+              style={styles.input}
+              onChangeText={(text) => this.search(text)}
+              autoCapitalize="none"
+            />
+            <Text style={styles.label}>Recent channels</Text>
+            {ConnectionContent}
+        </KeyboardAvoidingView>
+      </ScrollView>
     )
   }
 }

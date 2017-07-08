@@ -10,22 +10,25 @@ import {
 } from 'react-native';
 
 import gql from 'graphql-tag';
-import { graphql, withApollo } from 'react-apollo';
+import { graphql } from 'react-apollo';
 
-import ConnectionItem from '../../../components/ConnectionItem'
+import ConnectionItem from './ConnectionItem'
 
-class RecentConnections extends Component {
-
-  makeConnection() {
-    console.log('make connection', this)
+class ConnectionSearch extends Component {
+  
+  shouldComponentUpdate(newProps) {
+    if (newProps.data && newProps.data.loading) { return false; }
+    return true;
   }
 
   render() {
+    const { q } = this.props
+
     if (this.props.data && this.props.data.error) {
       return (
         <View>
           <Text>
-            Profile not found
+            No results found
           </Text>
         </View>
       );
@@ -34,14 +37,14 @@ class RecentConnections extends Component {
     if (this.props.data && this.props.data.loading) {
       return (
         <View>
-          <Text>Loading</Text>
+          <Text>Searching for {q}</Text>
         </View>
       );
     }
 
     let connections = []
 
-    this.props.data.me.recent_connections.forEach( connection => 
+    this.props.data.me.connection_search.forEach( connection => 
       connections.push(
         <ConnectionItem 
           connection={connection} 
@@ -65,21 +68,20 @@ const styles = StyleSheet.create({
   },
 });
 
-const RecentConnectionsQuery = gql`
-  query RecentConnectionsQuery {
+const ConnectionSearchQuery = gql`
+  query ConnectionSearchQuery($q: String!) {
     me {
       name
-      recent_connections(per: 5) {
-        user {
-          name
-        }
-        slug
-        id
-        title
-        visibility
+      connection_search(q: $q) {
+        ...Connection
       }
     }
   }
+  ${ConnectionItem.fragments.connection}
 `
 
-export const RecentConnectionsWithData = graphql(RecentConnectionsQuery)(RecentConnections)
+export const ConnectionSearchWithData = graphql(ConnectionSearchQuery)(ConnectionSearch)
+
+const ProfileWithData = graphql(ConnectionSearchQuery, {
+  options: ({ q }) => ({ variables: { q } }),
+})(ConnectionSearch);

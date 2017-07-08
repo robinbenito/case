@@ -103,6 +103,9 @@ export const createRootNavigator = (loggedIn = false) => {
   }, { 
     headerMode: 'screen',
     initialRouteName: loggedIn ? 'main' : 'login',
+    cardStyle: {
+      backgroundColor: '#fff'
+    },
     navigationOptions: {
       header: null
     }

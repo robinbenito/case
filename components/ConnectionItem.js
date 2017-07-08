@@ -1,26 +1,44 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
-  View,
+  TouchableHighlight,
   StyleSheet,
   Text,
-} from 'react-native';
+  View
+} from 'react-native'
 
+import gql from 'graphql-tag'
 import colors from "../constants/Colors"
 
-export default class Connection extends Component {
+export default class ConnectionItem extends Component {
   render() {
     const { connection, onPress } = this.props
     const color = colors.channel[connection.visibility]
 
     return (
-      <View style={styles.connection} onPress={onPress}>
-        <Text style={{ color: colors.gray.text }}>{connection.user.name}</Text>
-        <Text style={{ color: colors.gray.text }} > / </Text>
-        <Text style={{ color: color }}>{connection.title}</Text>
-      </View>
+      <TouchableHighlight onPress={() => onPress(connection)}>
+        <View style={styles.connection}>
+          <Text style={{ color: colors.gray.text }}>{connection.user.name}</Text>
+          <Text style={{ color: colors.gray.text }} > / </Text>
+          <Text style={{ color: color }}>{connection.title}</Text>
+        </View>
+      </TouchableHighlight>
     );
   }
 }
+
+ConnectionItem.fragments = {
+  connection: gql`
+    fragment Connection on Channel {
+      user {
+        name
+      }
+      slug
+      id
+      title
+      visibility
+    }
+  `,
+};
 
 const styles = StyleSheet.create({
   connection: {
@@ -30,6 +48,7 @@ const styles = StyleSheet.create({
     borderColor: colors.gray.border,
     borderWidth: 1,
     backgroundColor: colors.gray.background,
-    padding: 10
+    padding: 10,
+    overflow: 'hidden'
   },
 });

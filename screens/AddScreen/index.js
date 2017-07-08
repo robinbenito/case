@@ -80,11 +80,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center', 
     justifyContent: 'center',
-    padding: layout.padding
+    padding: layout.padding,
+    backgroundColor: "#fff"
   },
   contentContainer: {
     paddingTop: (layout.padding * 4),
     alignItems: "center",
-    backgroundColor: "#fff"
   }
 });
