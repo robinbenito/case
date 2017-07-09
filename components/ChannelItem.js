@@ -1,17 +1,17 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
   StyleSheet,
   View,
   Text,
   ListView,
   TouchableOpacity,
-} from 'react-native';
+} from 'react-native'
 
-import Colors from '../constants/Colors';
+import Colors from '../constants/Colors'
 
 export default class ChannelItem extends Component {
   _onPressButton() {
-    this.props.navigator.push(Router.getRoute('channel', { id: this.props.channel.id }));
+    this.props.navigator.push(Router.getRoute('channel', { id: this.props.channel.id }))
   }
 
   render() {
@@ -19,15 +19,15 @@ export default class ChannelItem extends Component {
       public: styles.channelContainerPublic,
       closed: styles.channelContainerClosed,
       private: styles.channelContainerPrivate,
-    }[this.props.channel.kind.visibility];
+    }[this.props.channel.kind.visibility]
 
     const textStyle = {
       public: styles.channelTitlePublic,
       closed: styles.channelTitleClosed,
       private: styles.channelTitlePrivate,
-    }[this.props.channel.kind.visibility];
+    }[this.props.channel.kind.visibility]
 
-    const textColor = Colors[this.props.channel.kind.visibility];
+    const textColor = Colors[this.props.channel.kind.visibility]
 
     return (
       <TouchableOpacity onPress={this._onPressButton.bind(this)}>
@@ -49,7 +49,7 @@ export default class ChannelItem extends Component {
           </View>
         </View>
       </TouchableOpacity>
-    );
+    )
   }
 }
 
@@ -89,4 +89,4 @@ const styles = StyleSheet.create({
   channelTitlePublic: {
     color: Colors.public,
   },
-});
+})

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
   StyleSheet,
   View,
@@ -6,23 +6,23 @@ import {
   Image,
   SegmentedControlIOS,
   ActivityIndicator,
-} from 'react-native';
+} from 'react-native'
 
-import UserNameText from '../../../components/UserNameText';
-import HTMLView from 'react-native-htmlview';
+import UserNameText from '../../../components/UserNameText'
+import HTMLView from 'react-native-htmlview'
 
-import colors from '../../../constants/Colors';
-import layout from '../../../constants/Layout';
+import colors from '../../../constants/Colors'
+import layout from '../../../constants/Layout'
 
 export default class ChannelHeader extends Component {
   render() {
-    const channel = this.props.channel;
+    const channel = this.props.channel
 
     const textStyle = {
       public: styles.channelPublic,
       closed: styles.channelClosed,
       private: styles.channelPrivate,
-    }[channel.visibility];
+    }[channel.visibility]
 
     return (
       <View style={styles.header}>
@@ -36,7 +36,7 @@ export default class ChannelHeader extends Component {
           </View>
         </View>
       </View>
-    );
+    )
   }
 }
 
@@ -68,4 +68,4 @@ const styles = StyleSheet.create({
   channelPublic: {
     color: colors.public,
   },
-});
+})

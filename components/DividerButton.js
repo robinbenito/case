@@ -1,19 +1,19 @@
-import React from 'react';
+import React from 'react'
 import {
   StyleSheet,
   Text,
   TouchableHighlight,
   View,
-} from 'react-native';
+} from 'react-native'
 
-import { ImagePicker } from 'expo';
-import { Ionicons } from '@expo/vector-icons';
+import { ImagePicker } from 'expo'
+import { Ionicons } from '@expo/vector-icons'
 
-import layout from '../constants/Layout';
+import layout from '../constants/Layout'
 
 export default class DividerButton extends React.Component {
   render() {
-    const { buttonText, onPress } = this.props;
+    const { buttonText, onPress } = this.props
 
     return (
       <View style={styles.buttonContainer}>
@@ -21,7 +21,7 @@ export default class DividerButton extends React.Component {
           <Text style={styles.buttonText}>{buttonText}</Text>
         </TouchableHighlight>
       </View>
-    );
+    )
   }
 }
 
@@ -46,4 +46,4 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-});
+})

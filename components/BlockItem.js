@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
   Dimensions,
   Image,
@@ -6,11 +6,11 @@ import {
   Text,
   TouchableOpacity,
   View,
-} from 'react-native';
+} from 'react-native'
 
-const { width, height } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window')
 
-import Colors from '../constants/Colors';
+import Colors from '../constants/Colors'
 
 export default class BlockItem extends Component {
   _onPressButton() {
@@ -18,37 +18,37 @@ export default class BlockItem extends Component {
   }
 
   render() {
-    let blockInner;
+    let blockInner
 
     switch (this.props.block.kind.__typename) {
       case 'Link':
       case 'Image':
         blockInner = (
           <Image style={styles.image} source={{ uri: this.props.block.kind.image_url }} />
-        );
-        break;
+        )
+        break
       case 'Text':
         blockInner = (
           <Text style={styles.channelTitle} numberOfLines={9}>
             {this.props.block.kind.content}
           </Text>
-        );
-        break;
+        )
+        break
 
       default:
         blockInner = (
           <Text style={styles.channelTitle}>
             {this.props.block.title}
           </Text>
-        );
-        break;
+        )
+        break
     }
 
     return (
       <TouchableOpacity onPress={this._onPressButton.bind(this)} style={styles.container}>
         <View style={{ flex: 1 }}>{blockInner}</View>
       </TouchableOpacity>
-    );
+    )
   }
 }
 
@@ -71,4 +71,4 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#000',
   },
-});
+})

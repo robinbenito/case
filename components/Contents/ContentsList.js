@@ -1,32 +1,37 @@
-import React, { Component } from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  ListView,
-  ScrollView,
-} from 'react-native';
+import React, { Component } from 'react'
+import { StyleSheet, ListView, View } from 'react-native'
+import PropTypes from 'prop-types'
 
-import ChannelItem from '../ChannelItem';
-import BlockItem from '../BlockItem';
+import ChannelItem from '../ChannelItem'
+import BlockItem from '../BlockItem'
 
-import layout from '../../constants/Layout';
+import layout from '../../constants/Layout'
+
+const styles = StyleSheet.create({
+  listContainer: {
+    flex: 1,
+    paddingRight: layout.padding,
+    paddingLeft: layout.padding,
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+  },
+})
 
 export default class ContentsList extends Component {
   constructor(props) {
-    super();
-    const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
+    super()
+    const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
     this.state = {
       dataSource: ds.cloneWithRows(props.contents || []),
-    };
+    }
   }
 
   componentWillReceiveProps(newProps) {
-    if (newProps.loading) { return; }
+    if (newProps.loading) { return }
 
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(newProps.contents),
-    });
+    })
   }
 
   render() {
@@ -37,7 +42,7 @@ export default class ContentsList extends Component {
       Blocks: {
         flexDirection: 'row',
       },
-    }[this.props.type];
+    }[this.props.type]
 
     return (
       <ListView
@@ -50,23 +55,29 @@ export default class ContentsList extends Component {
         onEndReachedThreshold={100}
         scrollRenderAheadDistance={1000}
         renderRow={(item) => {
-          if (item.klass == 'Block') {
-            return (<BlockItem block={item} />);
+          if (item.klass === 'Block') {
+            return (<BlockItem block={item} />)
           }
-          return (<ChannelItem channel={item} />);
+          return (<ChannelItem channel={item} />)
         }}
         onEndReached={this.props.onEndReached}
       />
-    );
+    )
   }
 }
 
-const styles = StyleSheet.create({
-  listContainer: {
-    flex: 1,
-    paddingRight: layout.padding,
-    paddingLeft: layout.padding,
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-  },
-});
+ContentsList.propTypes = {
+  onEndReached: PropTypes.function,
+  renderHeader: PropTypes.element,
+  per: PropTypes.number,
+  contents: PropTypes.element,
+  type: PropTypes.string,
+}
+
+ContentsList.defaultProps = {
+  onEndReached: () => null,
+  renderHeader: PropTypes.element,
+  per: 10,
+  contents: View,
+  type: 'Channel',
+}

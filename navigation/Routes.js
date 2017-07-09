@@ -1,17 +1,17 @@
-import React from 'react';
-import { StackNavigator, TabNavigator } from 'react-navigation';
+import React from 'react'
+import { StackNavigator, TabNavigator } from 'react-navigation'
 
-import HomeScreen from '../screens/HomeScreen.js';
-import AddScreen from '../screens/AddScreen/index';
-import ProfileScreen from '../screens/ProfileScreen/index';
-import ChannelScreen from '../screens/ChannelScreen/index';
-import LoginScreen from '../screens/LoginScreen';
+import HomeScreen from '../screens/HomeScreen.js'
+import AddScreen from '../screens/AddScreen/index'
+import ProfileScreen from '../screens/ProfileScreen/index'
+import ChannelScreen from '../screens/ChannelScreen/index'
+import LoginScreen from '../screens/LoginScreen'
 
-import { Ionicons } from '@expo/vector-icons';
-import colors from '../constants/Colors';
+import { Ionicons } from '@expo/vector-icons'
+import colors from '../constants/Colors'
 import {
   Text,
-} from 'react-native';
+} from 'react-native'
 
 const ProfileStack = StackNavigator({
   profile: {
@@ -26,7 +26,7 @@ const ProfileStack = StackNavigator({
       },
     }),
   },
-});
+})
 
 const AddStack = StackNavigator({
   choose: {
@@ -35,7 +35,7 @@ const AddStack = StackNavigator({
   connect: {
     screen: ConnectScreen,
   },
-});
+})
 
 const tabs = {
   home: {
@@ -66,7 +66,7 @@ const tabs = {
       ),
     },
   },
-};
+}
 const tabOptions = {
   initialRouteName: 'home',
   tabBarOptions: {
@@ -81,9 +81,9 @@ const tabOptions = {
       backgroundColor: '#fff',
     },
   },
-};
+}
 
-export const MainNav = TabNavigator(tabs, tabOptions);
+export const MainNav = TabNavigator(tabs, tabOptions)
 
 export const createRootNavigator = (loggedIn = false) => StackNavigator({
   login: {
@@ -111,4 +111,4 @@ export const createRootNavigator = (loggedIn = false) => StackNavigator({
   navigationOptions: {
     header: null,
   },
-});
+})

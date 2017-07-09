@@ -1,18 +1,18 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
   TouchableHighlight,
   StyleSheet,
   Text,
   View,
-} from 'react-native';
+} from 'react-native'
 
-import gql from 'graphql-tag';
-import colors from '../constants/Colors';
+import gql from 'graphql-tag'
+import colors from '../constants/Colors'
 
 export default class ConnectionItem extends Component {
   render() {
-    const { connection, onPress } = this.props;
-    const color = colors.channel[connection.visibility];
+    const { connection, onPress } = this.props
+    const color = colors.channel[connection.visibility]
 
     return (
       <TouchableHighlight onPress={() => onPress(connection)}>
@@ -22,7 +22,7 @@ export default class ConnectionItem extends Component {
           <Text style={{ color }}>{connection.title}</Text>
         </View>
       </TouchableHighlight>
-    );
+    )
   }
 }
 
@@ -38,7 +38,7 @@ ConnectionItem.fragments = {
       visibility
     }
   `,
-};
+}
 
 const styles = StyleSheet.create({
   connection: {
@@ -51,4 +51,4 @@ const styles = StyleSheet.create({
     padding: 10,
     overflow: 'hidden',
   },
-});
+})

@@ -1,19 +1,19 @@
-import React from 'react';
+import React from 'react'
 import {
   ActivityIndicator,
   StyleSheet,
   ScrollView,
   Text,
   View,
-} from 'react-native';
+} from 'react-native'
 
-import ChannelHeader from './ChannelHeader';
-import { ContentsWithData } from '../../../components/Contents/ContentsContainer';
+import ChannelHeader from './ChannelHeader'
+import { ContentsWithData } from '../../../components/Contents/ContentsContainer'
 
-import gql from 'graphql-tag';
-import { graphql } from 'react-apollo';
+import gql from 'graphql-tag'
+import { graphql } from 'react-apollo'
 
-import layout from '../../../constants/Layout';
+import layout from '../../../constants/Layout'
 
 export default class ChannelContainer extends React.Component {
   render() {
@@ -24,7 +24,7 @@ export default class ChannelContainer extends React.Component {
             Channel not found
           </Text>
         </View>
-      );
+      )
     }
 
     if (this.props.data.loading) {
@@ -32,7 +32,7 @@ export default class ChannelContainer extends React.Component {
         <View style={styles.loadingContainer} >
           <ActivityIndicator />
         </View>
-      );
+      )
     }
     return (
       <ScrollView style={styles.container}>
@@ -44,7 +44,7 @@ export default class ChannelContainer extends React.Component {
           page={1}
         />
       </ScrollView>
-    );
+    )
   }
 }
 
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: layout.padding,
   },
-});
+})
 
 const ChannelQuery = gql`
   query ChannelQuery($id: ID!){
@@ -81,6 +81,6 @@ const ChannelQuery = gql`
       visibility
     }
   }
-`;
+`
 
-export const ChannelContainerWithData = graphql(ChannelQuery)(ChannelContainer);
+export const ChannelContainerWithData = graphql(ChannelQuery)(ChannelContainer)

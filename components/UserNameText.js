@@ -1,7 +1,7 @@
-import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React from 'react'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 
-import layout from '../constants/Layout';
+import layout from '../constants/Layout'
 
 export default class UserNameText extends React.Component {
   render() {
@@ -14,11 +14,11 @@ export default class UserNameText extends React.Component {
           {this.props.user.name}
         </Text>
       </TouchableOpacity>
-    );
+    )
   }
 
   goToProfile() {
-    this.props.navigator.push(Router.getRoute('profile', { id: this.props.user.slug }));
+    this.props.navigator.push(Router.getRoute('profile', { id: this.props.user.slug }))
   }
 }
 
@@ -32,4 +32,4 @@ const styles = StyleSheet.create({
   text: {
     fontWeight: 'bold',
   },
-});
+})

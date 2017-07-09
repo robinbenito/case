@@ -1,19 +1,19 @@
-import React from 'react';
+import React from 'react'
 import {
   StyleSheet,
   Text,
   TouchableHighlight,
   View,
-} from 'react-native';
+} from 'react-native'
 
-import { ImagePicker } from 'expo';
-import { Ionicons } from '@expo/vector-icons';
+import { ImagePicker } from 'expo'
+import { Ionicons } from '@expo/vector-icons'
 
-import layout from '../constants/Layout';
+import layout from '../constants/Layout'
 
 export default class IconButton extends React.Component {
   render() {
-    const { iconName, buttonText, onPress } = this.props;
+    const { iconName, buttonText, onPress } = this.props
 
     return (
       <TouchableHighlight style={styles.button} onPress={onPress}>
@@ -27,7 +27,7 @@ export default class IconButton extends React.Component {
           <Text style={styles.buttonText}>{buttonText}</Text>
         </View>
       </TouchableHighlight>
-    );
+    )
   }
 }
 
@@ -54,4 +54,4 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-});
+})

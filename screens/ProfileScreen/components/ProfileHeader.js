@@ -1,36 +1,14 @@
-import React, { Component } from 'react';
+import React from 'react'
+import PropTypes from 'prop-types'
 import {
   StyleSheet,
   View,
   Text,
   Image,
-} from 'react-native';
+} from 'react-native'
 
-import HTMLView from 'react-native-htmlview';
-import layout from '../../../constants/Layout';
-
-export default class ProfileHeader extends Component {
-  render() {
-    const user = this.props.user;
-    return (
-      <View style={styles.header}>
-        <View style={styles.innerHeader}>
-          <Text style={styles.headerText}>
-            {user.name}
-          </Text>
-          <HTMLView
-            value={user.bio}
-            stylesheet={styles}
-          />
-          <Image
-            style={styles.avatar}
-            source={{ uri: user.avatar }}
-          />
-        </View>
-      </View>
-    );
-  }
-}
+import HTMLView from 'react-native-htmlview'
+import layout from '../../../constants/Layout'
 
 const styles = StyleSheet.create({
   avatar: {
@@ -55,4 +33,32 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     paddingBottom: layout.padding,
   },
-});
+})
+
+const ProfileHeader = ({ user }) => (
+  <View style={styles.header}>
+    <View style={styles.innerHeader}>
+      <Text style={styles.headerText}>
+        {user.name}
+      </Text>
+      <HTMLView
+        value={user.bio}
+        stylesheet={styles}
+      />
+      <Image
+        style={styles.avatar}
+        source={{ uri: user.avatar }}
+      />
+    </View>
+  </View>
+)
+
+ProfileHeader.propTypes = {
+  user: PropTypes.shape({
+    bio: PropTypes.string,
+    name: PropTypes.string,
+    avatar: PropTypes.string,
+  }).isRequired,
+}
+
+export default ProfileHeader

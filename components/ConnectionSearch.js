@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
   View,
   StyleSheet,
@@ -7,21 +7,21 @@ import {
   ScrollView,
   Text,
   Image,
-} from 'react-native';
+} from 'react-native'
 
-import gql from 'graphql-tag';
-import { graphql } from 'react-apollo';
+import gql from 'graphql-tag'
+import { graphql } from 'react-apollo'
 
-import ConnectionItem from './ConnectionItem';
+import ConnectionItem from './ConnectionItem'
 
 class ConnectionSearch extends Component {
   shouldComponentUpdate(newProps) {
-    if (newProps.data && newProps.data.loading) { return false; }
-    return true;
+    if (newProps.data && newProps.data.loading) { return false }
+    return true
   }
 
   render() {
-    const { q } = this.props;
+    const { q } = this.props
 
     if (this.props.data && this.props.data.error) {
       return (
@@ -30,7 +30,7 @@ class ConnectionSearch extends Component {
             No results found
           </Text>
         </View>
-      );
+      )
     }
 
     if (this.props.data && this.props.data.loading) {
@@ -38,10 +38,10 @@ class ConnectionSearch extends Component {
         <View>
           <Text>Searching for {q}</Text>
         </View>
-      );
+      )
     }
 
-    const connections = [];
+    const connections = []
 
     this.props.data.me.connection_search.forEach(connection =>
       connections.push(
@@ -51,13 +51,13 @@ class ConnectionSearch extends Component {
           key={connection.id}
         />,
       ),
-    );
+    )
 
     return (
       <View style={styles.container}>
         {connections}
       </View>
-    );
+    )
   }
 }
 
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-});
+})
 
 const ConnectionSearchQuery = gql`
   query ConnectionSearchQuery($q: String!) {
@@ -77,10 +77,10 @@ const ConnectionSearchQuery = gql`
     }
   }
   ${ConnectionItem.fragments.connection}
-`;
+`
 
-export const ConnectionSearchWithData = graphql(ConnectionSearchQuery)(ConnectionSearch);
+export const ConnectionSearchWithData = graphql(ConnectionSearchQuery)(ConnectionSearch)
 
 const ProfileWithData = graphql(ConnectionSearchQuery, {
   options: ({ q }) => ({ variables: { q } }),
-})(ConnectionSearch);
+})(ConnectionSearch)

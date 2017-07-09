@@ -5,18 +5,18 @@
 */
 
 
-import { Platform } from 'react-native';
+import { Platform } from 'react-native'
 
-const LABEL_COLOR = '#000';
-const INPUT_COLOR = '#000000';
-const ERROR_COLOR = '#a94442';
-const HELP_COLOR = '#999999';
-const BORDER_COLOR = '#f3f3f3';
-const DISABLED_COLOR = '#777777';
-const BACKGROUND_COLOR = '#f3f3f3';
-const DISABLED_BACKGROUND_COLOR = '#ddd';
-const FONT_SIZE = 14;
-const FONT_WEIGHT = '500';
+const LABEL_COLOR = '#000'
+const INPUT_COLOR = '#000000'
+const ERROR_COLOR = '#a94442'
+const HELP_COLOR = '#999999'
+const BORDER_COLOR = '#f3f3f3'
+const DISABLED_COLOR = '#777777'
+const BACKGROUND_COLOR = '#f3f3f3'
+const DISABLED_BACKGROUND_COLOR = '#ddd'
+const FONT_SIZE = 14
+const FONT_WEIGHT = '500'
 
 const stylesheet = Object.freeze({
   fieldset: {},
@@ -227,6 +227,6 @@ const stylesheet = Object.freeze({
     alignSelf: 'stretch',
     justifyContent: 'center',
   },
-});
+})
 
-module.exports = stylesheet;
+module.exports = stylesheet

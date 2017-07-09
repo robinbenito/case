@@ -1,8 +1,7 @@
-import ApolloClient, { createNetworkInterface } from 'apollo-client';
-import { AsyncStorage } from 'react-native';
-import Config from '../config';
-
-import { IntrospectionFragmentMatcher } from 'react-apollo';
+import ApolloClient, { createNetworkInterface } from 'apollo-client'
+import { IntrospectionFragmentMatcher } from 'react-apollo'
+import { AsyncStorage } from 'react-native'
+import Config from '../config'
 
 const fragmentMatcher = new IntrospectionFragmentMatcher({
   introspectionQueryResultData: {
@@ -24,39 +23,39 @@ const fragmentMatcher = new IntrospectionFragmentMatcher({
       ],
     },
   },
-});
+})
 
 const networkInterface = createNetworkInterface({
   uri: Config.API_ENDPOINT,
   dataIdFromObject: o => o.id,
-});
+})
 
 networkInterface.use([{
   applyMiddleware(req, next) {
     if (!req.options.headers) {
-      req.options.headers = {}; // Create the header object if needed.
+      req.options.headers = {} // Create the header object if needed.
     }
-    req.options.headers['X-APP-TOKEN'] = Config.X_APP_TOKEN;
+    req.options.headers['X-APP-TOKEN'] = Config.X_APP_TOKEN
     AsyncStorage.getItem('@arena:CurrentUser', (err, result) => {
       if (result) {
-        const user = JSON.parse(result);
-        req.options.headers['X-AUTH-TOKEN'] = user.authentication_token;
+        const user = JSON.parse(result)
+        req.options.headers['X-AUTH-TOKEN'] = user.authentication_token
       }
-      next();
-    });
+      next()
+    })
   },
-}]);
+}])
 
-networkInterface.useAfter([{
-  applyAfterware({ response }, next) {
-    // console.log('GraphqQL response', response)
-    next();
-  },
-}]);
+// networkInterface.useAfter([{
+//   applyAfterware({ response }, next) {
+//     // console.log('GraphqQL response', response)
+//     next(response)
+//   },
+// }])
 
 const client = new ApolloClient({
   networkInterface,
   fragmentMatcher,
-});
+})
 
-export default client;
+export default client

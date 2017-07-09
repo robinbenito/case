@@ -1,103 +1,20 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import gql from 'graphql-tag'
+import { graphql, withApollo } from 'react-apollo'
+import { propType } from 'graphql-anywhere'
+
 import {
   View,
   StyleSheet,
-  ListView,
   ActivityIndicator,
-  ScrollView,
   Text,
-  Image
-} from 'react-native';
+} from 'react-native'
 
 import ContentsToggle from './ContentsToggle'
 import ContentsList from './ContentsList'
 
-import gql from 'graphql-tag';
-import { graphql, withApollo } from 'react-apollo';
-import layout from "../../constants/Layout"
-
-import HTMLView from 'react-native-htmlview'
-
-@withApollo
-class ContentsContainer extends Component {
-  state = {
-    type: null,
-    page: 1
-  }
-
-  constructor(props) {
-    super(props)
-  }
-
-  onToggleChange(value) {
-    const typeValue = {
-      'Blocks': 'block',
-      'Channels': 'channel',
-    }[value];
-
-    this.setState({ type: typeValue, page: 2 });
-    this.props.data.refetch({ type: typeValue })
-  }
-
-  onEndReached() {
-    currentPage = this.state.page;
-    this.setState({page: currentPage + 1 });
-    console.log('onendreached', this.props, currentPage);
-    if (currentPage < 4) {
-      this.props.loadMore(this.state.page);
-    } 
-  }
-
-  shouldComponentUpdate(newProps) {
-    if (newProps.data && newProps.data.loading) { return false; }
-    return true;
-  }
-
-  render() {
-    if (this.props.data.error) {
-      console.log('ContentsContainer -> Error', this.props.data.error, this.props)
-      return (
-        <View style={styles.loadingContainer} >
-          <Text>
-            Profile not found
-          </Text>
-        </View>
-      );
-    }
-    
-    if (this.props.data.loading) {
-      return (
-        <View style={styles.loadingContainer} >
-          <ActivityIndicator />
-        </View>
-      );
-    }
-
-    let type = this.state.type || this.props.type;
-
-    const segmentValue = {
-      'block': 'Blocks',
-      'channel': 'Channels',
-    }[type];
-    
-    return (
-      <View style={styles.container}>
-        <View style={styles.toggleContainer}>
-          <ContentsToggle 
-            selectedSegment={segmentValue} 
-            onToggleChange={() => this.onToggleChange()}
-          />
-        </View>
-        <ContentsList 
-          contents={this.props.data.search} 
-          type={segmentValue} 
-          onEndReached={() => this.onEndReached()}
-          per={10}
-        />
-      </View>
-    );
-  }
-}
+import layout from '../../constants/Layout'
 
 const styles = StyleSheet.create({
   container: {
@@ -106,7 +23,7 @@ const styles = StyleSheet.create({
   toggleContainer: {
     paddingLeft: layout.padding,
     paddingRight: layout.padding,
-    paddingBottom: layout.padding
+    paddingBottom: layout.padding,
   },
   loadingContainer: {
     flex: 1,
@@ -115,7 +32,84 @@ const styles = StyleSheet.create({
     padding: layout.padding,
     minHeight: 200,
   },
-});
+})
+
+class ContentsContainer extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      type: null,
+      page: 1,
+    }
+  }
+
+  shouldComponentUpdate(newProps) {
+    if (newProps.data && newProps.data.loading) { return false }
+    return true
+  }
+
+  onToggleChange(value) {
+    const typeValue = {
+      Blocks: 'block',
+      Channels: 'channel',
+    }[value]
+
+    this.setState({ type: typeValue, page: 2 })
+    this.props.data.refetch({ type: typeValue })
+  }
+
+  onEndReached() {
+    const currentPage = this.state.page
+    this.setState({ page: currentPage + 1 })
+    if (currentPage < 4) {
+      this.props.loadMore(this.state.page)
+    }
+  }
+
+  render() {
+    if (this.props.data.error) {
+      return (
+        <View style={styles.loadingContainer} >
+          <Text>
+            Profile not found
+          </Text>
+        </View>
+      )
+    }
+
+    if (this.props.data.loading) {
+      return (
+        <View style={styles.loadingContainer} >
+          <ActivityIndicator />
+        </View>
+      )
+    }
+
+    const type = this.state.type || this.props.type
+
+    const segmentValue = {
+      block: 'Blocks',
+      channel: 'Channels',
+    }[type]
+
+    return (
+      <View style={styles.container}>
+        <View style={styles.toggleContainer}>
+          <ContentsToggle
+            selectedSegment={segmentValue}
+            onToggleChange={() => this.onToggleChange()}
+          />
+        </View>
+        <ContentsList
+          contents={this.props.data.search}
+          type={segmentValue}
+          onEndReached={() => this.onEndReached()}
+          per={10}
+        />
+      </View>
+    )
+  }
+}
 
 const ContentsQuery = gql`
   query ContentsQuery($type: String!, $objectId: String, $objectType: ObjectType, $page: Int){
@@ -146,27 +140,39 @@ const ContentsQuery = gql`
   }
 `
 
-export const ContentsWithData = graphql(ContentsQuery, { 
-  options: ({ objectId, objectType, type, page }) => {
-    return { variables: {  objectId, objectType, type, page } };
-  },
+ContentsContainer.propTypes = {
+  data: propType(ContentsQuery).isRequired,
+  loadMore: PropTypes.func.isRequired,
+  type: PropTypes.string,
+}
+
+ContentsContainer.defaultProps = {
+  type: 'channel',
+}
+
+const ContentsWithData = graphql(ContentsQuery, {
+  options: ({ objectId, objectType, type, page }) => ({
+    variables: { objectId, objectType, type, page },
+  }),
   props: (props) => {
-    let data = props.data;
+    const data = props.data
     return {
-      data, 
+      data,
       loadMore(page) {
         return props.data.fetchMore({
           variables: {
-            page: page
+            page,
           },
           updateQuery: (previousResult, { fetchMoreResult }) => {
-            if (!fetchMoreResult.data) { return previousResult; }
+            if (!fetchMoreResult.data) { return previousResult }
             return Object.assign({}, previousResult, {
               search: [...previousResult.search, ...fetchMoreResult.data.search],
-            });
-          }
+            })
+          },
         })
-      }
-    };
+      },
+    }
   },
-})(ContentsContainer);
+})(ContentsContainer)
+
+export default withApollo(ContentsWithData)

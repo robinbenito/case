@@ -1,6 +1,6 @@
 import {
   Dimensions,
-} from 'react-native';
+} from 'react-native'
 
 export default {
   padding: 20,
@@ -8,4 +8,4 @@ export default {
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
   },
-};
+}

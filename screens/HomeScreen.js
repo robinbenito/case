@@ -1,39 +1,12 @@
-import React from 'react';
+import React from 'react'
 import {
   ScrollView,
   StyleSheet,
   Text,
   View,
-} from 'react-native';
+} from 'react-native'
 
-import layout from '../constants/Layout';
-import { Ionicons } from '@expo/vector-icons';
-
-
-export default class HomeScreen extends React.Component {
-  static navigationOptions = {
-    header: () => {
-      return (
-        <Text>Connect</Text>
-      )
-    },
-  }
-  render() {
-    return (
-      <View style={styles.container}>
-        <ScrollView
-          style={styles.container}
-          contentContainerStyle={styles.contentContainer}>
-          <View>
-            <Text>
-              This is where the feed will be.
-            </Text>
-          </View>
-        </ScrollView>
-      </View>
-    );
-  }
-}
+import layout from '../constants/Layout'
 
 const styles = StyleSheet.create({
   container: {
@@ -42,6 +15,33 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     paddingTop: (layout.padding * 4),
-    alignItems: "center"
+    alignItems: 'center',
   },
-});
+})
+
+export default class HomeScreen extends React.Component {
+  constructor(props) {
+    super(props)
+    this.navigationOptions = {
+      header: () => (
+        <Text>Connect</Text>
+      ),
+    }
+  }
+  render() {
+    return (
+      <View style={styles.container}>
+        <ScrollView
+          style={styles.container}
+          contentContainerStyle={styles.contentContainer}
+        >
+          <View>
+            <Text>
+              This is where the feed will be.
+            </Text>
+          </View>
+        </ScrollView>
+      </View>
+    )
+  }
+}

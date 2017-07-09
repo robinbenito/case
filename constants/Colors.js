@@ -1,4 +1,4 @@
-const tintColor = '#000';
+const tintColor = '#000'
 
 export default {
   tintColor,
@@ -31,4 +31,4 @@ export default {
     text: '#585858',
     hover: '#050505',
   },
-};
+}

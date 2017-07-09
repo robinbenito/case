@@ -1,7 +1,5 @@
-// @flow
-
-import { combineReducers, createStore, compose, applyMiddleware } from 'redux';
-import client from './Apollo.js';
+import { combineReducers, createStore, compose, applyMiddleware } from 'redux'
+import client from './Apollo'
 
 const store = createStore(
   combineReducers({
@@ -10,6 +8,6 @@ const store = createStore(
   compose(
     applyMiddleware(client.middleware()),
   ),
-);
+)
 
-export default store;
+export default store

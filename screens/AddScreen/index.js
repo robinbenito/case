@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import {
   Button,
   Image,
@@ -7,40 +7,40 @@ import {
   Text,
   TouchableHighlight,
   View,
-} from 'react-native';
+} from 'react-native'
 
-import { ImagePicker } from 'expo';
-import IconButton from '../../components/IconButton';
-import ConnectScreen from './components/ConnectScreen';
+import { ImagePicker } from 'expo'
+import IconButton from '../../components/IconButton'
+import ConnectScreen from './components/ConnectScreen'
 
-import layout from '../../constants/Layout';
+import layout from '../../constants/Layout'
 
 export default class AddScreen extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       image: null,
       text: null,
-    };
+    }
   }
 
   render() {
     const showCamera = async () => {
-      const result = await ImagePicker.launchCameraAsync({});
+      const result = await ImagePicker.launchCameraAsync({})
       if (!result.cancelled) {
-        this.setState({ image: result.uri });
+        this.setState({ image: result.uri })
       }
-    };
+    }
 
     const showPhotos = async () => {
-      const result = await ImagePicker.launchImageLibraryAsync({});
+      const result = await ImagePicker.launchImageLibraryAsync({})
       if (!result.cancelled) {
-        this.setState({ image: result.uri });
+        this.setState({ image: result.uri })
       }
-    };
+    }
 
-    const { text, image } = this.state;
-    const showConnect = text || image;
+    const { text, image } = this.state
+    const showConnect = text || image
 
     return (
       <View style={styles.menuContainer}>
@@ -59,7 +59,7 @@ export default class AddScreen extends React.Component {
           buttonText="Choose from photos"
         />
       </View>
-    );
+    )
   }
 }
 
@@ -75,4 +75,4 @@ const styles = StyleSheet.create({
     paddingTop: (layout.padding * 4),
     alignItems: 'center',
   },
-});
+})

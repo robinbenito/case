@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
   View,
   StyleSheet,
@@ -7,20 +7,20 @@ import {
   ScrollView,
   Text,
   Image,
-} from 'react-native';
+} from 'react-native'
 
-import gql from 'graphql-tag';
-import { graphql } from 'react-apollo';
+import gql from 'graphql-tag'
+import { graphql } from 'react-apollo'
 
-import ConnectionItem from './ConnectionItem';
+import ConnectionItem from './ConnectionItem'
 
 class RecentConnections extends Component {
   makeConnection(connection) {
-    console.log('make connection', connection);
+    console.log('make connection', connection)
   }
 
   render() {
-    console.log('this.props.data', this.props.data);
+    console.log('this.props.data', this.props.data)
     if (this.props.data && this.props.data.error) {
       return (
         <View>
@@ -28,7 +28,7 @@ class RecentConnections extends Component {
             Profile not found
           </Text>
         </View>
-      );
+      )
     }
 
     if (this.props.data && this.props.data.loading) {
@@ -36,10 +36,10 @@ class RecentConnections extends Component {
         <View>
           <Text>Loading</Text>
         </View>
-      );
+      )
     }
 
-    const connections = [];
+    const connections = []
 
     this.props.data.me.recent_connections.forEach(connection =>
       connections.push(
@@ -49,13 +49,13 @@ class RecentConnections extends Component {
           key={connection.id}
         />,
       ),
-    );
+    )
 
     return (
       <View style={styles.container}>
         {connections}
       </View>
-    );
+    )
   }
 }
 
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-});
+})
 
 const RecentConnectionsQuery = gql`
   query RecentConnectionsQuery {
@@ -75,6 +75,6 @@ const RecentConnectionsQuery = gql`
     }
   }
   ${ConnectionItem.fragments.connection}
-`;
+`
 
-export const RecentConnectionsWithData = graphql(RecentConnectionsQuery)(RecentConnections);
+export const RecentConnectionsWithData = graphql(RecentConnectionsQuery)(RecentConnections)

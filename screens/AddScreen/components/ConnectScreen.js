@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import {
   Button,
   Dimensions,
@@ -9,34 +9,34 @@ import {
   Text,
   TextInput,
   TouchableHighlight,
-} from 'react-native';
+} from 'react-native'
 
-import { RecentConnectionsWithData } from '../../../components/RecentConnections';
-import { ConnectionSearchWithData } from '../../../components/ConnectionSearch';
+import { RecentConnectionsWithData } from '../../../components/RecentConnections'
+import { ConnectionSearchWithData } from '../../../components/ConnectionSearch'
 
-import colors from '../../../constants/Colors';
-import layout from '../../../constants/Layout';
+import colors from '../../../constants/Colors'
+import layout from '../../../constants/Layout'
 
 export default class ConnectScreen extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       isSearching: false,
       q: null,
-    };
+    }
   }
 
   search(text) {
     this.setState({
       isSearching: text.length,
       search: text,
-    });
+    })
   }
 
   render() {
-    const { text, image } = this.props;
-    const { height, width } = Dimensions.get('window');
-    const { search } = this.state;
+    const { text, image } = this.props
+    const { height, width } = Dimensions.get('window')
+    const { search } = this.state
 
     const imageStyle = {
       width: width - (layout.padding * 2),
@@ -45,9 +45,9 @@ export default class ConnectScreen extends React.Component {
       marginTop: (layout.padding / 2),
       borderWidth: 1,
       borderColor: colors.gray.border,
-    };
+    }
 
-    const ConnectionContent = this.state.isSearching ? <ConnectionSearchWithData q={search} /> : <RecentConnectionsWithData />;
+    const ConnectionContent = this.state.isSearching ? <ConnectionSearchWithData q={search} /> : <RecentConnectionsWithData />
 
     return (
       <ScrollView>
@@ -65,7 +65,7 @@ export default class ConnectScreen extends React.Component {
           {ConnectionContent}
         </KeyboardAvoidingView>
       </ScrollView>
-    );
+    )
   }
 }
 
@@ -92,4 +92,4 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     padding: (layout.padding / 2),
   },
-});
+})
