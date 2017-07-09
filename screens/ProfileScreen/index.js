@@ -40,8 +40,10 @@ export default class ProfileScreen extends React.Component {
   }
 
   render() {
+    console.log('this.state.storageSynced', this.state.storageSynced)
     if (this.state.storageSynced) {
       const userId = this.state.currentUser.slug
+      console.log('userId', userId)
       return (
         <ScrollView style={styles.container}>
           <ProfileContainerWithData userId={userId} />

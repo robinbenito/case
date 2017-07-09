@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
 export class ProfileContainer extends React.Component {
   constructor(props) {
     super(props)
+    console.log('ProfileContainer props', props)
     this.state = {
       type: 'Channels',
     }
@@ -81,10 +82,11 @@ const ProfileQuery = gql`
 `
 
 ProfileContainer.propTypes = {
-  data: propType(ProfileQuery).isRequired,
+  data: PropTypes.any.isRequired,
   userId: PropTypes.string.isRequired,
 }
 
 export const ProfileContainerWithData = graphql(ProfileQuery, {
   options: ({ userId }) => ({ variables: { userId } }),
 })(ProfileContainer)
+

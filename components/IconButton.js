@@ -59,6 +59,9 @@ export default class IconButton extends React.Component {
 IconButton.propTypes = {
   iconName: PropTypes.string.isRequired,
   buttonText: PropTypes.string.isRequired,
-  onPress: PropTypes.func.isRequired,
+  onPress: PropTypes.func,
 }
 
+IconButton.defaultProps = {
+  onPress: () => null,
+}

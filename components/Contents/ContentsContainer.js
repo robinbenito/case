@@ -141,13 +141,14 @@ const ContentsQuery = gql`
 `
 
 ContentsContainer.propTypes = {
-  data: propType(ContentsQuery).isRequired,
+  data: PropTypes.any.isRequired,
   loadMore: PropTypes.func.isRequired,
   type: PropTypes.string,
 }
 
 ContentsContainer.defaultProps = {
   type: 'channel',
+  page: 1,
 }
 
 const ContentsWithData = graphql(ContentsQuery, {
@@ -175,4 +176,6 @@ const ContentsWithData = graphql(ContentsQuery, {
   },
 })(ContentsContainer)
 
-export default withApollo(ContentsWithData)
+const ContentsWithDataWithApollo = withApollo(ContentsWithData)
+
+export default ContentsWithDataWithApollo

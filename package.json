@@ -14,7 +14,7 @@
     "@expo/ex-navigation": "^2.11.2",
     "@expo/samples": "~1.0.2",
     "@expo/vector-icons": "^5.0.0",
-    "apollo-client": "*",
+    "apollo-client": "^1.7.0",
     "eslint-config-airbnb": "^15.0.2",
     "expo": "^18.0.1",
     "graphql-anywhere": "^1.0.0",
@@ -32,6 +32,7 @@
     "tcomb-form-native": "^0.6.4"
   },
   "devDependencies": {
+    "eslint": "^3.19.0",
     "eslint-config-airbnb-base": "^11.2.0",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",

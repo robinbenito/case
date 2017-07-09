@@ -67,16 +67,16 @@ export default class ContentsList extends Component {
 }
 
 ContentsList.propTypes = {
-  onEndReached: PropTypes.function,
-  renderHeader: PropTypes.element,
+  onEndReached: PropTypes.func,
+  renderHeader: PropTypes.func,
   per: PropTypes.number,
-  contents: PropTypes.element,
+  contents: PropTypes.array,
   type: PropTypes.string,
 }
 
 ContentsList.defaultProps = {
   onEndReached: () => null,
-  renderHeader: PropTypes.element,
+  renderHeader: () => null,
   per: 10,
   contents: View,
   type: 'Channel',

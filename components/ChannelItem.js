@@ -101,7 +101,7 @@ ChannelItem.propTypes = {
   channel: PropTypes.shape({
     title: PropTypes.string,
     updated_at: PropTypes.string,
-    user: PropTypes.string,
-    kind: PropTypes.string,
+    user: PropTypes.any,
+    kind: PropTypes.any,
   }).isRequired,
 }
