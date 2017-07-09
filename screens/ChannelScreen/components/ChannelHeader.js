@@ -1,44 +1,16 @@
-import React, { Component } from 'react'
+import React from 'react'
 import {
   StyleSheet,
   View,
   Text,
-  Image,
-  SegmentedControlIOS,
-  ActivityIndicator,
+
 } from 'react-native'
+import PropTypes from 'prop-types'
 
 import UserNameText from '../../../components/UserNameText'
-import HTMLView from 'react-native-htmlview'
 
 import colors from '../../../constants/Colors'
 import layout from '../../../constants/Layout'
-
-export default class ChannelHeader extends Component {
-  render() {
-    const channel = this.props.channel
-
-    const textStyle = {
-      public: styles.channelPublic,
-      closed: styles.channelClosed,
-      private: styles.channelPrivate,
-    }[channel.visibility]
-
-    return (
-      <View style={styles.header}>
-        <View style={styles.innerHeader}>
-          <Text style={[styles.headerText, textStyle]}>
-            {channel.title}
-          </Text>
-          <View style={styles.collaborators}>
-            <Text style={textStyle}>by </Text>
-            <UserNameText style={textStyle} user={channel.user} />
-          </View>
-        </View>
-      </View>
-    )
-  }
-}
 
 const styles = StyleSheet.create({
   header: {
@@ -69,3 +41,35 @@ const styles = StyleSheet.create({
     color: colors.public,
   },
 })
+
+const ChannelHeader = ({ channel }) => {
+  const textStyle = {
+    public: styles.channelPublic,
+    closed: styles.channelClosed,
+    private: styles.channelPrivate,
+  }[channel.visibility]
+
+  return (
+    <View style={styles.header}>
+      <View style={styles.innerHeader}>
+        <Text style={[styles.headerText, textStyle]}>
+          {channel.title}
+        </Text>
+        <View style={styles.collaborators}>
+          <Text style={textStyle}>by </Text>
+          <UserNameText style={textStyle} user={channel.user} />
+        </View>
+      </View>
+    </View>
+  )
+}
+
+ChannelHeader.propTypes = {
+  channel: PropTypes.shape({
+    visibility: PropTypes.string,
+    title: PropTypes.string,
+    user: PropTypes.string,
+  }).isRequired,
+}
+
+export default ChannelHeader

@@ -1,12 +1,9 @@
 import React, { Component } from 'react'
+import { propType } from 'graphql-anywhere'
 import {
   View,
   StyleSheet,
-  ListView,
-  ActivityIndicator,
-  ScrollView,
   Text,
-  Image,
 } from 'react-native'
 
 import gql from 'graphql-tag'
@@ -14,13 +11,18 @@ import { graphql } from 'react-apollo'
 
 import ConnectionItem from './ConnectionItem'
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+})
+
 class RecentConnections extends Component {
   makeConnection(connection) {
-    console.log('make connection', connection)
+    return { obj: this, connection }
   }
 
   render() {
-    console.log('this.props.data', this.props.data)
     if (this.props.data && this.props.data.error) {
       return (
         <View>
@@ -59,12 +61,6 @@ class RecentConnections extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-})
-
 const RecentConnectionsQuery = gql`
   query RecentConnectionsQuery {
     me {
@@ -77,4 +73,10 @@ const RecentConnectionsQuery = gql`
   ${ConnectionItem.fragments.connection}
 `
 
-export const RecentConnectionsWithData = graphql(RecentConnectionsQuery)(RecentConnections)
+RecentConnections.propTypes = {
+  data: propType(RecentConnectionsQuery).isRequired,
+}
+
+const RecentConnectionsWithData = graphql(RecentConnectionsQuery)(RecentConnections)
+
+export default RecentConnectionsWithData

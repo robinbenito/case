@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import {
   TouchableHighlight,
   StyleSheet,
@@ -8,6 +9,19 @@ import {
 
 import gql from 'graphql-tag'
 import colors from '../constants/Colors'
+
+const styles = StyleSheet.create({
+  connection: {
+    display: 'flex',
+    flexDirection: 'row',
+    marginTop: -1,
+    borderColor: colors.gray.border,
+    borderWidth: 1,
+    backgroundColor: colors.gray.background,
+    padding: 10,
+    overflow: 'hidden',
+  },
+})
 
 export default class ConnectionItem extends Component {
   render() {
@@ -26,6 +40,14 @@ export default class ConnectionItem extends Component {
   }
 }
 
+ConnectionItem.propTypes = {
+  onPress: PropTypes.func.isRequired,
+  connection: PropTypes.shape({
+    title: PropTypes.string,
+    visibility: PropTypes.string,
+  }).isRequired,
+}
+
 ConnectionItem.fragments = {
   connection: gql`
     fragment Connection on Channel {
@@ -39,16 +61,3 @@ ConnectionItem.fragments = {
     }
   `,
 }
-
-const styles = StyleSheet.create({
-  connection: {
-    display: 'flex',
-    flexDirection: 'row',
-    marginTop: -1,
-    borderColor: colors.gray.border,
-    borderWidth: 1,
-    backgroundColor: colors.gray.background,
-    padding: 10,
-    overflow: 'hidden',
-  },
-})

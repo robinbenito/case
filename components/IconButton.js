@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import {
   StyleSheet,
   Text,
@@ -6,30 +7,9 @@ import {
   View,
 } from 'react-native'
 
-import { ImagePicker } from 'expo'
 import { Ionicons } from '@expo/vector-icons'
 
 import layout from '../constants/Layout'
-
-export default class IconButton extends React.Component {
-  render() {
-    const { iconName, buttonText, onPress } = this.props
-
-    return (
-      <TouchableHighlight style={styles.button} onPress={onPress}>
-        <View style={styles.buttonContainer}>
-          <Ionicons
-            name={iconName}
-            size={18}
-            color="black"
-            style={styles.buttonIcon}
-          />
-          <Text style={styles.buttonText}>{buttonText}</Text>
-        </View>
-      </TouchableHighlight>
-    )
-  }
-}
 
 const styles = StyleSheet.create({
   button: {
@@ -55,3 +35,30 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 })
+
+export default class IconButton extends React.Component {
+  render() {
+    const { iconName, buttonText, onPress } = this.props
+
+    return (
+      <TouchableHighlight style={styles.button} onPress={onPress}>
+        <View style={styles.buttonContainer}>
+          <Ionicons
+            name={iconName}
+            size={18}
+            color="black"
+            style={styles.buttonIcon}
+          />
+          <Text style={styles.buttonText}>{buttonText}</Text>
+        </View>
+      </TouchableHighlight>
+    )
+  }
+}
+
+IconButton.propTypes = {
+  iconName: PropTypes.string.isRequired,
+  buttonText: PropTypes.string.isRequired,
+  onPress: PropTypes.func.isRequired,
+}
+

@@ -1,57 +1,13 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import {
   StyleSheet,
   View,
   Text,
-  ListView,
   TouchableOpacity,
 } from 'react-native'
 
 import Colors from '../constants/Colors'
-
-export default class ChannelItem extends Component {
-  _onPressButton() {
-    this.props.navigator.push(Router.getRoute('channel', { id: this.props.channel.id }))
-  }
-
-  render() {
-    const containerStyle = {
-      public: styles.channelContainerPublic,
-      closed: styles.channelContainerClosed,
-      private: styles.channelContainerPrivate,
-    }[this.props.channel.kind.visibility]
-
-    const textStyle = {
-      public: styles.channelTitlePublic,
-      closed: styles.channelTitleClosed,
-      private: styles.channelTitlePrivate,
-    }[this.props.channel.kind.visibility]
-
-    const textColor = Colors[this.props.channel.kind.visibility]
-
-    return (
-      <TouchableOpacity onPress={this._onPressButton.bind(this)}>
-        <View style={[styles.channelContainer, containerStyle]}>
-          <Text style={[styles.channelTitle, textStyle]}>
-            {this.props.channel.title}
-          </Text>
-          <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
-            <View>
-              <Text style={{ fontSize: 12, color: textColor }}>
-                {this.props.channel.user.name}
-              </Text>
-            </View>
-            <View>
-              <Text style={{ fontSize: 12, color: textColor }}>
-                {this.props.channel.updated_at}
-              </Text>
-            </View>
-          </View>
-        </View>
-      </TouchableOpacity>
-    )
-  }
-}
 
 const styles = StyleSheet.create({
   channelContainer: {
@@ -90,3 +46,62 @@ const styles = StyleSheet.create({
     color: Colors.public,
   },
 })
+
+export default class ChannelItem extends Component {
+  constructor(props) {
+    super(props)
+    this.onPressButton = this.onPressButton.bind(this)
+  }
+
+  onPressButton() {
+    // this.props.navigator.push(Router.getRoute('channel', { id: this.props.channel.id }))
+    return this
+  }
+
+  render() {
+    const containerStyle = {
+      public: styles.channelContainerPublic,
+      closed: styles.channelContainerClosed,
+      private: styles.channelContainerPrivate,
+    }[this.props.channel.kind.visibility]
+
+    const textStyle = {
+      public: styles.channelTitlePublic,
+      closed: styles.channelTitleClosed,
+      private: styles.channelTitlePrivate,
+    }[this.props.channel.kind.visibility]
+
+    const textColor = Colors[this.props.channel.kind.visibility]
+
+    return (
+      <TouchableOpacity onPress={this.onPressButton}>
+        <View style={[styles.channelContainer, containerStyle]}>
+          <Text style={[styles.channelTitle, textStyle]}>
+            {this.props.channel.title}
+          </Text>
+          <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
+            <View>
+              <Text style={{ fontSize: 12, color: textColor }}>
+                {this.props.channel.user.name}
+              </Text>
+            </View>
+            <View>
+              <Text style={{ fontSize: 12, color: textColor }}>
+                {this.props.channel.updated_at}
+              </Text>
+            </View>
+          </View>
+        </View>
+      </TouchableOpacity>
+    )
+  }
+}
+
+ChannelItem.propTypes = {
+  channel: PropTypes.shape({
+    title: PropTypes.string,
+    updated_at: PropTypes.string,
+    user: PropTypes.string,
+    kind: PropTypes.string,
+  }).isRequired,
+}

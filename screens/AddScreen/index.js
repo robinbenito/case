@@ -1,19 +1,28 @@
 import React from 'react'
 import {
-  Button,
-  Image,
-  ScrollView,
   StyleSheet,
-  Text,
-  TouchableHighlight,
   View,
 } from 'react-native'
 
 import { ImagePicker } from 'expo'
 import IconButton from '../../components/IconButton'
-import ConnectScreen from './components/ConnectScreen'
 
 import layout from '../../constants/Layout'
+
+const styles = StyleSheet.create({
+  menuContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: layout.padding,
+    backgroundColor: '#fff',
+  },
+  contentContainer: {
+    paddingTop: (layout.padding * 4),
+    alignItems: 'center',
+  },
+})
+
 
 export default class AddScreen extends React.Component {
   constructor(props) {
@@ -39,8 +48,7 @@ export default class AddScreen extends React.Component {
       }
     }
 
-    const { text, image } = this.state
-    const showConnect = text || image
+    // const { text, image } = this.state
 
     return (
       <View style={styles.menuContainer}>
@@ -62,17 +70,3 @@ export default class AddScreen extends React.Component {
     )
   }
 }
-
-const styles = StyleSheet.create({
-  menuContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: layout.padding,
-    backgroundColor: '#fff',
-  },
-  contentContainer: {
-    paddingTop: (layout.padding * 4),
-    alignItems: 'center',
-  },
-})

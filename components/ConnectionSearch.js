@@ -1,18 +1,22 @@
 import React, { Component } from 'react'
+import { propType } from 'graphql-anywhere'
+import PropTypes from 'prop-types'
 import {
   View,
   StyleSheet,
-  ListView,
-  ActivityIndicator,
-  ScrollView,
   Text,
-  Image,
 } from 'react-native'
 
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 
 import ConnectionItem from './ConnectionItem'
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+})
 
 class ConnectionSearch extends Component {
   shouldComponentUpdate(newProps) {
@@ -61,12 +65,6 @@ class ConnectionSearch extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-})
-
 const ConnectionSearchQuery = gql`
   query ConnectionSearchQuery($q: String!) {
     me {
@@ -79,8 +77,12 @@ const ConnectionSearchQuery = gql`
   ${ConnectionItem.fragments.connection}
 `
 
-export const ConnectionSearchWithData = graphql(ConnectionSearchQuery)(ConnectionSearch)
+ConnectionSearch.propTypes = {
+  data: propType(ConnectionSearchQuery).isRequired,
+  q: PropTypes.string.isRequired,
+}
 
-const ProfileWithData = graphql(ConnectionSearchQuery, {
-  options: ({ q }) => ({ variables: { q } }),
-})(ConnectionSearch)
+
+const ConnectionSearchWithData = graphql(ConnectionSearchQuery)(ConnectionSearch)
+
+export default ConnectionSearchWithData

@@ -1,26 +1,8 @@
 import React from 'react'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import PropTypes from 'prop-types'
+import { StyleSheet, Text, TouchableOpacity } from 'react-native'
 
 import layout from '../constants/Layout'
-
-export default class UserNameText extends React.Component {
-  render() {
-    return (
-      <TouchableOpacity onPress={this.goToProfile}>
-        <Text
-          style={[styles.text, this.props.style]}
-          onPress={this._goToProfile}
-        >
-          {this.props.user.name}
-        </Text>
-      </TouchableOpacity>
-    )
-  }
-
-  goToProfile() {
-    this.props.navigator.push(Router.getRoute('profile', { id: this.props.user.slug }))
-  }
-}
 
 const styles = StyleSheet.create({
   container: {
@@ -33,3 +15,28 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 })
+
+export default class UserNameText extends React.Component {
+  goToProfile() {
+    // this.props.navigator.push(Router.getRoute('profile', { id: this.props.user.slug }))
+    return this
+  }
+  render() {
+    return (
+      <TouchableOpacity onPress={this.goToProfile}>
+        <Text
+          style={styles.text}
+          onPress={this.goToProfile}
+        >
+          {this.props.user.name}
+        </Text>
+      </TouchableOpacity>
+    )
+  }
+}
+
+UserNameText.propTypes = {
+  user: PropTypes.shape({
+    name: PropTypes.string,
+  }).isRequired,
+}

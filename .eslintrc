@@ -4,6 +4,7 @@
     "semi": [1, "never"],
     "no-extra-semi": "warn",
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
-    "react/no-string-refs": 0
+    "react/no-string-refs": 0,
+    "react/prefer-stateless-function": 0
   }
 }

@@ -1,22 +1,21 @@
 import React from 'react'
 import { StackNavigator, TabNavigator } from 'react-navigation'
+import { Ionicons } from '@expo/vector-icons'
+import PropTypes from 'prop-types'
 
-import HomeScreen from '../screens/HomeScreen.js'
-import AddScreen from '../screens/AddScreen/index'
-import ProfileScreen from '../screens/ProfileScreen/index'
-import ChannelScreen from '../screens/ChannelScreen/index'
+import HomeScreen from '../screens/HomeScreen'
+import AddScreen from '../screens/AddScreen'
+import ProfileScreen from '../screens/ProfileScreen'
+// import ChannelScreen from '../screens/ChannelScreen/index'
 import LoginScreen from '../screens/LoginScreen'
 
-import { Ionicons } from '@expo/vector-icons'
 import colors from '../constants/Colors'
-import {
-  Text,
-} from 'react-native'
+
 
 const ProfileStack = StackNavigator({
   profile: {
     screen: ProfileScreen,
-    navigationOptions: ({ navigation }) => ({
+    navigationOptions: () => ({
       title: 'Profile',
       headerStyle: {
         backgroundColor: '#fff',
@@ -28,14 +27,14 @@ const ProfileStack = StackNavigator({
   },
 })
 
-const AddStack = StackNavigator({
-  choose: {
-    screen: ChooseScreen,
-  },
-  connect: {
-    screen: ConnectScreen,
-  },
-})
+// const AddStack = StackNavigator({
+//   choose: {
+//     screen: ChooseScreen,
+//   },
+//   connect: {
+//     screen: ConnectScreen,
+//   },
+// })
 
 const tabs = {
   home: {
@@ -48,7 +47,7 @@ const tabs = {
     },
   },
   add: {
-    screen: AddStack,
+    screen: AddScreen,
     navigationOptions: {
       tabBarLabel: 'Add',
       tabBarIcon: props => (
@@ -67,6 +66,7 @@ const tabs = {
     },
   },
 }
+
 const tabOptions = {
   initialRouteName: 'home',
   tabBarOptions: {
@@ -85,10 +85,20 @@ const tabOptions = {
 
 export const MainNav = TabNavigator(tabs, tabOptions)
 
+tabs.home.navigationOptions.tabBarIcon.propTypes = {
+  tintColor: PropTypes.string.isRequired,
+}
+tabs.add.navigationOptions.tabBarIcon.propTypes = {
+  tintColor: PropTypes.string.isRequired,
+}
+tabs.profile.navigationOptions.tabBarIcon.propTypes = {
+  tintColor: PropTypes.string.isRequired,
+}
+
 export const createRootNavigator = (loggedIn = false) => StackNavigator({
   login: {
     screen: LoginScreen,
-    navigationOptions: ({ navigation }) => ({
+    navigationOptions: () => ({
       header: null,
       headerStyle: {
         backgroundColor: '#fff',

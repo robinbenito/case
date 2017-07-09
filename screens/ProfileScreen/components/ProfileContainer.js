@@ -12,7 +12,7 @@ import {
 } from 'react-native'
 
 import ProfileHeader from './ProfileHeader'
-import { ContentsWithData } from '../../../components/Contents/ContentsContainer'
+import ContentsWithData from '../../../components/Contents/ContentsContainer'
 import layout from '../../../constants/Layout'
 
 const styles = StyleSheet.create({

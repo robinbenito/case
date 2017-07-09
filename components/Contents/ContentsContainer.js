@@ -122,7 +122,7 @@ const ContentsQuery = gql`
       }
       klass
       kind {
-        __typename
+        type: __typename
         ... on Text {
           content
         }
