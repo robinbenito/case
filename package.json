@@ -5,6 +5,7 @@
   "author": "Are.na",
   "main": "main.js",
   "scripts": {
+    "lint": "eslint ./ --fix",
     "test": "jest"
   },
   "jest": {

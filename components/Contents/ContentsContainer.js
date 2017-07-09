@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import gql from 'graphql-tag'
 import { graphql, withApollo } from 'react-apollo'
-import { propType } from 'graphql-anywhere'
 
 import {
   View,

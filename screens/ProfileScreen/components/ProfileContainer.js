@@ -1,7 +1,6 @@
 import React from 'react'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
-import { propType } from 'graphql-anywhere'
 import PropTypes from 'prop-types'
 
 import {
@@ -30,7 +29,6 @@ const styles = StyleSheet.create({
 export class ProfileContainer extends React.Component {
   constructor(props) {
     super(props)
-    console.log('ProfileContainer props', props)
     this.state = {
       type: 'Channels',
     }
