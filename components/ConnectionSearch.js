@@ -25,7 +25,7 @@ class ConnectionSearch extends Component {
   }
 
   render() {
-    const { q } = this.props
+    const { q, onSelectConnection } = this.props
 
     if (this.props.data && this.props.data.error) {
       return (
@@ -51,7 +51,7 @@ class ConnectionSearch extends Component {
       connections.push(
         <ConnectionItem
           connection={connection}
-          onPress={this.makeConnection}
+          onPress={onSelectConnection}
           key={connection.id}
         />,
       ),
@@ -78,8 +78,13 @@ const ConnectionSearchQuery = gql`
 `
 
 ConnectionSearch.propTypes = {
-  data: propType(ConnectionSearchQuery).isRequired,
+  data: PropTypes.any.isRequired,
   q: PropTypes.string.isRequired,
+  onSelectConnection: PropTypes.func,
+}
+
+ConnectionSearch.defaultProps = {
+  onSelectConnection: () => null,
 }
 
 

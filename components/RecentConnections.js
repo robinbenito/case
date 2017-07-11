@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { propType } from 'graphql-anywhere'
+import PropTypes from 'prop-types'
 import {
   View,
   StyleSheet,
@@ -11,6 +12,8 @@ import { graphql } from 'react-apollo'
 
 import ConnectionItem from './ConnectionItem'
 
+import layout from '../constants/Layout'
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -18,12 +21,10 @@ const styles = StyleSheet.create({
 })
 
 class RecentConnections extends Component {
-  makeConnection(connection) {
-    return { obj: this, connection }
-  }
-
   render() {
-    if (this.props.data && this.props.data.error) {
+    const { data, onSelectConnection } = this.props
+
+    if (data && data.error) {
       return (
         <View>
           <Text>
@@ -33,7 +34,7 @@ class RecentConnections extends Component {
       )
     }
 
-    if (this.props.data && this.props.data.loading) {
+    if (data && data.loading) {
       return (
         <View>
           <Text>Loading</Text>
@@ -43,11 +44,11 @@ class RecentConnections extends Component {
 
     const connections = []
 
-    this.props.data.me.recent_connections.forEach(connection =>
+    data.me.recent_connections.forEach(connection =>
       connections.push(
         <ConnectionItem
           connection={connection}
-          onPress={this.makeConnection}
+          onPress={onSelectConnection}
           key={connection.id}
         />,
       ),
@@ -74,7 +75,12 @@ const RecentConnectionsQuery = gql`
 `
 
 RecentConnections.propTypes = {
-  data: propType(RecentConnectionsQuery).isRequired,
+  data: PropTypes.any.isRequired,
+  onSelectConnection: PropTypes.func,
+}
+
+RecentConnections.defaultProps = {
+  onSelectConnection: () => null,
 }
 
 const RecentConnectionsWithData = graphql(RecentConnectionsQuery)(RecentConnections)

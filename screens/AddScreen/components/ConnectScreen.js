@@ -7,11 +7,11 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  TextInput,
 } from 'react-native'
 
-import { RecentConnectionsWithData } from '../../../components/RecentConnections'
-import { ConnectionSearchWithData } from '../../../components/ConnectionSearch'
+import RecentConnectionsWithData from '../../../components/RecentConnections'
+import ConnectionSearchWithData from '../../../components/ConnectionSearch'
+import SearchField from '../../../components/SearchField'
 
 import colors from '../../../constants/Colors'
 import layout from '../../../constants/Layout'
@@ -20,6 +20,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: layout.padding,
+    backgroundColor: '#fff',
   },
   label: {
     fontSize: 12,
@@ -28,25 +29,24 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   input: {
-    borderRadius: 0.125,
-    fontSize: 12,
     backgroundColor: '#f7f7f7',
     color: '#585858',
     borderColor: '#cbcbcb',
     borderWidth: 1,
-    height: 40,
-    marginTop: 20,
-    marginBottom: 20,
-    padding: (layout.padding / 2),
   },
 })
 
 export default class ConnectScreen extends React.Component {
   constructor(props) {
     super(props)
+
+    const { image, text } = props.navigation.state.params
     this.state = {
       isSearching: false,
       q: null,
+      connections: [],
+      image,
+      text,
     }
   }
 
@@ -58,9 +58,8 @@ export default class ConnectScreen extends React.Component {
   }
 
   render() {
-    const { text, image } = this.props
     const { width } = Dimensions.get('window')
-    const { search } = this.state
+    const { search, text, image } = this.state
 
     const imageStyle = {
       width: width - (layout.padding * 2),
@@ -72,8 +71,8 @@ export default class ConnectScreen extends React.Component {
     }
 
     const ConnectionContent = this.state.isSearching ?
-      <ConnectionSearchWithData q={search} /> :
-      <RecentConnectionsWithData />
+      <ConnectionSearchWithData q={search} onSelectConnection={this.onSelectConnection} /> :
+      <RecentConnectionsWithData onSelectConnection={this.onSelectConnection} />
 
     return (
       <ScrollView>
@@ -83,10 +82,9 @@ export default class ConnectScreen extends React.Component {
             source={{ uri: image }}
             style={imageStyle}
           />
-          <TextInput
+          <SearchField
             style={styles.input}
             onChangeText={t => this.search(t)}
-            autoCapitalize="none"
           />
           <Text style={styles.label}>Recent channels</Text>
           {ConnectionContent}
@@ -97,11 +95,8 @@ export default class ConnectScreen extends React.Component {
 }
 
 ConnectScreen.propTypes = {
-  text: PropTypes.string,
-  image: PropTypes.string,
-}
-
-ConnectScreen.defaultProps = {
-  text: null,
-  image: null,
+  navigation: PropTypes.shape({
+    dispatch: PropTypes.func,
+    state: PropTypes.any,
+  }).isRequired,
 }

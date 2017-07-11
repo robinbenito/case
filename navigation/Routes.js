@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 
 import HomeScreen from '../screens/HomeScreen'
 import AddScreen from '../screens/AddScreen'
+import ConnectScreen from '../screens/AddScreen/components/ConnectScreen'
 import ProfileScreen from '../screens/ProfileScreen'
 // import ChannelScreen from '../screens/ChannelScreen/index'
 import LoginScreen from '../screens/LoginScreen'
@@ -27,14 +28,18 @@ const ProfileStack = StackNavigator({
   },
 })
 
-// const AddStack = StackNavigator({
-//   choose: {
-//     screen: ChooseScreen,
-//   },
-//   connect: {
-//     screen: ConnectScreen,
-//   },
-// })
+const AddStack = StackNavigator({
+  add: {
+    screen: AddScreen,
+  },
+  connect: {
+    screen: ConnectScreen,
+  },
+}, {
+  navigationOptions: {
+    header: null,
+  },
+})
 
 const tabs = {
   home: {
@@ -47,7 +52,7 @@ const tabs = {
     },
   },
   add: {
-    screen: AddScreen,
+    screen: AddStack,
     navigationOptions: {
       tabBarLabel: 'Add',
       tabBarIcon: props => (

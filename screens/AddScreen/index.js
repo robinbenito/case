@@ -1,10 +1,12 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import {
   StyleSheet,
   View,
 } from 'react-native'
 
 import { ImagePicker } from 'expo'
+import { NavigationActions } from 'react-navigation'
 import IconButton from '../../components/IconButton'
 
 import layout from '../../constants/Layout'
@@ -33,11 +35,23 @@ export default class AddScreen extends React.Component {
     }
   }
 
+  navigateToConnect() {
+    const { text, image } = this.state
+
+    const navigateAction = NavigationActions.navigate({
+      routeName: 'connect',
+      params: { text, image },
+    })
+
+    this.props.navigation.dispatch(navigateAction)
+  }
+
   render() {
     const showCamera = async () => {
       const result = await ImagePicker.launchCameraAsync({})
       if (!result.cancelled) {
         this.setState({ image: result.uri })
+        this.navigateToConnect()
       }
     }
 
@@ -45,11 +59,10 @@ export default class AddScreen extends React.Component {
       const result = await ImagePicker.launchImageLibraryAsync({})
       if (!result.cancelled) {
         this.setState({ image: result.uri })
+        this.navigateToConnect()
       }
     }
-
-    // const { text, image } = this.state
-
+    
     return (
       <View style={styles.menuContainer}>
         <IconButton
@@ -69,4 +82,10 @@ export default class AddScreen extends React.Component {
       </View>
     )
   }
+}
+
+AddScreen.propTypes = {
+  navigation: PropTypes.shape({
+    dispatch: PropTypes.func,
+  }).isRequired,
 }
