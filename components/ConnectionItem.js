@@ -22,6 +22,14 @@ const styles = StyleSheet.create({
     backgroundColor: colors.gray.background,
     padding: 10,
     overflow: 'hidden',
+    justifyContent: 'space-between',
+  },
+  text: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  icon: {
+    alignSelf: 'flex-end',
   },
   isSelected: {
     backgroundColor: '#fff',
@@ -38,12 +46,11 @@ export default class ConnectionItem extends Component {
   }
 
   onPress() {
-    this.setState({
-      isSelected: !this.state.isSelected,
-    })
+    const isSelected = !this.state.isSelected
+    this.setState({ isSelected })
 
-    const { onPress, connection } = this.props
-    onPress(connection)
+    const { onToggleConnection, connection } = this.props
+    onToggleConnection(connection, isSelected)
   }
 
   render() {
@@ -52,18 +59,21 @@ export default class ConnectionItem extends Component {
 
     const selectedIcon = this.state.isSelected ? (
       <Ionicons
-        name="ios-checkmark"
+        name="ios-checkmark-circle"
         size={18}
-        color="black"
+        color={colors.gray.light}
+        style={styles.icon}
       />
     ) : null
 
     return (
       <TouchableHighlight onPress={this.onPress}>
         <View style={styles.connection}>
-          <Text style={{ color: colors.gray.text }}>{connection.user.name}</Text>
-          <Text style={{ color: colors.gray.text }} > / </Text>
-          <Text style={{ color }}>{connection.title}</Text>
+          <View style={styles.text}>
+            <Text style={{ color: colors.gray.text }}>{connection.user.name}</Text>
+            <Text style={{ color: colors.gray.text }} > / </Text>
+            <Text style={{ color }}>{connection.title}</Text>
+          </View>
           {selectedIcon}
         </View>
       </TouchableHighlight>
@@ -72,7 +82,7 @@ export default class ConnectionItem extends Component {
 }
 
 ConnectionItem.propTypes = {
-  onPress: PropTypes.func.isRequired,
+  onToggleConnection: PropTypes.func.isRequired,
   connection: PropTypes.shape({
     title: PropTypes.string,
     visibility: PropTypes.string,

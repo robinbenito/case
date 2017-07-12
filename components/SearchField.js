@@ -6,19 +6,9 @@ import {
   View,
 } from 'react-native'
 
-import { Ionicons } from '@expo/vector-icons'
-
 import layout from '../constants/Layout'
 
 const styles = StyleSheet.create({
-  container: {
-    position: 'relative',
-  },
-  icon: {
-    position: 'absolute',
-    right: 0,
-    top: 0,
-  },
   input: {
     borderRadius: 0.125,
     fontSize: 12,
@@ -52,7 +42,7 @@ export default class SearchField extends React.Component {
     const { search } = this.state
 
     return (
-      <View style={styles.container}>
+      <View>
         <TextInput
           style={[styles.input, style]}
           onChangeText={t => this.onChangeText(t)}

@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { propType } from 'graphql-anywhere'
 import PropTypes from 'prop-types'
 import {
   View,
@@ -12,8 +11,6 @@ import { graphql } from 'react-apollo'
 
 import ConnectionItem from './ConnectionItem'
 
-import layout from '../constants/Layout'
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -22,7 +19,7 @@ const styles = StyleSheet.create({
 
 class RecentConnections extends Component {
   render() {
-    const { data, onSelectConnection } = this.props
+    const { data, onToggleConnection } = this.props
 
     if (data && data.error) {
       return (
@@ -48,7 +45,7 @@ class RecentConnections extends Component {
       connections.push(
         <ConnectionItem
           connection={connection}
-          onPress={onSelectConnection}
+          onToggleConnection={onToggleConnection}
           key={connection.id}
         />,
       ),
@@ -76,11 +73,11 @@ const RecentConnectionsQuery = gql`
 
 RecentConnections.propTypes = {
   data: PropTypes.any.isRequired,
-  onSelectConnection: PropTypes.func,
+  onToggleConnection: PropTypes.func,
 }
 
 RecentConnections.defaultProps = {
-  onSelectConnection: () => null,
+  onToggleConnection: () => null,
 }
 
 const RecentConnectionsWithData = graphql(RecentConnectionsQuery)(RecentConnections)

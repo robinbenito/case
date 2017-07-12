@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { propType } from 'graphql-anywhere'
 import PropTypes from 'prop-types'
 import {
   View,
@@ -25,7 +24,7 @@ class ConnectionSearch extends Component {
   }
 
   render() {
-    const { q, onSelectConnection } = this.props
+    const { q, onToggleConnection } = this.props
 
     if (this.props.data && this.props.data.error) {
       return (
@@ -51,7 +50,7 @@ class ConnectionSearch extends Component {
       connections.push(
         <ConnectionItem
           connection={connection}
-          onPress={onSelectConnection}
+          onToggleConnection={onToggleConnection}
           key={connection.id}
         />,
       ),
@@ -80,11 +79,11 @@ const ConnectionSearchQuery = gql`
 ConnectionSearch.propTypes = {
   data: PropTypes.any.isRequired,
   q: PropTypes.string.isRequired,
-  onSelectConnection: PropTypes.func,
+  onToggleConnection: PropTypes.func,
 }
 
 ConnectionSearch.defaultProps = {
-  onSelectConnection: () => null,
+  onToggleConnection: () => null,
 }
 
 

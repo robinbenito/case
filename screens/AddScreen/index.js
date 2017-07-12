@@ -62,7 +62,7 @@ export default class AddScreen extends React.Component {
         this.navigateToConnect()
       }
     }
-    
+
     return (
       <View style={styles.menuContainer}>
         <IconButton
