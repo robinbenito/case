@@ -1,51 +1,19 @@
-import React from 'react';
+import React from 'react'
+import gql from 'graphql-tag'
+import { graphql } from 'react-apollo'
+import { propType } from 'graphql-anywhere'
+
 import {
   ActivityIndicator,
   StyleSheet,
   ScrollView,
   Text,
-  View
-} from 'react-native';
+  View,
+} from 'react-native'
 
-import ChannelHeader from './ChannelHeader';
+import ChannelHeader from './ChannelHeader'
 import { ContentsWithData } from '../../../components/Contents/ContentsContainer'
-
-import gql from 'graphql-tag';
-import { graphql } from 'react-apollo';
-
-export default class ChannelContainer extends React.Component {
-
-  render() {
-    if (this.props.data.error) {
-      return (
-        <View style={styles.loadingContainer} >
-          <Text>
-            Channel not found
-          </Text>
-        </View>
-      );
-    }
-    
-    if (this.props.data.loading) {
-      return (
-        <View style={styles.loadingContainer} >
-          <ActivityIndicator />
-        </View>
-      );
-    }
-    return (
-      <ScrollView style={styles.container}>
-        <ChannelHeader channel={this.props.data.channel} /> 
-        <ContentsWithData 
-          objectId={this.props.data.channel.slug} 
-          objectType="CHANNEL" 
-          type="block"
-          page={1}
-        />
-      </ScrollView>
-    )
-  }
-}
+import layout from '../../../constants/Layout'
 
 const styles = StyleSheet.create({
   container: {
@@ -55,9 +23,42 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 20
+    padding: layout.padding,
   },
-});
+})
+
+export default class ChannelContainer extends React.Component {
+  render() {
+    if (this.props.data.error) {
+      return (
+        <View style={styles.loadingContainer} >
+          <Text>
+            Channel not found
+          </Text>
+        </View>
+      )
+    }
+
+    if (this.props.data.loading) {
+      return (
+        <View style={styles.loadingContainer} >
+          <ActivityIndicator />
+        </View>
+      )
+    }
+    return (
+      <ScrollView style={styles.container}>
+        <ChannelHeader channel={this.props.data.channel} />
+        <ContentsWithData
+          objectId={this.props.data.channel.slug}
+          objectType="CHANNEL"
+          type="block"
+          page={1}
+        />
+      </ScrollView>
+    )
+  }
+}
 
 const ChannelQuery = gql`
   query ChannelQuery($id: ID!){
@@ -82,4 +83,8 @@ const ChannelQuery = gql`
   }
 `
 
-export const ChannelContainerWithData = graphql(ChannelQuery)(ChannelContainer);
+ChannelContainer.propTypes = {
+  data: propType(ChannelQuery).isRequired,
+}
+
+export const ChannelContainerWithData = graphql(ChannelQuery)(ChannelContainer)

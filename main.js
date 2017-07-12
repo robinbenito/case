@@ -1,103 +1,20 @@
-import Expo from 'expo';
-import React from 'react';
+import Expo from 'expo'
+import React from 'react'
 import {
   AsyncStorage,
-  AppRegistry,
-  Platform,
-  StatusBar,
   StyleSheet,
   View,
-} from 'react-native';
-import {
-  NavigationContext,
-  NavigationProvider,
-  StackNavigation,
-} from '@expo/ex-navigation';
-import {
-  FontAwesome,
-} from '@expo/vector-icons';
+} from 'react-native'
+import { ApolloProvider } from 'react-apollo'
 
-import { ApolloProvider } from 'react-apollo';
-import Store from './state/Store';
-import Client from './state/Apollo';
+import { createRootNavigator } from './navigation/Routes'
 
-import Router from './navigation/Router';
-import cacheAssetsAsync from './utilities/cacheAssetsAsync';
+import Store from './state/Store'
+import Client from './state/Apollo'
 
-const navigationContext = new NavigationContext({
-  router: Router,
-  store: Store,
-});
+import cacheAssetsAsync from './utilities/cacheAssetsAsync'
 
-class AppContainer extends React.Component {
-  state = {
-    assetsLoaded: false,
-    storageChecked: false,
-  }
-
-  componentWillMount() {
-    this._loadAssetsAsync();
-    this._checkLoginStateAsync();
-  }
-
-  async _loadAssetsAsync() {
-    try {
-      await cacheAssetsAsync({
-        images: [
-          require('./assets/images/logo.png'),
-        ],
-      });
-    } catch(e) {
-      console.warn(
-        'There was an error caching assets (see: main.js), perhaps due to a ' +
-        'network timeout, so we skipped caching. Reload the app to try again.'
-      );
-      console.log(e.message);
-    } finally {
-      this.setState({ assetsLoaded: true });
-    }
-  }
-
-  async _checkLoginStateAsync() {
-    try {
-      const currentUser = await AsyncStorage.getItem('@arena:CurrentUser');
-      this.setState({ loggedIn: currentUser !== null, storageChecked: true })
-    } catch (e) {
-      console.warn('Error fetching currentUser from localStorage')
-      this.setState({ loggedIn: false, storageChecked: true });
-    } 
-  }
-
-  render() {
-    if (this.state.assetsLoaded && this.state.storageChecked) {
-      let initialRoute;
-      let { notification } = this.props.exp;
-
-      if (this.state.loggedIn) {
-        initialRoute = Router.getRoute('rootNavigation', { notification });
-      } else {
-        initialRoute = Router.getRoute('login');
-      }
-
-      return (
-        <View style={styles.container}>
-          <ApolloProvider store={Store} client={Client}>
-            <NavigationProvider context={navigationContext}>
-              <StackNavigation id="root" initialRoute={initialRoute} />
-            </NavigationProvider>
-          </ApolloProvider>
-
-          {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-          {Platform.OS === 'android' && <View style={styles.statusBarUnderlay} />}
-        </View>
-      );
-    } else {
-      return (
-        <Expo.AppLoading />
-      );
-    }
-  }
-}
+const logo = require('./assets/images/logo.png')
 
 const styles = StyleSheet.create({
   container: {
@@ -107,10 +24,58 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
   },
-  statusBarUnderlay: {
-    height: 24,
-    backgroundColor: 'rgba(0,0,0,0.2)',
-  },
-});
+})
 
-Expo.registerRootComponent(AppContainer);
+class AppContainer extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      assetsLoaded: false,
+      storageChecked: false,
+    }
+  }
+
+  componentWillMount() {
+    this.loadAssetsAsync()
+    this.checkLoginStateAsync()
+  }
+
+  async loadAssetsAsync() {
+    try {
+      await cacheAssetsAsync({
+        images: [
+          logo,
+        ],
+      })
+    } finally {
+      this.setState({ assetsLoaded: true })
+    }
+  }
+
+  async checkLoginStateAsync() {
+    try {
+      const currentUser = await AsyncStorage.getItem('@arena:CurrentUser')
+      this.setState({ loggedIn: currentUser !== null, storageChecked: true })
+    } catch (e) {
+      this.setState({ loggedIn: false, storageChecked: true })
+    }
+  }
+
+  render() {
+    if (this.state.assetsLoaded && this.state.storageChecked) {
+      const Navigation = createRootNavigator(this.state.loggedIn)
+      return (
+        <View style={styles.container}>
+          <ApolloProvider store={Store} client={Client}>
+            <Navigation />
+          </ApolloProvider>
+        </View>
+      )
+    }
+    return (
+      <Expo.AppLoading />
+    )
+  }
+}
+
+Expo.registerRootComponent(AppContainer)

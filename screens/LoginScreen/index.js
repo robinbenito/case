@@ -1,26 +1,45 @@
-import React from 'react';
+import React from 'react'
 import {
   Image,
   StyleSheet,
   KeyboardAvoidingView,
-} from 'react-native';
+} from 'react-native'
+import PropTypes from 'prop-types'
 
-import { NavigationActions, withNavigation } from '@expo/ex-navigation';
-import Store from '../../state/Store';
-import Router from '../../navigation/Router';
-import { LoginWithData } from './components/LoginWithData';
+import { NavigationActions } from 'react-navigation'
+import LoginWithData from './components/LoginWithData'
 
-@withNavigation
+const logo = require('../../assets/images/logo.png')
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
+    backgroundColor: '#fff',
+  },
+  logo: {
+    width: 100,
+    height: 100,
+  },
+})
+
+
 export default class LoginScreen extends React.Component {
-  static route = {
-    navigationBar: {
-      visible: false
-    }
+  constructor(props) {
+    super(props)
+    this.resetStack = this.resetStack.bind(this)
   }
 
-  _resetStack() {
-    let navigatorUID = this.props.navigation.getCurrentNavigatorUID(); 
-    Store.dispatch(NavigationActions.replace(navigatorUID, Router.getRoute("rootNavigation")));
+  resetStack() {
+    const resetAction = NavigationActions.reset({
+      index: 0,
+      actions: [
+        NavigationActions.navigate({ routeName: 'main' }),
+      ],
+    })
+    this.props.navigation.dispatch(resetAction)
   }
 
   render() {
@@ -28,23 +47,16 @@ export default class LoginScreen extends React.Component {
       <KeyboardAvoidingView behavior="padding" style={styles.container}>
         <Image
           style={styles.logo}
-          source={require('../../assets/images/logo.png')}
+          source={logo}
         />
-        <LoginWithData onLogin={this._resetStack.bind(this)} />
+        <LoginWithData onLogin={this.resetStack} />
       </KeyboardAvoidingView>
     )
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center', 
-    justifyContent: 'center',
-    padding: 20
-  },
-  logo: {
-    width: 100,
-    height: 100,
-  },
-});
+LoginScreen.propTypes = {
+  navigation: PropTypes.shape({
+    dispatch: PropTypes.func,
+  }).isRequired,
+}

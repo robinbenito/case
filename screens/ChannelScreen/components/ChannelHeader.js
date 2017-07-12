@@ -1,70 +1,75 @@
-import React, { Component } from 'react';
+import React from 'react'
 import {
   StyleSheet,
   View,
   Text,
-  Image,
-  SegmentedControlIOS,
-  ActivityIndicator
-} from 'react-native';
+
+} from 'react-native'
+import PropTypes from 'prop-types'
 
 import UserNameText from '../../../components/UserNameText'
-import HTMLView from 'react-native-htmlview';
 
-import Colors from '../../../constants/Colors';
-
-export default class ChannelHeader extends Component {
-  render() {
-    const channel = this.props.channel;
-
-    const textStyle = {
-      'public': styles.channelPublic,
-      'closed': styles.channelClosed,
-      'private': styles.channelPrivate,
-    }[channel.visibility];
-
-    return (
-      <View style={styles.header}>
-        <View style={styles.innerHeader}>
-          <Text style={[styles.headerText, textStyle]}>
-            {channel.title}
-          </Text>
-          <View style={styles.collaborators}>
-            <Text style={textStyle}>by </Text>
-            <UserNameText style={textStyle} user={channel.user} />
-          </View>
-        </View>
-      </View>
-    );
-  }
-}
+import colors from '../../../constants/Colors'
+import layout from '../../../constants/Layout'
 
 const styles = StyleSheet.create({
   header: {
-    padding: 20,
-    paddingBottom: 0
+    padding: layout.padding,
+    paddingBottom: 0,
   },
   innerHeader: {
     borderBottomColor: '#eee',
     borderBottomWidth: 1,
-    marginBottom: 20,
-    minHeight: 100
+    marginBottom: layout.padding,
+    minHeight: 100,
   },
   headerText: {
     fontSize: 24,
     fontWeight: 'bold',
-    paddingBottom: 20
+    paddingBottom: layout.padding,
   },
   collaborators: {
     flexDirection: 'row',
   },
   channelPrivate: {
-    color: Colors.private
-  }, 
+    color: colors.private,
+  },
   channelClosed: {
-    color: Colors.closed,
-  }, 
+    color: colors.closed,
+  },
   channelPublic: {
-    color: Colors.public,
-  },  
-});
+    color: colors.public,
+  },
+})
+
+const ChannelHeader = ({ channel }) => {
+  const textStyle = {
+    public: styles.channelPublic,
+    closed: styles.channelClosed,
+    private: styles.channelPrivate,
+  }[channel.visibility]
+
+  return (
+    <View style={styles.header}>
+      <View style={styles.innerHeader}>
+        <Text style={[styles.headerText, textStyle]}>
+          {channel.title}
+        </Text>
+        <View style={styles.collaborators}>
+          <Text style={textStyle}>by </Text>
+          <UserNameText style={textStyle} user={channel.user} />
+        </View>
+      </View>
+    </View>
+  )
+}
+
+ChannelHeader.propTypes = {
+  channel: PropTypes.shape({
+    visibility: PropTypes.string,
+    title: PropTypes.string,
+    user: PropTypes.string,
+  }).isRequired,
+}
+
+export default ChannelHeader

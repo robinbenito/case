@@ -1,19 +1,18 @@
-import React from 'react';
-import {
-  StyleSheet,
-  ScrollView,
-  View
-} from 'react-native';
+import React from 'react'
+import PropTypes from 'prop-types'
 
 import BackButton from '../../components/BackButton'
-import { ChannelContainerWithData } from './components/ChannelContainer';
+import { ChannelContainerWithData } from './components/ChannelContainer'
 
 export default class ChannelScreen extends React.Component {
-  static route = {
-    navigationBar: {
-      title: "Channel",
-      backgroundColor: "rgba(255, 255, 255, 0.1)",
-      renderLeft: () => { return (<BackButton />) }
+  constructor(props) {
+    super(props)
+    this.route = {
+      navigationBar: {
+        title: 'Channel',
+        backgroundColor: 'rgba(255, 255, 255, 0.1)',
+        renderLeft: () => (<BackButton />),
+      },
     }
   }
 
@@ -22,4 +21,8 @@ export default class ChannelScreen extends React.Component {
       <ChannelContainerWithData id={this.props.id} />
     )
   }
+}
+
+ChannelScreen.propTypes = {
+  id: PropTypes.string.isRequired,
 }

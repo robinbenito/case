@@ -1,125 +1,158 @@
-import React from 'react';
+import React from 'react'
 import {
   StyleSheet,
   Text,
   TouchableHighlight,
   View,
-  AsyncStorage
-} from 'react-native';
+  AsyncStorage,
+} from 'react-native'
+import PropTypes from 'prop-types'
 
-import stylesheet from '../../../styles/form';
+import gql from 'graphql-tag'
+import { graphql } from 'react-apollo'
 
-import gql from 'graphql-tag';
-import { graphql, withApollo } from 'react-apollo';
+import t from 'tcomb-form-native'
+import stylesheet from '../../../styles/form'
 
-import t from 'tcomb-form-native';
-t.form.Form.stylesheet = stylesheet;
-const Form = t.form.Form;
+t.form.Form.stylesheet = stylesheet
+const Form = t.form.Form
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 40,
+  },
+  buttonText: {
+    fontSize: 14,
+    color: '#000',
+    alignSelf: 'center',
+    fontWeight: '500',
+  },
+  error: {
+    color: 'red',
+    textAlign: 'center',
+    alignSelf: 'center',
+    marginBottom: 2,
+  },
+  button: {
+    height: 36,
+    width: 300,
+    borderColor: '#000',
+    borderWidth: 1,
+    marginTop: 10,
+    marginBottom: 10,
+    alignSelf: 'center',
+    justifyContent: 'center',
+  },
+})
 
 class LoginScreen extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       loggedIn: false,
       user: null,
       error: null,
       value: {
-        email: "",
-        password: "",
-      }
+        email: '',
+        password: '',
+      },
     }
+
+    this.onPress = this.onPress.bind(this)
+    this.onChange = this.onChange.bind(this)
   }
 
   onChange(value) {
-    this.setState({ value });
+    this.setState({ value })
   }
 
-  async onPress(email, password) {
+  async onPress() {
+    const { email, password } = this.state.value
     const options = {
       variables: {
-        email: email,
-        password: password,
-      }
-    };
+        email,
+        password,
+      },
+    }
 
-    let response;
+    let response
 
     try {
       response = await this.props.mutate(options)
     } catch (error) {
       return this.setState({
-        error: "Login failed, please try again."
+        error: 'Login failed, please try again.',
       })
     }
 
     try {
-      const currentUser = JSON.stringify(response.data.login.me);
-      await AsyncStorage.setItem('@arena:CurrentUser', currentUser);
+      const currentUser = JSON.stringify(response.data.login.me)
+      await AsyncStorage.setItem('@arena:CurrentUser', currentUser)
     } catch (error) {
       return this.setState({
-        error: "Error logging in, please try again"
+        error: 'Error logging in, please try again',
       })
     }
-
-    this.props.onLogin()    
+    return this.props.onLogin()
   }
 
   render() {
-    let onButtonPress = this.onPress.bind(
-      this,
-      this.state.value.email,
-      this.state.value.password
-    );
-
     const email = {
-      label: "Email",
+      label: 'Email',
       keyboardType: 'email-address',
       autoCapitalize: 'none',
-      placeholder: "Email address",
-      returnKeyType: "next",
-      onSubmitEditing: (event) => { 
-        this.refs.form.getComponent('password').refs.input.focus(); 
-      }
-    };
+      placeholder: 'Email address',
+      returnKeyType: 'next',
+      onSubmitEditing: () => {
+        this.refs.form.getComponent('password').refs.input.focus()
+      },
+    }
 
     const password = {
-      ref: "Password",
-      label: "Password",
+      ref: 'Password',
+      label: 'Password',
       maxLength: 12,
       secureTextEntry: true,
-      placeholder: "Password",
-      returnKeyType: "go",
-      onSubmitEditing: onButtonPress
-    };
+      placeholder: 'Password',
+      returnKeyType: 'go',
+      onSubmitEditing: this.onPress,
+    }
 
     const loginForm = t.struct({
       email: t.String,
-      password: t.String
-    });
+      password: t.String,
+    })
 
-    let options = {
-      stylesheet: stylesheet,
+    const options = {
+      stylesheet,
       fields: {
         email,
-        password
-      }
+        password,
+      },
     }
 
     return (
       <View>
-        <Form ref='form'
+        <Form
           type={loginForm}
           options={options}
           value={this.state.value}
-          onChange={this.onChange.bind(this)}
+          onChange={this.onChange}
         />
         <Text style={styles.error}>{this.state.error}</Text>
-        <TouchableHighlight style={styles.button} onPress={onButtonPress}>
+        <TouchableHighlight style={styles.button} onPress={this.onPress}>
           <Text style={styles.buttonText}>Login</Text>
         </TouchableHighlight>
       </View>
-    );
+    )
   }
+}
+
+LoginScreen.propTypes = {
+  onLogin: PropTypes.func.isRequired,
 }
 
 const loginMutation = gql`
@@ -134,37 +167,8 @@ const loginMutation = gql`
       }
     }
   }
-`;
+`
 
-export const LoginWithData = graphql(loginMutation)(LoginScreen);
+const LoginWithData = graphql(loginMutation)(LoginScreen)
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center', 
-    justifyContent: 'center',
-    padding: 20
-  },
-  buttonText: {
-    fontSize: 14,
-    color: '#000',
-    alignSelf: 'center',
-    fontWeight: '500'
-  },
-  error: {
-    color: "red",
-    textAlign: "center",
-    alignSelf: 'center',
-    marginBottom: 2
-  },  
-  button: {
-    height: 36,
-    width: 300,
-    borderColor: '#000',
-    borderWidth: 1,
-    marginTop: 10,
-    marginBottom: 10,
-    alignSelf: 'center',
-    justifyContent: 'center',
-  }
-});
+export default LoginWithData

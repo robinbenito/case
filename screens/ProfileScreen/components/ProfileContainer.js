@@ -1,22 +1,37 @@
-import React from 'react';
+import React from 'react'
+import gql from 'graphql-tag'
+import { graphql } from 'react-apollo'
+import PropTypes from 'prop-types'
+
 import {
-  AsyncStorage,
   ActivityIndicator,
   StyleSheet,
-  ScrollView,
   Text,
-  View
-} from 'react-native';
+  View,
+} from 'react-native'
 
-import ProfileHeader from './ProfileHeader';
-import { ContentsWithData } from '../../../components/Contents/ContentsContainer';
+import ProfileHeader from './ProfileHeader'
+import ContentsWithData from '../../../components/Contents/ContentsContainer'
+import layout from '../../../constants/Layout'
 
-import gql from 'graphql-tag';
-import { graphql } from 'react-apollo';
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: layout.padding,
+  },
+})
 
 export class ProfileContainer extends React.Component {
-  state = {
-    type: "Channels"
+  constructor(props) {
+    super(props)
+    this.state = {
+      type: 'Channels',
+    }
   }
 
   render() {
@@ -27,42 +42,30 @@ export class ProfileContainer extends React.Component {
             Profile not found
           </Text>
         </View>
-      );
+      )
     }
-    
+
     if (this.props.data.loading) {
       return (
         <View style={styles.loadingContainer} >
           <ActivityIndicator />
         </View>
-      );
+      )
     }
 
     return (
       <View>
         <ProfileHeader user={this.props.data.user} />
-        <ContentsWithData 
-          objectId={this.props.userId} 
-          objectType="USER" 
+        <ContentsWithData
+          objectId={this.props.userId}
+          objectType="USER"
           type="channel"
           page={1}
         />
       </View>
-    );
+    )
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20
-  },
-});
 
 const ProfileQuery = gql`
   query ProfileQuery($userId: ID!){
@@ -76,8 +79,12 @@ const ProfileQuery = gql`
   }
 `
 
-export const ProfileContainerWithData = graphql(ProfileQuery, { 
-  options: ({ userId }) => {
-    return { variables: { userId: userId } };
-  },
-})(ProfileContainer);
+ProfileContainer.propTypes = {
+  data: PropTypes.any.isRequired,
+  userId: PropTypes.string.isRequired,
+}
+
+export const ProfileContainerWithData = graphql(ProfileQuery, {
+  options: ({ userId }) => ({ variables: { userId } }),
+})(ProfileContainer)
+
