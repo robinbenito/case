@@ -69,7 +69,8 @@ class LoginScreen extends React.Component {
     this.setState({ value })
   }
 
-  async onPress(email, password) {
+  async onPress() {
+    const { email, password } = this.state.value
     const options = {
       variables: {
         email,
@@ -117,9 +118,7 @@ class LoginScreen extends React.Component {
       secureTextEntry: true,
       placeholder: 'Password',
       returnKeyType: 'go',
-      onSubmitEditing: () => {
-        this.onPress(this.state.email, this.state.password)
-      },
+      onSubmitEditing: this.onPress,
     }
 
     const loginForm = t.struct({
@@ -144,7 +143,7 @@ class LoginScreen extends React.Component {
           onChange={this.onChange}
         />
         <Text style={styles.error}>{this.state.error}</Text>
-        <TouchableHighlight style={styles.button} onPress={() => this.onPress(email, password)}>
+        <TouchableHighlight style={styles.button} onPress={this.onPress}>
           <Text style={styles.buttonText}>Login</Text>
         </TouchableHighlight>
       </View>
