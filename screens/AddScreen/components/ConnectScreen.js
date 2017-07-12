@@ -13,7 +13,7 @@ import {
   View,
 } from 'react-native'
 
-// import { NavigationActions } from 'react-navigation'
+import { NavigationActions } from 'react-navigation'
 
 import RecentConnectionsWithData from '../../../components/RecentConnections'
 import ConnectionSearchWithData from '../../../components/ConnectionSearch'
@@ -60,6 +60,7 @@ class ConnectScreen extends React.Component {
     }
     this.onToggleConnection = this.onToggleConnection.bind(this)
     this.saveConnections = this.saveConnections.bind(this)
+    this.navigateToAddScreen = this.navigateToAddScreen.bind(this)
   }
 
   onToggleConnection(connection, isSelected) {
@@ -75,6 +76,16 @@ class ConnectScreen extends React.Component {
     const { image } = this.state
     if (!image) return new Promise(resolve => resolve())
     return uploadImage(image)
+  }
+
+  navigateToAddScreen() {
+    const resetAction = NavigationActions.reset({
+      index: 0,
+      actions: [
+        NavigationActions.navigate({ routeName: 'add' }),
+      ],
+    })
+    this.props.navigation.dispatch(resetAction)
   }
 
   saveConnections() {
@@ -95,7 +106,7 @@ class ConnectScreen extends React.Component {
           }
         }
 
-        this.props.mutate({ variables })
+        this.props.mutate({ variables }).then(this.navigateToAddScreen)
       })
   }
 
