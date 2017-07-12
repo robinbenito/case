@@ -99,9 +99,7 @@ class LoginScreen extends React.Component {
   }
 
   render() {
-    const { email, password } = this.state
-
-    const emailField = {
+    const email = {
       label: 'Email',
       keyboardType: 'email-address',
       autoCapitalize: 'none',
@@ -112,7 +110,7 @@ class LoginScreen extends React.Component {
       },
     }
 
-    const passwordField = {
+    const password = {
       ref: 'Password',
       label: 'Password',
       maxLength: 12,
@@ -120,7 +118,7 @@ class LoginScreen extends React.Component {
       placeholder: 'Password',
       returnKeyType: 'go',
       onSubmitEditing: () => {
-        this.onPress(email, password)
+        this.onPress(this.state.email, this.state.password)
       },
     }
 
@@ -132,8 +130,8 @@ class LoginScreen extends React.Component {
     const options = {
       stylesheet,
       fields: {
-        emailField,
-        passwordField,
+        email,
+        password,
       },
     }
 

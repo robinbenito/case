@@ -7,7 +7,7 @@ import {
 import PropTypes from 'prop-types'
 
 import { NavigationActions } from 'react-navigation'
-import { LoginWithData } from './components/LoginWithData'
+import LoginWithData from './components/LoginWithData'
 
 const logo = require('../../assets/images/logo.png')
 
