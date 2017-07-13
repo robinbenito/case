@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, ListView, View } from 'react-native'
+import { StyleSheet, FlatList } from 'react-native'
 import PropTypes from 'prop-types'
 
 import ChannelItem from '../ChannelItem'
@@ -18,66 +18,45 @@ const styles = StyleSheet.create({
 })
 
 export default class ContentsList extends Component {
-  constructor(props) {
-    super()
-    const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
-    this.state = {
-      dataSource: ds.cloneWithRows(props.contents || []),
-    }
-  }
-
-  componentWillReceiveProps(newProps) {
-    if (newProps.loading) { return }
-
-    this.setState({
-      dataSource: this.state.dataSource.cloneWithRows(newProps.contents),
-    })
-  }
-
   render() {
-    const flexStyle = {
-      Channels: {
-        flexDirection: 'column',
-      },
-      Blocks: {
-        flexDirection: 'row',
-      },
-    }[this.props.type]
+    const columnCount = this.props.type === 'Channels' ? 1 : 2
+    const { data, loadMore } = this.props
 
     return (
-      <ListView
-        style={{ flex: 1 }}
-        contentContainerStyle={[styles.listContainer, flexStyle]}
-        dataSource={this.state.dataSource}
-        renderHeader={this.props.renderHeader}
-        initialListSize={0}
-        pageSize={this.props.per}
-        onEndReachedThreshold={100}
-        scrollRenderAheadDistance={1000}
-        renderRow={(item) => {
+      <FlatList
+        contentContainerStyle={styles.listContainer}
+        data={data.search}
+        refreshing={data.networkStatus === 4}
+        numColumns={columnCount}
+        keyExtractor={item => item.klass + item.id}
+        key={this.props.type}
+        onRefresh={() => data.refetch()}
+        onEndReachedThreshold={0.1}
+        onEndReached={() => loadMore(data.variables.page + 1)}
+        ListHeaderComponent={this.props.renderHeader}
+        renderItem={({ item }) => {
           if (item.klass === 'Block') {
-            return (<BlockItem block={item} />)
+            return <BlockItem block={item} />
           }
-          return (<ChannelItem channel={item} />)
+          return <ChannelItem channel={item} />
         }}
-        onEndReached={this.props.onEndReached}
       />
     )
   }
 }
 
 ContentsList.propTypes = {
-  onEndReached: PropTypes.func,
   renderHeader: PropTypes.func,
-  per: PropTypes.number,
-  contents: PropTypes.array,
+  data: PropTypes.any.isRequired,
+  contentsKey: PropTypes.string.isRequired,
   type: PropTypes.string,
+  loadMore: PropTypes.func,
 }
 
 ContentsList.defaultProps = {
-  onEndReached: () => null,
   renderHeader: () => null,
-  per: 10,
-  contents: View,
   type: 'Channel',
+  refetch: () => null,
+  refreshing: false,
+  loadMore: () => null,
 }
