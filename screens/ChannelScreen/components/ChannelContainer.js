@@ -59,6 +59,8 @@ class ChannelContainer extends React.Component {
           objectType="CHANNEL"
           type="block"
           page={1}
+          sort_by="POSITION"
+          direction="DESC"
         />
       </ScrollView>
     )
