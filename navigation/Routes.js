@@ -7,7 +7,7 @@ import HomeScreen from '../screens/HomeScreen'
 import AddScreen from '../screens/AddScreen'
 import ConnectScreen from '../screens/AddScreen/components/ConnectScreen'
 import ProfileScreen from '../screens/ProfileScreen'
-// import ChannelScreen from '../screens/ChannelScreen/index'
+import ChannelScreen from '../screens/ChannelScreen'
 import LoginScreen from '../screens/LoginScreen'
 
 import colors from '../constants/Colors'
@@ -22,6 +22,15 @@ const ProfileStack = StackNavigator({
         backgroundColor: '#fff',
       },
       cardStyle: {
+        backgroundColor: '#fff',
+      },
+    }),
+  },
+  channel: {
+    screen: ChannelScreen,
+    navigationOptions: () => ({
+      title: 'Channel',
+      headerStyle: {
         backgroundColor: '#fff',
       },
     }),
