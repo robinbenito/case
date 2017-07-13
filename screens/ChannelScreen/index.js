@@ -12,7 +12,6 @@ export default class ChannelScreen extends React.Component {
   }
 
   render() {
-    console.log('this.state.channelId', this.state.channelId)
     return (
       <ChannelContainerWithData id={this.state.channelId} />
     )

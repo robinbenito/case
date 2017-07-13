@@ -29,10 +29,6 @@ const styles = StyleSheet.create({
 })
 
 class ChannelContainer extends React.Component {
-  constructor(props) {
-    super(props)
-    console.log('channelContainer', props)
-  }
   render() {
     if (this.props.data.error) {
       return (

@@ -20,12 +20,12 @@ const styles = StyleSheet.create({
 export default class ContentsList extends Component {
   render() {
     const columnCount = this.props.type === 'Channels' ? 1 : 2
-    const { data, loadMore } = this.props
+    const { data, loadMore, contentsKey } = this.props
 
     return (
       <FlatList
         contentContainerStyle={styles.listContainer}
-        data={data.search}
+        data={data[contentsKey]}
         refreshing={data.networkStatus === 4}
         numColumns={columnCount}
         keyExtractor={item => item.klass + item.id}
