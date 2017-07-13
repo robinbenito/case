@@ -68,7 +68,7 @@ ChannelHeader.propTypes = {
   channel: PropTypes.shape({
     visibility: PropTypes.string,
     title: PropTypes.string,
-    user: PropTypes.string,
+    user: PropTypes.any,
   }).isRequired,
 }
 

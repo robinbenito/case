@@ -12,12 +12,13 @@ import {
 } from 'react-native'
 
 import ChannelHeader from './ChannelHeader'
-import { ContentsWithData } from '../../../components/Contents/ContentsContainer'
+import ContentsWithData from '../../../components/Contents/ContentsContainer'
 import layout from '../../../constants/Layout'
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#fff',
   },
   loadingContainer: {
     flex: 1,
@@ -27,7 +28,11 @@ const styles = StyleSheet.create({
   },
 })
 
-export default class ChannelContainer extends React.Component {
+class ChannelContainer extends React.Component {
+  constructor(props) {
+    super(props)
+    console.log('channelContainer', props)
+  }
   render() {
     if (this.props.data.error) {
       return (
@@ -87,4 +92,6 @@ ChannelContainer.propTypes = {
   data: propType(ChannelQuery).isRequired,
 }
 
-export const ChannelContainerWithData = graphql(ChannelQuery)(ChannelContainer)
+const ChannelContainerWithData = graphql(ChannelQuery)(ChannelContainer)
+
+export default ChannelContainerWithData

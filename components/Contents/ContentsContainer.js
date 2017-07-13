@@ -102,7 +102,6 @@ class ContentsContainer extends Component {
         <ContentsList
           contents={this.props.data.search}
           type={segmentValue}
-          onEndReached={() => this.onEndReached()}
           per={10}
         />
       </View>

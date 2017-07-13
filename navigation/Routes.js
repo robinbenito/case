@@ -12,6 +12,18 @@ import LoginScreen from '../screens/LoginScreen'
 
 import colors from '../constants/Colors'
 
+const AddStack = StackNavigator({
+  add: {
+    screen: AddScreen,
+  },
+  connect: {
+    screen: ConnectScreen,
+  },
+}, {
+  navigationOptions: {
+    header: null,
+  },
+})
 
 const ProfileStack = StackNavigator({
   profile: {
@@ -33,20 +45,10 @@ const ProfileStack = StackNavigator({
       headerStyle: {
         backgroundColor: '#fff',
       },
+      cardStyle: {
+        backgroundColor: '#fff',
+      },
     }),
-  },
-})
-
-const AddStack = StackNavigator({
-  add: {
-    screen: AddScreen,
-  },
-  connect: {
-    screen: ConnectScreen,
-  },
-}, {
-  navigationOptions: {
-    header: null,
   },
 })
 

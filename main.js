@@ -12,6 +12,7 @@ import { createRootNavigator } from './navigation/Routes'
 import Store from './state/Store'
 import Client from './state/Apollo'
 
+import NavigatorService from './utilities/navigationService'
 import cacheAssetsAsync from './utilities/cacheAssetsAsync'
 
 const logo = require('./assets/images/logo.png')
@@ -67,7 +68,11 @@ class AppContainer extends React.Component {
       return (
         <View style={styles.container}>
           <ApolloProvider store={Store} client={Client}>
-            <Navigation />
+            <Navigation
+              ref={(navigatorRef) => {
+                NavigatorService.setContainer(navigatorRef)
+              }}
+            />
           </ApolloProvider>
         </View>
       )
