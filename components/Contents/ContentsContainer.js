@@ -40,6 +40,7 @@ class ContentsContainer extends Component {
       type: null,
       page: 1,
     }
+    this.onToggleChange = this.onToggleChange.bind(this)
   }
 
   shouldComponentUpdate(newProps) {
@@ -70,7 +71,7 @@ class ContentsContainer extends Component {
       return (
         <View style={styles.loadingContainer} >
           <Text>
-            Profile not found
+            Contents not found
           </Text>
         </View>
       )
@@ -96,13 +97,14 @@ class ContentsContainer extends Component {
         <View style={styles.toggleContainer}>
           <ContentsToggle
             selectedSegment={segmentValue}
-            onToggleChange={() => this.onToggleChange()}
+            onToggleChange={this.onToggleChange}
           />
         </View>
         <ContentsList
-          contents={this.props.data.search}
+          data={this.props.data}
+          contentsKey="search"
+          loadMore={this.props.loadMore}
           type={segmentValue}
-          onEndReached={() => this.onEndReached()}
           per={10}
         />
       </View>
@@ -151,25 +153,29 @@ ContentsContainer.defaultProps = {
 }
 
 const ContentsWithData = graphql(ContentsQuery, {
-  options: ({ objectId, objectType, type, page }) => ({
-    variables: { objectId, objectType, type, page },
+  options: ({ objectId, objectType, type, page, sort_by, direction }) => ({
+    variables: { objectId, objectType, type, page, sort_by, direction },
   }),
   props: (props) => {
     const data = props.data
     return {
       data,
       loadMore(page) {
-        return props.data.fetchMore({
-          variables: {
-            page,
-          },
-          updateQuery: (previousResult, { fetchMoreResult }) => {
-            if (!fetchMoreResult.data) { return previousResult }
-            return Object.assign({}, previousResult, {
-              search: [...previousResult.search, ...fetchMoreResult.data.search],
-            })
-          },
-        })
+        console.log('loadMore', page)
+        // return props.data.fetchMore({
+        //   variables: {
+        //     page,
+        //   },
+        //   updateQuery: (previousResult, { fetchMoreResult }) => {
+        //     console.log('fetchMore', fetchMoreResult)
+        //     if (!fetchMoreResult.search.length) { return previousResult }
+        //     const response = Object.assign({}, previousResult, {
+        //       search: [...previousResult.search, ...fetchMoreResult.search],
+        //     })
+        //     console.log('response', response)
+        //     return response
+        //   },
+        // })
       },
     }
   },

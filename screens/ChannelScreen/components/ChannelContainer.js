@@ -12,12 +12,13 @@ import {
 } from 'react-native'
 
 import ChannelHeader from './ChannelHeader'
-import { ContentsWithData } from '../../../components/Contents/ContentsContainer'
+import ContentsWithData from '../../../components/Contents/ContentsContainer'
 import layout from '../../../constants/Layout'
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#fff',
   },
   loadingContainer: {
     flex: 1,
@@ -27,7 +28,7 @@ const styles = StyleSheet.create({
   },
 })
 
-export default class ChannelContainer extends React.Component {
+class ChannelContainer extends React.Component {
   render() {
     if (this.props.data.error) {
       return (
@@ -54,6 +55,8 @@ export default class ChannelContainer extends React.Component {
           objectType="CHANNEL"
           type="block"
           page={1}
+          sort_by="POSITION"
+          direction="DESC"
         />
       </ScrollView>
     )
@@ -87,4 +90,6 @@ ChannelContainer.propTypes = {
   data: propType(ChannelQuery).isRequired,
 }
 
-export const ChannelContainerWithData = graphql(ChannelQuery)(ChannelContainer)
+const ChannelContainerWithData = graphql(ChannelQuery)(ChannelContainer)
+
+export default ChannelContainerWithData

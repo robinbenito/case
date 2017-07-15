@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+
 import {
   StyleSheet,
   View,
@@ -8,6 +9,7 @@ import {
 } from 'react-native'
 
 import Colors from '../constants/Colors'
+import NavigatorService from '../utilities/navigationService'
 
 const styles = StyleSheet.create({
   channelContainer: {
@@ -54,8 +56,7 @@ export default class ChannelItem extends Component {
   }
 
   onPressButton() {
-    // this.props.navigator.push(Router.getRoute('channel', { id: this.props.channel.id }))
-    return this
+    NavigatorService.navigate('channel', { id: this.props.channel.id })
   }
 
   render() {
@@ -99,6 +100,7 @@ export default class ChannelItem extends Component {
 
 ChannelItem.propTypes = {
   channel: PropTypes.shape({
+    id: PropTypes.number,
     title: PropTypes.string,
     updated_at: PropTypes.string,
     user: PropTypes.any,

@@ -7,11 +7,23 @@ import HomeScreen from '../screens/HomeScreen'
 import AddScreen from '../screens/AddScreen'
 import ConnectScreen from '../screens/AddScreen/components/ConnectScreen'
 import ProfileScreen from '../screens/ProfileScreen'
-// import ChannelScreen from '../screens/ChannelScreen/index'
+import ChannelScreen from '../screens/ChannelScreen'
 import LoginScreen from '../screens/LoginScreen'
 
 import colors from '../constants/Colors'
 
+const AddStack = StackNavigator({
+  add: {
+    screen: AddScreen,
+  },
+  connect: {
+    screen: ConnectScreen,
+  },
+}, {
+  navigationOptions: {
+    header: null,
+  },
+})
 
 const ProfileStack = StackNavigator({
   profile: {
@@ -26,18 +38,17 @@ const ProfileStack = StackNavigator({
       },
     }),
   },
-})
-
-const AddStack = StackNavigator({
-  add: {
-    screen: AddScreen,
-  },
-  connect: {
-    screen: ConnectScreen,
-  },
-}, {
-  navigationOptions: {
-    header: null,
+  channel: {
+    screen: ChannelScreen,
+    navigationOptions: () => ({
+      title: 'Channel',
+      headerStyle: {
+        backgroundColor: '#fff',
+      },
+      cardStyle: {
+        backgroundColor: '#fff',
+      },
+    }),
   },
 })
 
