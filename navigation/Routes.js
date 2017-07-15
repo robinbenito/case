@@ -3,7 +3,7 @@ import { StackNavigator, TabNavigator } from 'react-navigation'
 import { Ionicons } from '@expo/vector-icons'
 import PropTypes from 'prop-types'
 
-import HomeScreen from '../screens/HomeScreen'
+import FeedScreen from '../screens/FeedScreen'
 import AddScreen from '../screens/AddScreen'
 import ConnectScreen from '../screens/AddScreen/components/ConnectScreen'
 import ProfileScreen from '../screens/ProfileScreen'
@@ -11,6 +11,28 @@ import ChannelScreen from '../screens/ChannelScreen'
 import LoginScreen from '../screens/LoginScreen'
 
 import colors from '../constants/Colors'
+
+const FeedStack = StackNavigator({
+  feed: {
+    screen: FeedScreen,
+  },
+  channel: {
+    screen: ChannelScreen,
+    navigationOptions: () => ({
+      title: 'Channel',
+      headerStyle: {
+        backgroundColor: '#fff',
+      },
+      cardStyle: {
+        backgroundColor: '#fff',
+      },
+    }),
+  },
+}, {
+  navigationOptions: {
+    header: null,
+  },
+})
 
 const AddStack = StackNavigator({
   add: {
@@ -54,7 +76,7 @@ const ProfileStack = StackNavigator({
 
 const tabs = {
   home: {
-    screen: HomeScreen,
+    screen: FeedStack,
     navigationOptions: {
       tabBarLabel: 'Feed',
       tabBarIcon: props => (
