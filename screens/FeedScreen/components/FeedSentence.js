@@ -7,6 +7,9 @@ import {
 } from 'react-native'
 import PropTypes from 'prop-types'
 
+import UserNameText from '../../../components/UserNameText'
+import FeedWordLink from './FeedWordLink'
+
 import colors from '../../../constants/Colors'
 import layout from '../../../constants/Layout'
 
@@ -21,14 +24,16 @@ const styles = StyleSheet.create({
 })
 
 const FeedSentence = ({ group }) => {
-  const { user, verb, connector } = group
+  const { user, verb, connector, target } = group
+
   return (
     <View style={styles.sentence}>
-      <Text>{user.name} </Text>
+      <UserNameText user={user} />
+      <Text> </Text>
       <Text>{verb} </Text>
-      <Text>{group.object_phrase} </Text>
+      <FeedWordLink object={group.object} phrase={group.object_phrase} />
       <Text>{connector} </Text>
-      <Text>{group.target_phrase} </Text>
+      <FeedWordLink object={group.target} phrase={group.target_phrase} />
     </View>
   )
 }
