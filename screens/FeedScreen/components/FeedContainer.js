@@ -11,6 +11,7 @@ import {
 } from 'react-native'
 
 import FeedSentence from './FeedSentence'
+import FeedWordLink from './FeedWordLink'
 
 import layout from '../../../constants/Layout'
 
@@ -30,6 +31,7 @@ const styles = StyleSheet.create({
 class FeedContainer extends React.Component {
   render() {
     if (this.props.data.error) {
+      console.log('this.props.data.error', this.props.data.error)
       return (
         <View style={styles.loadingContainer} >
           <Text>
@@ -71,18 +73,25 @@ const FeedQuery = gql`
           length
           user {
             name
+            slug
           }
           is_single
           verb
           object {
             __typename
             ... on Block {
-              href
+              id
+              title
             }
             ... on Channel {
-              href
+              id
+              slug
+              title
+              visibility
             }
             ... on User {
+              name
+              slug
               href
             }
           }
@@ -91,12 +100,18 @@ const FeedQuery = gql`
           target {
             __typename
             ... on Block {
-              href
+              id
+              title
             }
             ... on Channel {
-              href
+              id
+              slug
+              title
+              visibility
             }
             ... on User {
+              name
+              slug
               href
             }
           }
@@ -109,7 +124,7 @@ const FeedQuery = gql`
 `
 
 FeedContainer.propTypes = {
-  data: PropTypes.any,
+  data: PropTypes.any.isRequired,
 }
 
 const FeedContainerWithData = graphql(FeedQuery)(FeedContainer)
