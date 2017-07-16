@@ -15,22 +15,27 @@ import colors from '../constants/Colors'
 const FeedStack = StackNavigator({
   feed: {
     screen: FeedScreen,
+    navigationOptions: () => ({
+      title: 'Feed',
+    }),
   },
   channel: {
     screen: ChannelScreen,
     navigationOptions: () => ({
       title: 'Channel',
-      headerStyle: {
-        backgroundColor: '#fff',
-      },
-      cardStyle: {
-        backgroundColor: '#fff',
-      },
+    }),
+  },
+  profile: {
+    screen: ProfileScreen,
+    navigationOptions: () => ({
+      title: 'Profile',
     }),
   },
 }, {
   navigationOptions: {
-    header: null,
+    headerStyle: {
+      backgroundColor: '#fff',
+    },
   },
 })
 
