@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import {
   AsyncStorage,
   StyleSheet,
@@ -41,7 +42,8 @@ export default class ProfileScreen extends React.Component {
 
   render() {
     if (this.state.storageSynced) {
-      const userId = this.state.currentUser.slug
+      const profileParam = this.props.navigation.state.params && this.props.navigation.state.params.id
+      const userId = profileParam || this.state.currentUser.slug
       return (
         <ScrollView style={styles.container}>
           <ProfileContainerWithData userId={userId} />
@@ -52,4 +54,8 @@ export default class ProfileScreen extends React.Component {
       <View />
     )
   }
+}
+
+ProfileScreen.propTypes = {
+  navigation: PropTypes.any.isRequired,
 }
