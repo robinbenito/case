@@ -1,10 +1,8 @@
 import React from 'react'
 import {
-  View,
   Text,
 } from 'react-native'
 import PropTypes from 'prop-types'
-import gql from 'graphql-tag'
 
 import UserNameText from '../../../components/UserNameText'
 import ChannelNameText from '../../../components/ChannelNameText'
@@ -12,8 +10,10 @@ import ChannelNameText from '../../../components/ChannelNameText'
 const FeedWordLink = ({ object, phrase }) => {
   let objectLink
 
+
   if (object) {
-    switch (object.__typename) {
+    const { __typename } = object
+    switch (__typename) {
       case 'Channel':
         objectLink = <ChannelNameText channel={object} />
         break

@@ -37,7 +37,6 @@ const FeedSentence = ({ group }) => {
     <View style={styles.container}>
       <View style={styles.sentence}>
         <UserNameText user={user} />
-        <Text> </Text>
         <Text>{verb} </Text>
         <FeedWordLink object={object} phrase={group.object_phrase} />
         <Text>{connector} </Text>

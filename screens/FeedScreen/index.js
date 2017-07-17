@@ -5,7 +5,7 @@ import FeedContainer from './components/FeedContainer'
 export default class FeedScreen extends React.Component {
   render() {
     return (
-      <FeedContainer limit={100} />
+      <FeedContainer limit={20} />
     )
   }
 }

@@ -82,6 +82,7 @@ const FeedQuery = gql`
       feed(offset: $offset, limit: $limit) {
         total
         groups {
+          id: key
           key
           length
           user {
@@ -103,6 +104,7 @@ const FeedQuery = gql`
               visibility
             }
             ... on User {
+              id
               name
               slug
               href
@@ -123,6 +125,7 @@ const FeedQuery = gql`
               visibility
             }
             ... on User {
+              id
               name
               slug
               href
