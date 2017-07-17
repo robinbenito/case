@@ -5,13 +5,13 @@ import PropTypes from 'prop-types'
 
 import {
   ActivityIndicator,
+  FlatList,
   StyleSheet,
   Text,
   View,
 } from 'react-native'
 
 import FeedSentence from './FeedSentence'
-import FeedWordLink from './FeedWordLink'
 
 import layout from '../../../constants/Layout'
 
@@ -49,16 +49,29 @@ class FeedContainer extends React.Component {
       )
     }
 
-    const sentences = this.props.data.me.feed.groups.map((group) => {
-      return (
-        <FeedSentence group={group} key={group.key} />
-      )
-    })
+    const { data } = this.props
+
+    console.log('data.networkStatus === 4', data.networkStatus === 4)
 
     return (
-      <View style={styles.container}>
-        {sentences}
-      </View>
+      <FlatList
+        style={styles.container}
+        contentContainerStyle={styles.listContainer}
+        data={this.props.data.me.feed.groups}
+        refreshing={data.networkStatus === 4}
+        keyExtractor={group => group.key}
+        onRefresh={() => {
+          console.log('data', data)
+          return data.refetch()
+        }}
+        renderItem={({ item }) => {
+          return (
+            <View key={item.key}>
+              <FeedSentence group={item} />
+            </View>
+          )
+        }}
+      />
     )
   }
 }

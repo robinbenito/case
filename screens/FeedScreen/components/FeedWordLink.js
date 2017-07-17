@@ -25,7 +25,7 @@ const FeedWordLink = ({ object, phrase }) => {
     }
   }
 
-  return objectLink || <View />
+  return objectLink || <Text>{phrase} </Text>
 }
 
 FeedWordLink.propTypes = {
