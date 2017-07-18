@@ -12,8 +12,10 @@ import {
 } from 'react-native'
 
 import FeedSentence from './FeedSentence'
+import FeedContents from './FeedContents'
 
 import layout from '../../../constants/Layout'
+import colors from '../../../constants/Colors'
 
 const styles = StyleSheet.create({
   container: {
@@ -26,12 +28,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: layout.padding,
   },
+  itemContainer: {
+    borderBottomWidth: 1,
+    borderBottomColor: colors.gray.border,
+    padding: layout.padding,
+  },
 })
 
 class FeedContainer extends React.Component {
   render() {
     if (this.props.data.error) {
-      console.log('this.props.data.error', this.props.data.error)
+      console.log('error', this.props.data.error)
       return (
         <View style={styles.loadingContainer} >
           <Text>
@@ -51,8 +58,6 @@ class FeedContainer extends React.Component {
 
     const { data } = this.props
 
-    console.log('data.networkStatus === 4', data.networkStatus === 4)
-
     return (
       <FlatList
         style={styles.container}
@@ -60,17 +65,14 @@ class FeedContainer extends React.Component {
         data={this.props.data.me.feed.groups}
         refreshing={data.networkStatus === 4}
         keyExtractor={group => group.key}
-        onRefresh={() => {
-          console.log('data', data)
-          return data.refetch()
-        }}
-        renderItem={({ item }) => {
-          return (
-            <View key={item.key}>
-              <FeedSentence group={item} />
-            </View>
+        onRefresh={() => data.refetch()}
+        renderItem={({ item }) => (
+          <View key={item.key} style={styles.itemContainer} >
+            <FeedSentence group={item} />
+            {item.items && <FeedContents items={item.items} />}
+          </View>
           )
-        }}
+        }
       />
     )
   }
@@ -112,6 +114,39 @@ const FeedQuery = gql`
           }
           object_phrase
           connector
+          items {
+            __typename
+            ... on Block {
+              id
+              title
+              updated_at(relative: true)
+              user {
+                name
+              }
+              klass
+              kind {
+                type: __typename
+                ... on Embed {
+                  source_url
+                }
+                ... on Attachment {
+                  image_url(size: DISPLAY)
+                }
+                ... on Text {
+                  content
+                }
+                ... on Image {
+                  image_url(size: DISPLAY)
+                }
+                ... on Link {
+                  image_url(size: DISPLAY)
+                }
+                ... on Channel {
+                  visibility
+                }
+              }
+            }
+          }
           target {
             __typename
             ... on Block {
