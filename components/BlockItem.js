@@ -45,7 +45,9 @@ export default class BlockItem extends Component {
   render() {
     let blockInner
 
-    switch (this.props.block.kind.type) {
+    const { __typename } = this.props.block.kind
+
+    switch (__typename) {
       case 'Link':
       case 'Image':
         blockInner = (
