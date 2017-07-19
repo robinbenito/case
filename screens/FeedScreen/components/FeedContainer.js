@@ -22,12 +22,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: layout.padding,
-  },
   itemContainer: {
     borderBottomWidth: 1,
     borderBottomColor: colors.gray.border,
@@ -66,13 +60,15 @@ class FeedContainer extends React.Component {
         refreshing={data.networkStatus === 4}
         keyExtractor={group => group.key}
         onRefresh={() => data.refetch()}
-        renderItem={({ item }) => (
-          <View key={item.key} style={styles.itemContainer} >
-            <FeedSentence group={item} />
-            {item.items && <FeedContents items={item.items} />}
-          </View>
+        renderItem={({ item }) => {
+          console.log('will show contents', item.items)
+          return (
+            <View key={item.key} style={styles.itemContainer} >
+              <FeedSentence group={item} />
+              {item.items.length > 0 && <FeedContents items={item.items} />}
+            </View>
           )
-        }
+        }}
       />
     )
   }
@@ -110,12 +106,25 @@ const FeedQuery = gql`
               name
               slug
               href
+              initials
+              avatar(size: SMALL)
             }
           }
           object_phrase
           connector
           items {
             __typename
+            ... on User {
+              id
+              name
+              slug
+              href
+              initials
+              avatar(size: MEDIUM)
+            }
+            ... on Channel {
+              visibility
+            }
             ... on Block {
               id
               title
@@ -140,9 +149,6 @@ const FeedQuery = gql`
                 }
                 ... on Link {
                   image_url(size: DISPLAY)
-                }
-                ... on Channel {
-                  visibility
                 }
               }
             }
