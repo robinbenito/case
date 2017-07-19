@@ -1,4 +1,5 @@
 # Case
+[![Build Status](https://travis-ci.org/aredotna/case.svg?branch=master)](https://travis-ci.org/aredotna/case)
 The future is already here, its just not evenly distributed yet.
 
 ## Getting started
