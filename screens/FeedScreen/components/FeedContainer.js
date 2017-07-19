@@ -22,6 +22,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
+  loadingContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#fff',
+  },
   itemContainer: {
     borderBottomWidth: 1,
     borderBottomColor: colors.gray.border,
@@ -40,8 +46,10 @@ class FeedContainer extends React.Component {
   }
 
   onEndReached() {
+    if (this.props.data.loading) return false
     const offset = this.state.offset + this.props.limit
-    this.props.loadMore(offset)
+    this.setState({ offset })
+    return this.props.loadMore(offset)
   }
 
   render() {
@@ -75,6 +83,7 @@ class FeedContainer extends React.Component {
         keyExtractor={group => group.key}
         onRefresh={() => data.refetch()}
         onEndReached={this.onEndReached}
+        onEndReachedThreshold={0.9}
         renderItem={({ item }) => {
           return (
             <View key={item.key} style={styles.itemContainer} >
@@ -91,11 +100,8 @@ class FeedContainer extends React.Component {
 const FeedQuery = gql`
   query FeedQuery($offset: Int, $limit: Int){
     me {
-      __typename
       feed(offset: $offset, limit: $limit) {
-        __typename
         groups {
-          __typename
           id: key
           key
           length
@@ -215,22 +221,19 @@ const FeedContainerWithData = graphql(FeedQuery, {
     return {
       data,
       loadMore(offset) {
-        console.log('loadMore', offset)
         return props.data.fetchMore({
           variables: {
             offset,
           },
           updateQuery: (previousResult, { fetchMoreResult }) => {
-            console.log('fetchMore', fetchMoreResult)
             if (!fetchMoreResult.me.feed.groups.length) { return previousResult }
-            const response = Object.assign({}, previousResult, {
+            const response = {
               me: {
                 feed: {
                   groups: [...previousResult.me.feed.groups, ...fetchMoreResult.me.feed.groups],
                 },
               },
-            })
-            console.log('response', response)
+            }
             return response
           },
         })
