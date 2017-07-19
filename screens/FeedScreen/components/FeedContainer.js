@@ -54,7 +54,6 @@ class FeedContainer extends React.Component {
 
   render() {
     if (this.props.data.error) {
-      console.log('error', this.props.data.error)
       return (
         <View style={styles.loadingContainer} >
           <Text>
@@ -79,19 +78,18 @@ class FeedContainer extends React.Component {
         style={styles.container}
         contentContainerStyle={styles.listContainer}
         data={this.props.data.me.feed.groups}
-        refreshing={data.networkStatus === 4}
+        refreshing={data.loading}
+        initialNumToRender={4}
         keyExtractor={group => group.key}
         onRefresh={() => data.refetch()}
         onEndReached={this.onEndReached}
         onEndReachedThreshold={0.9}
-        renderItem={({ item }) => {
-          return (
-            <View key={item.key} style={styles.itemContainer} >
-              <FeedSentence group={item} />
-              {item.items.length > 0 && <FeedContents items={item.items} />}
-            </View>
-          )
-        }}
+        renderItem={({ item, index }) => (
+          <View key={`${item.key}-${index}`} style={styles.itemContainer} >
+            <FeedSentence group={item} />
+            {item.items.length > 0 && <FeedContents items={item.items} />}
+          </View>
+          )}
       />
     )
   }
@@ -134,6 +132,27 @@ const FeedQuery = gql`
           }
           object_phrase
           connector
+          target {
+            __typename
+            ... on Block {
+              id
+              title
+            }
+            ... on Channel {
+              id
+              slug
+              title
+              visibility
+            }
+            ... on User {
+              id
+              name
+              slug
+              href
+            }
+          }
+          target_phrase
+          created_at(relative: true)
           items {
             __typename
             ... on User {
@@ -175,27 +194,6 @@ const FeedQuery = gql`
               }
             }
           }
-          target {
-            __typename
-            ... on Block {
-              id
-              title
-            }
-            ... on Channel {
-              id
-              slug
-              title
-              visibility
-            }
-            ... on User {
-              id
-              name
-              slug
-              href
-            }
-          }
-          target_phrase
-          created_at(relative: true)
         }
       }
     }

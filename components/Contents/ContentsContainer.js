@@ -123,7 +123,10 @@ const ContentsQuery = gql`
       }
       klass
       kind {
-        type: __typename
+        __typename
+        ... on Embed {
+          source_url
+        }
         ... on Text {
           content
         }
@@ -161,21 +164,7 @@ const ContentsWithData = graphql(ContentsQuery, {
     return {
       data,
       loadMore(page) {
-        console.log('loadMore', page)
-        // return props.data.fetchMore({
-        //   variables: {
-        //     page,
-        //   },
-        //   updateQuery: (previousResult, { fetchMoreResult }) => {
-        //     console.log('fetchMore', fetchMoreResult)
-        //     if (!fetchMoreResult.search.length) { return previousResult }
-        //     const response = Object.assign({}, previousResult, {
-        //       search: [...previousResult.search, ...fetchMoreResult.search],
-        //     })
-        //     console.log('response', response)
-        //     return response
-        //   },
-        // })
+        return page
       },
     }
   },

@@ -5,7 +5,7 @@ import {
   Image,
   StyleSheet,
   Text,
-  TouchableOpacity
+  TouchableOpacity,
 } from 'react-native'
 
 import NavigatorService from '../utilities/navigationService'
