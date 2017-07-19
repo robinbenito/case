@@ -30,6 +30,20 @@ const styles = StyleSheet.create({
 })
 
 class FeedContainer extends React.Component {
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      offset: 0,
+    }
+    this.onEndReached = this.onEndReached.bind(this)
+  }
+
+  onEndReached() {
+    const offset = this.state.offset + this.props.limit
+    this.props.loadMore(offset)
+  }
+
   render() {
     if (this.props.data.error) {
       console.log('error', this.props.data.error)
@@ -60,8 +74,8 @@ class FeedContainer extends React.Component {
         refreshing={data.networkStatus === 4}
         keyExtractor={group => group.key}
         onRefresh={() => data.refetch()}
+        onEndReached={this.onEndReached}
         renderItem={({ item }) => {
-          console.log('will show contents', item.items)
           return (
             <View key={item.key} style={styles.itemContainer} >
               <FeedSentence group={item} />
@@ -77,9 +91,11 @@ class FeedContainer extends React.Component {
 const FeedQuery = gql`
   query FeedQuery($offset: Int, $limit: Int){
     me {
+      __typename
       feed(offset: $offset, limit: $limit) {
-        total
+        __typename
         groups {
+          __typename
           id: key
           key
           length
@@ -182,8 +198,45 @@ const FeedQuery = gql`
 
 FeedContainer.propTypes = {
   data: PropTypes.any.isRequired,
+  limit: PropTypes.number,
+  loadMore: PropTypes.any.isRequired,
 }
 
-const FeedContainerWithData = graphql(FeedQuery)(FeedContainer)
+FeedContainer.defaultProps = {
+  limit: 20,
+}
+
+const FeedContainerWithData = graphql(FeedQuery, {
+  options: ({ offset, limit }) => ({
+    variables: { offset, limit },
+  }),
+  props: (props) => {
+    const data = props.data
+    return {
+      data,
+      loadMore(offset) {
+        console.log('loadMore', offset)
+        return props.data.fetchMore({
+          variables: {
+            offset,
+          },
+          updateQuery: (previousResult, { fetchMoreResult }) => {
+            console.log('fetchMore', fetchMoreResult)
+            if (!fetchMoreResult.me.feed.groups.length) { return previousResult }
+            const response = Object.assign({}, previousResult, {
+              me: {
+                feed: {
+                  groups: [...previousResult.me.feed.groups, ...fetchMoreResult.me.feed.groups],
+                },
+              },
+            })
+            console.log('response', response)
+            return response
+          },
+        })
+      },
+    }
+  },
+})(FeedContainer)
 
 export default FeedContainerWithData

@@ -51,7 +51,6 @@ export default class UserAvatar extends React.Component {
 
   render() {
     const { user } = this.props
-    console.log('avatar', user.avatar)
     return (
       <TouchableOpacity onPress={this.goToProfile} style={styles.container}>
         <Text style={styles.initials} onPress={this.goToProfile}>
