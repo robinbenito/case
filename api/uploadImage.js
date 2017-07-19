@@ -1,6 +1,7 @@
 // Here we require a file that is not checked in, so
 // ignore this error
 /* eslint import/no-unresolved: 0 */
+/* eslint import/extensions: 0 */
 
 import { RNS3 } from 'react-native-aws3'
 import * as mime from 'react-native-mime-types'
