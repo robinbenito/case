@@ -3034,13 +3034,15 @@ jest-environment-node@^20.0.3:
     jest-mock "^20.0.3"
     jest-util "^20.0.3"
 
-jest-expo@~0.4.0:
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/jest-expo/-/jest-expo-0.4.0.tgz#e70fe72eea22e4840075e8a7d004f3430c6e66b1"
+jest-expo@^18.0.0:
+  version "18.0.0"
+  resolved "https://registry.yarnpkg.com/jest-expo/-/jest-expo-18.0.0.tgz#681ba2e47319ff74e6caa2441f2fdc4b1a34492f"
   dependencies:
     babel-jest "^19.0.0"
     jest "^19.0.2"
-    react-test-renderer "16.0.0-alpha.6"
+    jest-repl "^19.0.2"
+    jest-runtime "^19.0.3"
+    react-test-renderer "16.0.0-alpha.12"
 
 jest-file-exists@^19.0.0:
   version "19.0.0"
@@ -3154,6 +3156,15 @@ jest-regex-util@^20.0.3:
   version "20.0.3"
   resolved "https://registry.yarnpkg.com/jest-regex-util/-/jest-regex-util-20.0.3.tgz#85bbab5d133e44625b19faf8c6aa5122d085d762"
 
+jest-repl@^19.0.2:
+  version "19.0.2"
+  resolved "https://registry.yarnpkg.com/jest-repl/-/jest-repl-19.0.2.tgz#3d3491aabae063edccd2ce24101236dfe8bca933"
+  dependencies:
+    jest-runtime "^19.0.2"
+    jest-util "^19.0.2"
+    repl "^0.1.3"
+    yargs "^6.3.0"
+
 jest-resolve-dependencies@^19.0.0:
   version "19.0.0"
   resolved "https://registry.yarnpkg.com/jest-resolve-dependencies/-/jest-resolve-dependencies-19.0.0.tgz#a741ad1fa094140e64ecf2642a504f834ece22ee"
@@ -3182,7 +3193,7 @@ jest-resolve@^20.0.4:
     is-builtin-module "^1.0.0"
     resolve "^1.3.2"
 
-jest-runtime@^19.0.2:
+jest-runtime@^19.0.2, jest-runtime@^19.0.3:
   version "19.0.3"
   resolved "https://registry.yarnpkg.com/jest-runtime/-/jest-runtime-19.0.3.tgz#a163354ace46910ee33f0282b6bff6b0b87d4330"
   dependencies:
@@ -4201,6 +4212,13 @@ react-addons-shallow-compare@15.5.2:
     fbjs "^0.8.4"
     object-assign "^4.1.0"
 
+react-addons-test-utils@16.0.0-alpha.12:
+  version "16.0.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/react-addons-test-utils/-/react-addons-test-utils-16.0.0-alpha.3.tgz#c17796f9b2c527b6be56f8d783b38020513fdb42"
+  dependencies:
+    fbjs "^0.8.9"
+    object-assign "^4.1.0"
+
 react-apollo@*:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/react-apollo/-/react-apollo-1.2.0.tgz#4dc3f61bad9b2fe2c450bc7fbd4fab52004de474"
@@ -4234,7 +4252,7 @@ react-devtools-core@^2.1.8:
     shell-quote "^1.6.1"
     ws "^2.0.3"
 
-"react-dom@0.14.x || 15.* || ^15.0.0 || ^16.0.0-alpha":
+"react-dom@0.14.x || 15.* || ^15.0.0 || ^16.0.0-alpha", react-dom@16.0.0-alpha.12:
   version "16.0.0-alpha.12"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.0.0-alpha.12.tgz#c9894ccfd9600ef87952e05340903180b013171e"
   dependencies:
@@ -4454,16 +4472,9 @@ react-static-container@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/react-static-container/-/react-static-container-1.0.1.tgz#694c0dd68a896b879519afb548399cc1989c9ab0"
 
-react-test-renderer@16.0.0-alpha.6:
-  version "16.0.0-alpha.6"
-  resolved "https://registry.yarnpkg.com/react-test-renderer/-/react-test-renderer-16.0.0-alpha.6.tgz#c032def0dc8319cee39caa4e4373a60019cb3786"
-  dependencies:
-    fbjs "^0.8.9"
-    object-assign "^4.1.0"
-
-react-test-renderer@^15.6.1:
-  version "15.6.1"
-  resolved "https://registry.yarnpkg.com/react-test-renderer/-/react-test-renderer-15.6.1.tgz#026f4a5bb5552661fd2cc4bbcd0d4bc8a35ebf7e"
+react-test-renderer@16.0.0-alpha.12:
+  version "16.0.0-alpha.12"
+  resolved "https://registry.yarnpkg.com/react-test-renderer/-/react-test-renderer-16.0.0-alpha.12.tgz#9e4cc5d8ce8bfca72778340de3e1454b9d6c0cc5"
   dependencies:
     fbjs "^0.8.9"
     object-assign "^4.1.0"
@@ -4633,6 +4644,10 @@ repeating@^2.0.0:
   resolved "https://registry.yarnpkg.com/repeating/-/repeating-2.0.1.tgz#5214c53a926d3552707527fbab415dbc08d06dda"
   dependencies:
     is-finite "^1.0.0"
+
+repl@^0.1.3:
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/repl/-/repl-0.1.3.tgz#2f05d42b0c88b43d05ccbda10ed14aeff5699b60"
 
 replace-ext@0.0.1:
   version "0.0.1"
