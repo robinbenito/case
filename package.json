@@ -6,7 +6,8 @@
   "main": "main.js",
   "scripts": {
     "lint": "eslint ./",
-    "test": "jest"
+    "test": "jest",
+    "appr": "appr"
   },
   "jest": {
     "preset": "jest-expo"
