@@ -17,6 +17,7 @@
     "@expo/samples": "~1.0.2",
     "@expo/vector-icons": "^5.0.0",
     "apollo-client": "^1.9.0-0",
+    "appr": "^1.0.1",
     "eslint-config-airbnb": "^15.0.2",
     "expo": "^18.0.1",
     "graphql-anywhere": "^1.0.0",
