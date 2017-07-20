@@ -6,6 +6,7 @@ import {
   View,
 } from 'react-native'
 import { ApolloProvider } from 'react-apollo'
+import { updateFocus } from 'react-navigation-is-focused-hoc'
 
 import { createRootNavigator } from './navigation/Routes'
 
@@ -69,6 +70,9 @@ class AppContainer extends React.Component {
         <View style={styles.container}>
           <ApolloProvider store={Store} client={Client}>
             <Navigation
+              onNavigationStateChange={(prevState, currentState) => {
+                updateFocus(currentState)
+              }}
               ref={(navigatorRef) => {
                 NavigatorService.setContainer(navigatorRef)
               }}
