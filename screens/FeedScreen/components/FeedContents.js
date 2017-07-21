@@ -1,10 +1,12 @@
 import React from 'react'
 import {
+  Easing,
+  Dimensions,
   Text,
-  ScrollView,
   StyleSheet,
 } from 'react-native'
 import PropTypes from 'prop-types'
+import Carousel from 'react-native-snap-carousel'
 
 import BlockItem from '../../../components/BlockItem'
 import UserAvatar from '../../../components/UserAvatar'
@@ -24,7 +26,7 @@ const FeedContents = ({ items }) => {
       const { __typename } = item
       switch (__typename) {
         case 'Block':
-          objectItem = <BlockItem block={item} key={item.id} />
+          objectItem = <BlockItem size="1-up" block={item} key={item.id} />
           break
         case 'User':
           objectItem = <UserAvatar user={item} key={item.id} />
@@ -37,10 +39,24 @@ const FeedContents = ({ items }) => {
     }
     return null
   })
+
+  const { width } = Dimensions.get('window')
+  const sliderWidth = width - (layout.padding * 2)
+  const itemWidth = sliderWidth - (layout.padding * 2)
+
   return (
-    <ScrollView style={styles.container} horizontal>
+    <Carousel
+      ref={(carousel) => { this.Carousel = carousel }}
+      sliderWidth={sliderWidth}
+      itemWidth={itemWidth}
+      activeSlideOffset={20}
+      inactiveSlideScale={1}
+      scrollEndDragDebounceValue={10}
+      decelerationRate={1}
+      animationOptions={{ duration: 100, easing: Easing.sin }}
+    >
       {contentsItems}
-    </ScrollView>
+    </Carousel>
   )
 }
 
