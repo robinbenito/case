@@ -58,7 +58,7 @@ class FeedContainer extends React.Component {
 
   renderFooter() {
     if (!this.props.data.loading) return null
-    
+
     return (
       <View style={styles.footer}>
         <ActivityIndicator />
