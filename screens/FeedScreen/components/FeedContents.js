@@ -3,7 +3,6 @@ import {
   Easing,
   Dimensions,
   Text,
-  StyleSheet,
 } from 'react-native'
 import PropTypes from 'prop-types'
 import Carousel from 'react-native-snap-carousel'
@@ -12,12 +11,6 @@ import BlockItem from '../../../components/BlockItem'
 import UserAvatar from '../../../components/UserAvatar'
 
 import layout from '../../../constants/Layout'
-
-const styles = StyleSheet.create({
-  container: {
-    marginTop: layout.padding,
-  },
-})
 
 const FeedContents = ({ items }) => {
   const contentsItems = items.map((item) => {
