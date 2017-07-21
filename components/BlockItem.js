@@ -9,6 +9,8 @@ import {
   View,
 } from 'react-native'
 
+import layout from '../constants/Layout'
+
 const { width } = Dimensions.get('window')
 
 const styles = StyleSheet.create({
@@ -16,14 +18,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255, 255, 255, 1.0)',
     padding: 15,
     marginBottom: 20,
-    width: (width / 2) - 30,
-    height: (width / 2) - 30,
   },
   image: {
     flex: 1,
     resizeMode: 'contain',
-    width: (width / 2) - 30,
-    height: (width / 2) - 30,
     alignSelf: 'center',
   },
   channelTitle: {
@@ -37,6 +35,7 @@ export default class BlockItem extends Component {
     super(props)
     this.onPressButton = this.onPressButton.bind(this)
   }
+
   onPressButton() {
     // this.props.navigator.push(Router.getRoute('block', { id: this.props.block.id }));
     return this
@@ -46,12 +45,24 @@ export default class BlockItem extends Component {
     let blockInner
 
     const { __typename } = this.props.block.kind
+    const { size } = this.props
+
+    const blockWidth = size === '1-up' ? width : (width / 2)
+    const blockPadding = size === '1-up' ? layout.padding * 4 : layout.padding * 2
+
+    const blockSize = {
+      width: blockWidth - blockPadding,
+      height: blockWidth - blockPadding,
+    }
 
     switch (__typename) {
       case 'Link':
       case 'Image':
         blockInner = (
-          <Image style={styles.image} source={{ uri: this.props.block.kind.image_url }} />
+          <Image
+            style={[styles.image, blockSize]}
+            source={{ uri: this.props.block.kind.image_url }}
+          />
         )
         break
       case 'Text':
@@ -72,7 +83,11 @@ export default class BlockItem extends Component {
     }
 
     return (
-      <TouchableOpacity onPress={this.onPressButton} style={styles.container}>
+      <TouchableOpacity
+        activeOpacity={0.95}
+        onPress={this.onPressButton}
+        style={[styles.container, blockSize]}
+      >
         <View style={{ flex: 1 }}>{blockInner}</View>
       </TouchableOpacity>
     )
@@ -80,6 +95,7 @@ export default class BlockItem extends Component {
 }
 
 BlockItem.propTypes = {
+  size: PropTypes.oneOf(['2-up', '1-up']),
   block: PropTypes.shape({
     title: PropTypes.string,
     updated_at: PropTypes.string,
@@ -87,3 +103,8 @@ BlockItem.propTypes = {
     kind: PropTypes.any,
   }).isRequired,
 }
+
+BlockItem.defaultProps = {
+  size: '2-up',
+}
+
