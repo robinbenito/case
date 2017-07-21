@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
   },
   date: {
     color: colors.gray.lighter,
-    paddingTop: (layout.padding / 2),
+    paddingTop: (layout.padding / 4),
     paddingBottom: (layout.padding / 2),
   },
 })
