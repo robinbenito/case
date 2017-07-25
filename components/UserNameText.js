@@ -25,7 +25,6 @@ export default class UserNameText extends React.Component {
   }
 
   goToProfile() {
-    console.log('click')
     const { user, mode } = this.props
     const routeName = mode === 'feed' ? 'feedProfile' : 'profile'
     NavigatorService.navigate(routeName, { id: user.slug })
