@@ -111,15 +111,9 @@ const FeedQuery = gql`
           verb
           object {
             __typename
-            ... on Block {
+            ... on Connectable {
               id
               title
-            }
-            ... on Channel {
-              id
-              slug
-              title
-              visibility
             }
             ... on User {
               id
@@ -134,15 +128,9 @@ const FeedQuery = gql`
           connector
           target {
             __typename
-            ... on Block {
+            ... on Connectable {
               id
               title
-            }
-            ... on Channel {
-              id
-              slug
-              title
-              visibility
             }
             ... on User {
               id
@@ -163,10 +151,7 @@ const FeedQuery = gql`
               initials
               avatar(size: MEDIUM)
             }
-            ... on Channel {
-              visibility
-            }
-            ... on Block {
+            ... on Connectable {
               id
               title
               updated_at(relative: true)
