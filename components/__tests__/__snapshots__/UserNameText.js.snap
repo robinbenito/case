@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<TouchableOpacity
+  activeOpacity={0.2}
+  focusedOpacity={0.7}
+  onPress={[Function]}
+>
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    disabled={false}
+    ellipsizeMode="tail"
+    onPress={[Function]}
+    style={
+      Object {
+        "fontWeight": "bold",
+      }
+    }
+  >
+    Damon Zucconi
+     
+  </Text>
+</TouchableOpacity>
+`;
+
+exports[`routes correctly 1`] = `
+<view
+  style="opacity:1;"
+>
+  <text
+    style="font-weight:bold;"
+  >
+    Damon Zucconi 
+  </text>
+</view>
+`;
