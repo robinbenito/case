@@ -25,7 +25,7 @@ const FeedStack = StackNavigator({
       title: 'Channel',
     }),
   },
-  profile: {
+  feedProfile: {
     screen: ProfileScreen,
     navigationOptions: () => ({
       title: 'Profile',

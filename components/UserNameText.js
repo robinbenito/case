@@ -25,7 +25,10 @@ export default class UserNameText extends React.Component {
   }
 
   goToProfile() {
-    NavigatorService.navigate('profile', { id: this.props.user.slug })
+    console.log('click')
+    const { user, mode } = this.props
+    const routeName = mode === 'feed' ? 'feedProfile' : 'profile'
+    NavigatorService.navigate(routeName, { id: user.slug })
   }
 
   render() {
@@ -38,8 +41,13 @@ export default class UserNameText extends React.Component {
 }
 
 UserNameText.propTypes = {
+  mode: PropTypes.oneOf(['feed', 'default']),
   user: PropTypes.shape({
     name: PropTypes.string,
     slug: PropTypes.string,
   }).isRequired,
+}
+
+UserNameText.defaultProps = {
+  mode: 'default',
 }

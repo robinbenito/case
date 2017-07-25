@@ -35,7 +35,7 @@ const FeedSentence = ({ group }) => {
   return (
     <View style={styles.container}>
       <View style={styles.sentence}>
-        <UserNameText user={user} />
+        <UserNameText user={user} mode="feed" />
         <Text>{verb} </Text>
         <FeedWordLink object={object} phrase={group.object_phrase} />
         <Text>{connector} </Text>
