@@ -130,6 +130,11 @@ const FeedQuery = gql`
               id
               title
             }
+            ... on Channel {
+              id
+              title
+              visibility
+            }
             ... on User {
               id
               name
@@ -146,6 +151,11 @@ const FeedQuery = gql`
             ... on Connectable {
               id
               title
+            }
+            ... on Channel {
+              id
+              title
+              visibility
             }
             ... on User {
               id
