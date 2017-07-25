@@ -28,6 +28,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#fff',
   },
+  footer: {
+    paddingVertical: layout.padding / 2,
+  },
   itemContainer: {
     borderBottomWidth: 1,
     borderBottomColor: colors.gray.border,
@@ -43,6 +46,7 @@ class FeedContainer extends React.Component {
       offset: 0,
     }
     this.onEndReached = this.onEndReached.bind(this)
+    this.renderFooter = this.renderFooter.bind(this)
   }
 
   onEndReached() {
@@ -50,6 +54,16 @@ class FeedContainer extends React.Component {
     const offset = this.state.offset + this.props.limit
     this.setState({ offset })
     return this.props.loadMore(offset)
+  }
+
+  renderFooter() {
+    if (!this.props.data.loading) return null
+
+    return (
+      <View style={styles.footer}>
+        <ActivityIndicator />
+      </View>
+    )
   }
 
   render() {
@@ -84,6 +98,7 @@ class FeedContainer extends React.Component {
         onRefresh={() => data.refetch()}
         onEndReached={this.onEndReached}
         onEndReachedThreshold={0.9}
+        ListFooterComponent={this.renderFooter}
         renderItem={({ item, index }) => (
           <View key={`${item.key}-${index}`} style={styles.itemContainer} >
             <FeedSentence group={item} />

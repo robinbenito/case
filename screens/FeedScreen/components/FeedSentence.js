@@ -14,6 +14,9 @@ import colors from '../../../constants/Colors'
 import layout from '../../../constants/Layout'
 
 const styles = StyleSheet.create({
+  container: {
+    paddingLeft: (layout.padding / 2),
+  },
   sentence: {
     display: 'flex',
     flexDirection: 'row',
@@ -21,7 +24,8 @@ const styles = StyleSheet.create({
   },
   date: {
     color: colors.gray.lighter,
-    paddingTop: (layout.padding / 2),
+    paddingTop: (layout.padding / 4),
+    paddingBottom: (layout.padding / 2),
   },
 })
 
@@ -29,7 +33,7 @@ const FeedSentence = ({ group }) => {
   const { user, verb, connector, target, object } = group
 
   return (
-    <View>
+    <View style={styles.container}>
       <View style={styles.sentence}>
         <UserNameText user={user} />
         <Text>{verb} </Text>
