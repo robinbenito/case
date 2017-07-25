@@ -4,6 +4,7 @@ import { Ionicons } from '@expo/vector-icons'
 import PropTypes from 'prop-types'
 
 import FeedScreen from '../screens/FeedScreen'
+import BlockScreen from '../screens/BlockScreen'
 import AddScreen from '../screens/AddScreen'
 import ConnectScreen from '../screens/AddScreen/components/ConnectScreen'
 import ProfileScreen from '../screens/ProfileScreen'
@@ -19,6 +20,9 @@ const FeedStack = StackNavigator({
       title: 'Feed',
     }),
   },
+  block: {
+    screen: BlockScreen,
+  },
   channel: {
     screen: ChannelScreen,
     navigationOptions: () => ({
@@ -32,6 +36,7 @@ const FeedStack = StackNavigator({
     }),
   },
 }, {
+  mode: 'modal',
   navigationOptions: {
     headerStyle: {
       backgroundColor: '#fff',

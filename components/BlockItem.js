@@ -9,6 +9,7 @@ import {
   View,
 } from 'react-native'
 
+import NavigatorService from '../utilities/navigationService'
 import layout from '../constants/Layout'
 
 const { width } = Dimensions.get('window')
@@ -33,11 +34,11 @@ const styles = StyleSheet.create({
 export default class BlockItem extends Component {
   constructor(props) {
     super(props)
-    this.onPressButton = this.onPressButton.bind(this)
+    this.onPress = this.onPress.bind(this)
   }
 
-  onPressButton() {
-    // this.props.navigator.push(Router.getRoute('block', { id: this.props.block.id }));
+  onPress() {
+    NavigatorService.navigate('block', { id: this.props.block.id })
     return this
   }
 
@@ -85,7 +86,7 @@ export default class BlockItem extends Component {
     return (
       <TouchableOpacity
         activeOpacity={0.95}
-        onPress={this.onPressButton}
+        onPress={this.onPress}
         style={[styles.container, blockSize]}
       >
         <View style={{ flex: 1 }}>{blockInner}</View>
@@ -97,6 +98,7 @@ export default class BlockItem extends Component {
 BlockItem.propTypes = {
   size: PropTypes.oneOf(['2-up', '1-up']),
   block: PropTypes.shape({
+    id: PropTypes.any,
     title: PropTypes.string,
     updated_at: PropTypes.string,
     user: PropTypes.any,
