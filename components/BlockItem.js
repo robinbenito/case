@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native'
+import HTMLView from 'react-native-htmlview'
 
 import NavigatorService from '../utilities/navigationService'
 import layout from '../constants/Layout'
@@ -19,6 +20,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255, 255, 255, 1.0)',
     padding: 15,
     marginBottom: 20,
+    overflow: 'hidden',
   },
   image: {
     flex: 1,
@@ -57,6 +59,8 @@ export default class BlockItem extends Component {
     }
 
     switch (__typename) {
+      case 'Attachment':
+      case 'Embed':
       case 'Link':
       case 'Image':
         blockInner = (
@@ -68,9 +72,10 @@ export default class BlockItem extends Component {
         break
       case 'Text':
         blockInner = (
-          <Text style={styles.channelTitle} numberOfLines={9}>
-            {this.props.block.kind.content}
-          </Text>
+          <HTMLView
+            numberOfLines={9}
+            value={this.props.block.kind.content}
+          />
         )
         break
 
