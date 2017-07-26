@@ -1,6 +1,7 @@
 import 'react-native'
 import React from 'react'
-import renderer from 'react-test-renderer'
+import { shallow } from 'enzyme'
+import toJSON from 'enzyme-to-json'
 
 import ChannelNameText from '../ChannelNameText'
 
@@ -10,8 +11,8 @@ const channel = {
 }
 
 test('renders correctly', () => {
-  const tree = renderer.create(
+  const tree = shallow(
     <ChannelNameText channel={channel} />,
-  ).toJSON()
-  expect(tree).toMatchSnapshot()
+  )
+  expect(toJSON(tree)).toMatchSnapshot()
 })
