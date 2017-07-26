@@ -81,6 +81,18 @@ const ProfileStack = StackNavigator({
       },
     }),
   },
+  block: {
+    screen: BlockScreen,
+    navigationOptions: () => ({
+      title: 'Block',
+      headerStyle: {
+        backgroundColor: '#fff',
+      },
+      cardStyle: {
+        backgroundColor: '#fff',
+      },
+    }),
+  },
 })
 
 const tabs = {
