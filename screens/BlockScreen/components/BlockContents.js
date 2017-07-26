@@ -10,9 +10,11 @@ import {
   StyleSheet,
   ScrollView,
   Text,
+  TouchableHighlight,
   View,
 } from 'react-native'
 import HTMLView from 'react-native-htmlview'
+import { WebBrowser } from 'expo'
 
 import layout from '../../../constants/Layout'
 
@@ -46,12 +48,27 @@ const textStyles = StyleSheet.create({
 })
 
 class BlockContainer extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      result: '',
+    }
+    this.openBrowser = this.openBrowser.bind(this)
+  }
+
+  async openBrowser(url) {
+    if (url) {
+      const result = await WebBrowser.openBrowserAsync(url)
+      this.setState({ result })
+    }
+  }
+
   render() {
     if (this.props.data.error) {
       return (
         <View style={styles.loadingContainer} >
           <Text>
-            Channel not found
+            Block not found
           </Text>
         </View>
       )
@@ -76,10 +93,12 @@ class BlockContainer extends React.Component {
       case 'Link':
       case 'Image':
         blockInner = (
-          <Image
-            style={styles.image}
-            source={{ uri: block.kind.image_url }}
-          />
+          <TouchableHighlight onPress={() => this.openBrowser(block.source.url)}>
+            <Image
+              style={styles.image}
+              source={{ uri: block.kind.image_url }}
+            />
+          </TouchableHighlight>
         )
         break
 
@@ -120,11 +139,13 @@ const BlockQuery = gql`
         name
       }
       klass
+      source {
+        url
+      }
       kind {
         type: __typename
         ... on Embed {
           image_url(size: ORIGINAL)
-          source_url
         }
         ... on Attachment {
           image_url(size: ORIGINAL)
