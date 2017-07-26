@@ -1,11 +1,12 @@
 import React from 'react'
 import {
   StyleSheet,
-  Text,
-  View,
 } from 'react-native'
+import PropTypes from 'prop-types'
 
 import layout from '../../constants/Layout'
+
+import BlockContents from './components/BlockContents'
 
 const styles = StyleSheet.create({
   container: {
@@ -20,10 +21,14 @@ const styles = StyleSheet.create({
 
 export default class BlockScreen extends React.Component {
   render() {
+    const { id } = this.props.navigation.state.params
+    console.log('id', id)
     return (
-      <View style={styles.container}>
-        <Text>Hello</Text>
-      </View>
+      <BlockContents id={id} />
     )
   }
+}
+
+BlockScreen.propTypes = {
+  navigation: PropTypes.any.isRequired,
 }
