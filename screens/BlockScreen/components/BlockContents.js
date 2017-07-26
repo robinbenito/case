@@ -47,7 +47,6 @@ const textStyles = StyleSheet.create({
 
 class BlockContainer extends React.Component {
   render() {
-    console.log('this', this.props)
     if (this.props.data.error) {
       return (
         <View style={styles.loadingContainer} >
