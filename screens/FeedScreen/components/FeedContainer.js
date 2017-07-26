@@ -126,7 +126,7 @@ const FeedQuery = gql`
           verb
           object {
             __typename
-            ... on Connectable {
+            ... on Block {
               id
               title
             }
@@ -148,7 +148,7 @@ const FeedQuery = gql`
           connector
           target {
             __typename
-            ... on Connectable {
+            ... on Block {
               id
               title
             }
@@ -176,7 +176,7 @@ const FeedQuery = gql`
               initials
               avatar(size: MEDIUM)
             }
-            ... on Connectable {
+            ... on Block {
               id
               title
               updated_at(relative: true)
@@ -187,13 +187,14 @@ const FeedQuery = gql`
               kind {
                 type: __typename
                 ... on Embed {
+                  image_url(size: DISPLAY)
                   source_url
                 }
                 ... on Attachment {
                   image_url(size: DISPLAY)
                 }
                 ... on Text {
-                  content
+                  content(format: HTML)
                 }
                 ... on Image {
                   image_url(size: DISPLAY)

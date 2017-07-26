@@ -46,7 +46,9 @@ export default class UserAvatar extends React.Component {
   }
 
   goToProfile() {
-    NavigatorService.navigate('profile', { id: this.props.user.slug })
+    const { user, mode } = this.props
+    const routeName = mode === 'feed' ? 'feedProfile' : 'profile'
+    NavigatorService.navigate(routeName, { id: user.slug })
   }
 
   render() {
@@ -74,6 +76,7 @@ UserAvatar.fragments = {
 }
 
 UserAvatar.propTypes = {
+  mode: PropTypes.oneOf(['feed', 'default']),
   user: PropTypes.shape({
     name: PropTypes.string,
     slug: PropTypes.string,
@@ -81,3 +84,8 @@ UserAvatar.propTypes = {
     avatar: PropTypes.string,
   }).isRequired,
 }
+
+UserAvatar.defaultProps = {
+  mode: 'default',
+}
+

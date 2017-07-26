@@ -18,11 +18,11 @@ const FeedContents = ({ items }) => {
     if (item) {
       const { __typename } = item
       switch (__typename) {
-        case 'Connectable':
+        case 'Block':
           objectItem = <BlockItem size="1-up" block={item} key={item.id} />
           break
         case 'User':
-          objectItem = <UserAvatar user={item} key={item.id} />
+          objectItem = <UserAvatar user={item} key={item.id} mode="feed" />
           break
         default:
           objectItem = <Text key={`klass-${item.id}`} >{item.id}</Text>
