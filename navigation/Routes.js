@@ -36,7 +36,6 @@ const FeedStack = StackNavigator({
     }),
   },
 }, {
-  mode: 'modal',
   navigationOptions: {
     headerStyle: {
       backgroundColor: '#fff',
