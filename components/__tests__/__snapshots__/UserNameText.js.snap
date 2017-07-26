@@ -11,18 +11,14 @@ exports[`renders correctly 1`] = `
     allowFontScaling={true}
     disabled={false}
     ellipsizeMode="tail"
+    onPress={[Function]}
     style={
-      Array [
-        Object {
-          "fontWeight": "bold",
-        },
-        Object {
-          "color": "#B60202",
-        },
-      ]
+      Object {
+        "fontWeight": "bold",
+      }
     }
   >
-    Arena
+    Damon Zucconi
      
   </Text>
 </TouchableOpacity>
