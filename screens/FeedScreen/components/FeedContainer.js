@@ -132,7 +132,6 @@ const FeedQuery = gql`
             }
             ... on Channel {
               id
-              slug
               title
               visibility
             }
@@ -155,7 +154,6 @@ const FeedQuery = gql`
             }
             ... on Channel {
               id
-              slug
               title
               visibility
             }
@@ -178,9 +176,6 @@ const FeedQuery = gql`
               initials
               avatar(size: MEDIUM)
             }
-            ... on Channel {
-              visibility
-            }
             ... on Block {
               id
               title
@@ -192,13 +187,14 @@ const FeedQuery = gql`
               kind {
                 type: __typename
                 ... on Embed {
+                  image_url(size: DISPLAY)
                   source_url
                 }
                 ... on Attachment {
                   image_url(size: DISPLAY)
                 }
                 ... on Text {
-                  content
+                  content(format: HTML)
                 }
                 ... on Image {
                   image_url(size: DISPLAY)

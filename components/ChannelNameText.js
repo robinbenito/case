@@ -27,7 +27,7 @@ export default class ChannelNameText extends React.Component {
   }
 
   goToChannel() {
-    NavigatorService.navigate('channel', { id: this.props.channel.slug })
+    NavigatorService.navigate('channel', { id: this.props.channel.id })
   }
 
   render() {
@@ -47,6 +47,7 @@ export default class ChannelNameText extends React.Component {
 
 ChannelNameText.propTypes = {
   channel: PropTypes.shape({
+    id: PropTypes.any,
     visibility: PropTypes.any,
     title: PropTypes.string,
     slug: PropTypes.string,

@@ -8,7 +8,9 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native'
+import HTMLView from 'react-native-htmlview'
 
+import NavigatorService from '../utilities/navigationService'
 import layout from '../constants/Layout'
 
 const { width } = Dimensions.get('window')
@@ -18,6 +20,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255, 255, 255, 1.0)',
     padding: 15,
     marginBottom: 20,
+    overflow: 'hidden',
   },
   image: {
     flex: 1,
@@ -33,11 +36,11 @@ const styles = StyleSheet.create({
 export default class BlockItem extends Component {
   constructor(props) {
     super(props)
-    this.onPressButton = this.onPressButton.bind(this)
+    this.onPress = this.onPress.bind(this)
   }
 
-  onPressButton() {
-    // this.props.navigator.push(Router.getRoute('block', { id: this.props.block.id }));
+  onPress() {
+    NavigatorService.navigate('block', { id: this.props.block.id })
     return this
   }
 
@@ -56,6 +59,8 @@ export default class BlockItem extends Component {
     }
 
     switch (__typename) {
+      case 'Attachment':
+      case 'Embed':
       case 'Link':
       case 'Image':
         blockInner = (
@@ -67,9 +72,10 @@ export default class BlockItem extends Component {
         break
       case 'Text':
         blockInner = (
-          <Text style={styles.channelTitle} numberOfLines={9}>
-            {this.props.block.kind.content}
-          </Text>
+          <HTMLView
+            numberOfLines={9}
+            value={this.props.block.kind.content}
+          />
         )
         break
 
@@ -85,7 +91,7 @@ export default class BlockItem extends Component {
     return (
       <TouchableOpacity
         activeOpacity={0.95}
-        onPress={this.onPressButton}
+        onPress={this.onPress}
         style={[styles.container, blockSize]}
       >
         <View style={{ flex: 1 }}>{blockInner}</View>
@@ -97,6 +103,7 @@ export default class BlockItem extends Component {
 BlockItem.propTypes = {
   size: PropTypes.oneOf(['2-up', '1-up']),
   block: PropTypes.shape({
+    id: PropTypes.any,
     title: PropTypes.string,
     updated_at: PropTypes.string,
     user: PropTypes.any,
