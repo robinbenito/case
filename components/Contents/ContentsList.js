@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     paddingRight: layout.padding,
     paddingLeft: layout.padding,
     flexWrap: 'wrap',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
   },
 })
 
