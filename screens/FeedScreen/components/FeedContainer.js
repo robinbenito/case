@@ -46,7 +46,7 @@ class FeedContainer extends React.Component {
       offset: 0,
     }
     this.onEndReached = this.onEndReached.bind(this)
-    this.renderFooter = this.renderFooter.bind(this)
+    this.renderLoader = this.renderLoader.bind(this)
   }
 
   onEndReached() {
@@ -56,7 +56,7 @@ class FeedContainer extends React.Component {
     return this.props.loadMore(offset)
   }
 
-  renderFooter() {
+  renderLoader() {
     if (!this.props.data.loading) return null
 
     return (
@@ -98,7 +98,8 @@ class FeedContainer extends React.Component {
         onRefresh={() => data.refetch()}
         onEndReached={this.onEndReached}
         onEndReachedThreshold={0.9}
-        ListFooterComponent={this.renderFooter}
+        ListHeaderComponent={this.renderLoader}
+        ListFooterComponent={this.renderLoader}
         renderItem={({ item, index }) => (
           <View key={`${item.key}-${index}`} style={styles.itemContainer} >
             <FeedSentence group={item} />
