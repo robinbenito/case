@@ -51,7 +51,7 @@ export default class BlockItem extends Component {
     const { size } = this.props
 
     const blockWidth = size === '1-up' ? width : (width / 2)
-    const blockPadding = size === '1-up' ? layout.padding * 4 : layout.padding * 2
+    const blockPadding = size === '1-up' ? layout.padding * 4 : layout.padding
 
     const blockSize = {
       width: blockWidth - blockPadding,
