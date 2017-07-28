@@ -22,10 +22,13 @@ export default class ContentsList extends Component {
     const columnCount = this.props.type === 'Channels' ? 1 : 2
     const { data, loadMore, contentsKey } = this.props
 
+    const columnStyle = columnCount > 1 ? { justifyContent: 'space-around' } : false
+
     return (
       <FlatList
         contentContainerStyle={styles.listContainer}
         data={data[contentsKey]}
+        columnWrapperStyle={columnStyle}
         refreshing={data.networkStatus === 4}
         numColumns={columnCount}
         keyExtractor={item => item.klass + item.id}
