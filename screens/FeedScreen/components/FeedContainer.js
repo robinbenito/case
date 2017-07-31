@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   footer: {
-    paddingVertical: layout.padding / 2,
+    paddingVertical: layout.padding,
   },
   itemContainer: {
     borderBottomWidth: 1,
@@ -47,6 +47,7 @@ class FeedContainer extends React.Component {
     }
     this.onEndReached = this.onEndReached.bind(this)
     this.renderLoader = this.renderLoader.bind(this)
+    this.onRefresh = this.onRefresh.bind(this)
   }
 
   onEndReached() {
@@ -56,13 +57,17 @@ class FeedContainer extends React.Component {
     return this.props.loadMore(offset)
   }
 
+  onRefresh() {
+    this.setState({
+      offset: 0,
+    })
+    this.props.data.refetch({ notifyOnNetworkStatusChange: true })
+  }
+
   renderLoader() {
     if (!this.props.data.loading) return null
-
     return (
-      <View style={styles.footer}>
-        <ActivityIndicator />
-      </View>
+      <ActivityIndicator animating size="small" style={styles.footer} />
     )
   }
 
@@ -77,7 +82,7 @@ class FeedContainer extends React.Component {
       )
     }
 
-    if (this.props.data.loading) {
+    if (this.props.data.loading && !this.props.data.me) {
       return (
         <View style={styles.loadingContainer} >
           <ActivityIndicator />
@@ -95,10 +100,9 @@ class FeedContainer extends React.Component {
         refreshing={data.loading}
         initialNumToRender={4}
         keyExtractor={group => group.key}
-        onRefresh={() => data.refetch()}
+        onRefresh={this.onRefresh}
         onEndReached={this.onEndReached}
         onEndReachedThreshold={0.9}
-        ListHeaderComponent={this.renderLoader}
         ListFooterComponent={this.renderLoader}
         renderItem={({ item, index }) => (
           <View key={`${item.key}-${index}`} style={styles.itemContainer} >
@@ -225,9 +229,10 @@ FeedContainer.defaultProps = {
 const FeedContainerWithData = graphql(FeedQuery, {
   options: ({ offset, limit }) => ({
     variables: { offset, limit },
+    notifyOnNetworkStatusChange: true,
   }),
   props: (props) => {
-    const data = props.data
+    const { data } = props
     return {
       data,
       loadMore(offset) {
