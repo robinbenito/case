@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   },
 })
 
-class FollowButton extends React.Component {
+export class FollowButton extends React.Component {
   constructor(props) {
     super(props)
     this.handlePress = this.handlePress.bind(this)
@@ -133,6 +133,7 @@ FollowButton.propTypes = {
 FollowButton.defaultProps = {
   id: null,
   type: null,
+  data: {},
   follow: () => null,
   unfollow: () => null,
 }
