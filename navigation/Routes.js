@@ -101,7 +101,7 @@ const tabs = {
     navigationOptions: {
       tabBarLabel: 'Feed',
       tabBarIcon: props => (
-        <Ionicons name="ios-list-outline" size={24} color={props.tintColor} />
+        <Ionicons name="ios-list-box-outline" size={24} color={props.tintColor} />
       ),
     },
   },
@@ -120,7 +120,7 @@ const tabs = {
       title: 'Profile',
       tabBarLabel: 'Profile',
       tabBarIcon: props => (
-        <Ionicons name="ios-hand-outline" size={24} color={props.tintColor} />
+        <Ionicons name="ios-person" size={24} color={props.tintColor} />
       ),
     },
   },
