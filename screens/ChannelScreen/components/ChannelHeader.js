@@ -8,6 +8,7 @@ import {
 import PropTypes from 'prop-types'
 
 import UserNameText from '../../../components/UserNameText'
+import FollowButton from '../../../components/FollowButton'
 
 import colors from '../../../constants/Colors'
 import layout from '../../../constants/Layout'
@@ -22,6 +23,13 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     marginBottom: layout.padding,
     minHeight: 100,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+  },
+  channelInfo: {
+    maxWidth: 400,
   },
   headerText: {
     fontSize: 24,
@@ -52,13 +60,16 @@ const ChannelHeader = ({ channel }) => {
   return (
     <View style={styles.header}>
       <View style={styles.innerHeader}>
-        <Text style={[styles.headerText, textStyle]}>
-          {channel.title}
-        </Text>
-        <View style={styles.collaborators}>
-          <Text style={textStyle}>by </Text>
-          <UserNameText style={textStyle} user={channel.user} />
+        <View style={styles.channelInfo}>
+          <Text style={[styles.headerText, textStyle]}>
+            {channel.title}
+          </Text>
+          <View style={styles.collaborators}>
+            <Text style={textStyle}>by </Text>
+            <UserNameText style={textStyle} user={channel.user} />
+          </View>
         </View>
+        <FollowButton id={channel.id} type="CHANNEL" />
       </View>
     </View>
   )
@@ -66,6 +77,7 @@ const ChannelHeader = ({ channel }) => {
 
 ChannelHeader.propTypes = {
   channel: PropTypes.shape({
+    id: PropTypes.any,
     visibility: PropTypes.string,
     title: PropTypes.string,
     user: PropTypes.any,
