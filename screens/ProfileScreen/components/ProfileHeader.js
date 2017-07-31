@@ -9,7 +9,7 @@ import {
 
 import HTMLView from 'react-native-htmlview'
 import layout from '../../../constants/Layout'
-import FollowButton from '../../../components/FollowButton'
+import FollowButtonWithData from '../../../components/FollowButton'
 
 const IMAGE_SIZE = 50
 
@@ -64,7 +64,7 @@ const ProfileHeader = ({ user }) => (
           />
         </View>
       </View>
-      <FollowButton id={user.id} type="USER" />
+      <FollowButtonWithData id={user.id} type="USER" />
     </View>
   </View>
 )

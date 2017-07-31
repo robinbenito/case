@@ -8,7 +8,7 @@ import {
 import PropTypes from 'prop-types'
 
 import UserNameText from '../../../components/UserNameText'
-import FollowButton from '../../../components/FollowButton'
+import FollowButtonWithData from '../../../components/FollowButton'
 
 import colors from '../../../constants/Colors'
 import layout from '../../../constants/Layout'
@@ -69,7 +69,7 @@ const ChannelHeader = ({ channel }) => {
             <UserNameText style={textStyle} user={channel.user} />
           </View>
         </View>
-        <FollowButton id={channel.id} type="CHANNEL" />
+        <FollowButtonWithData id={channel.id} type="CHANNEL" />
       </View>
     </View>
   )
