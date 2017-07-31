@@ -47,10 +47,16 @@ class FollowButton extends React.Component {
       },
     }
 
-    this.props[mutation]({
+    const options = {
       variables: { id, type },
       optimisticResponse,
-    })
+    }
+
+    if (followable.is_followed) {
+      this.props.unfollow(options)
+    } else {
+      this.props.follow(options)
+    }
   }
 
   render() {
