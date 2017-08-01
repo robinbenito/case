@@ -7,6 +7,7 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native'
+import { last } from 'lodash'
 
 import NavigatorService from '../utilities/navigationService'
 
@@ -47,9 +48,13 @@ export default class UserAvatar extends React.Component {
 
   goToProfile() {
     const { user } = this.props
-    const { routeName } = NavigatorService.getCurrentRoute()
+    const { routeName, routes } = NavigatorService.getCurrentRoute()
+    const lastStack = last(routes)
+    if (lastStack.params && lastStack.params.id === user.slug) {
+      return false
+    }
     const route = routeName === 'main' ? 'feedProfile' : 'profile'
-    NavigatorService.navigate(route, { id: user.slug })
+    return NavigatorService.navigate(route, { id: user.slug })
   }
 
   render() {
