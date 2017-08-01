@@ -18,7 +18,7 @@ const FeedContents = ({ items }) => {
     if (item) {
       const { __typename } = item
       switch (__typename) {
-        case 'Block':
+        case 'Connectable':
           objectItem = <BlockItem size="1-up" block={item} key={item.id} />
           break
         case 'User':
