@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { last } from 'lodash'
 import { StyleSheet, Text, TouchableOpacity } from 'react-native'
 
 import NavigatorService from '../utilities/navigationService'
@@ -26,16 +25,7 @@ export default class UserNameText extends React.Component {
   }
 
   goToProfile() {
-    const { user } = this.props
-    const { routeName, routes } = NavigatorService.getCurrentRoute()
-
-    const lastStack = last(routes)
-    if (lastStack.params && lastStack.params.id === user.id) {
-      return false
-    }
-
-    const route = routeName === 'home' ? 'feedProfile' : 'profile'
-    return NavigatorService.navigate(route, { id: user.slug })
+    NavigatorService.navigateToProfile(this.props.user.slug)
   }
 
   render() {

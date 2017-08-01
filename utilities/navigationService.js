@@ -1,4 +1,5 @@
 import { NavigationActions } from 'react-navigation'
+import { last } from 'lodash'
 
 let _container; // eslint-disable-line
 
@@ -57,10 +58,21 @@ function getCurrentRoute() {
   return null
 }
 
+function navigateToProfile(id) {
+  const { routeName, routes } = getCurrentRoute()
+  const lastStack = last(routes)
+  if (lastStack.params && lastStack.params.id === id) {
+    return false
+  }
+  const route = routeName === 'home' ? 'feedProfile' : 'profile'
+  return navigate(route, { id })
+}
+
 export default {
   setContainer,
   navigateDeep,
   navigate,
   reset,
   getCurrentRoute,
+  navigateToProfile,
 }

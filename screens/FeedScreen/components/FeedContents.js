@@ -7,6 +7,8 @@ import {
 import PropTypes from 'prop-types'
 import Carousel from 'react-native-snap-carousel'
 
+import NavigationService from '../../../utilities/navigationService'
+
 import BlockItem from '../../../components/BlockItem'
 import UserAvatar from '../../../components/UserAvatar'
 
@@ -22,7 +24,14 @@ const FeedContents = ({ items }) => {
           objectItem = <BlockItem size="1-up" block={item} key={item.id} />
           break
         case 'User':
-          objectItem = <UserAvatar user={item} key={item.id} mode="feed" />
+          objectItem = (
+            <UserAvatar
+              user={item}
+              key={item.id}
+              mode="feed"
+              onPress={() => NavigationService.navigateToProfile(item.slug)}
+            />
+          )
           break
         default:
           objectItem = <Text key={`klass-${item.id}`} >{item.id}</Text>
