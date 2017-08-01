@@ -4,11 +4,11 @@ import {
   StyleSheet,
   View,
   Text,
-  Image,
 } from 'react-native'
 
 import HTMLView from 'react-native-htmlview'
 import layout from '../../../constants/Layout'
+import UserAvatar from '../../../components/UserAvatar'
 import FollowButtonWithData from '../../../components/FollowButton'
 
 const IMAGE_SIZE = 50
@@ -50,10 +50,7 @@ const ProfileHeader = ({ user }) => (
   <View style={styles.header}>
     <View style={styles.innerHeader}>
       <View style={styles.userInfo}>
-        <Image
-          style={styles.avatar}
-          source={{ uri: user.avatar }}
-        />
+        <UserAvatar size={50} user={user} style={styles.avatar} />
         <View>
           <Text style={styles.headerText}>
             {user.name}

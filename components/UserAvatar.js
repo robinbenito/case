@@ -12,37 +12,37 @@ import NavigatorService from '../utilities/navigationService'
 
 import colors from '../constants/Colors'
 
-const IMAGE_SIZE = 50
-
-const styles = StyleSheet.create({
-  container: {
-    width: IMAGE_SIZE,
-    height: IMAGE_SIZE,
-    borderRadius: IMAGE_SIZE,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'relative',
-    backgroundColor: colors.gray.background,
-  },
-  initials: {
-    fontWeight: 'bold',
-    color: colors.gray.text,
-  },
-  image: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: IMAGE_SIZE,
-    height: IMAGE_SIZE,
-    borderRadius: IMAGE_SIZE / 2,
-  },
-})
+const getStyles = size =>
+  StyleSheet.create({
+    container: {
+      width: size,
+      height: size,
+      borderRadius: size,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      position: 'relative',
+      backgroundColor: colors.gray.background,
+    },
+    initials: {
+      fontWeight: 'bold',
+      color: colors.gray.text,
+    },
+    image: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: size,
+      height: size,
+      borderRadius: size / 2,
+    },
+  })
 
 export default class UserAvatar extends React.Component {
   constructor(props) {
     super(props)
     this.goToProfile = this.goToProfile.bind(this)
+    this.styles = getStyles(props.size)
   }
 
   goToProfile() {
@@ -55,11 +55,14 @@ export default class UserAvatar extends React.Component {
   render() {
     const { user } = this.props
     return (
-      <TouchableOpacity onPress={this.goToProfile} style={styles.container}>
-        <Text style={styles.initials} onPress={this.goToProfile}>
+      <TouchableOpacity
+        onPress={this.goToProfile}
+        style={[this.styles.container, this.props.style]}
+      >
+        <Text style={this.styles.initials} onPress={this.goToProfile}>
           {user.initials}
         </Text>
-        <Image source={{ uri: user.avatar }} style={styles.image} />
+        <Image source={{ uri: decodeURIComponent(user.avatar) }} style={this.styles.image} />
       </TouchableOpacity>
     )
   }
@@ -77,6 +80,8 @@ UserAvatar.fragments = {
 }
 
 UserAvatar.propTypes = {
+  size: PropTypes.number,
+  style: PropTypes.any,
   user: PropTypes.shape({
     name: PropTypes.string,
     slug: PropTypes.string,
@@ -86,6 +91,7 @@ UserAvatar.propTypes = {
 }
 
 UserAvatar.defaultProps = {
-  mode: 'default',
+  size: 40,
+  style: {},
 }
 
