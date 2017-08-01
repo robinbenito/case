@@ -18,7 +18,7 @@ const FeedWordLink = ({ object, phrase }) => {
         objectLink = <ChannelNameText channel={object} />
         break
       case 'User':
-        objectLink = <UserNameText mode="feed" user={object} />
+        objectLink = <UserNameText user={object} />
         break
       default:
         objectLink = <Text>{phrase || object.title} </Text>
