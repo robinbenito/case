@@ -131,6 +131,11 @@ const FeedQuery = gql`
           verb
           object {
             __typename
+            ... on Channel {
+              id
+              title
+              visibility
+            }
             ... on Connectable {
               id
               title
@@ -148,6 +153,11 @@ const FeedQuery = gql`
           connector
           target {
             __typename
+            ... on Channel {
+              id
+              title
+              visibility
+            }
             ... on Connectable {
               id
               title
@@ -170,6 +180,11 @@ const FeedQuery = gql`
               href
               initials
               avatar(size: MEDIUM)
+            }
+            ... on Channel {
+              id
+              title
+              visibility
             }
             ... on Connectable {
               id
