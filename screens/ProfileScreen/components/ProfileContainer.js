@@ -71,6 +71,7 @@ const ProfileQuery = gql`
   query ProfileQuery($userId: ID!){
     user(id: $userId) {
       id
+      slug
       initials
       name
       avatar(size: LARGE)

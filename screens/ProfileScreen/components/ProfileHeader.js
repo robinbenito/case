@@ -9,14 +9,16 @@ import {
 
 import HTMLView from 'react-native-htmlview'
 import layout from '../../../constants/Layout'
+import FollowButtonWithData from '../../../components/FollowButton'
+
+const IMAGE_SIZE = 50
 
 const styles = StyleSheet.create({
   avatar: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    width: 75,
-    height: 75,
+    width: IMAGE_SIZE + 2,
+    height: IMAGE_SIZE + 2,
+    borderRadius: IMAGE_SIZE / 2,
+    marginRight: layout.padding / 2,
   },
   header: {
     padding: layout.padding,
@@ -26,10 +28,19 @@ const styles = StyleSheet.create({
     borderBottomColor: '#eee',
     borderBottomWidth: 1,
     marginBottom: layout.padding,
-    minHeight: 100,
+    minHeight: 75,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+  },
+  userInfo: {
+    display: 'flex',
+    flexDirection: 'row',
+    maxWidth: 200,
   },
   headerText: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: 'bold',
     paddingBottom: layout.padding,
   },
@@ -38,23 +49,29 @@ const styles = StyleSheet.create({
 const ProfileHeader = ({ user }) => (
   <View style={styles.header}>
     <View style={styles.innerHeader}>
-      <Text style={styles.headerText}>
-        {user.name}
-      </Text>
-      <HTMLView
-        value={user.bio}
-        stylesheet={styles}
-      />
-      <Image
-        style={styles.avatar}
-        source={{ uri: user.avatar }}
-      />
+      <View style={styles.userInfo}>
+        <Image
+          style={styles.avatar}
+          source={{ uri: user.avatar }}
+        />
+        <View>
+          <Text style={styles.headerText}>
+            {user.name}
+          </Text>
+          <HTMLView
+            value={user.bio || '–'}
+            stylesheet={styles}
+          />
+        </View>
+      </View>
+      <FollowButtonWithData id={user.id} type="USER" />
     </View>
   </View>
 )
 
 ProfileHeader.propTypes = {
   user: PropTypes.shape({
+    slug: PropTypes.any,
     bio: PropTypes.string,
     name: PropTypes.string,
     avatar: PropTypes.string,
