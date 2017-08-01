@@ -8,8 +8,6 @@ import {
   TouchableOpacity,
 } from 'react-native'
 
-import NavigatorService from '../utilities/navigationService'
-
 import colors from '../constants/Colors'
 
 const getStyles = size =>
@@ -41,21 +39,14 @@ const getStyles = size =>
 export default class UserAvatar extends React.Component {
   constructor(props) {
     super(props)
-    this.goToProfile = this.goToProfile.bind(this)
     this.styles = getStyles(props.size)
   }
 
-  goToProfile() {
-    const { user, mode } = this.props
-    const routeName = mode === 'feed' ? 'feedProfile' : 'profile'
-    NavigatorService.navigate(routeName, { id: user.slug })
-  }
-
   render() {
-    const { user } = this.props
+    const { user, onPress } = this.props
     return (
       <TouchableOpacity
-        onPress={this.goToProfile}
+        onPress={onPress}
         style={[this.styles.container, this.props.style]}
       >
         <Text style={this.styles.initials} onPress={this.goToProfile}>
@@ -79,9 +70,9 @@ UserAvatar.fragments = {
 }
 
 UserAvatar.propTypes = {
-  mode: PropTypes.oneOf(['feed', 'default']),
   size: PropTypes.number,
   style: PropTypes.any,
+  onPress: PropTypes.func,
   user: PropTypes.shape({
     name: PropTypes.string,
     slug: PropTypes.string,
@@ -91,8 +82,8 @@ UserAvatar.propTypes = {
 }
 
 UserAvatar.defaultProps = {
-  mode: 'default',
   size: 40,
   style: {},
+  onPress: () => null,
 }
 
