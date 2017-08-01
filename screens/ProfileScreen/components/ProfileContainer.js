@@ -76,6 +76,9 @@ const ProfileQuery = gql`
       name
       avatar(size: LARGE)
       bio
+      can {
+        follow
+      }
     }
   }
 `

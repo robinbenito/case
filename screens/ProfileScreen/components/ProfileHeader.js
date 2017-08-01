@@ -64,7 +64,9 @@ const ProfileHeader = ({ user }) => (
           />
         </View>
       </View>
-      <FollowButtonWithData id={user.id} type="USER" />
+      {
+        user.can.follow && <FollowButtonWithData id={user.id} type="USER" />
+      }
     </View>
   </View>
 )
@@ -75,6 +77,7 @@ ProfileHeader.propTypes = {
     bio: PropTypes.string,
     name: PropTypes.string,
     avatar: PropTypes.string,
+    can: PropTypes.any,
   }).isRequired,
 }
 

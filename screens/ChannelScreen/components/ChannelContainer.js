@@ -70,6 +70,9 @@ const ChannelQuery = gql`
       slug
       title
       visibility
+      can {
+        follow
+      }
       user {
         name
         slug
