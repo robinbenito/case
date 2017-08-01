@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   channelInfo: {
-    maxWidth: 400,
+    maxWidth: 300,
   },
   headerText: {
     fontSize: 24,
@@ -69,7 +69,9 @@ const ChannelHeader = ({ channel }) => {
             <UserNameText style={textStyle} user={channel.user} />
           </View>
         </View>
-        <FollowButtonWithData id={channel.id} type="CHANNEL" />
+        {
+          channel.can.follow && <FollowButtonWithData id={channel.id} type="CHANNEL" />
+        }
       </View>
     </View>
   )
@@ -81,6 +83,7 @@ ChannelHeader.propTypes = {
     visibility: PropTypes.string,
     title: PropTypes.string,
     user: PropTypes.any,
+    can: PropTypes.any,
   }).isRequired,
 }
 
