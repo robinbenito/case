@@ -50,8 +50,11 @@ function getCurrentRoute() {
   if (!_container || !_container.state.nav) {
     return null
   }
-
-  return _container.state.nav.routes[_container.state.nav.index] || null
+  const firstStack = _container.state.nav.routes[_container.state.nav.index] || null
+  if (firstStack) {
+    return firstStack.routes[firstStack.index]
+  }
+  return null
 }
 
 export default {
