@@ -1,24 +1,27 @@
 import React from 'react'
 import gql from 'graphql-tag'
-import { graphql } from 'react-apollo'
+import { graphql, compose } from 'react-apollo'
 import { propType } from 'graphql-anywhere'
+import PropTypes from 'prop-types'
 
 import {
   ActivityIndicator,
+  FlatList,
   StyleSheet,
-  ScrollView,
   Text,
   View,
 } from 'react-native'
 
 import ChannelHeader from './ChannelHeader'
-import ContentsWithData from '../../../components/Contents/ContentsContainer'
+import ChannelItem from '../../../components/ChannelItem'
+import BlockItem from '../../../components/BlockItem'
+
 import layout from '../../../constants/Layout'
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#fff',
+    minHeight: 700,
   },
   loadingContainer: {
     flex: 1,
@@ -29,8 +32,35 @@ const styles = StyleSheet.create({
 })
 
 class ChannelContainer extends React.Component {
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      page: props.page,
+    }
+    this.onEndReached = this.onEndReached.bind(this)
+    this.onRefresh = this.onRefresh.bind(this)
+  }
+
+  onEndReached() {
+    if (this.props.data.loading) return false
+    const page = this.state.page + 1
+    this.setState({ page })
+    return this.props.loadMore(page)
+  }
+
+  onRefresh() {
+    this.setState({
+      offset: 0,
+    })
+    this.props.data.refetch({ notifyOnNetworkStatusChange: true })
+  }
+
   render() {
-    if (this.props.data.error) {
+    const { data, blocksData } = this.props
+    const { error, loading, channel } = this.props.data
+
+    if (error) {
       return (
         <View style={styles.loadingContainer} >
           <Text>
@@ -40,25 +70,39 @@ class ChannelContainer extends React.Component {
       )
     }
 
-    if (this.props.data.loading) {
+    if (loading) {
       return (
         <View style={styles.loadingContainer} >
           <ActivityIndicator />
         </View>
       )
     }
+
+    const columnCount = this.props.type === 'Channels' ? 1 : 2
+    const columnStyle = columnCount > 1 ? { justifyContent: 'space-around' } : false
+
+    const contents = (blocksData && blocksData.channel && blocksData.channel.blocks) || []
+
     return (
-      <ScrollView style={styles.container}>
-        <ChannelHeader channel={this.props.data.channel} />
-        <ContentsWithData
-          objectId={this.props.data.channel.slug}
-          objectType="CHANNEL"
-          type="block"
-          page={1}
-          sort_by="POSITION"
-          direction="DESC"
-        />
-      </ScrollView>
+      <FlatList
+        contentContainerStyle={styles.container}
+        data={contents}
+        columnWrapperStyle={columnStyle}
+        refreshing={data.networkStatus === 4}
+        numColumns={columnCount}
+        keyExtractor={item => item.klass + item.id}
+        key={this.props.type}
+        onRefresh={() => data.refetch()}
+        onEndReached={this.onEndReached}
+        onEndReachedThreshold={0.9}
+        ListHeaderComponent={() => <ChannelHeader channel={channel} />}
+        renderItem={({ item }) => {
+          if (item.klass === 'Block') {
+            return <BlockItem block={item} />
+          }
+          return <ChannelItem channel={item} />
+        }}
+      />
     )
   }
 }
@@ -66,6 +110,7 @@ class ChannelContainer extends React.Component {
 const ChannelQuery = gql`
   query ChannelQuery($id: ID!){
     channel(id: $id) {
+      __typename
       id
       slug
       title
@@ -89,10 +134,96 @@ const ChannelQuery = gql`
   }
 `
 
+const ChannelBlocksQuery = gql`
+  query ChannelBlocksQuery($id: ID!, $page: Int!){
+    channel(id: $id) {
+      __typename
+      id
+      blocks(per: 10, page: $page, sort_by: POSITION, direction: DESC, type: BLOCK) {
+        __typename
+        id
+        title
+        updated_at(relative: true)
+        user {
+          name
+        }
+        klass
+        kind {
+          __typename
+          ... on Attachment {
+            image_url(size: DISPLAY)
+          }
+          ... on Embed {
+            image_url(size: DISPLAY)
+            source_url
+          }
+          ... on Text {
+            content(format: HTML)
+          }
+          ... on Image {
+            image_url(size: DISPLAY)
+          }
+          ... on Link {
+            image_url(size: DISPLAY)
+          }
+          ... on Channel {
+            visibility
+          }
+        }
+      }
+    }
+  }
+`
+
 ChannelContainer.propTypes = {
-  data: propType(ChannelQuery).isRequired,
+  data: PropTypes.any.isRequired,
+  blocksData: PropTypes.any.isRequired,
+  type: PropTypes.oneOf(['Channels', 'Blocks']),
+  loadMore: PropTypes.any.isRequired,
+  page: PropTypes.number,
 }
 
-const ChannelContainerWithData = graphql(ChannelQuery)(ChannelContainer)
+ChannelContainer.defaultProps = {
+  type: 'Blocks',
+  page: 1,
+}
+
+const ChannelContainerWithData = compose(
+  graphql(ChannelQuery),
+  graphql(ChannelBlocksQuery, {
+    name: 'blocksData',
+    options: ({ id, page }) => ({
+      variables: { id, page },
+      notifyOnNetworkStatusChange: true,
+    }),
+    props: (props) => {
+      const { blocksData } = props
+      const { id } = blocksData.variables
+      return {
+        blocksData,
+        loadMore(page) {
+          return props.blocksData.fetchMore({
+            variables: {
+              id,
+              page,
+            },
+            updateQuery: (previousResult, { fetchMoreResult }) => {
+              if (!fetchMoreResult.channel.blocks.length) { return previousResult }
+              const { __typename } = previousResult.channel
+              const response = {
+                channel: {
+                  __typename,
+                  id,
+                  blocks: [...previousResult.channel.blocks, ...fetchMoreResult.channel.blocks],
+                },
+              }
+              return response
+            },
+          })
+        },
+      }
+    },
+  }),
+)(ChannelContainer)
 
 export default ChannelContainerWithData
