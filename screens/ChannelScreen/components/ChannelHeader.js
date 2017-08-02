@@ -8,6 +8,7 @@ import {
 import PropTypes from 'prop-types'
 
 import UserNameText from '../../../components/UserNameText'
+import ContentsToggle from '../../../components/Contents/ContentsToggle'
 import FollowButtonWithData from '../../../components/FollowButton'
 
 import colors from '../../../constants/Colors'
@@ -16,7 +17,6 @@ import layout from '../../../constants/Layout'
 const styles = StyleSheet.create({
   header: {
     padding: layout.padding / 2,
-    paddingBottom: 0,
   },
   innerHeader: {
     borderBottomColor: '#eee',
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
   },
 })
 
-const ChannelHeader = ({ channel }) => {
+const ChannelHeader = ({ channel, type, onToggle }) => {
   const textStyle = {
     public: styles.channelPublic,
     closed: styles.channelClosed,
@@ -73,11 +73,17 @@ const ChannelHeader = ({ channel }) => {
           channel.can.follow && <FollowButtonWithData id={channel.id} type="CHANNEL" />
         }
       </View>
+      <ContentsToggle
+        selectedSegment={type}
+        onToggleChange={onToggle}
+      />
     </View>
   )
 }
 
 ChannelHeader.propTypes = {
+  type: PropTypes.oneOf(['CHANNEL', 'BLOCK']).isRequired,
+  onToggle: PropTypes.func,
   channel: PropTypes.shape({
     id: PropTypes.any,
     visibility: PropTypes.string,
@@ -85,6 +91,10 @@ ChannelHeader.propTypes = {
     user: PropTypes.any,
     can: PropTypes.any,
   }).isRequired,
+}
+
+ChannelHeader.defaultProps = {
+  onToggle: () => null,
 }
 
 export default ChannelHeader
