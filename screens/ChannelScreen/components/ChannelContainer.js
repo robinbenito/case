@@ -1,7 +1,6 @@
 import React from 'react'
 import gql from 'graphql-tag'
 import { graphql, compose } from 'react-apollo'
-import { propType } from 'graphql-anywhere'
 import PropTypes from 'prop-types'
 
 import {
