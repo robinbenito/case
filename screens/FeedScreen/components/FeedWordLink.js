@@ -1,4 +1,5 @@
 import React from 'react'
+import gql from 'graphql-tag'
 import {
   Text,
 } from 'react-native'
@@ -26,6 +27,29 @@ const FeedWordLink = ({ object, phrase }) => {
   }
 
   return objectLink || <Text>{phrase} </Text>
+}
+
+FeedWordLink.fragments = {
+  channel: gql`
+    fragment ChannelWord on Channel {
+      id
+      title
+      visibility
+    }
+  `,
+  connectable: gql`
+    fragment ConnectableWord on Connectable {
+      id
+      title
+    }
+  `,
+  user: gql`
+    fragment UserWord on User {
+      id
+      name
+      slug
+    }
+  `,
 }
 
 FeedWordLink.propTypes = {
