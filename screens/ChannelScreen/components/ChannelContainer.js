@@ -139,39 +139,11 @@ const ChannelBlocksQuery = gql`
       __typename
       id
       blocks(per: 10, page: $page, sort_by: POSITION, direction: DESC, type: BLOCK) {
-        __typename
-        id
-        title
-        updated_at(relative: true)
-        user {
-          name
-        }
-        klass
-        kind {
-          __typename
-          ... on Attachment {
-            image_url(size: DISPLAY)
-          }
-          ... on Embed {
-            image_url(size: DISPLAY)
-            source_url
-          }
-          ... on Text {
-            content(format: HTML)
-          }
-          ... on Image {
-            image_url(size: DISPLAY)
-          }
-          ... on Link {
-            image_url(size: DISPLAY)
-          }
-          ... on Channel {
-            visibility
-          }
-        }
+        ...BlockThumb
       }
     }
   }
+  ${BlockItem.fragments.block}
 `
 
 ChannelContainer.propTypes = {
