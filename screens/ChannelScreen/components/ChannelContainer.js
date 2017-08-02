@@ -31,14 +31,15 @@ const styles = StyleSheet.create({
 })
 
 class ChannelContainer extends React.Component {
-
   constructor(props) {
     super(props)
     this.state = {
       page: props.page,
+      type: props.type,
     }
     this.onEndReached = this.onEndReached.bind(this)
     this.onRefresh = this.onRefresh.bind(this)
+    this.onToggleChange = this.onToggleChange.bind(this)
   }
 
   onEndReached() {
@@ -53,6 +54,15 @@ class ChannelContainer extends React.Component {
       page: 1,
     })
     this.props.data.refetch({ notifyOnNetworkStatusChange: true })
+  }
+
+  onToggleChange(value) {
+    const type = {
+      Channels: 'CHANNEL',
+      Blocks: 'BLOCK',
+    }[value]
+    this.setState({ page: 1, type })
+    this.props.blocksData.refetch({ page: 1, type })
   }
 
   render() {
@@ -77,10 +87,14 @@ class ChannelContainer extends React.Component {
       )
     }
 
-    const columnCount = this.props.type === 'Channels' ? 1 : 2
+    const { type } = this.state
+    const columnCount = type === 'CHANNEL' ? 1 : 2
     const columnStyle = columnCount > 1 ? { justifyContent: 'space-around' } : false
-
-    const contents = (blocksData && blocksData.channel && blocksData.channel.blocks) || []
+    const contents = (
+      blocksData &&
+      blocksData.channel &&
+      blocksData.channel.blocks
+    ) || []
 
     return (
       <FlatList
@@ -90,11 +104,13 @@ class ChannelContainer extends React.Component {
         refreshing={data.networkStatus === 4}
         numColumns={columnCount}
         keyExtractor={item => item.klass + item.id}
-        key={this.props.type}
+        key={type}
         onRefresh={() => data.refetch()}
         onEndReached={this.onEndReached}
         onEndReachedThreshold={0.9}
-        ListHeaderComponent={() => <ChannelHeader channel={channel} />}
+        ListHeaderComponent={() => (
+          <ChannelHeader channel={channel} onToggle={this.onToggleChange} type={type} />
+        )}
         renderItem={({ item }) => {
           if (item.klass === 'Block') {
             return <BlockItem block={item} />
@@ -134,11 +150,11 @@ const ChannelQuery = gql`
 `
 
 const ChannelBlocksQuery = gql`
-  query ChannelBlocksQuery($id: ID!, $page: Int!){
+  query ChannelBlocksQuery($id: ID!, $page: Int!, $type: ConnectableTypeEnum){
     channel(id: $id) {
       __typename
       id
-      blocks(per: 10, page: $page, sort_by: POSITION, direction: DESC, type: BLOCK) {
+      blocks(per: 10, page: $page, sort_by: POSITION, direction: DESC, type: $type) {
         ...BlockThumb
       }
     }
@@ -149,13 +165,12 @@ const ChannelBlocksQuery = gql`
 ChannelContainer.propTypes = {
   data: PropTypes.any.isRequired,
   blocksData: PropTypes.any.isRequired,
-  type: PropTypes.oneOf(['Channels', 'Blocks']),
+  type: PropTypes.oneOf(['CHANNEL', 'BLOCK']).isRequired,
   loadMore: PropTypes.any.isRequired,
   page: PropTypes.number,
 }
 
 ChannelContainer.defaultProps = {
-  type: 'Blocks',
   page: 1,
 }
 
@@ -163,13 +178,13 @@ const ChannelContainerWithData = compose(
   graphql(ChannelQuery),
   graphql(ChannelBlocksQuery, {
     name: 'blocksData',
-    options: ({ id, page }) => ({
-      variables: { id, page },
+    options: ({ id, page, type }) => ({
+      variables: { id, page, type },
       notifyOnNetworkStatusChange: true,
     }),
     props: (props) => {
       const { blocksData } = props
-      const { id } = blocksData.variables
+      const { id, type } = blocksData.variables
       return {
         blocksData,
         loadMore(page) {
@@ -177,6 +192,7 @@ const ChannelContainerWithData = compose(
             variables: {
               id,
               page,
+              type,
             },
             updateQuery: (previousResult, { fetchMoreResult }) => {
               if (!fetchMoreResult.channel.blocks.length) { return previousResult }

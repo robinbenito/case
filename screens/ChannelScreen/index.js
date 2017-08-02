@@ -13,7 +13,11 @@ export default class ChannelScreen extends React.Component {
 
   render() {
     return (
-      <ChannelContainerWithData id={this.state.channelId} page={1} />
+      <ChannelContainerWithData
+        id={this.state.channelId}
+        page={1}
+        type="BLOCK"
+      />
     )
   }
 }
