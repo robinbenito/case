@@ -13,6 +13,7 @@ import {
 
 import FeedSentence from './FeedSentence'
 import FeedContents from './FeedContents'
+import BlockItem from '../../../components/BlockItem'
 
 import layout from '../../../constants/Layout'
 import colors from '../../../constants/Colors'
@@ -186,39 +187,13 @@ const FeedQuery = gql`
               title
               visibility
             }
-            ... on Connectable {
-              id
-              title
-              updated_at(relative: true)
-              user {
-                name
-              }
-              klass
-              kind {
-                __typename
-                ... on Embed {
-                  image_url(size: DISPLAY)
-                  source_url
-                }
-                ... on Attachment {
-                  image_url(size: DISPLAY)
-                }
-                ... on Text {
-                  content(format: HTML)
-                }
-                ... on Image {
-                  image_url(size: DISPLAY)
-                }
-                ... on Link {
-                  image_url(size: DISPLAY)
-                }
-              }
-            }
+            ...BlockThumb
           }
         }
       }
     }
   }
+  ${BlockItem.fragments.block}
 `
 
 FeedContainer.propTypes = {

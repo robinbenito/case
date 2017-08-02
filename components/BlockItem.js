@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import gql from 'graphql-tag'
 import PropTypes from 'prop-types'
 import {
   Dimensions,
@@ -98,6 +99,43 @@ export default class BlockItem extends Component {
       </TouchableOpacity>
     )
   }
+}
+
+BlockItem.fragments = {
+  block: gql`
+    fragment BlockThumb on Connectable {
+      __typename
+      id
+      title
+      updated_at(relative: true)
+      user {
+        name
+      }
+      klass
+      kind {
+        __typename
+        ... on Attachment {
+          image_url(size: DISPLAY)
+        }
+        ... on Embed {
+          image_url(size: DISPLAY)
+          source_url
+        }
+        ... on Text {
+          content(format: HTML)
+        }
+        ... on Image {
+          image_url(size: DISPLAY)
+        }
+        ... on Link {
+          image_url(size: DISPLAY)
+        }
+        ... on Channel {
+          visibility
+        }
+      }
+    }
+  `,
 }
 
 BlockItem.propTypes = {
