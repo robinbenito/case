@@ -12,6 +12,7 @@ import {
 } from 'react-native'
 
 import FeedSentence from './FeedSentence'
+import FeedWordLink from './FeedWordLink'
 import FeedContents from './FeedContents'
 import BlockItem from '../../../components/BlockItem'
 
@@ -132,43 +133,17 @@ const FeedQuery = gql`
           verb
           object {
             __typename
-            ... on Channel {
-              id
-              title
-              visibility
-            }
-            ... on Connectable {
-              id
-              title
-            }
-            ... on User {
-              id
-              name
-              slug
-              href
-              initials
-              avatar(size: SMALL)
-            }
+            ...ChannelWord
+            ...ConnectableWord
+            ...UserWord
           }
           object_phrase
           connector
           target {
             __typename
-            ... on Channel {
-              id
-              title
-              visibility
-            }
-            ... on Connectable {
-              id
-              title
-            }
-            ... on User {
-              id
-              name
-              slug
-              href
-            }
+            ...ChannelWord
+            ...ConnectableWord
+            ...UserWord
           }
           target_phrase
           created_at(relative: true)
@@ -182,11 +157,7 @@ const FeedQuery = gql`
               initials
               avatar(size: MEDIUM)
             }
-            ... on Channel {
-              id
-              title
-              visibility
-            }
+            ...ChannelWord
             ...BlockThumb
           }
         }
@@ -194,6 +165,9 @@ const FeedQuery = gql`
     }
   }
   ${BlockItem.fragments.block}
+  ${FeedWordLink.fragments.channel}
+  ${FeedWordLink.fragments.connectable}
+  ${FeedWordLink.fragments.user}
 `
 
 FeedContainer.propTypes = {

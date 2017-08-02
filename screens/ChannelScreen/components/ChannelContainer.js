@@ -50,7 +50,7 @@ class ChannelContainer extends React.Component {
 
   onRefresh() {
     this.setState({
-      page: 0,
+      page: 1,
     })
     this.props.data.refetch({ notifyOnNetworkStatusChange: true })
   }

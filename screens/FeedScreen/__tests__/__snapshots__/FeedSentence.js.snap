@@ -1,0 +1,85 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "paddingLeft": 10,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "display": "flex",
+        "flexDirection": "row",
+        "flexWrap": "wrap",
+      }
+    }
+  >
+    <UserNameText
+      mode="feed"
+      user={
+        Object {
+          "name": "Édouard U.",
+          "slug": "edouard-u",
+        }
+      }
+    />
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      disabled={false}
+      ellipsizeMode="tail"
+    >
+      connected
+       
+    </Text>
+    <FeedWordLink
+      object={
+        Object {
+          "__typename": "Connectable",
+          "id": 1164746,
+          "title": "tumblr_noj7p2hXzj1rz4sfeo1_r1_540.jpg",
+        }
+      }
+      phrase="an image"
+    />
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      disabled={false}
+      ellipsizeMode="tail"
+    >
+      to
+       
+    </Text>
+    <FeedWordLink
+      object={
+        Object {
+          "__typename": "Channel",
+          "id": 15271,
+          "title": "Picture",
+          "visibility": "public",
+        }
+      }
+      phrase="Picture"
+    />
+  </View>
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    disabled={false}
+    ellipsizeMode="tail"
+    style={
+      Object {
+        "color": "#cbcbcb",
+        "paddingBottom": 10,
+        "paddingTop": 5,
+      }
+    }
+  >
+    19 minutes ago
+  </Text>
+</View>
+`;
