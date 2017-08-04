@@ -1,22 +1,26 @@
 import React from 'react'
 import gql from 'graphql-tag'
-import { graphql } from 'react-apollo'
+import { graphql, compose, withApollo } from 'react-apollo'
 import PropTypes from 'prop-types'
 
 import {
   ActivityIndicator,
+  FlatList,
   StyleSheet,
   Text,
   View,
 } from 'react-native'
 
 import ProfileHeader from './ProfileHeader'
-import ContentsWithData from '../../../components/Contents/ContentsContainer'
+import ChannelItem from '../../../components/ChannelItem'
+import BlockItem from '../../../components/BlockItem'
+
 import layout from '../../../constants/Layout'
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    backgroundColor: '#fff',
+    minHeight: 700,
   },
   loadingContainer: {
     flex: 1,
@@ -26,16 +30,46 @@ const styles = StyleSheet.create({
   },
 })
 
-export class ProfileContainer extends React.Component {
+class ProfileContainer extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      type: 'Channels',
+      page: props.page,
+      type: props.type,
     }
+    this.onEndReached = this.onEndReached.bind(this)
+    this.onRefresh = this.onRefresh.bind(this)
+    this.onToggleChange = this.onToggleChange.bind(this)
+  }
+
+  onEndReached() {
+    if (this.props.userBlocksData.loading) return false
+    const page = this.state.page + 1
+    this.setState({ page })
+    return this.props.loadMore(page)
+  }
+
+  onRefresh() {
+    this.setState({
+      page: 1,
+    })
+    this.props.data.refetch()
+  }
+
+  onToggleChange(value) {
+    const type = {
+      Channels: 'CHANNEL',
+      Blocks: 'BLOCK',
+    }[value]
+    this.setState({ page: 1, type })
+    this.props.userBlocksData.refetch({ page: 1, type })
   }
 
   render() {
-    if (this.props.data.error) {
+    const { userBlocksData, data } = this.props
+    const { error, loading } = this.props.data
+
+    if (error) {
       return (
         <View style={styles.loadingContainer} >
           <Text>
@@ -45,7 +79,7 @@ export class ProfileContainer extends React.Component {
       )
     }
 
-    if (this.props.data.loading) {
+    if (loading) {
       return (
         <View style={styles.loadingContainer} >
           <ActivityIndicator />
@@ -53,27 +87,60 @@ export class ProfileContainer extends React.Component {
       )
     }
 
+    const { type } = this.state
+    const contents = (
+      userBlocksData &&
+      userBlocksData.user &&
+      userBlocksData.user.contents
+    ) || []
+
+    const shouldShowChannel = type === 'CHANNEL'
+    const columnCount = shouldShowChannel ? 1 : 2
+    const columnStyle = columnCount > 1 ? { justifyContent: 'space-around' } : false
+
     return (
-      <View>
-        <ProfileHeader user={this.props.data.user} />
-        <ContentsWithData
-          objectId={this.props.userId}
-          objectType="USER"
-          type="channel"
-          page={1}
-        />
-      </View>
+      <FlatList
+        contentContainerStyle={styles.container}
+        data={contents}
+        columnWrapperStyle={columnStyle}
+        refreshing={userBlocksData.networkStatus === 4}
+        numColumns={columnCount}
+        keyExtractor={item => item.klass + item.id}
+        key={type}
+        onEndReached={this.onEndReached}
+        onEndReachedThreshold={0.9}
+        ListHeaderComponent={() => {
+          if (data.user) {
+            return (
+              <ProfileHeader
+                user={data.user}
+                onToggle={this.onToggleChange}
+                type={type}
+              />
+            )
+          }
+          return <View />
+        }}
+        renderItem={({ item }) => {
+          console.log('item', item.klass)
+          if (item.klass === 'Block') {
+            console.log('rendering block')
+            return <BlockItem block={item} size="2-up" />
+          }
+          return <ChannelItem channel={item} />
+        }}
+      />
     )
   }
 }
 
 const ProfileQuery = gql`
-  query ProfileQuery($userId: ID!){
-    user(id: $userId) {
+  query ProfileQuery($id: ID!){
+    user(id: $id) {
+      __typename
       id
       slug
       initials
-      name
       avatar(size: LARGE)
       bio
       can {
@@ -83,12 +150,69 @@ const ProfileQuery = gql`
   }
 `
 
+const ProfileContentsQuery = gql`
+  query ProfileContentsQuery($id: ID!, $page: Int!, $type: ConnectableTypeEnum){
+    user(id: $id) {
+      __typename
+      id
+      contents(per: 10, page: $page, sort_by: UPDATED_AT, direction: DESC, type: $type) {
+        ...BlockThumb
+      }
+    }
+  }
+  ${BlockItem.fragments.block}
+`
+
 ProfileContainer.propTypes = {
   data: PropTypes.any.isRequired,
-  userId: PropTypes.string.isRequired,
+  userBlocksData: PropTypes.any.isRequired,
+  type: PropTypes.oneOf(['CHANNEL', 'BLOCK']).isRequired,
+  loadMore: PropTypes.any,
+  page: PropTypes.number,
 }
 
-export const ProfileContainerWithData = graphql(ProfileQuery, {
-  options: ({ userId }) => ({ variables: { userId } }),
-})(ProfileContainer)
+ProfileContainer.defaultProps = {
+  page: 1,
+  loadMore: () => null,
+}
 
+const ProfileContainerWithData = compose(
+  graphql(ProfileQuery),
+  graphql(ProfileContentsQuery, {
+    name: 'userBlocksData',
+    options: ({ id, page, type }) => ({
+      variables: { id, page, type },
+      notifyOnNetworkStatusChange: true,
+    }),
+    props: (props) => {
+      const { userBlocksData } = props
+      const { id, type } = userBlocksData.variables
+      return {
+        userBlocksData,
+        loadMore(page) {
+          return props.userBlocksData.fetchMore({
+            variables: {
+              id,
+              page,
+              type,
+            },
+            updateQuery: (previousResult, { fetchMoreResult }) => {
+              if (!fetchMoreResult.user.contents.length) { return previousResult }
+              const { __typename } = previousResult.user
+              const response = {
+                user: {
+                  __typename,
+                  id,
+                  contents: [...previousResult.user.contents, ...fetchMoreResult.user.contents],
+                },
+              }
+              return response
+            },
+          })
+        },
+      }
+    },
+  }),
+)(ProfileContainer)
+
+export default withApollo(ProfileContainerWithData)
