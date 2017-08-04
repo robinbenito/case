@@ -109,7 +109,11 @@ class ChannelContainer extends React.Component {
         onEndReached={this.onEndReached}
         onEndReachedThreshold={0.9}
         ListHeaderComponent={() => (
-          <ChannelHeader channel={channel} onToggle={this.onToggleChange} type={type} />
+          <ChannelHeader
+            channel={channel}
+            onToggle={this.onToggleChange}
+            type={type}
+          />
         )}
         renderItem={({ item }) => {
           if (item.klass === 'Block') {
