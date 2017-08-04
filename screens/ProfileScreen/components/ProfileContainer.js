@@ -1,5 +1,6 @@
 import React from 'react'
 import gql from 'graphql-tag'
+import { map } from 'lodash'
 import { graphql, compose } from 'react-apollo'
 import PropTypes from 'prop-types'
 
@@ -46,16 +47,15 @@ class ProfileContainer extends React.Component {
     if (this.props.profileBlocksData.loading) return false
     const page = this.state.page + 1
     this.setState({ page })
-    console.log('onendReached', this.props)
-    // return this.props.loadMore(page)
+    console.log('onendReached, loading page', page)
+    return this.props.loadMore(page)
   }
 
   onRefresh() {
-    console.log('on refresh')
     this.setState({
       page: 1,
     })
-    this.props.userData.refetch({ notifyOnNetworkStatusChange: true })
+    this.props.data.refetch({ notifyOnNetworkStatusChange: true })
   }
 
   onToggleChange(value) {
@@ -68,8 +68,8 @@ class ProfileContainer extends React.Component {
   }
 
   render() {
-    const { profileBlocksData, userData } = this.props
-    const { error, loading } = this.props.userData
+    const { profileBlocksData, data } = this.props
+    const { error, loading } = this.props.data
 
     if (error) {
       return (
@@ -98,7 +98,7 @@ class ProfileContainer extends React.Component {
       profileBlocksData.user.contents
     ) || []
 
-    console.log('userData.user', userData.user)
+    console.log('data', data)
 
     return (
       <FlatList
@@ -113,10 +113,10 @@ class ProfileContainer extends React.Component {
         onEndReached={this.onEndReached}
         onEndReachedThreshold={0.9}
         ListHeaderComponent={() => {
-          if (userData.user) {
+          if (data.user) {
             return (
               <ProfileHeader
-                user={userData.user}
+                user={data.user}
                 onToggle={this.onToggleChange}
                 type={type}
               />
@@ -138,6 +138,7 @@ class ProfileContainer extends React.Component {
 const ProfileQuery = gql`
   query ProfileQuery($id: ID!){
     user(id: $id) {
+      __typename
       id
       slug
       initials
@@ -156,6 +157,7 @@ const ProfileContentsQuery = gql`
     user(id: $id) {
       __typename
       id
+      name
       contents(per: 10, page: $page, sort_by: UPDATED_AT, direction: DESC, type: $type) {
         ...BlockThumb
       }
@@ -165,7 +167,7 @@ const ProfileContentsQuery = gql`
 `
 
 ProfileContainer.propTypes = {
-  userData: PropTypes.any.isRequired,
+  data: PropTypes.any.isRequired,
   profileBlocksData: PropTypes.any.isRequired,
   type: PropTypes.oneOf(['CHANNEL', 'BLOCK']).isRequired,
   loadMore: PropTypes.any,
@@ -178,7 +180,7 @@ ProfileContainer.defaultProps = {
 }
 
 const ProfileContainerWithData = compose(
-  graphql(ProfileQuery, { name: 'userData' }),
+  graphql(ProfileQuery),
   graphql(ProfileContentsQuery, {
     name: 'profileBlocksData',
     options: ({ id, page, type }) => ({
@@ -191,22 +193,26 @@ const ProfileContainerWithData = compose(
       return {
         profileBlocksData,
         loadMore(page) {
-          return profileBlocksData.fetchMore({
+          return props.profileBlocksData.fetchMore({
             variables: {
               id,
               page,
               type,
             },
             updateQuery: (previousResult, { fetchMoreResult }) => {
+              console.log('previousResult titles', map(previousResult.user.contents, 'title'))
+              console.log('fetchMoreResult titles', map(fetchMoreResult.user.contents, 'title'))
               if (!fetchMoreResult.user.contents.length) { return previousResult }
-              const { __typename } = previousResult.user
+              const { __typename, name } = previousResult.user
               const response = {
                 user: {
                   __typename,
                   id,
+                  name,
                   contents: [...previousResult.user.contents, ...fetchMoreResult.user.contents],
                 },
               }
+              console.log('response titles', map(response.user.contents, 'title'))
               return response
             },
           })

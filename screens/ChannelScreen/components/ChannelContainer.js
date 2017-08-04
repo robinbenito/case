@@ -141,13 +141,6 @@ const ChannelQuery = gql`
         name
         slug
       }
-      counts {
-        blocks
-      }
-      collaborators {
-        name
-        slug
-      }
       visibility
     }
   }

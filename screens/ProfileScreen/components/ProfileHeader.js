@@ -7,21 +7,18 @@ import {
 } from 'react-native'
 
 import HTMLView from 'react-native-htmlview'
-import layout from '../../../constants/Layout'
+import ContentsToggle from '../../../components/Contents/ContentsToggle'
 import UserAvatar from '../../../components/UserAvatar'
 import FollowButtonWithData from '../../../components/FollowButton'
 
-const IMAGE_SIZE = 50
+import layout from '../../../constants/Layout'
 
 const styles = StyleSheet.create({
   avatar: {
-    width: IMAGE_SIZE + 2,
-    height: IMAGE_SIZE + 2,
-    borderRadius: IMAGE_SIZE / 2,
     marginRight: layout.padding / 2,
   },
   header: {
-    paddingTop: layout.padding,
+    paddingVertical: layout.padding,
   },
   innerHeader: {
     borderBottomColor: '#eee',
@@ -45,7 +42,7 @@ const styles = StyleSheet.create({
   },
 })
 
-const ProfileHeader = ({ user }) => (
+const ProfileHeader = ({ user, type, onToggle }) => (
   <View style={styles.header}>
     <View style={styles.innerHeader}>
       <View style={styles.userInfo}>
@@ -64,10 +61,16 @@ const ProfileHeader = ({ user }) => (
         user.can.follow && <FollowButtonWithData id={user.id} type="USER" />
       }
     </View>
+    <ContentsToggle
+      selectedSegment={type}
+      onToggleChange={onToggle}
+    />
   </View>
 )
 
 ProfileHeader.propTypes = {
+  type: PropTypes.oneOf(['CHANNEL', 'BLOCK']).isRequired,
+  onToggle: PropTypes.func,
   user: PropTypes.shape({
     slug: PropTypes.any,
     bio: PropTypes.string,
@@ -75,6 +78,10 @@ ProfileHeader.propTypes = {
     avatar: PropTypes.string,
     can: PropTypes.any,
   }).isRequired,
+}
+
+ProfileHeader.defaultProps = {
+  onToggle: () => null,
 }
 
 export default ProfileHeader
