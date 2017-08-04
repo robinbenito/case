@@ -158,9 +158,9 @@ anymatch@^1.3.0:
     arrify "^1.0.0"
     micromatch "^2.1.5"
 
-apollo-client@^1.1.2:
-  version "1.7.0"
-  resolved "https://registry.yarnpkg.com/apollo-client/-/apollo-client-1.7.0.tgz#3d6fdf6ead0a07d3e02d32d9191f26cbcfb6e4f6"
+apollo-client@^1.4.0:
+  version "1.8.1"
+  resolved "https://registry.yarnpkg.com/apollo-client/-/apollo-client-1.8.1.tgz#17481cc15dc787202684c4a6fdaa80ba84568a10"
   dependencies:
     graphql "^0.10.0"
     graphql-anywhere "^3.0.1"
@@ -2646,6 +2646,10 @@ hoist-non-react-statics@^1.0.3, hoist-non-react-statics@^1.0.5, hoist-non-react-
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-1.2.0.tgz#aa448cf0986d55cc40773b17174b7dd066cb7cfb"
 
+hoist-non-react-statics@^2.2.0:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-2.2.1.tgz#a7e41c760121d0abfc7a2339b331d29a26389e52"
+
 home-or-tmp@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/home-or-tmp/-/home-or-tmp-2.0.0.tgz#e36c3f2d2cae7d746a857e38d18d5f32a7882db8"
@@ -4502,14 +4506,14 @@ react-addons-update@^15.4.0:
     fbjs "^0.8.9"
     object-assign "^4.1.0"
 
-react-apollo@*:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/react-apollo/-/react-apollo-1.2.0.tgz#4dc3f61bad9b2fe2c450bc7fbd4fab52004de474"
+react-apollo@^1.4.10:
+  version "1.4.10"
+  resolved "https://registry.yarnpkg.com/react-apollo/-/react-apollo-1.4.10.tgz#a3c77b120402245ea9d3a518118237c2a314a3a1"
   dependencies:
-    apollo-client "^1.1.2"
+    apollo-client "^1.4.0"
     graphql-anywhere "^3.0.0"
     graphql-tag "^2.0.0"
-    hoist-non-react-statics "^1.2.0"
+    hoist-non-react-statics "^2.2.0"
     invariant "^2.2.1"
     lodash.flatten "^4.2.0"
     lodash.isequal "^4.1.1"
@@ -4517,8 +4521,6 @@ react-apollo@*:
     lodash.pick "^4.4.0"
     object-assign "^4.0.1"
     prop-types "^15.5.8"
-  optionalDependencies:
-    react-dom "0.14.x || 15.* || ^15.0.0 || ^16.0.0-alpha"
 
 react-clone-referenced-element@^1.0.1:
   version "1.0.1"
@@ -4535,7 +4537,7 @@ react-devtools-core@^2.1.8:
     shell-quote "^1.6.1"
     ws "^2.0.3"
 
-"react-dom@0.14.x || 15.* || ^15.0.0 || ^16.0.0-alpha", react-dom@16.0.0-alpha.12:
+react-dom@16.0.0-alpha.12:
   version "16.0.0-alpha.12"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.0.0-alpha.12.tgz#c9894ccfd9600ef87952e05340903180b013171e"
   dependencies:
