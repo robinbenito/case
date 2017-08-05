@@ -66,8 +66,9 @@ class ProfileContainer extends React.Component {
       Channels: 'CHANNEL',
       Blocks: 'BLOCK',
     }[value]
-    this.setState({ page: 1, type })
-    this.props.userBlocksData.refetch({ page: 1, type })
+    this.setState({ page: 1, type }, () => {
+      this.props.userBlocksData.refetch({ page: 1, type })
+    })
   }
 
   renderLoader() {
@@ -101,6 +102,7 @@ class ProfileContainer extends React.Component {
 
     const { type } = this.state
     const contents = (
+      userBlocksData.networkStatus !== 2 &&
       userBlocksData &&
       userBlocksData.user &&
       userBlocksData.user.contents
@@ -130,9 +132,7 @@ class ProfileContainer extends React.Component {
           />
         )}
         renderItem={({ item }) => {
-          console.log('item', item.klass)
           if (item.klass === 'Block') {
-            console.log('rendering block')
             return <BlockItem block={item} size="2-up" />
           }
           return <ChannelItem channel={item} />
@@ -148,6 +148,7 @@ const ProfileQuery = gql`
       __typename
       id
       slug
+      name
       initials
       avatar(size: LARGE)
       bio
