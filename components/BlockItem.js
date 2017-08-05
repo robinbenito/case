@@ -18,7 +18,7 @@ const { width } = Dimensions.get('window')
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'rgba(200, 200, 200, 1.0)',
+    backgroundColor: 'rgba(250, 250, 250, 1.0)',
     marginBottom: 20,
     overflow: 'hidden',
   },
