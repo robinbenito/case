@@ -17,8 +17,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     backgroundColor: 'rgba(255, 255, 255, 1.0)',
     padding: 15,
-    marginTop: 5,
-    marginBottom: 5,
+    marginVertical: 5,
     flex: 1,
   },
   channelContainerPrivate: {
