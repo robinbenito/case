@@ -29,6 +29,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: layout.padding,
   },
+  footer: {
+    paddingVertical: layout.padding,
+  },
 })
 
 class ProfileContainer extends React.Component {
@@ -41,6 +44,7 @@ class ProfileContainer extends React.Component {
     this.onEndReached = this.onEndReached.bind(this)
     this.onRefresh = this.onRefresh.bind(this)
     this.onToggleChange = this.onToggleChange.bind(this)
+    this.renderLoader = this.renderLoader.bind(this)
   }
 
   onEndReached() {
@@ -64,6 +68,13 @@ class ProfileContainer extends React.Component {
     }[value]
     this.setState({ page: 1, type })
     this.props.userBlocksData.refetch({ page: 1, type })
+  }
+
+  renderLoader() {
+    if (!this.props.userBlocksData.loading) return null
+    return (
+      <ActivityIndicator animating size="small" style={styles.footer} />
+    )
   }
 
   render() {
@@ -110,6 +121,7 @@ class ProfileContainer extends React.Component {
         key={type}
         onEndReached={this.onEndReached}
         onEndReachedThreshold={0.9}
+        ListFooterComponent={this.renderLoader}
         ListHeaderComponent={() => (
           <ProfileHeader
             user={data.user}
