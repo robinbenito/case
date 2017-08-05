@@ -3,6 +3,7 @@ import {
   Easing,
   Dimensions,
   Text,
+  View,
 } from 'react-native'
 import PropTypes from 'prop-types'
 import Carousel from 'react-native-snap-carousel'
@@ -10,6 +11,7 @@ import Carousel from 'react-native-snap-carousel'
 import NavigationService from '../../../utilities/navigationService'
 
 import BlockItem from '../../../components/BlockItem'
+import ChannelItem from '../../../components/ChannelItem'
 import UserAvatar from '../../../components/UserAvatar'
 
 import layout from '../../../constants/Layout'
@@ -22,6 +24,9 @@ const FeedContents = ({ items }) => {
       switch (__typename) {
         case 'Connectable':
           objectItem = <BlockItem size="1-up" block={item} key={item.id} />
+          break
+        case 'Channel':
+          objectItem = <ChannelItem channel={item} key={item.id} />
           break
         case 'User':
           objectItem = (
@@ -45,6 +50,14 @@ const FeedContents = ({ items }) => {
   const { width } = Dimensions.get('window')
   const sliderWidth = width - (layout.padding * 2)
   const itemWidth = sliderWidth - (layout.padding * 2)
+
+  if (items.length <= 1) {
+    return (
+      <View style={{ width: sliderWidth, justifyContent: 'space-around', flex: 1 }}>
+        {contentsItems}
+      </View>
+    )
+  }
 
   return (
     <Carousel

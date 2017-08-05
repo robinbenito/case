@@ -15,6 +15,7 @@ import FeedSentence from './FeedSentence'
 import FeedWordLink from './FeedWordLink'
 import FeedContents from './FeedContents'
 import BlockItem from '../../../components/BlockItem'
+import ChannelItem from '../../../components/ChannelItem'
 
 import layout from '../../../constants/Layout'
 import colors from '../../../constants/Colors'
@@ -158,7 +159,7 @@ const FeedQuery = gql`
               initials
               avatar(size: MEDIUM)
             }
-            ...ChannelWord
+            ...ChannelThumb
             ...BlockThumb
           }
         }
@@ -166,6 +167,7 @@ const FeedQuery = gql`
     }
   }
   ${BlockItem.fragments.block}
+  ${ChannelItem.fragments.channel}
   ${FeedWordLink.fragments.channel}
   ${FeedWordLink.fragments.connectable}
   ${FeedWordLink.fragments.user}
