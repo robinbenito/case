@@ -21,6 +21,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#fff',
     minHeight: 700,
+    paddingHorizontal: layout.padding,
   },
   loadingContainer: {
     flex: 1,
@@ -43,7 +44,7 @@ class ProfileContainer extends React.Component {
   }
 
   onEndReached() {
-    if (this.props.userBlocksData.loading) return false
+    if (this.props.data.loading) return false
     const page = this.state.page + 1
     this.setState({ page })
     return this.props.loadMore(page)
@@ -109,18 +110,13 @@ class ProfileContainer extends React.Component {
         key={type}
         onEndReached={this.onEndReached}
         onEndReachedThreshold={0.9}
-        ListHeaderComponent={() => {
-          if (data.user) {
-            return (
-              <ProfileHeader
-                user={data.user}
-                onToggle={this.onToggleChange}
-                type={type}
-              />
-            )
-          }
-          return <View />
-        }}
+        ListHeaderComponent={() => (
+          <ProfileHeader
+            user={data.user}
+            onToggle={this.onToggleChange}
+            type={type}
+          />
+        )}
         renderItem={({ item }) => {
           console.log('item', item.klass)
           if (item.klass === 'Block') {

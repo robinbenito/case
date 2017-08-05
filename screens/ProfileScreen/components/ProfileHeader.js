@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     marginRight: layout.padding / 2,
   },
   header: {
-    paddingVertical: layout.padding,
+    paddingVertical: layout.padding / 2,
   },
   innerHeader: {
     borderBottomColor: '#eee',
