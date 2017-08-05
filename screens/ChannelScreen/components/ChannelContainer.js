@@ -41,6 +41,7 @@ class ChannelContainer extends React.Component {
     this.onEndReached = this.onEndReached.bind(this)
     this.onRefresh = this.onRefresh.bind(this)
     this.onToggleChange = this.onToggleChange.bind(this)
+    this.renderLoader = this.renderLoader.bind(this)
   }
 
   onEndReached() {
@@ -62,8 +63,16 @@ class ChannelContainer extends React.Component {
       Channels: 'CHANNEL',
       Blocks: 'BLOCK',
     }[value]
-    this.setState({ page: 1, type })
-    this.props.blocksData.refetch({ page: 1, type })
+    this.setState({ page: 1, type }, () => {
+      this.props.blocksData.refetch({ page: 1, type })
+    })
+  }
+
+  renderLoader() {
+    if (!this.props.blocksData.loading) return null
+    return (
+      <ActivityIndicator animating size="small" style={styles.footer} />
+    )
   }
 
   render() {
@@ -92,6 +101,7 @@ class ChannelContainer extends React.Component {
     const columnCount = type === 'CHANNEL' ? 1 : 2
     const columnStyle = columnCount > 1 ? { justifyContent: 'space-around' } : false
     const contents = (
+      blocksData.networkStatus !== 2 &&
       blocksData &&
       blocksData.channel &&
       blocksData.channel.blocks
@@ -109,6 +119,7 @@ class ChannelContainer extends React.Component {
         onRefresh={() => data.refetch()}
         onEndReached={this.onEndReached}
         onEndReachedThreshold={0.9}
+        ListFooterComponent={this.renderLoader}
         ListHeaderComponent={() => (
           <ChannelHeader
             channel={channel}
