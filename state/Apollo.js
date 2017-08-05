@@ -32,7 +32,6 @@ const fragmentMatcher = new IntrospectionFragmentMatcher({
 
 const networkInterface = createNetworkInterface({
   uri: Config.API_ENDPOINT,
-  dataIdFromObject: o => o.id,
 })
 
 networkInterface.use([{
@@ -50,13 +49,6 @@ networkInterface.use([{
     })
   },
 }])
-
-// networkInterface.useAfter([{
-//   applyAfterware({ response }, next) {
-//     // console.log('GraphqQL response', response)
-//     next(response)
-//   },
-// }])
 
 const client = new ApolloClient({
   networkInterface,
