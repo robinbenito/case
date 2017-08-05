@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import gql from 'graphql-tag'
 import PropTypes from 'prop-types'
 
 import {
@@ -59,19 +60,20 @@ export default class ChannelItem extends Component {
   }
 
   render() {
+    const visibility = this.props.channel.visibility || this.props.channel.kind.visibility
     const containerStyle = {
       public: styles.channelContainerPublic,
       closed: styles.channelContainerClosed,
       private: styles.channelContainerPrivate,
-    }[this.props.channel.kind.visibility]
+    }[visibility]
 
     const textStyle = {
       public: styles.channelTitlePublic,
       closed: styles.channelTitleClosed,
       private: styles.channelTitlePrivate,
-    }[this.props.channel.kind.visibility]
+    }[visibility]
 
-    const textColor = Colors[this.props.channel.kind.visibility]
+    const textColor = Colors[visibility]
 
     return (
       <TouchableOpacity onPress={this.onPressButton}>
@@ -97,6 +99,21 @@ export default class ChannelItem extends Component {
   }
 }
 
+ChannelItem.fragments = {
+  channel: gql`
+    fragment ChannelThumb on Channel {
+      __typename
+      id
+      title
+      visibility
+      updated_at(relative: true)
+      user {
+        name
+      }
+    }
+  `,
+}
+
 ChannelItem.propTypes = {
   channel: PropTypes.shape({
     id: PropTypes.number,
@@ -104,5 +121,6 @@ ChannelItem.propTypes = {
     updated_at: PropTypes.string,
     user: PropTypes.any,
     kind: PropTypes.any,
+    visibility: PropTypes.any,
   }).isRequired,
 }
