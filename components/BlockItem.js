@@ -18,8 +18,7 @@ const { width } = Dimensions.get('window')
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'rgba(255, 255, 255, 1.0)',
-    padding: 15,
+    backgroundColor: 'rgba(200, 200, 200, 1.0)',
     marginBottom: 20,
     overflow: 'hidden',
   },
@@ -28,9 +27,10 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     alignSelf: 'center',
   },
-  channelTitle: {
+  text: {
     fontSize: 12,
     color: '#000',
+    padding: layout / 2,
   },
 })
 
@@ -82,7 +82,7 @@ export default class BlockItem extends Component {
 
       default:
         blockInner = (
-          <Text style={styles.channelTitle}>
+          <Text style={styles.text}>
             {this.props.block.title}
           </Text>
         )
