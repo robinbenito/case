@@ -45,7 +45,7 @@ class ChannelContainer extends React.Component {
   }
 
   onEndReached() {
-    if (this.props.data.loading) return false
+    if (this.props.blocksData.loading) return false
     const page = this.state.page + 1
     this.setState({ page })
     return this.props.loadMore(page)
