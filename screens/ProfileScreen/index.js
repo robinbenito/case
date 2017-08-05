@@ -35,7 +35,7 @@ export default class ProfileScreen extends React.Component {
       const { navigation } = this.props
       const profileParam = navigation.state.params && navigation.state.params.id
 
-      const id = profileParam || this.state.currentUser.slug
+      const id = profileParam || this.state.currentUser.id
 
       return (
         <ProfileContainerWithData
