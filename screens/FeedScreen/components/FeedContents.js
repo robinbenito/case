@@ -29,7 +29,7 @@ const FeedContents = ({ items }) => {
               user={item}
               key={item.id}
               mode="feed"
-              onPress={() => NavigationService.navigateToProfile(item.slug)}
+              onPress={() => NavigationService.navigateToProfile(item.id)}
             />
           )
           break

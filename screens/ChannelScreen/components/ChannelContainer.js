@@ -21,6 +21,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#fff',
     minHeight: 700,
+    paddingHorizontal: layout.padding,
   },
   loadingContainer: {
     flex: 1,
@@ -40,10 +41,11 @@ class ChannelContainer extends React.Component {
     this.onEndReached = this.onEndReached.bind(this)
     this.onRefresh = this.onRefresh.bind(this)
     this.onToggleChange = this.onToggleChange.bind(this)
+    this.renderLoader = this.renderLoader.bind(this)
   }
 
   onEndReached() {
-    if (this.props.data.loading) return false
+    if (this.props.blocksData.loading) return false
     const page = this.state.page + 1
     this.setState({ page })
     return this.props.loadMore(page)
@@ -61,8 +63,16 @@ class ChannelContainer extends React.Component {
       Channels: 'CHANNEL',
       Blocks: 'BLOCK',
     }[value]
-    this.setState({ page: 1, type })
-    this.props.blocksData.refetch({ page: 1, type })
+    this.setState({ page: 1, type }, () => {
+      this.props.blocksData.refetch({ page: 1, type })
+    })
+  }
+
+  renderLoader() {
+    if (!this.props.blocksData.loading) return null
+    return (
+      <ActivityIndicator animating size="small" style={styles.footer} />
+    )
   }
 
   render() {
@@ -91,6 +101,7 @@ class ChannelContainer extends React.Component {
     const columnCount = type === 'CHANNEL' ? 1 : 2
     const columnStyle = columnCount > 1 ? { justifyContent: 'space-around' } : false
     const contents = (
+      blocksData.networkStatus !== 2 &&
       blocksData &&
       blocksData.channel &&
       blocksData.channel.blocks
@@ -108,8 +119,13 @@ class ChannelContainer extends React.Component {
         onRefresh={() => data.refetch()}
         onEndReached={this.onEndReached}
         onEndReachedThreshold={0.9}
+        ListFooterComponent={this.renderLoader}
         ListHeaderComponent={() => (
-          <ChannelHeader channel={channel} onToggle={this.onToggleChange} type={type} />
+          <ChannelHeader
+            channel={channel}
+            onToggle={this.onToggleChange}
+            type={type}
+          />
         )}
         renderItem={({ item }) => {
           if (item.klass === 'Block') {
@@ -134,13 +150,6 @@ const ChannelQuery = gql`
         follow
       }
       user {
-        name
-        slug
-      }
-      counts {
-        blocks
-      }
-      collaborators {
         name
         slug
       }

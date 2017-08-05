@@ -126,6 +126,7 @@ const FeedQuery = gql`
           key
           length
           user {
+            id
             name
             slug
           }

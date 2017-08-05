@@ -27,12 +27,24 @@ const FeedStack = StackNavigator({
     screen: ChannelScreen,
     navigationOptions: () => ({
       title: 'Channel',
+      headerStyle: {
+        backgroundColor: '#fff',
+      },
+      cardStyle: {
+        backgroundColor: '#fff',
+      },
     }),
   },
   feedProfile: {
     screen: ProfileScreen,
     navigationOptions: () => ({
       title: 'Profile',
+      headerStyle: {
+        backgroundColor: '#fff',
+      },
+      cardStyle: {
+        backgroundColor: '#fff',
+      },
     }),
   },
 }, {

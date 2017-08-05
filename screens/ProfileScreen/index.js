@@ -2,25 +2,15 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {
   AsyncStorage,
-  StyleSheet,
-  ScrollView,
   View,
 } from 'react-native'
 
-import { ProfileContainerWithData } from './components/ProfileContainer'
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-})
+import ProfileContainerWithData from './components/ProfileContainer'
 
 export default class ProfileScreen extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      type: 'Channels',
       currentUser: false,
       storageSynced: false,
     }
@@ -44,12 +34,15 @@ export default class ProfileScreen extends React.Component {
     if (this.state.storageSynced) {
       const { navigation } = this.props
       const profileParam = navigation.state.params && navigation.state.params.id
-      const userId = profileParam || this.state.currentUser.slug
+
+      const id = profileParam || this.state.currentUser.id
 
       return (
-        <ScrollView style={styles.container}>
-          <ProfileContainerWithData userId={userId} />
-        </ScrollView>
+        <ProfileContainerWithData
+          id={id}
+          type="CHANNEL"
+          page={1}
+        />
       )
     }
     return (

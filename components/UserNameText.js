@@ -25,7 +25,7 @@ export default class UserNameText extends React.Component {
   }
 
   goToProfile() {
-    NavigatorService.navigateToProfile(this.props.user.slug)
+    NavigatorService.navigateToProfile(this.props.user.id)
   }
 
   render() {
@@ -40,6 +40,6 @@ export default class UserNameText extends React.Component {
 UserNameText.propTypes = {
   user: PropTypes.shape({
     name: PropTypes.string,
-    slug: PropTypes.string,
+    id: PropTypes.any,
   }).isRequired,
 }
