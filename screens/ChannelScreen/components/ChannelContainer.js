@@ -21,6 +21,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#fff',
     minHeight: 700,
+    paddingHorizontal: layout.padding,
   },
   loadingContainer: {
     flex: 1,
