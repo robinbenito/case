@@ -16,7 +16,7 @@ import layout from '../../../constants/Layout'
 
 const styles = StyleSheet.create({
   header: {
-    padding: layout.padding / 2,
+    paddingVertical: layout.padding,
   },
   innerHeader: {
     borderBottomColor: '#eee',
