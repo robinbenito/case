@@ -50,12 +50,6 @@ networkInterface.use([{
   },
 }])
 
-// networkInterface.useAfter([{
-//   applyAfterware({ response }, next) {
-//     next(response)
-//   },
-// }])
-
 const client = new ApolloClient({
   networkInterface,
   fragmentMatcher,
