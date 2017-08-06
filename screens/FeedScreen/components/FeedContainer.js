@@ -18,7 +18,6 @@ import BlockItem from '../../../components/BlockItem'
 import ChannelItem from '../../../components/ChannelItem'
 
 import layout from '../../../constants/Layout'
-import colors from '../../../constants/Colors'
 
 const styles = StyleSheet.create({
   container: {
@@ -35,8 +34,6 @@ const styles = StyleSheet.create({
     paddingVertical: layout.padding,
   },
   itemContainer: {
-    borderBottomWidth: 1,
-    borderBottomColor: colors.gray.border,
     padding: layout.padding,
   },
 })
@@ -110,7 +107,7 @@ class FeedContainer extends React.Component {
         renderItem={({ item, index }) => (
           <View key={`${item.key}-${index}`} style={styles.itemContainer} >
             <FeedSentence group={item} />
-            {item.items.length > 0 && <FeedContents items={item.items} />}
+            {item.items.length > 0 && <FeedContents items={item.items} verb={item.verb} />}
           </View>
           )}
       />

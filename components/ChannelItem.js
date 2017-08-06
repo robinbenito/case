@@ -18,8 +18,8 @@ const styles = StyleSheet.create({
   channelContainer: {
     backgroundColor: 'rgba(255, 255, 255, 1.0)',
     paddingVertical: Layout.padding * 2,
-    paddingHorizontal: Layout.padding,
     marginVertical: Layout.padding / 2,
+    paddingHorizontal: Layout.padding,
     flex: 1,
   },
   channelContainerPrivate: {
@@ -62,7 +62,8 @@ export default class ChannelItem extends Component {
   }
 
   render() {
-    const visibility = this.props.channel.visibility || this.props.channel.kind.visibility
+    const { channel, style } = this.props
+    const visibility = channel.visibility || channel.kind.visibility
     const containerStyle = {
       public: styles.channelContainerPublic,
       closed: styles.channelContainerClosed,
@@ -79,7 +80,7 @@ export default class ChannelItem extends Component {
 
     return (
       <TouchableOpacity onPress={this.onPressButton}>
-        <View style={[styles.channelContainer, containerStyle]}>
+        <View style={[styles.channelContainer, containerStyle, style]}>
           <Text style={[styles.channelTitle, textStyle]}>
             {this.props.channel.title}
           </Text>
@@ -116,6 +117,7 @@ ChannelItem.fragments = {
 }
 
 ChannelItem.propTypes = {
+  style: PropTypes.any,
   channel: PropTypes.shape({
     id: PropTypes.number,
     title: PropTypes.string,
@@ -124,4 +126,8 @@ ChannelItem.propTypes = {
     kind: PropTypes.any,
     visibility: PropTypes.any,
   }).isRequired,
+}
+
+ChannelItem.defaultProps = {
+  style: {},
 }

@@ -15,7 +15,8 @@ import layout from '../../../constants/Layout'
 
 const styles = StyleSheet.create({
   container: {
-    paddingLeft: (layout.padding / 2),
+    paddingVertical: layout.padding * 2,
+    paddingLeft: layout.padding,
   },
   sentence: {
     display: 'flex',
@@ -24,8 +25,8 @@ const styles = StyleSheet.create({
   },
   date: {
     color: colors.gray.lighter,
-    paddingTop: (layout.padding / 4),
-    paddingBottom: (layout.padding / 2),
+    paddingTop: layout.padding / 2,
+    paddingBottom: layout.padding,
   },
 })
 
