@@ -13,6 +13,7 @@ import HTMLView from 'react-native-htmlview'
 
 import NavigatorService from '../utilities/navigationService'
 import layout from '../constants/Layout'
+import HTMLStyles from '../constants/HtmlView'
 
 const { width } = Dimensions.get('window')
 
@@ -30,7 +31,6 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 12,
     color: '#000',
-    padding: layout / 2,
   },
 })
 
@@ -73,16 +73,21 @@ export default class BlockItem extends Component {
         break
       case 'Text':
         blockInner = (
-          <HTMLView
-            numberOfLines={9}
-            value={this.props.block.kind.content}
-          />
+          <View style={{ padding: layout.padding }}>
+            <HTMLView
+              style={styles.text}
+              numberOfLines={9}
+              value={this.props.block.kind.content}
+              stylesheet={HTMLStyles}
+              addLineBreaks={null}
+            />
+          </View>
         )
         break
 
       default:
         blockInner = (
-          <Text style={styles.text}>
+          <Text >
             {this.props.block.title}
           </Text>
         )
