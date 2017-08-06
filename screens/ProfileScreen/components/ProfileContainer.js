@@ -48,8 +48,11 @@ class ProfileContainer extends React.Component {
   }
 
   onEndReached() {
+    const { userBlocksData } = this.props
+    if (!userBlocksData.user || !userBlocksData.user.contents) return false
+
     const { loading, user } = this.props.data
-    const { user: { contents } } = this.props.userBlocksData
+    const { user: { contents } } = userBlocksData
     const type = `${this.state.type.toLowerCase()}s`
     const total = user.counts[type]
 
@@ -217,7 +220,9 @@ const ProfileContainerWithData = compose(
               type,
             },
             updateQuery: (previousResult, { fetchMoreResult }) => {
-              if (!fetchMoreResult.user.contents.length) { return previousResult }
+              if (!fetchMoreResult.user.contents.length || !previousResult.user) {
+                return previousResult
+              }
               const { __typename } = previousResult.user
               const response = {
                 user: {

@@ -17,6 +17,7 @@ import HTMLView from 'react-native-htmlview'
 import { WebBrowser } from 'expo'
 
 import layout from '../../../constants/Layout'
+import HTMLStyles from '../../../constants/HtmlView'
 
 const { width, height } = Dimensions.get('window')
 
@@ -33,17 +34,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: layout.padding,
   },
+  textContainer: {
+    padding: layout.padding,
+  },
   image: {
     width,
     height,
     resizeMode: 'contain',
-  },
-})
-
-const textStyles = StyleSheet.create({
-  p: {
-    fontSize: 14,
-    paddingHorizontal: layout.padding * 2,
   },
 })
 
@@ -104,11 +101,13 @@ class BlockContainer extends React.Component {
 
       case 'Text':
         blockInner = (
-          <HTMLView
-            numberOfLines={9}
-            value={block.kind.content}
-            stylesheet={textStyles}
-          />
+          <View style={styles.textContainer}>
+            <HTMLView
+              value={block.kind.content}
+              stylesheet={HTMLStyles}
+              addLineBreaks={null}
+            />
+          </View>
         )
         break
 

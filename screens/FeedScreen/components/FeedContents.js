@@ -16,7 +16,7 @@ import UserAvatar from '../../../components/UserAvatar'
 
 import layout from '../../../constants/Layout'
 
-const FeedContents = ({ items }) => {
+const FeedContents = ({ items, verb }) => {
   const contentsItems = items.map((item) => {
     let objectItem = null
     if (item) {
@@ -35,6 +35,7 @@ const FeedContents = ({ items }) => {
               key={item.id}
               mode="feed"
               onPress={() => NavigationService.navigateToProfile(item.id)}
+              style={{ marginRight: layout.padding }}
             />
           )
           break
@@ -47,36 +48,42 @@ const FeedContents = ({ items }) => {
     return null
   })
 
+  const { __typename } = items[0]
+  const channelGroup = __typename === 'Channel'
   const { width } = Dimensions.get('window')
   const sliderWidth = width - (layout.padding * 2)
   const itemWidth = sliderWidth - (layout.padding * 2)
+  const showSlider = verb === 'connected' && items.length > 1 && !channelGroup
 
-  if (items.length <= 1) {
+  if (showSlider) {
     return (
-      <View style={{ width: sliderWidth, justifyContent: 'space-around', flex: 1 }}>
+      <Carousel
+        ref={(carousel) => { this.Carousel = carousel }}
+        sliderWidth={sliderWidth}
+        itemWidth={itemWidth}
+        activeSlideOffset={20}
+        inactiveSlideScale={1}
+        scrollEndDragDebounceValue={10}
+        decelerationRate={1}
+        animationOptions={{ duration: 100, easing: Easing.sin }}
+      >
         {contentsItems}
-      </View>
+      </Carousel>
     )
   }
 
+  const flexDirection = channelGroup ? 'column' : 'row'
+
   return (
-    <Carousel
-      ref={(carousel) => { this.Carousel = carousel }}
-      sliderWidth={sliderWidth}
-      itemWidth={itemWidth}
-      activeSlideOffset={20}
-      inactiveSlideScale={1}
-      scrollEndDragDebounceValue={10}
-      decelerationRate={1}
-      animationOptions={{ duration: 100, easing: Easing.sin }}
-    >
+    <View style={{ marginLeft: layout.padding, flexDirection }}>
       {contentsItems}
-    </Carousel>
+    </View>
   )
 }
 
 FeedContents.propTypes = {
   items: PropTypes.any,
+  verb: PropTypes.string.isRequired,
 }
 
 FeedContents.defaultProps = {
