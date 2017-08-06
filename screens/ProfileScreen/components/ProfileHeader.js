@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
   },
   header: {
     paddingVertical: layout.padding,
+    marginBottom: layout.padding,
   },
   innerHeader: {
     paddingBottom: layout.padding * 2,

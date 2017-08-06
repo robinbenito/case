@@ -45,6 +45,9 @@ class ChannelContainer extends React.Component {
   }
 
   onEndReached() {
+    const { blocksData } = this.props
+    if (!blocksData.channel || !blocksData.channel.contents) return false
+
     const { loading, channel } = this.props.data
     const { channel: { blocks } } = this.props.blocksData
     const type = `${this.state.type.toLowerCase()}s`
