@@ -9,34 +9,32 @@ import {
   TouchableOpacity,
 } from 'react-native'
 
+import Layout from '../constants/Layout'
 import Colors from '../constants/Colors'
+import Type from '../constants/Type'
 import NavigatorService from '../utilities/navigationService'
 
 const styles = StyleSheet.create({
   channelContainer: {
-    borderColor: '#666',
-    borderWidth: 1,
     backgroundColor: 'rgba(255, 255, 255, 1.0)',
-    padding: 15,
-    marginVertical: 5,
+    paddingVertical: Layout.padding * 2,
+    paddingHorizontal: Layout.padding,
+    marginVertical: Layout.padding / 2,
     flex: 1,
   },
   channelContainerPrivate: {
     backgroundColor: Colors.privateBackground,
-    borderColor: Colors.private,
   },
   channelContainerClosed: {
     backgroundColor: Colors.closedBackground,
-    borderColor: Colors.closed,
   },
   channelContainerPublic: {
     backgroundColor: Colors.publicBackground,
-    borderColor: Colors.public,
   },
   channelTitle: {
-    fontSize: 16,
+    fontSize: Type.subheadline,
     color: '#000',
-    lineHeight: 32,
+    paddingBottom: Layout.padding,
   },
   channelTitlePrivate: {
     color: Colors.private,
@@ -46,6 +44,10 @@ const styles = StyleSheet.create({
   },
   channelTitlePublic: {
     color: Colors.public,
+  },
+  meta: {
+    fontSize: Type.normal,
+    paddingRight: Layout.padding / 2,
   },
 })
 
@@ -81,17 +83,16 @@ export default class ChannelItem extends Component {
           <Text style={[styles.channelTitle, textStyle]}>
             {this.props.channel.title}
           </Text>
-          <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
-            <View>
-              <Text style={{ fontSize: 12, color: textColor }}>
-                {this.props.channel.user.name}
-              </Text>
-            </View>
-            <View>
-              <Text style={{ fontSize: 12, color: textColor }}>
-                {this.props.channel.updated_at}
-              </Text>
-            </View>
+          <View style={{ flex: 1, flexDirection: 'row' }}>
+            <Text style={[styles.meta, { color: textColor }]}>
+              {this.props.channel.user.name}
+            </Text>
+            <Text style={[styles.meta, { color: textColor }]}>
+              •
+            </Text>
+            <Text style={[styles.meta, { color: textColor }]}>
+              {this.props.channel.updated_at}
+            </Text>
           </View>
         </View>
       </TouchableOpacity>
