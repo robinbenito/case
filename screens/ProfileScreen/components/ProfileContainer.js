@@ -48,6 +48,7 @@ class ProfileContainer extends React.Component {
   }
 
   onEndReached() {
+    if (!this.props.userBlocksData || !this.props.userBlocksData.contents) return false
     const { loading, user } = this.props.data
     const { user: { contents } } = this.props.userBlocksData
     const type = `${this.state.type.toLowerCase()}s`
@@ -118,6 +119,8 @@ class ProfileContainer extends React.Component {
     const shouldShowChannel = type === 'CHANNEL'
     const columnCount = shouldShowChannel ? 1 : 2
     const columnStyle = columnCount > 1 ? { justifyContent: 'space-around' } : false
+
+    console.log('user bio', data.user.bio)
 
     return (
       <FlatList

@@ -11,20 +11,20 @@ import ContentsToggle from '../../../components/Contents/ContentsToggle'
 import UserAvatar from '../../../components/UserAvatar'
 import FollowButtonWithData from '../../../components/FollowButton'
 
+import HTMLStyles from '../../../constants/HtmlView'
 import layout from '../../../constants/Layout'
+import typesize from '../../../constants/Type'
 
 const styles = StyleSheet.create({
   avatar: {
-    marginRight: layout.padding / 2,
+    marginLeft: layout.padding,
+    marginRight: layout.padding * 2,
   },
   header: {
-    paddingVertical: layout.padding / 2,
+    paddingVertical: layout.padding,
   },
   innerHeader: {
-    borderBottomColor: '#eee',
-    borderBottomWidth: 1,
-    marginBottom: layout.padding,
-    minHeight: 75,
+    paddingBottom: layout.padding * 2,
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'flex-start',
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     maxWidth: 200,
   },
   headerText: {
-    fontSize: 20,
+    fontSize: typesize.headline,
     fontWeight: 'bold',
     paddingBottom: layout.padding,
   },
@@ -53,7 +53,8 @@ const ProfileHeader = ({ user, type, onToggle }) => (
           </Text>
           <HTMLView
             value={user.bio || '–'}
-            stylesheet={styles}
+            stylesheet={HTMLStyles}
+            addLineBreaks={null}
           />
         </View>
       </View>
