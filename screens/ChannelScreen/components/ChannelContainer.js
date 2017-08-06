@@ -45,7 +45,13 @@ class ChannelContainer extends React.Component {
   }
 
   onEndReached() {
-    if (this.props.blocksData.loading) return false
+    const { loading, channel } = this.props.data
+    const { channel: { blocks } } = this.props.blocksData
+    const type = `${this.state.type.toLowerCase()}s`
+    const total = channel.counts[type]
+
+    if (loading) return false
+    if (blocks.length >= total) return false
     const page = this.state.page + 1
     this.setState({ page })
     return this.props.loadMore(page)
@@ -154,6 +160,10 @@ const ChannelQuery = gql`
         slug
       }
       visibility
+      counts {
+        blocks
+        channels
+      }
     }
   }
 `

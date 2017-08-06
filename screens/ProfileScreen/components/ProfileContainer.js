@@ -48,7 +48,14 @@ class ProfileContainer extends React.Component {
   }
 
   onEndReached() {
-    if (this.props.data.loading) return false
+    const { loading, user } = this.props.data
+    const { user: { contents } } = this.props.userBlocksData
+    const type = `${this.state.type.toLowerCase()}s`
+    const total = user.counts[type]
+
+    if (loading) return false
+    if (contents.length >= total) return false
+
     const page = this.state.page + 1
     this.setState({ page })
     return this.props.loadMore(page)
@@ -154,6 +161,10 @@ const ProfileQuery = gql`
       bio
       can {
         follow
+      }
+      counts {
+        blocks
+        channels
       }
     }
   }
