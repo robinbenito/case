@@ -220,7 +220,9 @@ const ProfileContainerWithData = compose(
               type,
             },
             updateQuery: (previousResult, { fetchMoreResult }) => {
-              if (!fetchMoreResult.user.contents.length || !previousResult.user) { return previousResult }
+              if (!fetchMoreResult.user.contents.length || !previousResult.user) {
+                return previousResult
+              }
               const { __typename } = previousResult.user
               const response = {
                 user: {
