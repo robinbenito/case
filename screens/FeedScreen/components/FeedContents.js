@@ -48,10 +48,12 @@ const FeedContents = ({ items, verb }) => {
     return null
   })
 
+  const { __typename } = items[0]
+  const channelGroup = __typename === 'Channel'
   const { width } = Dimensions.get('window')
   const sliderWidth = width - (layout.padding * 2)
   const itemWidth = sliderWidth - (layout.padding * 2)
-  const showSlider = verb === 'connected' && items.length > 1
+  const showSlider = verb === 'connected' && items.length > 1 && !channelGroup
 
   if (showSlider) {
     return (
@@ -70,8 +72,10 @@ const FeedContents = ({ items, verb }) => {
     )
   }
 
+  const flexDirection = channelGroup ? 'column' : 'row'
+
   return (
-    <View style={{ marginLeft: layout.padding }}>
+    <View style={{ marginLeft: layout.padding, flexDirection }}>
       {contentsItems}
     </View>
   )
