@@ -5,6 +5,7 @@ exports[`renders correctly 1`] = `
   style={
     Object {
       "paddingLeft": 10,
+      "paddingVertical": 20,
     }
   }
 >
