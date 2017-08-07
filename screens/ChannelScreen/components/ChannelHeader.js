@@ -17,12 +17,10 @@ import layout from '../../../constants/Layout'
 const styles = StyleSheet.create({
   header: {
     paddingVertical: layout.padding,
+    marginBottom: layout.padding,
   },
   innerHeader: {
-    borderBottomColor: '#eee',
-    borderBottomWidth: 1,
-    marginBottom: layout.padding,
-    minHeight: 100,
+    paddingBottom: layout.padding * 2,
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'flex-start',
