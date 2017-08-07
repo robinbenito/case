@@ -159,6 +159,7 @@ const ChannelQuery = gql`
         follow
       }
       user {
+        id
         name
         slug
       }
