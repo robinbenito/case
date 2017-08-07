@@ -16,7 +16,6 @@ import layout from '../../../constants/Layout'
 const styles = StyleSheet.create({
   container: {
     paddingVertical: layout.padding * 2,
-    paddingLeft: layout.padding,
   },
   sentence: {
     display: 'flex',
