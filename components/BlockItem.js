@@ -13,13 +13,14 @@ import HTMLView from 'react-native-htmlview'
 
 import NavigatorService from '../utilities/navigationService'
 import layout from '../constants/Layout'
+import colors from '../constants/Colors'
 import HTMLStyles from '../constants/HtmlView'
 
 const { width } = Dimensions.get('window')
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'rgba(250, 250, 250, 1.0)',
+    backgroundColor: 'rgba(255, 255, 255, 1.0)',
     marginBottom: 20,
     overflow: 'hidden',
   },
@@ -29,8 +30,9 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   text: {
-    fontSize: 12,
-    color: '#000',
+    padding: layout.padding,
+    borderWidth: 1,
+    borderColor: colors.gray.border,
   },
 })
 
@@ -73,15 +75,12 @@ export default class BlockItem extends Component {
         break
       case 'Text':
         blockInner = (
-          <View style={{ padding: layout.padding }}>
-            <HTMLView
-              style={styles.text}
-              numberOfLines={9}
-              value={this.props.block.kind.content}
-              stylesheet={HTMLStyles}
-              addLineBreaks={null}
-            />
-          </View>
+          <HTMLView
+            numberOfLines={9}
+            value={this.props.block.kind.content}
+            stylesheet={HTMLStyles}
+            addLineBreaks={null}
+          />
         )
         break
 
@@ -94,11 +93,13 @@ export default class BlockItem extends Component {
         break
     }
 
+    const additionalStyle = __typename === 'Text' ? styles.text : {}
+
     return (
       <TouchableOpacity
         activeOpacity={0.95}
         onPress={this.onPress}
-        style={[styles.container, blockSize]}
+        style={[styles.container, blockSize, additionalStyle]}
       >
         <View style={{ flex: 1 }}>{blockInner}</View>
       </TouchableOpacity>
