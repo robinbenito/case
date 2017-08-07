@@ -8,7 +8,7 @@ import {
 import PropTypes from 'prop-types'
 
 import UserNameText from '../../../components/UserNameText'
-import ContentsToggle from '../../../components/Contents/ContentsToggle'
+import TabToggle from '../../../components/TabToggle'
 import FollowButtonWithData from '../../../components/FollowButton'
 
 import colors from '../../../constants/Colors'
@@ -73,7 +73,7 @@ const ChannelHeader = ({ channel, type, onToggle }) => {
           channel.can.follow && <FollowButtonWithData id={channel.id} type="CHANNEL" />
         }
       </View>
-      <ContentsToggle
+      <TabToggle
         selectedSegment={type}
         onToggleChange={onToggle}
       />

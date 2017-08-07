@@ -7,7 +7,7 @@ import {
 } from 'react-native'
 
 import HTMLView from 'react-native-htmlview'
-import ContentsToggle from '../../../components/Contents/ContentsToggle'
+import TabToggle from '../../../components/TabToggle'
 import UserAvatar from '../../../components/UserAvatar'
 import FollowButtonWithData from '../../../components/FollowButton'
 
@@ -63,7 +63,7 @@ const ProfileHeader = ({ user, type, onToggle }) => (
         user.can.follow && <FollowButtonWithData id={user.id} type="USER" />
       }
     </View>
-    <ContentsToggle
+    <TabToggle
       selectedSegment={type}
       onToggleChange={onToggle}
     />

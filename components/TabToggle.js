@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { values, keys } from 'lodash'
 import { SegmentedControlIOS } from 'react-native'
 
-export default class ContentsToggle extends Component {
+export default class TabToggle extends Component {
   render() {
     const options = {
       Channels: 'CHANNEL',
@@ -31,7 +31,7 @@ export default class ContentsToggle extends Component {
   }
 }
 
-ContentsToggle.propTypes = {
+TabToggle.propTypes = {
   onToggleChange: PropTypes.func.isRequired,
   selectedSegment: PropTypes.string.isRequired,
 }
