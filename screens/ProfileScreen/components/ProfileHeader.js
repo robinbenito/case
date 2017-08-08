@@ -11,7 +11,7 @@ import TabToggle from '../../../components/TabToggle'
 import UserAvatar from '../../../components/UserAvatar'
 import FollowButtonWithData from '../../../components/FollowButton'
 
-import HTMLStyles from '../../../constants/HtmlView'
+import { sansSerif } from '../../../constants/HtmlView'
 import layout from '../../../constants/Layout'
 import typesize from '../../../constants/Type'
 
@@ -54,7 +54,7 @@ const ProfileHeader = ({ user, type, onToggle }) => (
           </Text>
           <HTMLView
             value={user.bio || '–'}
-            stylesheet={HTMLStyles}
+            stylesheet={sansSerif}
             addLineBreaks={null}
           />
         </View>

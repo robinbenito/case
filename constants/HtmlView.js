@@ -1,5 +1,6 @@
+import { merge } from 'lodash'
 
-export default {
+const base = {
   p: {
     padding: 0,
     margin: 0,
@@ -7,6 +8,8 @@ export default {
     lineHeight: 20,
   },
 }
+
+export default base
 
 const smallStyles = {
   p: {
@@ -18,6 +21,9 @@ const smallStyles = {
   },
 }
 
+const sansSerif = merge(base, { p: { fontFamily: 'Arial' } })
+
 export {
   smallStyles,
+  sansSerif,
 }
