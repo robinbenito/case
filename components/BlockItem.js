@@ -82,7 +82,6 @@ export default class BlockItem extends Component {
 
     const htmlStyle = size === '1-up' ? HTMLStyles : smallStyles
 
-    console.log('smallStyles', smallStyles)
     switch (__typename) {
       case 'Attachment':
       case 'Embed':
