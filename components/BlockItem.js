@@ -14,7 +14,7 @@ import HTMLView from 'react-native-htmlview'
 import NavigatorService from '../utilities/navigationService'
 import layout from '../constants/Layout'
 import colors from '../constants/Colors'
-import HTMLStyles from '../constants/HtmlView'
+import HTMLStyles, { smallStyles } from '../constants/HtmlView'
 
 const { width } = Dimensions.get('window')
 
@@ -23,6 +23,24 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255, 255, 255, 1.0)',
     marginBottom: 20,
     overflow: 'hidden',
+  },
+  innerContainer: {
+    flex: 1,
+  },
+  blockTitleContainer: {
+    alignItems: 'center',
+    paddingVertical: layout.padding * 2,
+    flexDirection: 'row',
+  },
+  blockTitle: {
+    flex: 1,
+    color: colors.gray.light,
+    flexWrap: 'wrap',
+    overflow: 'hidden',
+    fontSize: 10,
+    alignItems: 'center',
+    paddingHorizontal: layout.padding * 2,
+    textAlign: 'center',
   },
   image: {
     flex: 1,
@@ -33,6 +51,7 @@ const styles = StyleSheet.create({
     padding: layout.padding,
     borderWidth: 1,
     borderColor: colors.gray.border,
+    overflow: 'hidden',
   },
 })
 
@@ -51,15 +70,17 @@ export default class BlockItem extends Component {
     let blockInner
 
     const { __typename } = this.props.block.kind
-    const { size } = this.props
+    const { size, block } = this.props
 
-    const blockWidth = size === '1-up' ? width : (width / 2)
+    const blockWidth = size === '1-up' ? width - layout.padding : (width / 2) - layout.padding
     const blockPadding = size === '1-up' ? layout.padding * 2 : layout.padding
 
     const blockSize = {
       width: blockWidth - blockPadding,
       height: blockWidth - blockPadding,
     }
+
+    const htmlStyle = size === '1-up' ? HTMLStyles : smallStyles
 
     switch (__typename) {
       case 'Attachment':
@@ -69,7 +90,7 @@ export default class BlockItem extends Component {
         blockInner = (
           <Image
             style={[styles.image, blockSize]}
-            source={{ uri: this.props.block.kind.image_url }}
+            source={{ uri: block.kind.image_url }}
           />
         )
         break
@@ -77,8 +98,8 @@ export default class BlockItem extends Component {
         blockInner = (
           <HTMLView
             numberOfLines={9}
-            value={this.props.block.kind.content}
-            stylesheet={HTMLStyles}
+            value={block.kind.content}
+            stylesheet={htmlStyle}
             addLineBreaks={null}
           />
         )
@@ -87,21 +108,28 @@ export default class BlockItem extends Component {
       default:
         blockInner = (
           <Text >
-            {this.props.block.title}
+            {block.title}
           </Text>
         )
         break
     }
 
     const additionalStyle = __typename === 'Text' ? styles.text : {}
-
+    const titleStyle = size === '1-up' ? { fontSize: 12 } : {}
     return (
       <TouchableOpacity
         activeOpacity={0.95}
         onPress={this.onPress}
-        style={[styles.container, blockSize, additionalStyle]}
+        style={[styles.container]}
       >
-        <View style={{ flex: 1 }}>{blockInner}</View>
+        <View style={[styles.innerContainer, blockSize, additionalStyle]}>
+          {blockInner}
+        </View>
+        <View style={styles.blockTitleContainer}>
+          <Text numberOfLines={1} style={[styles.blockTitle, titleStyle]}>
+            {block.title}
+          </Text>
+        </View>
       </TouchableOpacity>
     )
   }
