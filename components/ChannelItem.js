@@ -110,6 +110,7 @@ ChannelItem.fragments = {
       visibility
       updated_at(relative: true)
       user {
+        id
         name
       }
     }

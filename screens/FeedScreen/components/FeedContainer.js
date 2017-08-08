@@ -120,6 +120,7 @@ const FeedQuery = gql`
     me {
       feed(offset: $offset, limit: $limit) {
         groups {
+          __typename
           id: key
           key
           length
