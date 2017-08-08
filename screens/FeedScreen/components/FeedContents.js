@@ -51,7 +51,7 @@ const FeedContents = ({ items, verb }) => {
   const { __typename } = items[0]
   const channelGroup = __typename === 'Channel'
   const { width } = Dimensions.get('window')
-  const sliderWidth = width - layout.padding
+  const sliderWidth = width - (layout.padding * 2)
   const itemWidth = sliderWidth - layout.padding
   const showSlider = verb === 'connected' && items.length > 1 && !channelGroup
 
