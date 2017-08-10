@@ -4587,6 +4587,10 @@ react-mixin@^3.0.5:
     object-assign "^4.0.1"
     smart-mixin "^2.0.0"
 
+react-native-actionsheet@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/react-native-actionsheet/-/react-native-actionsheet-2.2.0.tgz#3783ad2c8d1ba116908ab8e169399adc486cc89e"
+
 react-native-aws3@^0.0.8:
   version "0.0.8"
   resolved "https://registry.yarnpkg.com/react-native-aws3/-/react-native-aws3-0.0.8.tgz#9a18789ae0cedfb40d29b1f69799a8af4f9927e8"
@@ -4810,6 +4814,12 @@ react-native-vector-icons@4.1.1:
     xpipe "^1.0.5"
     xtend ">=4.0.0 <4.1.0-0"
     yargs "^6.4.0"
+
+react-navigation-is-focused-hoc@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/react-navigation-is-focused-hoc/-/react-navigation-is-focused-hoc-1.0.0.tgz#f0159b03adfe2beaacc40f0ac3cf09731937f577"
+  dependencies:
+    react-navigation "^1.0.0-beta.11"
 
 react-navigation@^1.0.0-beta.11:
   version "1.0.0-beta.11"

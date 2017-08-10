@@ -60,7 +60,7 @@ class ConnectScreen extends React.Component {
     }
     this.onToggleConnection = this.onToggleConnection.bind(this)
     this.saveConnections = this.saveConnections.bind(this)
-    this.navigateToAddScreen = this.navigateToAddScreen.bind(this)
+    this.navigateToBack = this.navigateBack.bind(this)
   }
 
   onToggleConnection(connection, isSelected) {
@@ -78,14 +78,8 @@ class ConnectScreen extends React.Component {
     return uploadImage(image)
   }
 
-  navigateToAddScreen() {
-    const resetAction = NavigationActions.reset({
-      index: 0,
-      actions: [
-        NavigationActions.navigate({ routeName: 'add' }),
-      ],
-    })
-    this.props.navigation.dispatch(resetAction)
+  navigateBack() {
+    this.props.navigation.navigate('home')
   }
 
   saveConnections() {
@@ -106,7 +100,7 @@ class ConnectScreen extends React.Component {
           }
         }
 
-        this.props.mutate({ variables }).then(this.navigateToAddScreen)
+        this.props.mutate({ variables }).then(this.navigateToBack)
       })
   }
 
@@ -164,10 +158,7 @@ class ConnectScreen extends React.Component {
 }
 
 ConnectScreen.propTypes = {
-  navigation: PropTypes.shape({
-    dispatch: PropTypes.func,
-    state: PropTypes.any,
-  }).isRequired,
+  navigation: PropTypes.any.isRequired,
   mutate: PropTypes.any.isRequired,
 }
 

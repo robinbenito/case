@@ -44,6 +44,7 @@ const tabs = {
 
 const tabOptions = {
   initialRouteName: 'home',
+  lazy: true,
   tabBarOptions: {
     tabBarPosition: 'bottom',
     activeTintColor: '#000',
