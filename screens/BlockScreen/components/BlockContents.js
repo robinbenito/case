@@ -44,6 +44,8 @@ const styles = StyleSheet.create({
   },
 })
 
+console.log('htmlStyles', HTMLStyles)
+
 class BlockContainer extends React.Component {
   constructor(props) {
     super(props)
