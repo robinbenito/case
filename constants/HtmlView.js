@@ -1,4 +1,4 @@
-import { merge, clone } from 'lodash'
+import { merge, cloneDeep } from 'lodash'
 
 const base = {
   p: {
@@ -21,7 +21,7 @@ const smallStyles = {
   },
 }
 
-const sansSerif = merge(clone(base), { p: { fontFamily: 'Arial' } })
+const sansSerif = merge(cloneDeep(base), { p: { fontFamily: 'Arial' } })
 
 export {
   smallStyles,
