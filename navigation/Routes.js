@@ -22,6 +22,16 @@ const FeedStack = StackNavigator({
   },
   block: {
     screen: BlockScreen,
+    navigationOptions: () => ({
+      tabBarVisible: false,
+      title: 'Block',
+      headerStyle: {
+        backgroundColor: '#fff',
+      },
+      cardStyle: {
+        backgroundColor: '#fff',
+      },
+    }),
   },
   channel: {
     screen: ChannelScreen,
@@ -96,6 +106,7 @@ const ProfileStack = StackNavigator({
   block: {
     screen: BlockScreen,
     navigationOptions: () => ({
+      tabBarVisible: false,
       title: 'Block',
       headerStyle: {
         backgroundColor: '#fff',
