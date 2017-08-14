@@ -7,7 +7,7 @@ const base = {
     padding: 0,
     margin: 0,
     fontFamily: 'Times New Roman',
-    lineHeight: 15,
+    lineHeight: type.lineHeights.normal,
     fontSize: type.sizes.normal,
   },
 }
@@ -20,7 +20,7 @@ const smallStyles = {
     margin: 0,
     fontFamily: 'Times New Roman',
     fontSize: type.sizes.small,
-    lineHeight: 15,
+    lineHeight: type.lineHeights.small,
   },
 }
 

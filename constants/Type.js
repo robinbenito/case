@@ -10,4 +10,8 @@ export default {
     bold: '900',
     semibold: '600',
   },
+  lineHeights: {
+    normal: 15,
+    small: 12,
+  },
 }
