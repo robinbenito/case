@@ -4,6 +4,7 @@ exports[`renders correctly 1`] = `
 <View
   style={
     Object {
+      "paddingHorizontal": 10,
       "paddingVertical": 20,
     }
   }
@@ -19,6 +20,7 @@ exports[`renders correctly 1`] = `
   >
     <UserNameText
       mode="feed"
+      style={Object {}}
       user={
         Object {
           "name": "Édouard U.",
@@ -74,7 +76,7 @@ exports[`renders correctly 1`] = `
     style={
       Object {
         "color": "#cbcbcb",
-        "paddingBottom": 10,
+        "fontSize": 12,
         "paddingTop": 5,
       }
     }
