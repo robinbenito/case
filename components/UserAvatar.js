@@ -82,7 +82,7 @@ UserAvatar.propTypes = {
 }
 
 UserAvatar.defaultProps = {
-  size: 40,
+  size: 60,
   style: {},
   onPress: () => null,
 }

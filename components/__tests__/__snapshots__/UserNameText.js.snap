@@ -13,9 +13,12 @@ exports[`renders correctly 1`] = `
     ellipsizeMode="tail"
     onPress={[Function]}
     style={
-      Object {
-        "fontWeight": "bold",
-      }
+      Array [
+        Object {
+          "fontWeight": "bold",
+        },
+        Object {},
+      ]
     }
   >
     Damon Zucconi

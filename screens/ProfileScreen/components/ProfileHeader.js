@@ -13,19 +13,18 @@ import FollowButtonWithData from '../../../components/FollowButton'
 
 import { sansSerif } from '../../../constants/HtmlView'
 import layout from '../../../constants/Layout'
-import typesize from '../../../constants/Type'
+import typevalues from '../../../constants/Type'
 
 const styles = StyleSheet.create({
   avatar: {
-    marginLeft: layout.padding,
     marginRight: layout.padding * 2,
   },
   header: {
-    paddingVertical: layout.padding,
-    marginBottom: layout.padding,
+    paddingVertical: layout.padding * 2,
   },
   innerHeader: {
-    paddingBottom: layout.padding * 2,
+    paddingHorizontal: layout.padding * 2,
+    marginBottom: layout.padding,
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'flex-start',
@@ -34,12 +33,12 @@ const styles = StyleSheet.create({
   userInfo: {
     display: 'flex',
     flexDirection: 'row',
-    maxWidth: 200,
+    maxWidth: 180,
   },
   headerText: {
-    fontSize: typesize.headline,
-    fontWeight: 'bold',
-    paddingBottom: layout.padding,
+    fontSize: typevalues.sizes.headline,
+    fontWeight: typevalues.weights.semibold,
+    paddingBottom: layout.padding / 2,
   },
 })
 
@@ -47,7 +46,7 @@ const ProfileHeader = ({ user, type, onToggle }) => (
   <View style={styles.header}>
     <View style={styles.innerHeader}>
       <View style={styles.userInfo}>
-        <UserAvatar size={50} user={user} style={styles.avatar} />
+        <UserAvatar user={user} style={styles.avatar} />
         <View>
           <Text style={styles.headerText}>
             {user.name}
@@ -55,7 +54,7 @@ const ProfileHeader = ({ user, type, onToggle }) => (
           <HTMLView
             value={user.bio || '–'}
             stylesheet={sansSerif}
-            addLineBreaks={null}
+            addLineBreaks={false}
           />
         </View>
       </View>

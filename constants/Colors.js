@@ -30,5 +30,6 @@ export default {
     modal: 'rgba(58,58,58,.85)',
     text: '#585858',
     hover: '#050505',
+    tab: '#fafafa',
   },
 }

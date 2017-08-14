@@ -11,7 +11,7 @@ exports[`renders correctly 1`] = `
       "borderWidth": 1,
       "marginBottom": 5,
       "padding": 10,
-      "width": 90,
+      "width": 75,
     }
   }
   underlayColor="black"
@@ -24,6 +24,8 @@ exports[`renders correctly 1`] = `
     ellipsizeMode="tail"
     style={
       Object {
+        "fontSize": 12,
+        "fontWeight": "600",
         "textAlign": "center",
       }
     }

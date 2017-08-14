@@ -21,7 +21,9 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#fff',
     minHeight: 700,
-    padding: layout.padding,
+  },
+  channelItem: {
+    marginHorizontal: layout.padding,
   },
   loadingContainer: {
     flex: 1,
@@ -145,7 +147,7 @@ class ProfileContainer extends React.Component {
           if (item.klass === 'Block') {
             return <BlockItem block={item} size="2-up" />
           }
-          return <ChannelItem channel={item} />
+          return <ChannelItem channel={item} style={styles.channelItem} />
         }}
       />
     )

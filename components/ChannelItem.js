@@ -11,57 +11,57 @@ import {
 
 import { Ionicons } from '@expo/vector-icons'
 
-import Layout from '../constants/Layout'
-import Colors from '../constants/Colors'
-import Type from '../constants/Type'
+import layout from '../constants/Layout'
+import colors from '../constants/Colors'
+import type from '../constants/Type'
 import NavigatorService from '../utilities/navigationService'
 
 const styles = StyleSheet.create({
   channelContainer: {
     borderWidth: 1,
     backgroundColor: 'rgba(255, 255, 255, 1.0)',
-    paddingVertical: Layout.padding * 2,
-    marginVertical: Layout.padding / 2,
-    paddingHorizontal: Layout.padding,
+    paddingVertical: layout.padding * 2,
+    marginVertical: layout.padding / 2,
+    paddingHorizontal: layout.padding,
     flex: 1,
   },
   innerContainer: {
     flex: 1,
   },
   channelContainerPrivate: {
-    backgroundColor: Colors.privateBackground,
-    borderColor: Colors.privateBackground,
+    backgroundColor: colors.privateBackground,
+    borderColor: colors.privateBackground,
   },
   channelContainerClosed: {
-    backgroundColor: Colors.closedBackground,
-    borderColor: Colors.closedBackground,
+    backgroundColor: colors.closedBackground,
+    borderColor: colors.closedBackground,
   },
   channelContainerPublic: {
-    backgroundColor: Colors.publicBackground,
-    borderColor: Colors.publicBackground,
+    backgroundColor: colors.publicBackground,
+    borderColor: colors.publicBackground,
   },
   channelContainerSelectedPrivate: {
-    borderColor: Colors.private,
+    borderColor: colors.private,
   },
   channelContainerSelectedClosed: {
-    borderColor: Colors.closed,
+    borderColor: colors.closed,
   },
   channelContainerSelectedPublic: {
-    borderColor: Colors.public,
+    borderColor: colors.public,
   },
   channelTitle: {
-    fontSize: Type.subheadline,
+    fontSize: type.sizes.medium,
     color: '#000',
-    paddingBottom: Layout.padding,
+    paddingBottom: layout.padding / 2,
   },
   channelTitlePrivate: {
-    color: Colors.private,
+    color: colors.private,
   },
   channelTitleClosed: {
-    color: Colors.closed,
+    color: colors.closed,
   },
   channelTitlePublic: {
-    color: Colors.public,
+    color: colors.public,
   },
   metaContainer: {
     flex: 1,
@@ -73,8 +73,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   meta: {
-    fontSize: Type.normal,
-    paddingRight: Layout.padding / 2,
+    fontSize: type.sizes.normal,
+    paddingRight: layout.padding / 2,
   },
   icon: {
     display: 'none',
@@ -111,7 +111,7 @@ export default class ChannelItem extends Component {
     const { isSelected } = this.state
     const counts = channel.counts || channel.kind.counts
     const visibility = channel.visibility || channel.kind.visibility
-    const textColor = Colors[visibility]
+    const textColor = colors[visibility]
 
     const updatedAt = isSelected ? null : (
       <View style={styles.metaLine}>
@@ -156,26 +156,21 @@ export default class ChannelItem extends Component {
       private: styles.channelContainerSelectedPrivate,
     }[visibility] : null
 
-    const textStyle = {
-      public: styles.channelTitlePublic,
-      closed: styles.channelTitleClosed,
-      private: styles.channelTitlePrivate,
-    }[visibility]
-
     const selectedIcon = isSelected ? (
       <Ionicons
         name="ios-checkmark-circle"
         size={18}
-        color={Colors.gray.light}
+        color={colors.gray.light}
         style={styles.icon}
       />
     ) : null
+    const textColor = colors.channel[visibility]
 
     return (
       <TouchableOpacity onPress={this.onPressButton}>
         <View style={[styles.channelContainer, containerStyle, selectedContainerStyle, style]}>
           <View style={styles.innerContainer}>
-            <Text style={[styles.channelTitle, textStyle]}>
+            <Text style={[styles.channelTitle, { color: textColor }]}>
               {channel.title}
             </Text>
             {this.renderMeta()}
