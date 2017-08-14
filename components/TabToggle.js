@@ -8,7 +8,6 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native'
 
-import layout from '../constants/Layout'
 import color from '../constants/Colors'
 
 const styles = StyleSheet.create({
