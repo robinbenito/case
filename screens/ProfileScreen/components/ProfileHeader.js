@@ -13,7 +13,7 @@ import FollowButtonWithData from '../../../components/FollowButton'
 
 import { sansSerif } from '../../../constants/HtmlView'
 import layout from '../../../constants/Layout'
-import type from '../../../constants/Type'
+import typevalues from '../../../constants/Type'
 
 const styles = StyleSheet.create({
   avatar: {
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     maxWidth: 180,
   },
   headerText: {
-    fontSize: type.sizes.headline,
+    fontSize: typevalues.sizes.headline,
     fontWeight: '600',
     paddingBottom: layout.padding / 2,
   },
