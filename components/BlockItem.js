@@ -21,7 +21,7 @@ const { width } = Dimensions.get('window')
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'rgba(255, 255, 255, 1.0)',
-    marginBottom: 20,
+    marginBottom: layout.padding,
     overflow: 'hidden',
   },
   innerContainer: {
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
   },
   blockTitleContainer: {
     alignItems: 'center',
-    paddingVertical: layout.padding * 2,
+    paddingVertical: layout.padding,
     flexDirection: 'row',
   },
   blockTitle: {
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     fontSize: 10,
     alignItems: 'center',
-    paddingHorizontal: layout.padding * 2,
+    paddingHorizontal: layout.padding,
     textAlign: 'center',
   },
   image: {
@@ -70,9 +70,9 @@ export default class BlockItem extends Component {
     let blockInner
 
     const { __typename } = this.props.block.kind
-    const { size, block } = this.props
+    const { size, block, style } = this.props
 
-    const blockWidth = size === '1-up' ? width - layout.padding : (width / 2) - layout.padding
+    const blockWidth = size === '1-up' ? width - layout.padding : (width / 2)
     const blockPadding = size === '1-up' ? layout.padding * 2 : layout.padding
 
     const blockSize = {
@@ -115,14 +115,14 @@ export default class BlockItem extends Component {
     }
 
     const additionalStyle = __typename === 'Text' ? styles.text : {}
-    const titleStyle = size === '1-up' ? { fontSize: 12 } : {}
+    const titleStyle = size === '1-up' ? { fontSize: 12 } : { fontSize: 12 }
     return (
       <TouchableOpacity
         activeOpacity={0.95}
         onPress={this.onPress}
-        style={[styles.container]}
+        style={styles.container}
       >
-        <View style={[styles.innerContainer, blockSize, additionalStyle]}>
+        <View style={[styles.innerContainer, blockSize, additionalStyle, style]}>
           {blockInner}
         </View>
         <View style={styles.blockTitleContainer}>
@@ -173,6 +173,7 @@ BlockItem.fragments = {
 }
 
 BlockItem.propTypes = {
+  style: PropTypes.any,
   size: PropTypes.oneOf(['2-up', '1-up']),
   block: PropTypes.shape({
     id: PropTypes.any,
@@ -185,5 +186,6 @@ BlockItem.propTypes = {
 
 BlockItem.defaultProps = {
   size: '2-up',
+  style: {},
 }
 
