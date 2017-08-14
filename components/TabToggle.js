@@ -19,9 +19,13 @@ const styles = StyleSheet.create({
   tab: {
     flex: 1,
     alignItems: 'center',
+    justifyContent: 'center',
     borderBottomWidth: 1,
     borderBottomColor: color.gray.border,
-    padding: layout.padding,
+    height: 45,
+  },
+  tabText: {
+    fontSize: 12,
   },
   textSelected: {
     fontWeight: 'bold',
@@ -47,7 +51,7 @@ export default class TabToggle extends Component {
       return (
         <TouchableWithoutFeedback key={label} onPress={() => this.props.onToggleChange(label)}>
           <View style={[styles.tab, tabStyle]}>
-            <Text style={tabTextStyle}>
+            <Text style={[styles.tabText, tabTextStyle]}>
               {label}
             </Text>
           </View>
