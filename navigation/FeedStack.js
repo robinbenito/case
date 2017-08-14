@@ -10,6 +10,19 @@ const FeedStack = StackNavigator({
     screen: FeedScreen,
     navigationOptions: () => ({
       title: 'Feed',
+      cardStyle: {
+        backgroundColor: '#fff',
+      },
+      titleStyle: {
+        fontSize: 17,
+        fontWeight: 'normal',
+      },
+      headerStyle: {
+        backgroundColor: '#fafafa',
+        borderBottomWidth: 0.5,
+        borderBottomColor: '#f0f0f0',
+        shadowColor: 'transparent',
+      },
     }),
   },
   block: {
@@ -18,7 +31,7 @@ const FeedStack = StackNavigator({
       tabBarVisible: false,
       title: 'Block',
       headerStyle: {
-        backgroundColor: '#fff',
+        backgroundColor: '#fafafa',
       },
       cardStyle: {
         backgroundColor: '#fff',
@@ -30,7 +43,7 @@ const FeedStack = StackNavigator({
     navigationOptions: () => ({
       title: 'Channel',
       headerStyle: {
-        backgroundColor: '#fff',
+        backgroundColor: '#fafafa',
       },
       cardStyle: {
         backgroundColor: '#fff',
@@ -42,18 +55,12 @@ const FeedStack = StackNavigator({
     navigationOptions: () => ({
       title: 'Profile',
       headerStyle: {
-        backgroundColor: '#fff',
+        backgroundColor: '#fafafa',
       },
       cardStyle: {
         backgroundColor: '#fff',
       },
     }),
-  },
-}, {
-  navigationOptions: {
-    headerStyle: {
-      backgroundColor: '#fff',
-    },
   },
 })
 

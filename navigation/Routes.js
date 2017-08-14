@@ -15,28 +15,25 @@ const tabs = {
   home: {
     screen: FeedStack,
     navigationOptions: {
-      tabBarLabel: 'Feed',
+      tabBarLabel: null,
       tabBarIcon: props => (
-        <Ionicons name="ios-list-box-outline" size={24} color={props.tintColor} />
+        <Ionicons name="md-reorder" size={30} color={props.tintColor} />
       ),
     },
   },
   add: {
     screen: AddStack,
     navigationOptions: {
-      tabBarLabel: 'Add',
       tabBarIcon: props => (
-        <Ionicons name="ios-add-circle-outline" size={24} color={props.tintColor} />
+        <Ionicons name="md-add" size={30} color={props.tintColor} />
       ),
     },
   },
   profile: {
     screen: ProfileStack,
     navigationOptions: {
-      title: 'Profile',
-      tabBarLabel: 'Profile',
       tabBarIcon: props => (
-        <Ionicons name="ios-person" size={24} color={props.tintColor} />
+        <Ionicons name="ios-person" size={30} color={props.tintColor} />
       ),
     },
   },
@@ -47,13 +44,13 @@ const tabOptions = {
   tabBarOptions: {
     tabBarPosition: 'bottom',
     activeTintColor: '#000',
+    showLabel: false,
     inactiveTintColor: colors.tabIconDefault,
     style: {
-      backgroundColor: '#fff',
-      borderColor: '#fff',
+      backgroundColor: '#fafafa',
     },
     tabStyle: {
-      backgroundColor: '#fff',
+      backgroundColor: '#fafafa',
     },
   },
 }
@@ -76,7 +73,7 @@ export const createRootNavigator = (loggedIn = false) => StackNavigator({
     navigationOptions: () => ({
       header: null,
       headerStyle: {
-        backgroundColor: '#fff',
+        borderColor: '#000',
       },
       cardStyle: {
         backgroundColor: '#fff',

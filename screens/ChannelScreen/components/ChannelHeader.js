@@ -16,22 +16,22 @@ import layout from '../../../constants/Layout'
 
 const styles = StyleSheet.create({
   header: {
-    paddingVertical: layout.padding,
-    marginBottom: layout.padding,
+    paddingVertical: layout.padding * 2,
   },
   innerHeader: {
-    paddingBottom: layout.padding * 2,
+    paddingHorizontal: layout.padding * 2,
+    marginBottom: layout.padding,
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'flex-start',
     justifyContent: 'space-between',
   },
   channelInfo: {
-    maxWidth: 300,
+    maxWidth: 260,
   },
   headerText: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: '600',
     paddingBottom: layout.padding,
   },
   collaborators: {
@@ -63,8 +63,8 @@ const ChannelHeader = ({ channel, type, onToggle }) => {
             {channel.title}
           </Text>
           <View style={styles.collaborators}>
-            <Text style={textStyle}>by </Text>
-            <UserNameText style={textStyle} user={channel.user} />
+            <Text style={[textStyle, { fontSize: 12 }]}>by </Text>
+            <UserNameText style={[textStyle, { fontSize: 12 }]} user={channel.user} />
           </View>
         </View>
         {
