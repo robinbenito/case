@@ -5,7 +5,8 @@ const base = {
     padding: 0,
     margin: 0,
     fontFamily: 'Times New Roman',
-    lineHeight: 20,
+    lineHeight: 15,
+    fontSize: 12,
   },
 }
 
