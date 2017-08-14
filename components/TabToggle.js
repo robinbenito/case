@@ -9,6 +9,7 @@ import {
 } from 'react-native'
 
 import color from '../constants/Colors'
+import type from '../constants/Type'
 
 const styles = StyleSheet.create({
   container: {
@@ -24,7 +25,7 @@ const styles = StyleSheet.create({
     height: 45,
   },
   tabText: {
-    fontSize: 12,
+    fontSize: type.sizes.normal,
   },
   textSelected: {
     fontWeight: 'bold',

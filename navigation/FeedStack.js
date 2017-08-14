@@ -5,6 +5,13 @@ import BlockScreen from '../screens/BlockScreen'
 import ProfileScreen from '../screens/ProfileScreen'
 import ChannelScreen from '../screens/ChannelScreen'
 
+const headerStyle = {
+  backgroundColor: '#fafafa',
+  borderBottomWidth: 0.5,
+  borderBottomColor: '#f0f0f0',
+  shadowColor: 'transparent',
+}
+
 const FeedStack = StackNavigator({
   feed: {
     screen: FeedScreen,
@@ -13,16 +20,7 @@ const FeedStack = StackNavigator({
       cardStyle: {
         backgroundColor: '#fff',
       },
-      titleStyle: {
-        fontSize: 17,
-        fontWeight: 'normal',
-      },
-      headerStyle: {
-        backgroundColor: '#fafafa',
-        borderBottomWidth: 0.5,
-        borderBottomColor: '#f0f0f0',
-        shadowColor: 'transparent',
-      },
+      headerStyle,
     }),
   },
   block: {
@@ -30,9 +28,7 @@ const FeedStack = StackNavigator({
     navigationOptions: () => ({
       tabBarVisible: false,
       title: 'Block',
-      headerStyle: {
-        backgroundColor: '#fafafa',
-      },
+      headerStyle,
       cardStyle: {
         backgroundColor: '#fff',
       },
@@ -42,9 +38,7 @@ const FeedStack = StackNavigator({
     screen: ChannelScreen,
     navigationOptions: () => ({
       title: 'Channel',
-      headerStyle: {
-        backgroundColor: '#fafafa',
-      },
+      headerStyle,
       cardStyle: {
         backgroundColor: '#fff',
       },
@@ -54,9 +48,7 @@ const FeedStack = StackNavigator({
     screen: ProfileScreen,
     navigationOptions: () => ({
       title: 'Profile',
-      headerStyle: {
-        backgroundColor: '#fafafa',
-      },
+      headerStyle,
       cardStyle: {
         backgroundColor: '#fff',
       },

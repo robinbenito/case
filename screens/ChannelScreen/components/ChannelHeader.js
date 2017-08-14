@@ -13,6 +13,7 @@ import FollowButtonWithData from '../../../components/FollowButton'
 
 import colors from '../../../constants/Colors'
 import layout from '../../../constants/Layout'
+import typevalues from '../../../constants/Type'
 
 const styles = StyleSheet.create({
   header: {
@@ -27,12 +28,15 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   channelInfo: {
-    maxWidth: 260,
+    maxWidth: layout.infoWidth,
   },
   headerText: {
-    fontSize: 24,
-    fontWeight: '600',
+    fontSize: typevalues.sizes.headline,
+    fontWeight: typevalues.weights.semibold,
     paddingBottom: layout.padding,
+  },
+  smallText: {
+    fontSize: typevalues.sizes.normal,
   },
   collaborators: {
     flexDirection: 'row',
@@ -63,8 +67,8 @@ const ChannelHeader = ({ channel, type, onToggle }) => {
             {channel.title}
           </Text>
           <View style={styles.collaborators}>
-            <Text style={[textStyle, { fontSize: 12 }]}>by </Text>
-            <UserNameText style={[textStyle, { fontSize: 12 }]} user={channel.user} />
+            <Text style={[textStyle, styles.smallText]}>by </Text>
+            <UserNameText style={[textStyle, styles.smallText]} user={channel.user} />
           </View>
         </View>
         {

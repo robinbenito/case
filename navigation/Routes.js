@@ -15,7 +15,6 @@ const tabs = {
   home: {
     screen: FeedStack,
     navigationOptions: {
-      tabBarLabel: null,
       tabBarIcon: props => (
         <Ionicons name="md-reorder" size={30} color={props.tintColor} />
       ),
@@ -43,14 +42,14 @@ const tabOptions = {
   initialRouteName: 'home',
   tabBarOptions: {
     tabBarPosition: 'bottom',
-    activeTintColor: '#000',
+    activeTintColor: colors.gray.hover,
     showLabel: false,
     inactiveTintColor: colors.tabIconDefault,
     style: {
-      backgroundColor: '#fafafa',
+      backgroundColor: colors.gray.tab,
     },
     tabStyle: {
-      backgroundColor: '#fafafa',
+      backgroundColor: colors.gray.tab,
     },
   },
 }
@@ -72,12 +71,8 @@ export const createRootNavigator = (loggedIn = false) => StackNavigator({
     screen: LoginScreen,
     navigationOptions: () => ({
       header: null,
-      headerStyle: {
-        borderColor: '#000',
-      },
       cardStyle: {
         backgroundColor: '#fff',
-        padding: 40,
       },
     }),
   },

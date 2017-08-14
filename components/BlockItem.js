@@ -14,6 +14,7 @@ import HTMLView from 'react-native-htmlview'
 import NavigatorService from '../utilities/navigationService'
 import layout from '../constants/Layout'
 import colors from '../constants/Colors'
+import type from '../constants/Type'
 import HTMLStyles, { smallStyles } from '../constants/HtmlView'
 
 const { width } = Dimensions.get('window')
@@ -37,7 +38,7 @@ const styles = StyleSheet.create({
     color: colors.gray.light,
     flexWrap: 'wrap',
     overflow: 'hidden',
-    fontSize: 10,
+    fontSize: type.sizes.normal,
     alignItems: 'center',
     paddingHorizontal: layout.padding,
     textAlign: 'center',
@@ -115,7 +116,6 @@ export default class BlockItem extends Component {
     }
 
     const additionalStyle = __typename === 'Text' ? styles.text : {}
-    const titleStyle = size === '1-up' ? { fontSize: 12 } : { fontSize: 12 }
     return (
       <TouchableOpacity
         activeOpacity={0.95}
@@ -126,7 +126,7 @@ export default class BlockItem extends Component {
           {blockInner}
         </View>
         <View style={styles.blockTitleContainer}>
-          <Text numberOfLines={1} style={[styles.blockTitle, titleStyle]}>
+          <Text numberOfLines={1} style={styles.blockTitle}>
             {block.title}
           </Text>
         </View>

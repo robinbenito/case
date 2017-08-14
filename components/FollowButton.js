@@ -11,6 +11,7 @@ import { graphql, compose } from 'react-apollo'
 
 import layout from '../constants/Layout'
 import colors from '../constants/Colors'
+import typesizes from '../constants/Type'
 
 const styles = StyleSheet.create({
   button: {
@@ -23,7 +24,7 @@ const styles = StyleSheet.create({
   },
   text: {
     textAlign: 'center',
-    fontSize: 12,
+    fontSize: typesizes.sizes.normal,
     fontWeight: '600',
   },
 })

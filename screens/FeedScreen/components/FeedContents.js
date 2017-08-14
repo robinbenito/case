@@ -16,11 +16,12 @@ import ChannelItem from '../../../components/ChannelItem'
 import UserAvatar from '../../../components/UserAvatar'
 
 import layout from '../../../constants/Layout'
+import colors from '../../../constants/Colors'
 
 const styles = StyleSheet.create({
   blockStyle: {
     borderWidth: 1,
-    borderColor: '#f0f0f0',
+    borderColor: colors.gray.border,
   },
 })
 
