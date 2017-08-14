@@ -5,10 +5,12 @@ import BlockScreen from '../screens/BlockScreen'
 import ProfileScreen from '../screens/ProfileScreen'
 import ChannelScreen from '../screens/ChannelScreen'
 
+import colors from '../constants/Colors'
+
 const headerStyle = {
-  backgroundColor: '#fafafa',
-  borderBottomWidth: 0.5,
-  borderBottomColor: '#f0f0f0',
+  backgroundColor: colors.gray.background,
+  borderBottomWidth: 1,
+  borderBottomColor: colors.gray.border,
   shadowColor: 'transparent',
 }
 
