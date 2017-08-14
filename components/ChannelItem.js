@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
   channelTitle: {
     fontSize: Type.subheadline,
     color: '#000',
-    paddingBottom: Layout.padding,
+    paddingBottom: Layout.padding / 2,
   },
   channelTitlePrivate: {
     color: Colors.private,
