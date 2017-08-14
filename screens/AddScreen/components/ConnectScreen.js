@@ -4,26 +4,21 @@ import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 
 import {
-  Dimensions,
-  Image,
-  KeyboardAvoidingView,
-  ScrollView,
+  FlatList,
   StyleSheet,
   Text,
   View,
 } from 'react-native'
 
-import { NavigationActions } from 'react-navigation'
-
 import RecentConnectionsWithData from '../../../components/RecentConnections'
 import ConnectionSearchWithData from '../../../components/ConnectionSearch'
 
-import SearchField from '../../../components/SearchField'
+import SearchHeader from '../../../components/SearchHeader'
+import ChannelItem from '../../../components/ChannelItem'
 import BottomButton from '../../../components/BottomButton'
 
 import uploadImage from '../../../api/uploadImage'
 
-import colors from '../../../constants/Colors'
 import layout from '../../../constants/Layout'
 
 const styles = StyleSheet.create({
@@ -31,6 +26,10 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: layout.padding,
     backgroundColor: '#fff',
+  },
+  innerContainer: {
+    flex: 1,
+    marginTop: 100,
   },
   label: {
     fontSize: 12,
@@ -47,20 +46,42 @@ const styles = StyleSheet.create({
 })
 
 class ConnectScreen extends React.Component {
+  static navigationOptions() {
+    return {
+      header: null,
+    }
+  }
+
   constructor(props) {
     super(props)
 
-    const { image, text } = props.navigation.state.params
+    const {
+      image,
+      content,
+      description,
+      title,
+    } = props.navigation.state.params
+
     this.state = {
       isSearching: false,
       q: null,
       selectedConnections: [],
       image,
-      text,
+      content,
+      description,
+      title,
     }
     this.onToggleConnection = this.onToggleConnection.bind(this)
     this.saveConnections = this.saveConnections.bind(this)
-    this.navigateToBack = this.navigateBack.bind(this)
+    this.navigateBack = this.navigateBack.bind(this)
+  }
+
+  componentDidMount() {
+    if (this.state.image) {
+      this.props.navigation.setParams({
+        title: 'New Image',
+      })
+    }
   }
 
   onToggleConnection(connection, isSelected) {
@@ -83,10 +104,11 @@ class ConnectScreen extends React.Component {
   }
 
   saveConnections() {
+    const { title, content, description } = this.state
     this.maybeUploadImage()
       .then((response) => {
-        const channelIds = this.state.selectedConnections.map(channel => channel.slug)
-        let variables = { channel_ids: channelIds }
+        const channelIds = this.state.selectedConnections.map(channel => channel.id)
+        let variables = { channel_ids: channelIds, title, description }
 
         if (response) {
           // This is an image
@@ -95,12 +117,16 @@ class ConnectScreen extends React.Component {
           })
         } else {
           // This is a piece of text
-          variables = {
-            content: this.state.text,
-          }
+          variables = Object.assign({}, variables, {
+            content,
+          })
         }
 
-        this.props.mutate({ variables }).then(this.navigateToBack)
+        this.props.mutate({ variables })
+          .then(this.navigateBack)
+      })
+      .catch((error) => {
+        console.log('Error uploading image', error)
       })
   }
 
@@ -112,21 +138,25 @@ class ConnectScreen extends React.Component {
   }
 
   render() {
-    const { width } = Dimensions.get('window')
-    const { search, text, image, selectedConnections } = this.state
-
-    const imageStyle = {
-      width: width - (layout.padding * 2),
-      height: width - (layout.padding * 2),
-      resizeMode: 'contain',
-      marginTop: (layout.padding / 2),
-      borderWidth: 1,
-      borderColor: colors.gray.border,
-    }
+    const { search, title, selectedConnections } = this.state
 
     const ConnectionContent = this.state.isSearching ?
       <ConnectionSearchWithData q={search} onToggleConnection={this.onToggleConnection} /> :
       <RecentConnectionsWithData onToggleConnection={this.onToggleConnection} />
+
+    const selectedChannelsContent = selectedConnections ? (
+      <View>
+        <Text style={styles.label}>Selected channels</Text>
+        <FlatList
+          contentContainerStyle={styles.container}
+          data={selectedConnections}
+          keyExtractor={item => item.id}
+          renderItem={({ item }) => (
+            <ChannelItem channel={item} onToggleSelect={this.onToggleConnection} />
+          )}
+        />
+      </View>
+    ) : null
 
     const ConnectButton = selectedConnections.length ?
       (<BottomButton
@@ -135,22 +165,16 @@ class ConnectScreen extends React.Component {
       />) : null
 
     return (
-      <View>
-        <ScrollView>
-          <KeyboardAvoidingView behavior="position" style={styles.container}>
-            <Text>{text}</Text>
-            <Image
-              source={{ uri: image }}
-              style={imageStyle}
-            />
-            <SearchField
-              style={styles.input}
-              onChangeText={t => this.search(t)}
-            />
-            <Text style={styles.label}>Recent channels</Text>
-            {ConnectionContent}
-          </KeyboardAvoidingView>
-        </ScrollView>
+      <View style={styles.container}>
+        <SearchHeader
+          style={styles.input}
+          onChangeText={t => this.search(t)}
+        />
+        <View style={styles.innerContainer}>
+          {selectedChannelsContent}
+          <Text style={styles.label}>Recent channels</Text>
+          {ConnectionContent}
+        </View>
         {ConnectButton}
       </View>
     )
@@ -163,16 +187,12 @@ ConnectScreen.propTypes = {
 }
 
 const connectMutation = gql`
-  mutation createBlockMutation($channel_ids: [ID], $title: String, $content: String, $description: String, $source_url: String){
-    createBlock(input: { channel_ids: $channel_ids, title: $title, content: $content, description: $description, source_url: $source_url }) {
+  mutation createBlockMutation($channel_ids: [ID]!, $title: String, $content: String, $description: String, $source_url: String){
+    create_block(input: { channel_ids: $channel_ids, title: $title, content: $content, description: $description, source_url: $source_url }) {
       clientMutationId
       block {
         id
         title
-        connections {
-          id
-          title
-        }
       }
     }
   }

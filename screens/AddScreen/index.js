@@ -2,34 +2,24 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
-  Text,
   View,
 } from 'react-native'
 
 import { ImagePicker } from 'expo'
 import { NavigationActions } from 'react-navigation'
-import { withNavigationFocus } from 'react-navigation-is-focused-hoc'
-import ActionSheet from 'react-native-actionsheet'
 
-import layout from '../../constants/Layout'
+import IconButton from '../../components/IconButton'
+
+import colors from '../../constants/Colors'
 
 const styles = StyleSheet.create({
-  menuContainer: {
+  container: {
+    backgroundColor: colors.gray.background,
     flex: 1,
-    alignItems: 'center',
     justifyContent: 'center',
-    padding: layout.padding,
-    backgroundColor: '#fff',
-  },
-  contentContainer: {
-    paddingTop: (layout.padding * 4),
     alignItems: 'center',
   },
 })
-
-const CANCEL_INDEX = 0
-const DESTRUCTIVE_INDEX = 4
-const options = ['Cancel', 'Upload photo', 'Take photo']
 
 class AddScreen extends React.Component {
   constructor(props) {
@@ -38,25 +28,22 @@ class AddScreen extends React.Component {
       image: null,
       text: null,
       selectedAction: null,
-      isOpen: false,
     }
-    this.handlePress = this.handlePress.bind(this)
-  }
-
-  // show action sheet on first render
-  componentDidMount() {
-    this.ActionSheet.show()
-  }
-
-  // Trigger a render when props.isFocus changes
-  componentWillReceiveProps() {
-    this.setState({
-      isOpen: !this.props.isFocused,
-    })
+    this.showCamera = this.showCamera.bind(this)
+    this.showPhotos = this.showPhotos.bind(this)
+    this.addText = this.addText.bind(this)
   }
 
   goBack() {
     this.props.navigation.navigate('home')
+  }
+
+  addText() {
+    const navigateAction = NavigationActions.navigate({
+      routeName: 'addText',
+    })
+
+    this.props.navigation.dispatch(navigateAction)
   }
 
   navigateToConnect() {
@@ -68,22 +55,6 @@ class AddScreen extends React.Component {
     })
 
     this.props.navigation.dispatch(navigateAction)
-  }
-
-  handlePress(i) {
-    switch (options[i]) {
-      case 'Upload photo':
-        this.showPhotos()
-        break
-      case 'Take photo':
-        this.showCamera()
-        break
-      case 'Cancel':
-        this.goBack()
-        break
-      default:
-        console.log('unhandled event')
-    }
   }
 
   async showCamera() {
@@ -103,30 +74,33 @@ class AddScreen extends React.Component {
   }
 
   render() {
-    // If the state is open and we already have an action sheet,
-    // go ahead and open it
-    if (this.state.isOpen && this.ActionSheet) {
-      this.ActionSheet.show()
-    }
-
     return (
-      <ActionSheet
-        ref={o => this.ActionSheet = o}
-        options={options}
-        cancelButtonIndex={CANCEL_INDEX}
-        destructiveButtonIndex={DESTRUCTIVE_INDEX}
-        onPress={this.handlePress}
-      />
+      <View style={styles.container}>
+        <IconButton
+          onPress={this.addText}
+          iconName="ios-paper-outline"
+          buttonText="Enter text"
+        />
+        <IconButton
+          onPress={this.showCamera}
+          iconName="ios-camera-outline"
+          buttonText="Take picture"
+        />
+        <IconButton
+          onPress={this.showPhotos}
+          iconName="ios-photos-outline"
+          buttonText="Choose from photos"
+        />
+      </View>
     )
   }
 }
 
 AddScreen.propTypes = {
-  isFocused: PropTypes.bool.isRequired,
   navigation: PropTypes.shape({
     dispatch: PropTypes.func,
     navigate: PropTypes.func,
   }).isRequired,
 }
 
-export default withNavigationFocus(AddScreen, 'add')
+export default AddScreen

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import {
+  FlatList,
   View,
   StyleSheet,
   Text,
@@ -9,11 +10,11 @@ import {
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 
-import ConnectionItem from './ConnectionItem'
+import ChannelItem from './ChannelItem'
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    display: 'flex',
   },
 })
 
@@ -24,9 +25,10 @@ class ConnectionSearch extends Component {
   }
 
   render() {
-    const { q, onToggleConnection } = this.props
+    const { q, onToggleConnection, data } = this.props
 
-    if (this.props.data && this.props.data.error) {
+    if (data && data.error) {
+      console.log('data.error', data.error, q, data)
       return (
         <View>
           <Text>
@@ -36,30 +38,22 @@ class ConnectionSearch extends Component {
       )
     }
 
-    if (this.props.data && this.props.data.loading) {
+    if (data && data.loading) {
       return (
         <View>
           <Text>Searching for {q}</Text>
         </View>
       )
     }
-
-    const connections = []
-
-    this.props.data.me.connection_search.forEach(connection =>
-      connections.push(
-        <ConnectionItem
-          connection={connection}
-          onToggleConnection={onToggleConnection}
-          key={connection.id}
-        />,
-      ),
-    )
-
     return (
-      <View style={styles.container}>
-        {connections}
-      </View>
+      <FlatList
+        contentContainerStyle={styles.container}
+        data={data.me.connection_search}
+        keyExtractor={item => item.id}
+        renderItem={({ item }) => (
+          <ChannelItem channel={item} onToggleSelect={onToggleConnection} />
+        )}
+      />
     )
   }
 }
@@ -67,13 +61,12 @@ class ConnectionSearch extends Component {
 const ConnectionSearchQuery = gql`
   query ConnectionSearchQuery($q: String!) {
     me {
-      name
       connection_search(q: $q) {
-        ...Connection
+        ...ChannelThumb
       }
     }
   }
-  ${ConnectionItem.fragments.connection}
+  ${ChannelItem.fragments.channel}
 `
 
 ConnectionSearch.propTypes = {

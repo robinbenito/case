@@ -12,11 +12,13 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: colors.gray.border,
     backgroundColor: '#fff',
-    height: 40,
+    height: 60,
     justifyContent: 'center',
   },
   text: {
     textAlign: 'center',
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 })
 

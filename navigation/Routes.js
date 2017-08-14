@@ -81,7 +81,6 @@ export const createRootNavigator = (loggedIn = false) => StackNavigator({
       },
       cardStyle: {
         backgroundColor: '#fff',
-        padding: 40,
       },
     }),
   },
@@ -91,9 +90,6 @@ export const createRootNavigator = (loggedIn = false) => StackNavigator({
 }, {
   headerMode: 'screen',
   initialRouteName: loggedIn ? 'main' : 'login',
-  cardStyle: {
-    backgroundColor: '#fff',
-  },
   navigationOptions: {
     header: null,
   },

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import {
+  FlatList,
   View,
   StyleSheet,
   Text,
@@ -9,12 +10,9 @@ import {
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 
-import ConnectionItem from './ConnectionItem'
+import ChannelItem from './ChannelItem'
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
 })
 
 class RecentConnections extends Component {
@@ -25,7 +23,7 @@ class RecentConnections extends Component {
       return (
         <View>
           <Text>
-            Profile not found
+            No connections found
           </Text>
         </View>
       )
@@ -39,22 +37,15 @@ class RecentConnections extends Component {
       )
     }
 
-    const connections = []
-
-    data.me.recent_connections.forEach(connection =>
-      connections.push(
-        <ConnectionItem
-          connection={connection}
-          onToggleConnection={onToggleConnection}
-          key={connection.id}
-        />,
-      ),
-    )
-
     return (
-      <View style={styles.container}>
-        {connections}
-      </View>
+      <FlatList
+        contentContainerStyle={styles.container}
+        data={data.me.recent_connections}
+        keyExtractor={item => item.id}
+        renderItem={({ item }) => (
+          <ChannelItem channel={item} onToggleSelect={onToggleConnection} />
+        )}
+      />
     )
   }
 }
@@ -64,11 +55,11 @@ const RecentConnectionsQuery = gql`
     me {
       name
       recent_connections(per: 5) {
-        ...Connection
+        ...ChannelThumb
       }
     }
   }
-  ${ConnectionItem.fragments.connection}
+  ${ChannelItem.fragments.channel}
 `
 
 RecentConnections.propTypes = {
