@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 
 import {
   ActivityIndicator,
+  Dimensions,
   FlatList,
   StyleSheet,
   Text,
@@ -18,6 +19,8 @@ import BlockItem from '../../../components/BlockItem'
 import ChannelItem from '../../../components/ChannelItem'
 
 import layout from '../../../constants/Layout'
+
+const { width } = Dimensions.get('window')
 
 const styles = StyleSheet.create({
   container: {
@@ -34,7 +37,9 @@ const styles = StyleSheet.create({
     paddingVertical: layout.padding,
   },
   itemContainer: {
-    padding: layout.padding,
+    paddingHorizontal: layout.padding,
+    marginBottom: layout.padding * 6,
+    minHeight: width / 2,
   },
 })
 

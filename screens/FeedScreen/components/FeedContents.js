@@ -2,6 +2,7 @@ import React from 'react'
 import {
   Easing,
   Dimensions,
+  StyleSheet,
   Text,
   View,
 } from 'react-native'
@@ -15,6 +16,14 @@ import ChannelItem from '../../../components/ChannelItem'
 import UserAvatar from '../../../components/UserAvatar'
 
 import layout from '../../../constants/Layout'
+import colors from '../../../constants/Colors'
+
+const styles = StyleSheet.create({
+  blockStyle: {
+    borderWidth: 1,
+    borderColor: colors.gray.border,
+  },
+})
 
 const FeedContents = ({ items, verb }) => {
   const contentsItems = items.map((item) => {
@@ -23,7 +32,14 @@ const FeedContents = ({ items, verb }) => {
       const { __typename } = item
       switch (__typename) {
         case 'Connectable':
-          objectItem = <BlockItem size="1-up" block={item} key={item.id} />
+          objectItem = (
+            <BlockItem
+              size="1-up"
+              block={item}
+              key={item.id}
+              style={styles.blockStyle}
+            />
+          )
           break
         case 'Channel':
           objectItem = <ChannelItem channel={item} key={item.id} />
@@ -33,6 +49,7 @@ const FeedContents = ({ items, verb }) => {
             <UserAvatar
               user={item}
               key={item.id}
+              size={90}
               mode="feed"
               onPress={() => NavigationService.navigateToProfile(item.id)}
               style={{ marginRight: layout.padding }}

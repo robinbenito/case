@@ -9,45 +9,45 @@ import {
   TouchableOpacity,
 } from 'react-native'
 
-import Layout from '../constants/Layout'
-import Colors from '../constants/Colors'
-import Type from '../constants/Type'
+import layout from '../constants/Layout'
+import colors from '../constants/Colors'
+import type from '../constants/Type'
 import NavigatorService from '../utilities/navigationService'
 
 const styles = StyleSheet.create({
   channelContainer: {
     backgroundColor: 'rgba(255, 255, 255, 1.0)',
-    paddingVertical: Layout.padding * 2,
-    marginVertical: Layout.padding / 2,
-    paddingHorizontal: Layout.padding,
+    paddingVertical: layout.padding * 2,
+    marginVertical: layout.padding / 2,
+    paddingHorizontal: layout.padding,
     flex: 1,
   },
   channelContainerPrivate: {
-    backgroundColor: Colors.privateBackground,
+    backgroundColor: colors.privateBackground,
   },
   channelContainerClosed: {
-    backgroundColor: Colors.closedBackground,
+    backgroundColor: colors.closedBackground,
   },
   channelContainerPublic: {
-    backgroundColor: Colors.publicBackground,
+    backgroundColor: colors.publicBackground,
   },
   channelTitle: {
-    fontSize: Type.subheadline,
+    fontSize: type.sizes.medium,
     color: '#000',
-    paddingBottom: Layout.padding,
+    paddingBottom: layout.padding / 2,
   },
   channelTitlePrivate: {
-    color: Colors.private,
+    color: colors.private,
   },
   channelTitleClosed: {
-    color: Colors.closed,
+    color: colors.closed,
   },
   channelTitlePublic: {
-    color: Colors.public,
+    color: colors.public,
   },
   meta: {
-    fontSize: Type.normal,
-    paddingRight: Layout.padding / 2,
+    fontSize: type.sizes.normal,
+    paddingRight: layout.padding / 2,
   },
 })
 
@@ -76,7 +76,7 @@ export default class ChannelItem extends Component {
       private: styles.channelTitlePrivate,
     }[visibility]
 
-    const textColor = Colors[visibility]
+    const textColor = colors[visibility]
 
     return (
       <TouchableOpacity onPress={this.onPressButton}>

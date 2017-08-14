@@ -1,11 +1,14 @@
 import { merge, cloneDeep } from 'lodash'
 
+import type from './Type'
+
 const base = {
   p: {
     padding: 0,
     margin: 0,
     fontFamily: 'Times New Roman',
-    lineHeight: 20,
+    lineHeight: type.lineHeights.normal,
+    fontSize: type.sizes.normal,
   },
 }
 
@@ -16,8 +19,8 @@ const smallStyles = {
     padding: 0,
     margin: 0,
     fontFamily: 'Times New Roman',
-    fontSize: 12,
-    lineHeight: 15,
+    fontSize: type.sizes.small,
+    lineHeight: type.lineHeights.small,
   },
 }
 
