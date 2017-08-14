@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: typevalues.sizes.headline,
-    fontWeight: '600',
+    fontWeight: typevalues.weights.semibold,
     paddingBottom: layout.padding / 2,
   },
 })
