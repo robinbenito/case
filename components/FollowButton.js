@@ -19,10 +19,12 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     padding: layout.padding,
     borderRadius: 4,
-    width: 90,
+    width: 75,
   },
   text: {
     textAlign: 'center',
+    fontSize: 12,
+    fontWeight: '600',
   },
 })
 
