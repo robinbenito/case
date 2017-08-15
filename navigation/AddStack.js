@@ -1,10 +1,11 @@
 import { StackNavigator } from 'react-navigation'
+import { enhance } from 'react-navigation-addons'
 
 import AddMenuScreen from '../screens/AddScreen'
 import AddTextScreen from '../screens/AddScreen/components/AddTextScreen'
 import SelectConnectionsScreen from '../components/SelectConnections/index'
 
-const AddStack = StackNavigator({
+const AddStack = enhance(StackNavigator)({
   addMenu: {
     screen: AddMenuScreen,
   },

@@ -1,14 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {
-  KeyboardAvoidingView,
   StyleSheet,
   View,
 } from 'react-native'
 import { NavigationActions } from 'react-navigation'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 import FieldSet from '../../../components/FieldSet'
-import BottomButton from '../../../components/BottomButton'
+import HeaderRightButton from '../../../components/HeaderRightButton'
 
 import layout from '../../../constants/Layout'
 import colors from '../../../constants/Colors'
@@ -23,11 +23,14 @@ const styles = StyleSheet.create({
   },
 })
 
+const navigationOptions = {
+  title: 'New Text',
+  headerLeft: null,
+}
+
 export default class AddTextScreen extends React.Component {
   static navigationOptions() {
-    return {
-      title: 'New Text',
-    }
+    return navigationOptions
   }
 
   constructor(props) {
@@ -39,6 +42,21 @@ export default class AddTextScreen extends React.Component {
     }
     this.onFieldChange = this.onFieldChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
+  }
+
+  componentDidUpdate() {
+    // Hide or show the done button depending on if content is present
+    if (this.state.content) {
+      this.setNavOptions({
+        headerRight: (
+          <HeaderRightButton onPress={this.onSubmit} text="Done" />
+        ),
+      })
+    } else {
+      this.setNavOptions({
+        headerRight: null,
+      })
+    }
   }
 
   onFieldChange(key, value) {
@@ -58,16 +76,14 @@ export default class AddTextScreen extends React.Component {
     this.props.navigation.dispatch(navigateAction)
   }
 
-  render() {
-    const bottomButton = this.state.content ? (
-      <BottomButton
-        text="Connect"
-        onPress={this.onSubmit}
-      />
-    ) : null
+  setNavOptions(options) {
+    const newOptions = Object.assign({}, navigationOptions, options)
+    this.props.navigation.setOptions(newOptions)
+  }
 
+  render() {
     return (
-      <KeyboardAvoidingView style={styles.container}>
+      <KeyboardAwareScrollView style={styles.container}>
         <View style={styles.container}>
           <FieldSet
             isFirst
@@ -97,9 +113,8 @@ export default class AddTextScreen extends React.Component {
               },
             ]}
           />
-          {bottomButton}
         </View>
-      </KeyboardAvoidingView>
+      </KeyboardAwareScrollView>
     )
   }
 }
