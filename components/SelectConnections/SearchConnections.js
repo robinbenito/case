@@ -10,7 +10,7 @@ import {
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 
-import ChannelItem from './ChannelItem'
+import ChannelItem from '../ChannelItem'
 
 const styles = StyleSheet.create({
   container: {
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
   },
 })
 
-class ConnectionSearch extends Component {
+class SearchConnection extends Component {
   shouldComponentUpdate(newProps) {
     if (newProps.data && newProps.data.loading) { return false }
     return true
@@ -28,7 +28,6 @@ class ConnectionSearch extends Component {
     const { q, onToggleConnection, data } = this.props
 
     if (data && data.error) {
-      console.log('data.error', data.error, q, data)
       return (
         <View>
           <Text>
@@ -69,17 +68,17 @@ const ConnectionSearchQuery = gql`
   ${ChannelItem.fragments.channel}
 `
 
-ConnectionSearch.propTypes = {
+SearchConnection.propTypes = {
   data: PropTypes.any.isRequired,
   q: PropTypes.string.isRequired,
   onToggleConnection: PropTypes.func,
 }
 
-ConnectionSearch.defaultProps = {
+SearchConnection.defaultProps = {
   onToggleConnection: () => null,
 }
 
 
-const ConnectionSearchWithData = graphql(ConnectionSearchQuery)(ConnectionSearch)
+const ConnectionSearchWithData = graphql(ConnectionSearchQuery)(SearchConnection)
 
 export default ConnectionSearchWithData

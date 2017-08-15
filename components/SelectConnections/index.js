@@ -3,25 +3,25 @@ import PropTypes from 'prop-types'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 
+import { concat, pull } from 'lodash'
+
 import {
-  FlatList,
   StyleSheet,
-  Text,
   View,
 } from 'react-native'
 
 import { NavigationActions } from 'react-navigation'
 
-import RecentConnectionsWithData from '../../../components/RecentConnections'
-import ConnectionSearchWithData from '../../../components/ConnectionSearch'
+import SelectedChannels from './SelectedChannels'
 
-import SearchHeader from '../../../components/SearchHeader'
-import ChannelItem from '../../../components/ChannelItem'
-import BottomButton from '../../../components/BottomButton'
+import SearchHeader from '../SearchHeader'
+import BottomButton from '../BottomButton'
+import SearchConnectionsWithData from './SearchConnections'
+import RecentConnectionsWithData from './RecentConnections'
 
-import uploadImage from '../../../api/uploadImage'
+import uploadImage from '../../api/uploadImage'
 
-import layout from '../../../constants/Layout'
+import layout from '../../constants/Layout'
 
 const styles = StyleSheet.create({
   container: {
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
   },
 })
 
-class ConnectScreen extends React.Component {
+class SelectConnectionScreen extends React.Component {
   static navigationOptions() {
     return {
       header: null,
@@ -68,6 +68,7 @@ class ConnectScreen extends React.Component {
       isSearching: false,
       q: null,
       selectedConnections: [],
+      search: null,
       image,
       content,
       description,
@@ -78,20 +79,12 @@ class ConnectScreen extends React.Component {
     this.navigateBack = this.navigateBack.bind(this)
   }
 
-  componentDidMount() {
-    if (this.state.image) {
-      this.props.navigation.setParams({
-        title: 'New Image',
-      })
-    }
-  }
-
   onToggleConnection(connection, isSelected) {
     const connections = this.state.selectedConnections
-    const arrayMethod = isSelected ? 'unshift' : 'pop'
-    connections[arrayMethod](connection)
+    const arrayMethod = isSelected ? concat : pull
+    const newConnections = arrayMethod(connections, connection)
     this.setState({
-      selectedConnections: connections,
+      selectedConnections: newConnections,
     })
   }
 
@@ -146,46 +139,24 @@ class ConnectScreen extends React.Component {
   }
 
   render() {
-    const { search, selectedConnections } = this.state
-
-    console.log('selectedConnections', selectedConnections)
-
-    const ConnectionContent = this.state.isSearching ? (
-      <ConnectionSearchWithData
-        selected={selectedConnections}
-        q={search}
-        onToggleConnection={this.onToggleConnection}
-      />
-    ) : (
-      <RecentConnectionsWithData
-        selected={selectedConnections}
-        onToggleConnection={this.onToggleConnection}
-      />
-    )
-
-    const selectedChannelsContent = selectedConnections.length ? (
-      <View>
-        <Text style={styles.label}>Selected channels</Text>
-        <FlatList
-          data={selectedConnections}
-          extraData={this.state}
-          keyExtractor={item => item.id}
-          renderItem={({ item }) => (
-            <ChannelItem
-              channel={item}
-              isSelected
-              onToggleSelect={this.onToggleConnection}
-            />
-          )}
-        />
-      </View>
-    ) : null
+    const { search, selectedConnections, isSearching, title } = this.state
 
     const ConnectButton = selectedConnections.length ?
       (<BottomButton
         text="Save and Connect"
         onPress={this.saveConnections}
       />) : null
+
+    const ConnectionContent = isSearching ? (
+      <SearchConnectionsWithData
+        q={search}
+        onToggleConnection={this.onToggleConnection}
+      />
+    ) : (
+      <RecentConnectionsWithData
+        onToggleConnection={this.onToggleConnection}
+      />
+    )
 
     return (
       <View style={styles.container}>
@@ -194,8 +165,11 @@ class ConnectScreen extends React.Component {
           onChangeText={t => this.search(t)}
         />
         <View style={styles.innerContainer}>
-          {selectedChannelsContent}
-          <Text style={styles.label}>Recent channels</Text>
+          <SelectedChannels
+            onToggleConnection={this.onToggleConnection}
+            channels={selectedConnections}
+            title={title || 'Untitled block'}
+          />
           {ConnectionContent}
         </View>
         {ConnectButton}
@@ -204,9 +178,14 @@ class ConnectScreen extends React.Component {
   }
 }
 
-ConnectScreen.propTypes = {
+SelectConnectionScreen.propTypes = {
   navigation: PropTypes.any.isRequired,
   mutate: PropTypes.any.isRequired,
+}
+
+SelectConnectionScreen.defaultProps = {
+  q: '',
+  searchData: {},
 }
 
 const connectMutation = gql`
@@ -221,6 +200,6 @@ const connectMutation = gql`
   }
 `
 
-const ConnectScreenWithData = graphql(connectMutation)(ConnectScreen)
+const SelectConnectionScreenWithData = graphql(connectMutation)(SelectConnectionScreen)
 
-export default ConnectScreenWithData
+export default SelectConnectionScreenWithData
