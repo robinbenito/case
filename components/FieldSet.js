@@ -9,7 +9,7 @@ import {
 
 import layout from '../constants/Layout'
 import colors from '../constants/Colors'
-import type from '../constants/Type'
+import typesizes from '../constants/Type'
 
 const styles = StyleSheet.create({
   fieldsContainer: {
@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     paddingLeft: layout.padding,
     color: colors.gray.text,
     paddingVertical: layout.padding,
-    fontSize: type.sizes.normal,
+    fontSize: typesizes.sizes.normal,
   },
   separator: {
     borderBottomColor: colors.gray.border,
@@ -31,13 +31,13 @@ const styles = StyleSheet.create({
     height: 50,
     backgroundColor: '#fff',
     padding: layout.padding,
-    fontSize: type.sizes.medium,
+    fontSize: typesizes.sizes.medium,
   },
   textArea: {
     height: 250,
     backgroundColor: '#fff',
     padding: layout.padding,
-    fontSize: type.sizes.medium,
+    fontSize: typesizes.sizes.medium,
   },
 })
 
