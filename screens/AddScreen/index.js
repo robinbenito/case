@@ -27,15 +27,22 @@ class AddScreen extends React.Component {
     this.state = {
       image: null,
       text: null,
-      selectedAction: null,
     }
     this.showCamera = this.showCamera.bind(this)
     this.showPhotos = this.showPhotos.bind(this)
     this.addText = this.addText.bind(this)
+    this.reset = this.reset.bind(this)
   }
 
   goBack() {
     this.props.navigation.navigate('home')
+  }
+
+  reset() {
+    this.setState({
+      image: null,
+      text: null,
+    })
   }
 
   addText() {

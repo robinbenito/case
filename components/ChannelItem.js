@@ -85,7 +85,7 @@ export default class ChannelItem extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      isSelected: false,
+      isSelected: props.isSelected,
     }
     this.onPressButton = this.onPressButton.bind(this)
   }
@@ -202,6 +202,7 @@ ChannelItem.fragments = {
 }
 
 ChannelItem.propTypes = {
+  isSelected: PropTypes.bool,
   onToggleSelect: PropTypes.any,
   style: PropTypes.any,
   channel: PropTypes.shape({
@@ -218,4 +219,5 @@ ChannelItem.propTypes = {
 ChannelItem.defaultProps = {
   style: {},
   onToggleSelect: null,
+  isSelected: false,
 }

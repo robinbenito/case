@@ -1,6 +1,12 @@
+// 1. recent connection query and search query in the same component
+// 2. if searchbar is active, make the search query, if not, show recent connections
+// 3. data comes from either query
+// 4. if the item is selected, dont show it
+// 5. make the connections when button is pressed
+
 import React from 'react'
 import PropTypes from 'prop-types'
-import { graphql } from 'react-apollo'
+import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 
 import {
@@ -11,9 +17,6 @@ import {
 } from 'react-native'
 
 import { NavigationActions } from 'react-navigation'
-
-import RecentConnectionsWithData from '../../../components/RecentConnections'
-import ConnectionSearchWithData from '../../../components/ConnectionSearch'
 
 import SearchHeader from '../../../components/SearchHeader'
 import ChannelItem from '../../../components/ChannelItem'
@@ -47,7 +50,7 @@ const styles = StyleSheet.create({
   },
 })
 
-class ConnectScreen extends React.Component {
+class SelectChannelScreen extends React.Component {
   static navigationOptions() {
     return {
       header: null,
@@ -148,21 +151,6 @@ class ConnectScreen extends React.Component {
   render() {
     const { search, selectedConnections } = this.state
 
-    console.log('selectedConnections', selectedConnections)
-
-    const ConnectionContent = this.state.isSearching ? (
-      <ConnectionSearchWithData
-        selected={selectedConnections}
-        q={search}
-        onToggleConnection={this.onToggleConnection}
-      />
-    ) : (
-      <RecentConnectionsWithData
-        selected={selectedConnections}
-        onToggleConnection={this.onToggleConnection}
-      />
-    )
-
     const selectedChannelsContent = selectedConnections.length ? (
       <View>
         <Text style={styles.label}>Selected channels</Text>
@@ -196,7 +184,18 @@ class ConnectScreen extends React.Component {
         <View style={styles.innerContainer}>
           {selectedChannelsContent}
           <Text style={styles.label}>Recent channels</Text>
-          {ConnectionContent}
+          <FlatList
+            data={selectedConnections}
+            extraData={this.state}
+            keyExtractor={item => item.id}
+            renderItem={({ item }) => (
+              <ChannelItem
+                channel={item}
+                isSelected
+                onToggleSelect={this.onToggleConnection}
+              />
+            )}
+          />
         </View>
         {ConnectButton}
       </View>
@@ -204,10 +203,33 @@ class ConnectScreen extends React.Component {
   }
 }
 
-ConnectScreen.propTypes = {
+SelectChannelScreen.propTypes = {
   navigation: PropTypes.any.isRequired,
   mutate: PropTypes.any.isRequired,
 }
+
+const recentConnectionsQuery = gql`
+  query RecentConnectionsQuery {
+    me {
+      name
+      recent_connections(per: 5) {
+        ...ChannelThumb
+      }
+    }
+  }
+  ${ChannelItem.fragments.channel}
+`
+
+const connectionSearchQuery = gql`
+  query ConnectionSearchQuery($q: String!) {
+    me {
+      connection_search(q: $q) {
+        ...ChannelThumb
+      }
+    }
+  }
+  ${ChannelItem.fragments.channel}
+`
 
 const connectMutation = gql`
   mutation createBlockMutation($channel_ids: [ID]!, $title: String, $content: String, $description: String, $source_url: String){
@@ -221,6 +243,10 @@ const connectMutation = gql`
   }
 `
 
-const ConnectScreenWithData = graphql(connectMutation)(ConnectScreen)
+const SelectChannelScreenWithData = compose(
+  graphql(connectMutation),
+  graphql(recentConnectionsQuery, { name: 'recentConnections' }),
+  graphql(connectionSearchQuery, { name: 'connectionSearch' }),
+)(SelectChannelScreen)
 
-export default ConnectScreenWithData
+export default SelectChannelScreenWithData

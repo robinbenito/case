@@ -3,21 +3,31 @@ import PropTypes from 'prop-types'
 import {
   FlatList,
   View,
-  StyleSheet,
   Text,
 } from 'react-native'
+import { findIndex } from 'lodash'
 
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 
 import ChannelItem from './ChannelItem'
 
-const styles = StyleSheet.create({
-})
-
 class RecentConnections extends Component {
+  constructor(props) {
+    super(props)
+    console.log('props', props)
+    this.isSelected = this.isSelected.bind(this)
+  }
+
+  isSelected(channel) {
+    const { selected } = this.props
+    return findIndex(selected, connection => connection.id === channel.id)
+  }
+
   render() {
-    const { data, onToggleConnection } = this.props
+    const { data, onToggleConnection, selected } = this.props
+
+    console.log('selectedProps', selected, this.props)
 
     if (data && data.error) {
       return (
@@ -39,12 +49,17 @@ class RecentConnections extends Component {
 
     return (
       <FlatList
-        contentContainerStyle={styles.container}
         data={data.me.recent_connections}
         keyExtractor={item => item.id}
-        renderItem={({ item }) => (
-          <ChannelItem channel={item} onToggleSelect={onToggleConnection} />
-        )}
+        extraData={selected}
+        renderItem={({ item }) => {
+          if (!this.isSelected(item)) {
+            return (<View />)
+          }
+          return (
+            <ChannelItem channel={item} onToggleSelect={onToggleConnection} />
+          )
+        }}
       />
     )
   }
@@ -65,10 +80,12 @@ const RecentConnectionsQuery = gql`
 RecentConnections.propTypes = {
   data: PropTypes.any.isRequired,
   onToggleConnection: PropTypes.func,
+  selected: PropTypes.any,
 }
 
 RecentConnections.defaultProps = {
   onToggleConnection: () => null,
+  selected: [],
 }
 
 const RecentConnectionsWithData = graphql(RecentConnectionsQuery)(RecentConnections)
