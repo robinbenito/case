@@ -1,18 +1,25 @@
 import { StackNavigator } from 'react-navigation'
 
-import AddScreen from '../screens/AddScreen'
-import ConnectScreen from '../screens/AddScreen/components/ConnectScreen'
+import AddMenuScreen from '../screens/AddScreen'
+import AddTextScreen from '../screens/AddScreen/components/AddTextScreen'
+import SelectConnectionsScreen from '../components/SelectConnections/index'
 
 const AddStack = StackNavigator({
-  add: {
-    screen: AddScreen,
+  addMenu: {
+    screen: AddMenuScreen,
+  },
+  addText: {
+    screen: AddTextScreen,
   },
   connect: {
-    screen: ConnectScreen,
+    screen: SelectConnectionsScreen,
   },
 }, {
   navigationOptions: {
-    header: null,
+    headerTintColor: '#000',
+    headerStyle: {
+      backgroundColor: '#fff',
+    },
   },
 })
 

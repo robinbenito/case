@@ -1,31 +1,25 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import {
+  FlatList,
   View,
-  StyleSheet,
   Text,
 } from 'react-native'
 
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 
-import ConnectionItem from './ConnectionItem'
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-})
+import ChannelItem from '../ChannelItem'
 
 class RecentConnections extends Component {
   render() {
-    const { data, onToggleConnection } = this.props
+    const { data, onToggleConnection, selected } = this.props
 
     if (data && data.error) {
       return (
         <View>
           <Text>
-            Profile not found
+            No connections found
           </Text>
         </View>
       )
@@ -39,22 +33,15 @@ class RecentConnections extends Component {
       )
     }
 
-    const connections = []
-
-    data.me.recent_connections.forEach(connection =>
-      connections.push(
-        <ConnectionItem
-          connection={connection}
-          onToggleConnection={onToggleConnection}
-          key={connection.id}
-        />,
-      ),
-    )
-
     return (
-      <View style={styles.container}>
-        {connections}
-      </View>
+      <FlatList
+        data={data.me.recent_connections}
+        keyExtractor={item => item.id}
+        extraData={selected}
+        renderItem={({ item }) => (
+          <ChannelItem channel={item} onToggleSelect={onToggleConnection} />
+        )}
+      />
     )
   }
 }
@@ -64,20 +51,22 @@ const RecentConnectionsQuery = gql`
     me {
       name
       recent_connections(per: 5) {
-        ...Connection
+        ...ChannelThumb
       }
     }
   }
-  ${ConnectionItem.fragments.connection}
+  ${ChannelItem.fragments.channel}
 `
 
 RecentConnections.propTypes = {
   data: PropTypes.any.isRequired,
   onToggleConnection: PropTypes.func,
+  selected: PropTypes.any,
 }
 
 RecentConnections.defaultProps = {
   onToggleConnection: () => null,
+  selected: [],
 }
 
 const RecentConnectionsWithData = graphql(RecentConnectionsQuery)(RecentConnections)

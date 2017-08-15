@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     alignSelf: 'center',
     justifyContent: 'center',
-    padding: (layout.padding / 2),
+    padding: layout.padding,
   },
   buttonIcon: {
     marginRight: (layout.padding / 2),

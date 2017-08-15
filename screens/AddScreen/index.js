@@ -7,32 +7,50 @@ import {
 
 import { ImagePicker } from 'expo'
 import { NavigationActions } from 'react-navigation'
+
 import IconButton from '../../components/IconButton'
 
-import layout from '../../constants/Layout'
+import colors from '../../constants/Colors'
 
 const styles = StyleSheet.create({
-  menuContainer: {
+  container: {
+    backgroundColor: colors.gray.background,
     flex: 1,
-    alignItems: 'center',
     justifyContent: 'center',
-    padding: layout.padding,
-    backgroundColor: '#fff',
-  },
-  contentContainer: {
-    paddingTop: (layout.padding * 4),
     alignItems: 'center',
   },
 })
 
-
-export default class AddScreen extends React.Component {
+class AddScreen extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       image: null,
       text: null,
     }
+    this.showCamera = this.showCamera.bind(this)
+    this.showPhotos = this.showPhotos.bind(this)
+    this.addText = this.addText.bind(this)
+    this.reset = this.reset.bind(this)
+  }
+
+  goBack() {
+    this.props.navigation.navigate('home')
+  }
+
+  reset() {
+    this.setState({
+      image: null,
+      text: null,
+    })
+  }
+
+  addText() {
+    const navigateAction = NavigationActions.navigate({
+      routeName: 'addText',
+    })
+
+    this.props.navigation.dispatch(navigateAction)
   }
 
   navigateToConnect() {
@@ -46,36 +64,37 @@ export default class AddScreen extends React.Component {
     this.props.navigation.dispatch(navigateAction)
   }
 
+  async showCamera() {
+    const result = await ImagePicker.launchCameraAsync({})
+    if (!result.cancelled) {
+      this.setState({ image: result.uri })
+      this.navigateToConnect()
+    }
+  }
+
+  async showPhotos() {
+    const result = await ImagePicker.launchImageLibraryAsync({})
+    if (!result.cancelled) {
+      this.setState({ image: result.uri })
+      this.navigateToConnect()
+    }
+  }
+
   render() {
-    const showCamera = async () => {
-      const result = await ImagePicker.launchCameraAsync({})
-      if (!result.cancelled) {
-        this.setState({ image: result.uri })
-        this.navigateToConnect()
-      }
-    }
-
-    const showPhotos = async () => {
-      const result = await ImagePicker.launchImageLibraryAsync({})
-      if (!result.cancelled) {
-        this.setState({ image: result.uri })
-        this.navigateToConnect()
-      }
-    }
-
     return (
-      <View style={styles.menuContainer}>
+      <View style={styles.container}>
         <IconButton
+          onPress={this.addText}
           iconName="ios-paper-outline"
           buttonText="Enter text"
         />
         <IconButton
-          onPress={() => showCamera()}
+          onPress={this.showCamera}
           iconName="ios-camera-outline"
           buttonText="Take picture"
         />
         <IconButton
-          onPress={() => showPhotos()}
+          onPress={this.showPhotos}
           iconName="ios-photos-outline"
           buttonText="Choose from photos"
         />
@@ -87,5 +106,8 @@ export default class AddScreen extends React.Component {
 AddScreen.propTypes = {
   navigation: PropTypes.shape({
     dispatch: PropTypes.func,
+    navigate: PropTypes.func,
   }).isRequired,
 }
+
+export default AddScreen

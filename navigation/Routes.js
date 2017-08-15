@@ -40,6 +40,7 @@ const tabs = {
 
 const tabOptions = {
   initialRouteName: 'home',
+  lazy: true,
   tabBarOptions: {
     tabBarPosition: 'bottom',
     activeTintColor: colors.gray.hover,
@@ -82,9 +83,6 @@ export const createRootNavigator = (loggedIn = false) => StackNavigator({
 }, {
   headerMode: 'screen',
   initialRouteName: loggedIn ? 'main' : 'login',
-  cardStyle: {
-    backgroundColor: '#fff',
-  },
   navigationOptions: {
     header: null,
   },

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Dimensions, StyleSheet, Text, TouchableHighlight } from 'react-native'
 
 import colors from '../constants/Colors'
+import type from '../constants/Type'
 
 const styles = StyleSheet.create({
   button: {
@@ -12,11 +13,13 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: colors.gray.border,
     backgroundColor: '#fff',
-    height: 40,
+    height: 60,
     justifyContent: 'center',
   },
   text: {
     textAlign: 'center',
+    fontSize: type.sizes.headline,
+    fontWeight: 'bold',
   },
 })
 
