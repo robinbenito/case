@@ -5,11 +5,14 @@ import {
   StyleSheet,
   TextInput,
   Text,
+  TouchableHighlight,
   View,
 } from 'react-native'
 
 import colors from '../constants/Colors'
 import layout from '../constants/Layout'
+
+import navigationService from '../utilities/navigationService'
 
 const { width } = Dimensions.get('window')
 
@@ -47,6 +50,7 @@ export default class SearchHeader extends React.Component {
       isSearching: false,
       search: '',
     }
+    this.cancel = this.cancel.bind(this)
   }
 
   onChangeText(text) {
@@ -57,6 +61,11 @@ export default class SearchHeader extends React.Component {
     this.props.onChangeText(text)
   }
 
+  cancel() {
+    const { cancelRoute } = this.props
+    navigationService.reset(cancelRoute)
+  }
+
   render() {
     const { style } = this.props
     const { search } = this.state
@@ -65,15 +74,17 @@ export default class SearchHeader extends React.Component {
       <View style={styles.container}>
         <View style={styles.innerContainer}>
           <TextInput
-            style={styles.input}
+            style={[styles.input, style]}
             onChangeText={t => this.onChangeText(t)}
             autoCapitalize="none"
             value={search}
             clearButtonMode="while-editing"
           />
-          <Text>
-            Cancel
-          </Text>
+          <TouchableHighlight onPress={this.cancel}>
+            <Text>
+              Cancel
+            </Text>
+          </TouchableHighlight>
         </View>
       </View>
     )
@@ -83,9 +94,11 @@ export default class SearchHeader extends React.Component {
 SearchHeader.propTypes = {
   onChangeText: PropTypes.func,
   style: PropTypes.any,
+  cancelRoute: PropTypes.string,
 }
 
 SearchHeader.defaultProps = {
   onChangeText: () => null,
+  cancelRoute: 'addMenu',
   style: {},
 }
