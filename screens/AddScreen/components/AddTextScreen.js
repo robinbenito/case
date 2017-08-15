@@ -2,8 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
-  Text,
-  TouchableHighlight,
   View,
 } from 'react-native'
 import { NavigationActions } from 'react-navigation'
