@@ -22,6 +22,7 @@ import RecentConnectionsWithData from './RecentConnections'
 import uploadImage from '../../api/uploadImage'
 
 import layout from '../../constants/Layout'
+import type from '../../constants/Type'
 
 const styles = StyleSheet.create({
   container: {
@@ -34,7 +35,7 @@ const styles = StyleSheet.create({
     marginTop: 100,
   },
   label: {
-    fontSize: 12,
+    fontSize: type.sizes.small,
     color: '#222',
     textAlign: 'center',
     marginBottom: 20,
