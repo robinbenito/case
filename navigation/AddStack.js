@@ -2,7 +2,7 @@ import { StackNavigator } from 'react-navigation'
 
 import AddMenuScreen from '../screens/AddScreen'
 import AddTextScreen from '../screens/AddScreen/components/AddTextScreen'
-import ConnectScreen from '../screens/AddScreen/components/ConnectScreen'
+import SelectConnectionsScreen from '../components/SelectConnections/index'
 
 const AddStack = StackNavigator({
   addMenu: {
@@ -12,7 +12,7 @@ const AddStack = StackNavigator({
     screen: AddTextScreen,
   },
   connect: {
-    screen: ConnectScreen,
+    screen: SelectConnectionsScreen,
   },
 }, {
   navigationOptions: {
