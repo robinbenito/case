@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Dimensions, StyleSheet, Text, TouchableHighlight } from 'react-native'
 
 import colors from '../constants/Colors'
+import type from '../constants/Type'
 
 const styles = StyleSheet.create({
   button: {
@@ -17,7 +18,7 @@ const styles = StyleSheet.create({
   },
   text: {
     textAlign: 'center',
-    fontSize: 18,
+    fontSize: type.sizes.headline,
     fontWeight: 'bold',
   },
 })
