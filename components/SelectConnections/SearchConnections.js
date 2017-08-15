@@ -49,6 +49,7 @@ class SearchConnection extends Component {
         contentContainerStyle={styles.container}
         data={data.me.connection_search}
         keyExtractor={item => item.id}
+        keyboardShouldPersistTaps="always"
         renderItem={({ item }) => (
           <ChannelItem channel={item} onToggleSelect={onToggleConnection} />
         )}
