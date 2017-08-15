@@ -11,6 +11,7 @@ import {
 
 import colors from '../constants/Colors'
 import layout from '../constants/Layout'
+import type from '../constants/Type'
 
 import navigationService from '../utilities/navigationService'
 
@@ -34,7 +35,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   input: {
-    fontSize: 12,
+    fontSize: type.sizes.normal,
     backgroundColor: colors.gray.border,
     marginRight: layout.padding,
     height: 40,
