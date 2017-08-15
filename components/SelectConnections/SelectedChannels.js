@@ -38,7 +38,7 @@ export default class SelectedChannels extends React.Component {
     const { channels } = this.props
     return channels.map((channel, index) => {
       const textColor = colors[channel.visibility]
-      const showComma = index < channels.length - 1 
+      const showComma = index < channels.length - 1
       return (
         <View key={`connection-${channel.id}`} style={styles.channelWord}>
           <Text style={{ color: textColor, fontWeight: 'bold' }}>

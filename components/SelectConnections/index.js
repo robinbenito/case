@@ -126,9 +126,6 @@ class SelectConnectionScreen extends React.Component {
         this.props.mutate({ variables })
           .then(this.navigateBack)
       })
-      .catch((error) => {
-        console.log('Error uploading image', error)
-      })
   }
 
   search(text) {
