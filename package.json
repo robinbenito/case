@@ -44,7 +44,8 @@
     "react-navigation-is-focused-hoc": "^1.0.0",
     "react-test-renderer": "16.0.0-alpha.12",
     "redux": "^3.7.1",
-    "tcomb-form-native": "^0.6.4"
+    "tcomb-form-native": "^0.6.4",
+    "validator": "^8.0.0"
   },
   "devDependencies": {
     "enzyme": "^2.9.1",
