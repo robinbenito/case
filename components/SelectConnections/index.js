@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 
-import { concat, without } from 'lodash'
+import { concat, reject } from 'lodash'
 
 import {
   StyleSheet,
@@ -80,8 +80,16 @@ class SelectConnectionScreen extends React.Component {
 
   onToggleConnection(connection, isSelected) {
     const connections = this.state.selectedConnections
-    const arrayMethod = isSelected ? concat : without
-    const newConnections = arrayMethod(connections, connection)
+    let newConnections
+
+    if (isSelected) {
+      newConnections = concat(connections, connection)
+    } else {
+      newConnections = reject(connections, existingConnection =>
+        connection.id === existingConnection.id,
+      )
+    }
+
     this.setState({
       selectedConnections: newConnections,
     })
