@@ -1,13 +1,21 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { graphql } from 'react-apollo'
+import gql from 'graphql-tag'
+
 import {
   StyleSheet,
   View,
 } from 'react-native'
+
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import SettingsList from 'react-native-settings-list'
+import { NavigationActions } from 'react-navigation'
 
 import FieldSet from '../../../components/FieldSet'
 import HeaderRightButton from '../../../components/HeaderRightButton'
+
+import NavigatorService from '../../../utilities/navigationService'
 
 import layout from '../../../constants/Layout'
 import colors from '../../../constants/Colors'
@@ -27,7 +35,7 @@ const navigationOptions = {
   headerLeft: null,
 }
 
-export default class NewChannelScreen extends React.Component {
+class NewChannelScreen extends React.Component {
   static navigationOptions() {
     return navigationOptions
   }
@@ -37,10 +45,12 @@ export default class NewChannelScreen extends React.Component {
     this.state = {
       title: '',
       description: '',
-      visibility: '',
+      visibility: 'CLOSED',
     }
     this.onFieldChange = this.onFieldChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
+    this.goToChannelVisibilityScreen = this.goToChannelVisibilityScreen.bind(this)
+    this.onVisibilityChange = this.onVisibilityChange.bind(this)
   }
 
   componentDidUpdate() {
@@ -64,8 +74,18 @@ export default class NewChannelScreen extends React.Component {
     })
   }
 
+  onVisibilityChange(value) {
+    this.setState({ visibility: value.toUpperCase() })
+  }
+
   onSubmit() {
-    console.log(this.state)
+    this.props.mutate({ variables: this.state }).then((response) => {
+      const { data } = response
+      if (!data.error) {
+        const { create_channel: { channel: { id } } } = data
+        NavigatorService.navigate('channel', { id })
+      }
+    })
   }
 
   setNavOptions(options) {
@@ -73,7 +93,19 @@ export default class NewChannelScreen extends React.Component {
     this.props.navigation.setOptions(newOptions)
   }
 
+  goToChannelVisibilityScreen() {
+    const { visibility } = this.state
+
+    const navigateAction = NavigationActions.navigate({
+      routeName: 'channelVisibility',
+      params: { visibility, onVisibilityChange: this.onVisibilityChange },
+    })
+
+    this.props.navigation.dispatch(navigateAction)
+  }
+
   render() {
+    const { visibility } = this.state
     return (
       <KeyboardAwareScrollView style={styles.container}>
         <View style={styles.container}>
@@ -93,6 +125,15 @@ export default class NewChannelScreen extends React.Component {
               },
             ]}
           />
+          <SettingsList borderColor={colors.gray.background}>
+            <SettingsList.Header headerText="" />
+            <SettingsList.Item
+              title="Privacy"
+              titleInfo={visibility.charAt(0).toUpperCase() + visibility.substr(1).toLowerCase()}
+              titleInfoStyle={{ color: colors[visibility.toLowerCase()] }}
+              onPress={this.goToChannelVisibilityScreen}
+            />
+          </SettingsList>
         </View>
       </KeyboardAwareScrollView>
     )
@@ -101,8 +142,25 @@ export default class NewChannelScreen extends React.Component {
 
 NewChannelScreen.propTypes = {
   navigation: PropTypes.any,
+  mutate: PropTypes.any.isRequired,
 }
 
 NewChannelScreen.defaultProps = {
   navigation: () => null,
 }
+
+const createChannelMutation = gql`
+  mutation createChannelMutation($title: String!, $description: String, $visibility: ChannelVisibility){
+    create_channel(input: { title: $title, description: $description, visibility: $visibility }) {
+      clientMutationId
+      channel {
+        id
+        title
+      }
+    }
+  }
+`
+
+const NewChannelScreenWithData = graphql(createChannelMutation)(NewChannelScreen)
+
+export default NewChannelScreenWithData

@@ -5,6 +5,7 @@ import AddMenuScreen from '../screens/AddScreen'
 import AddTextScreen from '../screens/AddScreen/components/AddTextScreen'
 import AddLinkScreen from '../screens/AddScreen/components/AddLinkScreen'
 import NewChannelScreen from '../screens/AddScreen/components/NewChannelScreen'
+import ChannelVisibility from '../screens/AddScreen/components/ChannelVisibility'
 import SelectConnectionsScreen from '../components/SelectConnections/index'
 
 const AddStack = enhance(StackNavigator)({
@@ -13,6 +14,9 @@ const AddStack = enhance(StackNavigator)({
   },
   newChannel: {
     screen: NewChannelScreen,
+  },
+  channelVisibility: {
+    screen: ChannelVisibility,
   },
   addLink: {
     screen: AddLinkScreen,
