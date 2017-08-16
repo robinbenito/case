@@ -122,18 +122,13 @@ class SelectConnectionScreen extends React.Component {
 
         if (response) {
           // This is an image
-          variables = Object.assign({}, variables, {
-            source_url: response.location,
-          })
+          variables = { ...variables, source_url: response.location }
         } else if (content) {
           // This is a piece of text
-          variables = Object.assign({}, variables, {
-            content,
-          })
+          variables = { ...variables, content }
         } else {
-          variables = Object.assign({}, variables, {
-            source_url,
-          })
+          // This is some kind of link
+          variables = { ...variables, source_url }
         }
 
         this.props.mutate({ variables })
