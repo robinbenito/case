@@ -61,6 +61,7 @@ class SelectConnectionScreen extends React.Component {
       content,
       description,
       title,
+      source_url,
     } = props.navigation.state.params
 
     this.state = {
@@ -72,6 +73,7 @@ class SelectConnectionScreen extends React.Component {
       content,
       description,
       title,
+      source_url,
     }
     this.onToggleConnection = this.onToggleConnection.bind(this)
     this.saveConnections = this.saveConnections.bind(this)
@@ -112,7 +114,7 @@ class SelectConnectionScreen extends React.Component {
   }
 
   saveConnections() {
-    const { title, content, description } = this.state
+    const { title, content, description, source_url } = this.state
     this.maybeUploadImage()
       .then((response) => {
         const channelIds = this.state.selectedConnections.map(channel => channel.id)
@@ -123,12 +125,18 @@ class SelectConnectionScreen extends React.Component {
           variables = Object.assign({}, variables, {
             source_url: response.location,
           })
-        } else {
+        } else if (content) {
           // This is a piece of text
           variables = Object.assign({}, variables, {
             content,
           })
+        } else {
+          variables = Object.assign({}, variables, {
+            source_url,
+          })
         }
+
+        console.log('variables', variables)
 
         this.props.mutate({ variables })
           .then(this.navigateBack)
