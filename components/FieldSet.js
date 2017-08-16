@@ -46,11 +46,12 @@ export default class FieldSet extends React.Component {
     const { label, fields, isFirst, onChange, style } = this.props
 
     const fieldComponents = fields.map((field, index) => {
-      const { type, placeholder, key } = field
+      const { type, placeholder, key, value } = field
       const multiline = type === 'textarea'
       const inputStyle = type === 'textarea' ? styles.textArea : styles.input
       const wrapperStyle = index === fields.length - 1 ? {} : styles.separator
       const focus = isFirst && index === 0
+      const keyboard = type === 'url' ? 'url' : 'default'
 
       return (
         <View style={wrapperStyle} key={key}>
@@ -61,6 +62,8 @@ export default class FieldSet extends React.Component {
             placeholder={placeholder}
             clearButtonMode="while-editing"
             style={inputStyle}
+            keyboardType={keyboard}
+            defaultValue={value}
           />
         </View>
       )
@@ -86,7 +89,7 @@ FieldSet.propTypes = {
   fields: PropTypes.arrayOf(PropTypes.shape({
     key: PropTypes.string,
     placeholder: PropTypes.string,
-    type: PropTypes.oneOf(['input', 'textarea']),
+    type: PropTypes.oneOf(['input', 'textarea', 'url']),
     onChange: PropTypes.func,
   })).isRequired,
 }
