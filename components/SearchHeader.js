@@ -5,7 +5,7 @@ import {
   StyleSheet,
   TextInput,
   Text,
-  TouchableHighlight,
+  TouchableOpacity,
   View,
 } from 'react-native'
 
@@ -40,7 +40,14 @@ const styles = StyleSheet.create({
     marginRight: layout.padding,
     height: 40,
     padding: layout.padding,
-    flex: 1,
+    flex: 4,
+  },
+  text: {
+    minWidth: layout.padding * 5,
+    fontSize: type.sizes.normal,
+    textAlign: 'center',
+    fontWeight: 'bold',
+    color: colors.gray.text,
   },
 })
 
@@ -68,8 +75,9 @@ export default class SearchHeader extends React.Component {
   }
 
   render() {
-    const { style } = this.props
+    const { style, cancelOrDone, onSubmit } = this.props
     const { search } = this.state
+    const buttonFunc = cancelOrDone === 'Cancel' ? this.cancel : onSubmit
 
     return (
       <View style={styles.container}>
@@ -81,11 +89,11 @@ export default class SearchHeader extends React.Component {
             value={search}
             clearButtonMode="while-editing"
           />
-          <TouchableHighlight onPress={this.cancel}>
-            <Text>
-              Cancel
+          <TouchableOpacity onPress={buttonFunc}>
+            <Text style={styles.text}>
+              {cancelOrDone}
             </Text>
-          </TouchableHighlight>
+          </TouchableOpacity>
         </View>
       </View>
     )
@@ -96,10 +104,14 @@ SearchHeader.propTypes = {
   onChangeText: PropTypes.func,
   style: PropTypes.any,
   cancelRoute: PropTypes.string,
+  cancelOrDone: PropTypes.oneOf(['Cancel', 'Done']),
+  onSubmit: PropTypes.func,
 }
 
 SearchHeader.defaultProps = {
   onChangeText: () => null,
+  onSubmit: () => null,
   cancelRoute: 'addMenu',
   style: {},
+  cancelOrDone: 'Cancel',
 }

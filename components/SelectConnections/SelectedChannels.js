@@ -9,7 +9,6 @@ import PropTypes from 'prop-types'
 import { Ionicons } from '@expo/vector-icons'
 
 import colors from '../../constants/Colors'
-
 import layout from '../../constants/Layout'
 
 const styles = StyleSheet.create({
