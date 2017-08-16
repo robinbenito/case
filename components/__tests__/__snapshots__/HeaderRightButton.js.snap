@@ -1,15 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<TouchableHighlight
-  activeOpacity={0.85}
+<TouchableOpacity
+  activeOpacity={0.2}
+  focusedOpacity={0.7}
   onPress={[Function]}
   style={
     Object {
+      "paddingHorizontal": 10,
       "paddingRight": 10,
     }
   }
-  underlayColor="black"
 >
   <Text
     accessible={true}
@@ -26,5 +27,5 @@ exports[`renders correctly 1`] = `
   >
     Done
   </Text>
-</TouchableHighlight>
+</TouchableOpacity>
 `;
