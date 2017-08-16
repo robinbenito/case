@@ -48,8 +48,10 @@ export default class AddLinkScreen extends React.Component {
 
   componentDidMount() {
     Clipboard.getString().then((string) => {
-      if (isURL(string)) this.clipboardPrompt(string)
-      Clipboard.setString('')
+      if (isURL(string)) {
+        this.clipboardPrompt(string)
+        Clipboard.setString('')
+      }
     })
   }
 
