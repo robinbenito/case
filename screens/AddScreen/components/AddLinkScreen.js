@@ -121,7 +121,7 @@ export default class AddLinkScreen extends React.Component {
               {
                 key: 'source_url',
                 placeholder: 'URL',
-                type: 'input',
+                type: 'url',
                 value: this.state.source_url,
               },
             ]}

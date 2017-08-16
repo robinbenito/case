@@ -52,6 +52,7 @@ export default class FieldSet extends React.Component {
       const wrapperStyle = index === fields.length - 1 ? {} : styles.separator
       const focus = isFirst && index === 0
       const keyboard = type === 'url' ? 'url' : 'default'
+      const capitalize = type === 'url' ? 'none' : 'sentences'
 
       return (
         <View style={wrapperStyle} key={key}>
@@ -64,6 +65,7 @@ export default class FieldSet extends React.Component {
             style={inputStyle}
             keyboardType={keyboard}
             defaultValue={value}
+            autoCapitalize={capitalize}
           />
         </View>
       )
