@@ -148,10 +148,14 @@ class SelectConnectionScreen extends React.Component {
     const ConnectionContent = isSearching ? (
       <SearchConnectionsWithData
         q={search}
+        key={selectedConnections.length}
+        selected={selectedConnections}
         onToggleConnection={this.onToggleConnection}
       />
     ) : (
       <RecentConnectionsWithData
+        selected={selectedConnections}
+        key={selectedConnections.length}
         onToggleConnection={this.onToggleConnection}
       />
     )
@@ -164,7 +168,7 @@ class SelectConnectionScreen extends React.Component {
         />
         <View style={styles.innerContainer}>
           <SelectedChannels
-            onToggleConnection={this.onToggleConnection}
+            onRemove={channel => this.onToggleConnection(channel, false)}
             channels={selectedConnections}
             title={title || 'Untitled block'}
           />
