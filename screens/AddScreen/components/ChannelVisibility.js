@@ -79,10 +79,6 @@ export default class ChannelVisibilityScreen extends React.Component {
     this.onVisibilityChangeUpdate(value)
   }
 
-  onSubmit() {
-    console.log(this.state)
-  }
-
   setNavOptions(options) {
     const newOptions = Object.assign({}, navigationOptions, options)
     this.props.navigation.setOptions(newOptions)
