@@ -31,6 +31,7 @@ class AddScreen extends React.Component {
     this.showCamera = this.showCamera.bind(this)
     this.showPhotos = this.showPhotos.bind(this)
     this.addText = this.addText.bind(this)
+    this.addLink = this.addLink.bind(this)
     this.reset = this.reset.bind(this)
   }
 
@@ -48,6 +49,14 @@ class AddScreen extends React.Component {
   addText() {
     const navigateAction = NavigationActions.navigate({
       routeName: 'addText',
+    })
+
+    this.props.navigation.dispatch(navigateAction)
+  }
+
+  addLink() {
+    const navigateAction = NavigationActions.navigate({
+      routeName: 'addLink',
     })
 
     this.props.navigation.dispatch(navigateAction)
@@ -86,17 +95,22 @@ class AddScreen extends React.Component {
         <IconButton
           onPress={this.addText}
           iconName="ios-paper-outline"
-          buttonText="Enter text"
+          buttonText="Add text"
         />
         <IconButton
-          onPress={this.showCamera}
-          iconName="ios-camera-outline"
-          buttonText="Take picture"
+          onPress={this.addLink}
+          iconName="ios-link-outline"
+          buttonText="Add link"
         />
         <IconButton
           onPress={this.showPhotos}
           iconName="ios-photos-outline"
           buttonText="Choose from photos"
+        />
+        <IconButton
+          onPress={this.showCamera}
+          iconName="ios-camera-outline"
+          buttonText="Take picture"
         />
       </View>
     )

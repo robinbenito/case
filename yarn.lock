@@ -4844,10 +4844,6 @@ react-native-vector-icons@4.1.1:
     xtend ">=4.0.0 <4.1.0-0"
     yargs "^6.4.0"
 
-react-navigation-addons@^0.0.0:
-  version "0.0.0"
-  resolved "https://registry.yarnpkg.com/react-navigation-addons/-/react-navigation-addons-0.0.0.tgz#f56478227368799a90c67411de53ea997d2948d1"
-
 "react-navigation-addons@https://github.com/satya164/react-navigation-addons":
   version "0.0.1"
   resolved "https://github.com/satya164/react-navigation-addons#ea06bd8a002fb7390bef96902490891ba2bfa67e"
@@ -5699,6 +5695,10 @@ validate-npm-package-license@^3.0.1:
   dependencies:
     spdx-correct "~1.0.0"
     spdx-expression-parse "~1.0.0"
+
+validator@^8.0.0:
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/validator/-/validator-8.0.0.tgz#00d6ec230ab5d3353ab1174162a96462b947bdbd"
 
 vary@~1.0.1:
   version "1.0.1"

@@ -61,6 +61,7 @@ class SelectConnectionScreen extends React.Component {
       content,
       description,
       title,
+      source_url,
     } = props.navigation.state.params
 
     this.state = {
@@ -72,6 +73,7 @@ class SelectConnectionScreen extends React.Component {
       content,
       description,
       title,
+      source_url,
     }
     this.onToggleConnection = this.onToggleConnection.bind(this)
     this.saveConnections = this.saveConnections.bind(this)
@@ -112,7 +114,7 @@ class SelectConnectionScreen extends React.Component {
   }
 
   saveConnections() {
-    const { title, content, description } = this.state
+    const { title, content, description, source_url } = this.state
     this.maybeUploadImage()
       .then((response) => {
         const channelIds = this.state.selectedConnections.map(channel => channel.id)
@@ -120,14 +122,13 @@ class SelectConnectionScreen extends React.Component {
 
         if (response) {
           // This is an image
-          variables = Object.assign({}, variables, {
-            source_url: response.location,
-          })
-        } else {
+          variables = { ...variables, source_url: response.location }
+        } else if (content) {
           // This is a piece of text
-          variables = Object.assign({}, variables, {
-            content,
-          })
+          variables = { ...variables, content }
+        } else {
+          // This is some kind of link
+          variables = { ...variables, source_url }
         }
 
         this.props.mutate({ variables })
@@ -143,7 +144,7 @@ class SelectConnectionScreen extends React.Component {
   }
 
   render() {
-    const { search, selectedConnections, isSearching, title } = this.state
+    const { search, selectedConnections, isSearching, title, source_url: sourceURL } = this.state
 
     const ConnectionContent = isSearching ? (
       <SearchConnectionsWithData
@@ -174,7 +175,7 @@ class SelectConnectionScreen extends React.Component {
           <SelectedChannels
             onRemove={channel => this.onToggleConnection(channel, false)}
             channels={selectedConnections}
-            title={title || 'Untitled block'}
+            title={title || sourceURL || 'Untitled block'}
             key={`selected-${selectedConnections.length}`}
           />
           {ConnectionContent}
