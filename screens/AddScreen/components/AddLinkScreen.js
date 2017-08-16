@@ -55,7 +55,7 @@ export default class AddLinkScreen extends React.Component {
 
   componentDidUpdate() {
     // Hide or show the done button depending on if content is present
-    if (this.state.source_url) {
+    if (this.state.source_url && isURL(this.state.source_url)) {
       this.setNavOptions({
         headerRight: (
           <HeaderRightButton onPress={this.onSubmit} text="Done" />
