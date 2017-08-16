@@ -59,62 +59,96 @@ exports[`renders correctly 1`] = `
       }
     }
   >
-    <View
-      style={
-        Object {
-          "flexDirection": "row",
-          "justifyContent": "center",
-          "paddingRight": 5,
-        }
-      }
+    <TouchableOpacity
+      activeOpacity={0.2}
+      focusedOpacity={0.7}
+      onPress={[Function]}
     >
-      <Text
-        accessible={true}
-        allowFontScaling={true}
-        disabled={false}
-        ellipsizeMode="tail"
+      <View
         style={
           Object {
-            "color": "#B60202",
-            "fontWeight": "bold",
+            "flexDirection": "row",
+            "justifyContent": "center",
+            "paddingRight": 5,
           }
         }
       >
-        Round things
-      </Text>
-      <Text
-        accessible={true}
-        allowFontScaling={true}
-        disabled={false}
-        ellipsizeMode="tail"
-      >
-        ,
-      </Text>
-    </View>
-    <View
-      style={
-        Object {
-          "flexDirection": "row",
-          "justifyContent": "center",
-          "paddingRight": 5,
-        }
-      }
+        <Icon
+          allowFontScaling={false}
+          color="#B60202"
+          name="ios-remove-circle-outline"
+          size={18}
+          style={
+            Object {
+              "paddingRight": 5,
+            }
+          }
+        />
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          disabled={false}
+          ellipsizeMode="tail"
+          style={
+            Object {
+              "color": "#B60202",
+              "fontWeight": "bold",
+            }
+          }
+        >
+          Round things
+        </Text>
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          disabled={false}
+          ellipsizeMode="tail"
+        >
+          ,
+        </Text>
+      </View>
+    </TouchableOpacity>
+    <TouchableOpacity
+      activeOpacity={0.2}
+      focusedOpacity={0.7}
+      onPress={[Function]}
     >
-      <Text
-        accessible={true}
-        allowFontScaling={true}
-        disabled={false}
-        ellipsizeMode="tail"
+      <View
         style={
           Object {
-            "color": "#B60202",
-            "fontWeight": "bold",
+            "flexDirection": "row",
+            "justifyContent": "center",
+            "paddingRight": 5,
           }
         }
       >
-        Square things
-      </Text>
-    </View>
+        <Icon
+          allowFontScaling={false}
+          color="#B60202"
+          name="ios-remove-circle-outline"
+          size={18}
+          style={
+            Object {
+              "paddingRight": 5,
+            }
+          }
+        />
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          disabled={false}
+          ellipsizeMode="tail"
+          style={
+            Object {
+              "color": "#B60202",
+              "fontWeight": "bold",
+            }
+          }
+        >
+          Square things
+        </Text>
+      </View>
+    </TouchableOpacity>
   </View>
 </View>
 `;
