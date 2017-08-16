@@ -5,13 +5,20 @@ import {
   View,
   Text,
 } from 'react-native'
-
+import { findIndex } from 'lodash'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 
 import ChannelItem from '../ChannelItem'
 
 class RecentConnections extends Component {
+
+  isSelected(channel) {
+    const { selected } = this.props
+    const index = findIndex(selected, selectedChannel => selectedChannel.id === channel.id)
+    return index > -1
+  }
+
   render() {
     const { data, onToggleConnection, selected } = this.props
 
@@ -39,7 +46,11 @@ class RecentConnections extends Component {
         keyExtractor={item => item.id}
         extraData={selected}
         renderItem={({ item }) => (
-          <ChannelItem channel={item} onToggleSelect={onToggleConnection} />
+          <ChannelItem
+            isSelected={this.isSelected(item)}
+            channel={item}
+            onToggleSelect={onToggleConnection}
+          />
         )}
       />
     )

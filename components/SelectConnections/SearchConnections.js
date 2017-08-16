@@ -6,7 +6,7 @@ import {
   StyleSheet,
   Text,
 } from 'react-native'
-
+import { findIndex } from 'lodash'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 
@@ -22,6 +22,12 @@ class SearchConnection extends Component {
   shouldComponentUpdate(newProps) {
     if (newProps.data && newProps.data.loading) { return false }
     return true
+  }
+
+  isSelected(channel) {
+    const { selected } = this.props
+    const index = findIndex(selected, selectedChannel => selectedChannel.id === channel.id)
+    return index > -1
   }
 
   render() {
@@ -51,7 +57,11 @@ class SearchConnection extends Component {
         keyExtractor={item => item.id}
         keyboardShouldPersistTaps="always"
         renderItem={({ item }) => (
-          <ChannelItem channel={item} onToggleSelect={onToggleConnection} />
+          <ChannelItem
+            isSelected={this.isSelected(item)}
+            channel={item}
+            onToggleSelect={onToggleConnection}
+          />
         )}
       />
     )
@@ -73,10 +83,12 @@ SearchConnection.propTypes = {
   data: PropTypes.any.isRequired,
   q: PropTypes.string.isRequired,
   onToggleConnection: PropTypes.func,
+  selected: PropTypes.any,
 }
 
 SearchConnection.defaultProps = {
   onToggleConnection: () => null,
+  selected: [],
 }
 
 

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 
-import { concat, pull } from 'lodash'
+import { concat, reject } from 'lodash'
 
 import {
   StyleSheet,
@@ -15,7 +15,6 @@ import { NavigationActions } from 'react-navigation'
 import SelectedChannels from './SelectedChannels'
 
 import SearchHeader from '../SearchHeader'
-import BottomButton from '../BottomButton'
 import SearchConnectionsWithData from './SearchConnections'
 import RecentConnectionsWithData from './RecentConnections'
 
@@ -41,7 +40,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   input: {
-    backgroundColor: '#f7f7f7',
     color: '#585858',
     borderColor: '#cbcbcb',
     borderWidth: 1,
@@ -82,8 +80,16 @@ class SelectConnectionScreen extends React.Component {
 
   onToggleConnection(connection, isSelected) {
     const connections = this.state.selectedConnections
-    const arrayMethod = isSelected ? concat : pull
-    const newConnections = arrayMethod(connections, connection)
+    let newConnections
+
+    if (isSelected) {
+      newConnections = concat(connections, connection)
+    } else {
+      newConnections = reject(connections, existingConnection =>
+        connection.id === existingConnection.id,
+      )
+    }
+
     this.setState({
       selectedConnections: newConnections,
     })
@@ -139,38 +145,40 @@ class SelectConnectionScreen extends React.Component {
   render() {
     const { search, selectedConnections, isSearching, title } = this.state
 
-    const ConnectButton = selectedConnections.length ?
-      (<BottomButton
-        text="Save and Connect"
-        onPress={this.saveConnections}
-      />) : null
-
     const ConnectionContent = isSearching ? (
       <SearchConnectionsWithData
         q={search}
+        key={`search-${selectedConnections.length}`}
+        selected={selectedConnections}
         onToggleConnection={this.onToggleConnection}
       />
     ) : (
       <RecentConnectionsWithData
+        selected={selectedConnections}
+        key={`recent-${selectedConnections.length}`}
         onToggleConnection={this.onToggleConnection}
       />
     )
+
+    const cancelOrDone = selectedConnections.length > 0 ? 'Done' : 'Cancel'
 
     return (
       <View style={styles.container}>
         <SearchHeader
           style={styles.input}
           onChangeText={t => this.search(t)}
+          cancelOrDone={cancelOrDone}
+          onSubmit={this.saveConnections}
         />
         <View style={styles.innerContainer}>
           <SelectedChannels
-            onToggleConnection={this.onToggleConnection}
+            onRemove={channel => this.onToggleConnection(channel, false)}
             channels={selectedConnections}
             title={title || 'Untitled block'}
+            key={`selected-${selectedConnections.length}`}
           />
           {ConnectionContent}
         </View>
-        {ConnectButton}
       </View>
     )
   }
