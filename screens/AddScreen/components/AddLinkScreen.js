@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
 })
 
 const navigationOptions = {
-  title: 'New Text',
+  title: 'New Link',
   headerLeft: null,
 }
 
