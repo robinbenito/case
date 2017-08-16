@@ -136,8 +136,6 @@ class SelectConnectionScreen extends React.Component {
           })
         }
 
-        console.log('variables', variables)
-
         this.props.mutate({ variables })
           .then(this.navigateBack)
       })
@@ -151,7 +149,7 @@ class SelectConnectionScreen extends React.Component {
   }
 
   render() {
-    const { search, selectedConnections, isSearching, title } = this.state
+    const { search, selectedConnections, isSearching, title, source_url: sourceURL } = this.state
 
     const ConnectionContent = isSearching ? (
       <SearchConnectionsWithData
@@ -182,7 +180,7 @@ class SelectConnectionScreen extends React.Component {
           <SelectedChannels
             onRemove={channel => this.onToggleConnection(channel, false)}
             channels={selectedConnections}
-            title={title || 'Untitled block'}
+            title={title || sourceURL || 'Untitled block'}
             key={`selected-${selectedConnections.length}`}
           />
           {ConnectionContent}
