@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { StyleSheet, Text, TouchableHighlight } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity } from 'react-native'
 
 import colors from '../constants/Colors'
 import layout from '../constants/Layout'
@@ -9,6 +9,7 @@ import type from '../constants/Type'
 const styles = StyleSheet.create({
   button: {
     paddingRight: layout.padding,
+    paddingHorizontal: layout.padding,
   },
   text: {
     color: colors.gray.text,
@@ -22,9 +23,9 @@ export default class HeaderRightButton extends React.Component {
     const { text, onPress } = this.props
 
     return (
-      <TouchableHighlight onPress={onPress} style={styles.button}>
+      <TouchableOpacity onPress={onPress} style={styles.button}>
         <Text style={styles.text}>{text}</Text>
-      </TouchableHighlight>
+      </TouchableOpacity>
     )
   }
 }

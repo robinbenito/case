@@ -13,18 +13,19 @@ import layout from '../constants/Layout'
 
 const styles = StyleSheet.create({
   button: {
-    height: 36,
     width: 300,
     borderColor: '#000',
     borderWidth: 1,
-    marginTop: 5,
-    marginBottom: 5,
+    marginTop: layout.padding,
+    marginBottom: layout.padding,
     alignSelf: 'center',
     justifyContent: 'center',
-    padding: layout.padding,
+    paddingHorizontal: layout.padding * 2,
+    paddingVertical: layout.padding,
+    borderRadius: layout.padding / 4,
   },
   buttonIcon: {
-    marginRight: (layout.padding / 2),
+    marginRight: layout.padding,
   },
   buttonText: {
     fontSize: 12,
@@ -45,7 +46,7 @@ export default class IconButton extends React.Component {
         <View style={styles.buttonContainer}>
           <Ionicons
             name={iconName}
-            size={18}
+            size={24}
             color="black"
             style={styles.buttonIcon}
           />

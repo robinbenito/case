@@ -4,11 +4,19 @@ import { enhance } from 'react-navigation-addons'
 import AddMenuScreen from '../screens/AddScreen'
 import AddTextScreen from '../screens/AddScreen/components/AddTextScreen'
 import AddLinkScreen from '../screens/AddScreen/components/AddLinkScreen'
+import NewChannelScreen from '../screens/AddScreen/components/NewChannelScreen'
+import ChannelVisibility from '../screens/AddScreen/components/ChannelVisibility'
 import SelectConnectionsScreen from '../components/SelectConnections/index'
 
 const AddStack = enhance(StackNavigator)({
   addMenu: {
     screen: AddMenuScreen,
+  },
+  newChannel: {
+    screen: NewChannelScreen,
+  },
+  channelVisibility: {
+    screen: ChannelVisibility,
   },
   addLink: {
     screen: AddLinkScreen,

@@ -26,12 +26,10 @@ class AddScreen extends React.Component {
     super(props)
     this.state = {
       image: null,
-      text: null,
     }
     this.showCamera = this.showCamera.bind(this)
     this.showPhotos = this.showPhotos.bind(this)
-    this.addText = this.addText.bind(this)
-    this.addLink = this.addLink.bind(this)
+    this.navigate = this.navigate.bind(this)
     this.reset = this.reset.bind(this)
   }
 
@@ -42,32 +40,23 @@ class AddScreen extends React.Component {
   reset() {
     this.setState({
       image: null,
-      text: null,
     })
   }
 
-  addText() {
+  navigate(routeName) {
     const navigateAction = NavigationActions.navigate({
-      routeName: 'addText',
-    })
-
-    this.props.navigation.dispatch(navigateAction)
-  }
-
-  addLink() {
-    const navigateAction = NavigationActions.navigate({
-      routeName: 'addLink',
+      routeName,
     })
 
     this.props.navigation.dispatch(navigateAction)
   }
 
   navigateToConnect() {
-    const { text, image } = this.state
+    const { image } = this.state
 
     const navigateAction = NavigationActions.navigate({
       routeName: 'connect',
-      params: { text, image },
+      params: { image },
     })
 
     this.props.navigation.dispatch(navigateAction)
@@ -93,12 +82,17 @@ class AddScreen extends React.Component {
     return (
       <View style={styles.container}>
         <IconButton
-          onPress={this.addText}
+          onPress={() => this.navigate('newChannel')}
+          iconName="ios-square-outline"
+          buttonText="New channel"
+        />
+        <IconButton
+          onPress={() => this.navigate('addText')}
           iconName="ios-paper-outline"
           buttonText="Add text"
         />
         <IconButton
-          onPress={this.addLink}
+          onPress={() => this.navigate('addLink')}
           iconName="ios-link-outline"
           buttonText="Add link"
         />

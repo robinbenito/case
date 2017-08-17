@@ -10,6 +10,8 @@ export default {
   closed: '#4B3D67',
   publicBackground: '#17AC1011',
   public: '#17AC10',
+  openBackground: '#17AC1011',
+  open: '#17AC10',
   channel: {
     closed: '#4b3d67',
     public: '#17ac10',
