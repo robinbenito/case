@@ -22,6 +22,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     minHeight: 700,
   },
+  channelItem: {
+    marginHorizontal: layout.padding,
+  },
   loadingContainer: {
     flex: 1,
     justifyContent: 'center',
@@ -139,7 +142,7 @@ class ChannelContainer extends React.Component {
           if (item.klass === 'Block') {
             return <BlockItem block={item} />
           }
-          return <ChannelItem channel={item} />
+          return <ChannelItem channel={item} style={styles.channelItem} />
         }}
       />
     )
