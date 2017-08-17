@@ -58,5 +58,5 @@ ChannelNameText.propTypes = {
 }
 
 ChannelNameText.defaultProps = {
-  style: {}
+  style: {},
 }
