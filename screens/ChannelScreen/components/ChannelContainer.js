@@ -120,6 +120,7 @@ class ChannelContainer extends React.Component {
 
     return (
       <FlatList
+        style={styles.container}
         contentContainerStyle={styles.container}
         data={contents}
         columnWrapperStyle={columnStyle}
@@ -127,7 +128,7 @@ class ChannelContainer extends React.Component {
         numColumns={columnCount}
         keyExtractor={item => item.klass + item.id}
         key={type}
-        onRefresh={() => data.refetch()}
+        onRefresh={this.onRefresh}
         onEndReached={this.onEndReached}
         onEndReachedThreshold={0.9}
         ListFooterComponent={this.renderLoader}
