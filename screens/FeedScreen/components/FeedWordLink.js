@@ -8,7 +8,7 @@ import PropTypes from 'prop-types'
 import UserNameText from '../../../components/UserNameText'
 import ChannelNameText from '../../../components/ChannelNameText'
 
-const FeedWordLink = ({ object, phrase }) => {
+const FeedWordLink = ({ object, phrase, style }) => {
   let objectLink
 
 
@@ -16,17 +16,17 @@ const FeedWordLink = ({ object, phrase }) => {
     const { __typename } = object
     switch (__typename) {
       case 'Channel':
-        objectLink = <ChannelNameText channel={object} />
+        objectLink = <ChannelNameText channel={object} style={style} />
         break
       case 'User':
-        objectLink = <UserNameText user={object} />
+        objectLink = <UserNameText user={object} style={style} />
         break
       default:
-        objectLink = <Text>{phrase || object.title} </Text>
+        objectLink = <Text style={style}>{phrase || object.title} </Text>
     }
   }
 
-  return objectLink || <Text>{phrase} </Text>
+  return objectLink || <Text style={style}>{phrase} </Text>
 }
 
 FeedWordLink.fragments = {
@@ -53,11 +53,13 @@ FeedWordLink.fragments = {
 }
 
 FeedWordLink.propTypes = {
+  style: PropTypes.any,
   object: PropTypes.any,
   phrase: PropTypes.string,
 }
 
 FeedWordLink.defaultProps = {
+  style: {},
   object: {},
   phrase: '',
 }

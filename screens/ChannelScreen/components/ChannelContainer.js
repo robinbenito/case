@@ -22,6 +22,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     minHeight: 700,
   },
+  channelItem: {
+    marginHorizontal: layout.padding,
+  },
   loadingContainer: {
     flex: 1,
     justifyContent: 'center',
@@ -117,6 +120,7 @@ class ChannelContainer extends React.Component {
 
     return (
       <FlatList
+        style={styles.container}
         contentContainerStyle={styles.container}
         data={contents}
         columnWrapperStyle={columnStyle}
@@ -124,7 +128,7 @@ class ChannelContainer extends React.Component {
         numColumns={columnCount}
         keyExtractor={item => item.klass + item.id}
         key={type}
-        onRefresh={() => data.refetch()}
+        onRefresh={this.onRefresh}
         onEndReached={this.onEndReached}
         onEndReachedThreshold={0.9}
         ListFooterComponent={this.renderLoader}
@@ -139,7 +143,7 @@ class ChannelContainer extends React.Component {
           if (item.klass === 'Block') {
             return <BlockItem block={item} />
           }
-          return <ChannelItem channel={item} />
+          return <ChannelItem channel={item} style={styles.channelItem} />
         }}
       />
     )

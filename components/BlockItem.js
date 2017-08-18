@@ -22,7 +22,7 @@ const { width } = Dimensions.get('window')
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'rgba(255, 255, 255, 1.0)',
-    marginBottom: layout.padding,
+    marginBottom: layout.padding * 2,
     overflow: 'hidden',
   },
   innerContainer: {
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   },
   blockTitleContainer: {
     alignItems: 'center',
-    paddingVertical: layout.padding,
+    paddingVertical: layout.padding * 2,
     flexDirection: 'row',
   },
   blockTitle: {
@@ -38,9 +38,9 @@ const styles = StyleSheet.create({
     color: colors.gray.light,
     flexWrap: 'wrap',
     overflow: 'hidden',
-    fontSize: type.sizes.normal,
+    fontSize: type.sizes.small,
     alignItems: 'center',
-    paddingHorizontal: layout.padding,
+    paddingHorizontal: layout.padding * 2,
     textAlign: 'center',
   },
   image: {
@@ -140,7 +140,7 @@ BlockItem.fragments = {
     fragment BlockThumb on Connectable {
       __typename
       id
-      title
+      title(truncate: 75)
       updated_at(relative: true)
       user {
         name

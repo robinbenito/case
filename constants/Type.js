@@ -3,6 +3,7 @@ export default {
     headline: 24,
     subheadline: 18,
     medium: 17,
+    feed: 15,
     normal: 12,
     small: 10,
   },

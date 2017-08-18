@@ -37,19 +37,26 @@ export default class ChannelNameText extends React.Component {
       private: styles.channelTitlePrivate,
     }[this.props.channel.visibility]
 
+    const { channel, style } = this.props
+
     return (
       <TouchableOpacity onPress={this.goToChannel}>
-        <Text style={[styles.text, textStyle]}>{this.props.channel.title} </Text>
+        <Text style={[styles.text, textStyle, style]}>{channel.title} </Text>
       </TouchableOpacity>
     )
   }
 }
 
 ChannelNameText.propTypes = {
+  style: PropTypes.any,
   channel: PropTypes.shape({
     id: PropTypes.any,
     visibility: PropTypes.any,
     title: PropTypes.string,
     slug: PropTypes.string,
   }).isRequired,
+}
+
+ChannelNameText.defaultProps = {
+  style: {},
 }

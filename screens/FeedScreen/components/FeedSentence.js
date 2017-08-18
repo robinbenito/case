@@ -11,6 +11,7 @@ import UserNameText from '../../../components/UserNameText'
 import FeedWordLink from './FeedWordLink'
 
 import colors from '../../../constants/Colors'
+import typesizes from '../../../constants/Type'
 import layout from '../../../constants/Layout'
 
 const styles = StyleSheet.create({
@@ -22,6 +23,9 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
+  },
+  word: {
+    fontSize: typesizes.sizes.feed,
   },
   date: {
     color: colors.gray.lighter,
@@ -36,11 +40,11 @@ const FeedSentence = ({ group }) => {
   return (
     <View style={styles.container}>
       <View style={styles.sentence}>
-        <UserNameText user={user} mode="feed" />
-        <Text>{verb} </Text>
-        <FeedWordLink object={object} phrase={group.object_phrase} />
-        <Text>{connector} </Text>
-        <FeedWordLink object={target} phrase={group.target_phrase} />
+        <UserNameText user={user} mode="feed" style={styles.word} />
+        <Text style={styles.word}>{verb} </Text>
+        <FeedWordLink object={object} phrase={group.object_phrase} style={styles.word} />
+        <Text style={styles.word}>{connector} </Text>
+        <FeedWordLink object={target} phrase={group.target_phrase} style={styles.word} />
       </View>
       <Text style={styles.date}>{group.created_at}</Text>
     </View>

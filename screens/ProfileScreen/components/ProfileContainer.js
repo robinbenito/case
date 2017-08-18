@@ -26,6 +26,7 @@ const styles = StyleSheet.create({
     marginHorizontal: layout.padding,
   },
   loadingContainer: {
+    backgroundColor: '#fff',
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
@@ -126,10 +127,12 @@ class ProfileContainer extends React.Component {
 
     return (
       <FlatList
+        style={styles.container}
         contentContainerStyle={styles.container}
         data={contents}
         columnWrapperStyle={columnStyle}
         refreshing={userBlocksData.networkStatus === 4}
+        onRefresh={this.onRefresh}
         numColumns={columnCount}
         keyExtractor={item => item.klass + item.id}
         key={type}

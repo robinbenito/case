@@ -8,7 +8,7 @@ const base = {
     margin: 0,
     fontFamily: 'Times New Roman',
     lineHeight: type.lineHeights.normal,
-    fontSize: type.sizes.normal,
+    fontSize: type.sizes.middle,
   },
 }
 
@@ -19,8 +19,8 @@ const smallStyles = {
     padding: 0,
     margin: 0,
     fontFamily: 'Times New Roman',
-    fontSize: type.sizes.small,
-    lineHeight: type.lineHeights.small,
+    fontSize: type.sizes.normal,
+    lineHeight: type.lineHeights.normal,
   },
 }
 
