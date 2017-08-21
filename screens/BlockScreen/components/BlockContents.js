@@ -158,6 +158,7 @@ const BlockQuery = gql`
       id
       title
       updated_at(relative: true)
+      created_at(relative: true)
       description
       user {
         __typename

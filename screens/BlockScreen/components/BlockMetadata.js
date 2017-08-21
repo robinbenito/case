@@ -45,7 +45,7 @@ export default class BlockMetadata extends React.Component {
           {block.title}
         </Text>
         <View style={styles.authorContainer}>
-          <Text style={styles.author}>Added {block.updated_at} by </Text>
+          <Text style={styles.author}>Added {block.created_at} by </Text>
           <UserNameText user={block.user} style={styles.author} />
         </View>
         <Text style={styles.description}>
