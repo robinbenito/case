@@ -5,10 +5,6 @@ import { StyleSheet, View } from 'react-native'
 import TabToggle from '../../../components/TabToggle'
 import BlockConnections from './BlockConnections'
 
-import layout from '../../../constants/Layout'
-import type from '../../../constants/Type'
-import colors from '../../../constants/Colors'
-
 const styles = StyleSheet.create({
   tabContainer: {
     flex: 1,
