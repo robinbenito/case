@@ -21,6 +21,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#fff',
     minHeight: 700,
+    paddingBottom: layout.topbar,
   },
   channelItem: {
     marginHorizontal: layout.padding,
