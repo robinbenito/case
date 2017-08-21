@@ -4,6 +4,7 @@ import { StyleSheet, View } from 'react-native'
 
 import TabToggle from '../../../components/TabToggle'
 import BlockConnections from './BlockConnections'
+import BlockComments from './BlockComments'
 
 const styles = StyleSheet.create({
   tabContainer: {
@@ -37,7 +38,9 @@ export default class BlockTabs extends React.Component {
     const { selectedSegment } = this.state
     const content = selectedSegment === 'connections' ? (
       <BlockConnections id={block.id} />
-    ) : null
+    ) : (
+      <BlockComments id={block.id} />
+    )
 
     return (
       <View style={styles.tabContainer}>
