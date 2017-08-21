@@ -52,6 +52,11 @@ const styles = StyleSheet.create({
   },
 })
 
+const tabOptions = {
+  Channels: 'CHANNEL',
+  Blocks: 'BLOCK',
+}
+
 const ChannelHeader = ({ channel, type, onToggle }) => {
   const textStyle = {
     public: styles.channelPublic,
@@ -78,6 +83,7 @@ const ChannelHeader = ({ channel, type, onToggle }) => {
       <TabToggle
         selectedSegment={type}
         onToggleChange={onToggle}
+        options={tabOptions}
       />
     </View>
   )

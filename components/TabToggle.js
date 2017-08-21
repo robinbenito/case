@@ -37,12 +37,8 @@ const styles = StyleSheet.create({
 
 export default class TabToggle extends Component {
   render() {
-    const options = {
-      Channels: 'CHANNEL',
-      Blocks: 'BLOCK',
-    }
+    const { options, selectedSegment } = this.props
     const labelKeys = keys(options)
-    const selectedSegment = this.props.selectedSegment
 
     const tabs = labelKeys.map((label) => {
       const isSelected = options[label] === selectedSegment
@@ -68,6 +64,7 @@ export default class TabToggle extends Component {
 }
 
 TabToggle.propTypes = {
+  options: PropTypes.any,
   onToggleChange: PropTypes.func.isRequired,
   selectedSegment: PropTypes.string.isRequired,
 }
