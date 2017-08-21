@@ -10,26 +10,31 @@ import {
   StyleSheet,
   ScrollView,
   Text,
-  TouchableHighlight,
+  TouchableOpacity,
   View,
 } from 'react-native'
 import HTMLView from 'react-native-htmlview'
 import { WebBrowser } from 'expo'
 
+import BlockMetadata from './BlockMetadata'
+import BlockTabs from './BlockTabs'
+
 import layout from '../../../constants/Layout'
+import colors from '../../../constants/Colors'
 import HTMLStyles from '../../../constants/HtmlView'
 
 const { width, height } = Dimensions.get('window')
+const contentLength = width - (layout.padding * 2)
+const contentTopMargin = ((height - contentLength) / 2) - layout.topbar
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#fff',
-    justifyContent: 'center',
-    alignItems: 'center',
+    paddingBottom: layout.padding * 10,
   },
   loadingContainer: {
     flex: 1,
+    backgroundColor: '#fff',
     justifyContent: 'center',
     alignItems: 'center',
     padding: layout.padding,
@@ -38,9 +43,21 @@ const styles = StyleSheet.create({
     padding: layout.padding,
   },
   image: {
-    width,
-    height,
+    width: contentLength - 2,
+    height: contentLength - 2,
     resizeMode: 'contain',
+  },
+  innerContainer: {
+    marginTop: contentTopMargin,
+    marginBottom: layout.padding * 2,
+    alignItems: 'center',
+  },
+  blockContainer: {
+    width: contentLength,
+    height: contentLength,
+    borderWidth: 1,
+    borderColor: colors.gray.border,
+    alignItems: 'center',
   },
 })
 
@@ -90,12 +107,12 @@ class BlockContainer extends React.Component {
       case 'Link':
       case 'Image':
         blockInner = (
-          <TouchableHighlight onPress={() => this.openBrowser(block.source.url)}>
+          <TouchableOpacity onPress={() => this.openBrowser(block.source.url)}>
             <Image
               style={styles.image}
               source={{ uri: block.kind.image_url }}
             />
-          </TouchableHighlight>
+          </TouchableOpacity>
         )
         break
 
@@ -122,7 +139,13 @@ class BlockContainer extends React.Component {
 
     return (
       <ScrollView contentContainerStyle={styles.container}>
-        {blockInner}
+        <View style={styles.innerContainer}>
+          <View style={styles.blockContainer}>
+            {blockInner}
+          </View>
+          <BlockMetadata block={block} />
+        </View>
+        <BlockTabs block={block} />
       </ScrollView>
     )
   }
@@ -131,11 +154,17 @@ class BlockContainer extends React.Component {
 const BlockQuery = gql`
   query BlockQuery($id: ID!){
     block(id: $id) {
+      __typename
       id
       title
       updated_at(relative: true)
+      created_at(relative: true)
+      description
       user {
+        __typename
+        id
         name
+        slug
       }
       klass
       source {
