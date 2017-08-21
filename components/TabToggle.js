@@ -64,7 +64,7 @@ export default class TabToggle extends Component {
 }
 
 TabToggle.propTypes = {
-  options: PropTypes.any,
+  options: PropTypes.any.isRequired,
   onToggleChange: PropTypes.func.isRequired,
   selectedSegment: PropTypes.string.isRequired,
 }
