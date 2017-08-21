@@ -143,6 +143,7 @@ BlockItem.fragments = {
       title(truncate: 75)
       updated_at(relative: true)
       user {
+        id
         name
       }
       klass
