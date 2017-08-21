@@ -4,7 +4,7 @@ import {
   Dimensions,
   StyleSheet,
   Text,
-  View,
+  ScrollView,
 } from 'react-native'
 import PropTypes from 'prop-types'
 import Carousel from 'react-native-snap-carousel'
@@ -92,9 +92,9 @@ const FeedContents = ({ items, verb }) => {
   const flexDirection = channelGroup ? 'column' : 'row'
 
   return (
-    <View style={{ flexDirection }}>
+    <ScrollView contentContainerStyle={{ flexDirection }} style={{ flexDirection }} horizontal>
       {contentsItems}
-    </View>
+    </ScrollView>
   )
 }
 
