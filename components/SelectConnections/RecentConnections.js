@@ -80,6 +80,6 @@ RecentConnections.defaultProps = {
   selected: [],
 }
 
-const RecentConnectionsWithData = graphql(RecentConnectionsQuery)(RecentConnections)
+const RecentConnectionsWithData = graphql(RecentConnectionsQuery, { options: { fetchPolicy: 'network-only' } })(RecentConnections)
 
 export default RecentConnectionsWithData
