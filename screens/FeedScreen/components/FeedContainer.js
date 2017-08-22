@@ -123,7 +123,9 @@ class FeedContainer extends React.Component {
 const FeedQuery = gql`
   query FeedQuery($offset: Int, $limit: Int){
     me {
+      __typename
       feed(offset: $offset, limit: $limit) {
+        __typename
         groups {
           __typename
           id: key
@@ -202,9 +204,13 @@ const FeedContainerWithData = graphql(FeedQuery, {
           },
           updateQuery: (previousResult, { fetchMoreResult }) => {
             if (!fetchMoreResult.me.feed.groups.length) { return previousResult }
+            const { __typename: meTypename } = previousResult.me
+            const { __typename: feedTypename } = previousResult.me.feed
             const response = {
               me: {
+                __typename: meTypename,
                 feed: {
+                  __typename: feedTypename,
                   groups: [...previousResult.me.feed.groups, ...fetchMoreResult.me.feed.groups],
                 },
               },
