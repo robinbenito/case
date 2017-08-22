@@ -57,7 +57,7 @@ class RecentConnections extends Component {
   }
 }
 
-const RecentConnectionsQuery = gql`
+export const RecentConnectionsQuery = gql`
   query RecentConnectionsQuery {
     me {
       name
@@ -80,6 +80,6 @@ RecentConnections.defaultProps = {
   selected: [],
 }
 
-const RecentConnectionsWithData = graphql(RecentConnectionsQuery)(RecentConnections)
+const RecentConnectionsWithData = graphql(RecentConnectionsQuery, { options: { fetchPolicy: 'network-only' } })(RecentConnections)
 
 export default RecentConnectionsWithData
