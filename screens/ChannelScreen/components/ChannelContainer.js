@@ -14,6 +14,7 @@ import {
 import ChannelHeader from './ChannelHeader'
 import ChannelItem from '../../../components/ChannelItem'
 import BlockItem from '../../../components/BlockItem'
+import Empty from '../../../components/Empty'
 
 import layout from '../../../constants/Layout'
 
@@ -119,6 +120,26 @@ class ChannelContainer extends React.Component {
       blocksData.channel.blocks
     ) || []
 
+    const header = (
+      <ChannelHeader
+        channel={channel}
+        onToggle={this.onToggleChange}
+        type={type}
+      />
+    )
+    const empty = (
+      <Empty text={`No connected ${type.toLowerCase()}s`} />
+    )
+
+    if (contents.length === 0 && blocksData.networkStatus !== 2) {
+      return (
+        <View style={{ flex: 1 }}>
+          {header}
+          {empty}
+        </View>
+      )
+    }
+
     return (
       <FlatList
         style={styles.container}
@@ -133,13 +154,7 @@ class ChannelContainer extends React.Component {
         onEndReached={this.onEndReached}
         onEndReachedThreshold={0.9}
         ListFooterComponent={this.renderLoader}
-        ListHeaderComponent={() => (
-          <ChannelHeader
-            channel={channel}
-            onToggle={this.onToggleChange}
-            type={type}
-          />
-        )}
+        ListHeaderComponent={header}
         renderItem={({ item }) => {
           if (item.klass === 'Block') {
             return <BlockItem block={item} />
