@@ -131,7 +131,9 @@ class ChannelContainer extends React.Component {
       <Empty text={`No connected ${type.toLowerCase()}s`} />
     )
 
-    if (contents.length === 0 && blocksData.networkStatus !== 2) {
+    const contentsLoading = blocksData.networkStatus === 2 || blocksData.networkStatus === 1
+
+    if (contents.length === 0 && !contentsLoading) {
       return (
         <View style={{ flex: 1 }}>
           {header}

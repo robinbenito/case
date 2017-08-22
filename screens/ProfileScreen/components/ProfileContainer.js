@@ -139,7 +139,9 @@ class ProfileContainer extends React.Component {
       <Empty text={`No public ${type.toLowerCase()}s`} />
     )
 
-    if (contents.length === 0 && userBlocksData.networkStatus !== 2) {
+    const contentsLoading = userBlocksData.networkStatus === 2 || userBlocksData.networkStatus === 1
+
+    if (contents.length === 0 && !contentsLoading) {
       return (
         <View style={{ flex: 1 }}>
           {header}
