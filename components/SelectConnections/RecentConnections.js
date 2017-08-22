@@ -57,7 +57,7 @@ class RecentConnections extends Component {
   }
 }
 
-export const RecentConnectionsQuery = gql`
+const RecentConnectionsQuery = gql`
   query RecentConnectionsQuery {
     me {
       name
