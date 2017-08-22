@@ -14,6 +14,7 @@ import {
 import ProfileHeader from './ProfileHeader'
 import ChannelItem from '../../../components/ChannelItem'
 import BlockItem from '../../../components/BlockItem'
+import Empty from '../../../components/Empty'
 
 import layout from '../../../constants/Layout'
 
@@ -126,6 +127,27 @@ class ProfileContainer extends React.Component {
     const columnCount = shouldShowChannel ? 1 : 2
     const columnStyle = columnCount > 1 ? { justifyContent: 'space-around' } : false
 
+    const header = (
+      <ProfileHeader
+        user={data.user}
+        onToggle={this.onToggleChange}
+        type={type}
+      />
+    )
+
+    const empty = (
+      <Empty text={`No public ${type.toLowerCase()}s`} />
+    )
+
+    if (contents.length === 0 && userBlocksData.networkStatus !== 2) {
+      return (
+        <View style={{ flex: 1 }}>
+          {header}
+          {empty}
+        </View>
+      )
+    }
+
     return (
       <FlatList
         style={styles.container}
@@ -140,13 +162,7 @@ class ProfileContainer extends React.Component {
         onEndReached={this.onEndReached}
         onEndReachedThreshold={0.9}
         ListFooterComponent={this.renderLoader}
-        ListHeaderComponent={() => (
-          <ProfileHeader
-            user={data.user}
-            onToggle={this.onToggleChange}
-            type={type}
-          />
-        )}
+        ListHeaderComponent={header}
         renderItem={({ item }) => {
           if (item.klass === 'Block') {
             return <BlockItem block={item} size="2-up" />
