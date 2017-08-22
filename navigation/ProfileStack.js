@@ -1,32 +1,25 @@
 import { StackNavigator } from 'react-navigation'
 
+import headerStyle from '../constants/Header'
+
 import BlockScreen from '../screens/BlockScreen'
 import ProfileScreen from '../screens/ProfileScreen'
 import ChannelScreen from '../screens/ChannelScreen'
+
 
 const ProfileStack = StackNavigator({
   profile: {
     screen: ProfileScreen,
     navigationOptions: () => ({
       title: 'Profile',
-      headerStyle: {
-        backgroundColor: '#fff',
-      },
-      cardStyle: {
-        backgroundColor: '#fff',
-      },
+      headerStyle,
     }),
   },
   channel: {
     screen: ChannelScreen,
     navigationOptions: () => ({
       title: 'Channel',
-      headerStyle: {
-        backgroundColor: '#fff',
-      },
-      cardStyle: {
-        backgroundColor: '#fff',
-      },
+      headerStyle,
     }),
   },
   block: {
@@ -34,13 +27,12 @@ const ProfileStack = StackNavigator({
     navigationOptions: () => ({
       tabBarVisible: false,
       title: 'Block',
-      headerStyle: {
-        backgroundColor: '#fff',
-      },
-      cardStyle: {
-        backgroundColor: '#fff',
-      },
+      headerStyle,
     }),
+  },
+}, {
+  cardStyle: {
+    backgroundColor: '#fff',
   },
 })
 

@@ -1,27 +1,17 @@
 import { StackNavigator } from 'react-navigation'
 
+import headerStyle from '../constants/Header'
+
 import FeedScreen from '../screens/FeedScreen'
 import BlockScreen from '../screens/BlockScreen'
 import ProfileScreen from '../screens/ProfileScreen'
 import ChannelScreen from '../screens/ChannelScreen'
-
-import colors from '../constants/Colors'
-
-const headerStyle = {
-  backgroundColor: colors.gray.background,
-  borderBottomWidth: 1,
-  borderBottomColor: colors.gray.border,
-  shadowColor: 'transparent',
-}
 
 const FeedStack = StackNavigator({
   feed: {
     screen: FeedScreen,
     navigationOptions: () => ({
       title: 'Feed',
-      cardStyle: {
-        backgroundColor: '#fff',
-      },
       headerStyle,
     }),
   },
@@ -31,9 +21,6 @@ const FeedStack = StackNavigator({
       tabBarVisible: false,
       title: 'Block',
       headerStyle,
-      cardStyle: {
-        backgroundColor: '#fff',
-      },
     }),
   },
   channel: {
@@ -41,9 +28,6 @@ const FeedStack = StackNavigator({
     navigationOptions: () => ({
       title: 'Channel',
       headerStyle,
-      cardStyle: {
-        backgroundColor: '#fff',
-      },
     }),
   },
   feedProfile: {
@@ -51,10 +35,11 @@ const FeedStack = StackNavigator({
     navigationOptions: () => ({
       title: 'Profile',
       headerStyle,
-      cardStyle: {
-        backgroundColor: '#fff',
-      },
     }),
+  },
+}, {
+  cardStyle: {
+    backgroundColor: '#fff',
   },
 })
 
