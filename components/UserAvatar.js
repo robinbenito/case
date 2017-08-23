@@ -6,9 +6,12 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  View,
 } from 'react-native'
 
 import colors from '../constants/Colors'
+import type from '../constants/Type'
+import layout from '../constants/Layout'
 
 const getStyles = size =>
   StyleSheet.create({
@@ -21,9 +24,12 @@ const getStyles = size =>
       justifyContent: 'center',
       position: 'relative',
       backgroundColor: colors.gray.background,
+      borderColor: colors.gray.border,
+      borderWidth: 1,
     },
     initials: {
       fontWeight: 'bold',
+      fontSize: type.sizes.subheadline,
       color: colors.gray.text,
     },
     image: {
@@ -34,6 +40,15 @@ const getStyles = size =>
       height: size,
       borderRadius: size / 2,
     },
+    nameContainer: {
+      alignItems: 'center',
+      paddingTop: layout.padding / 2,
+    },
+    name: {
+      fontSize: type.sizes.small,
+      width: size,
+      textAlign: 'center',
+    },
   })
 
 export default class UserAvatar extends React.Component {
@@ -43,17 +58,31 @@ export default class UserAvatar extends React.Component {
   }
 
   render() {
-    const { user, onPress } = this.props
-    return (
-      <TouchableOpacity
-        onPress={onPress}
-        style={[this.styles.container, this.props.style]}
-      >
-        <Text style={this.styles.initials} onPress={this.goToProfile}>
-          {user.initials}
+    const { user, onPress, includeName, style } = this.props
+    const username = includeName ? (
+      <View style={[this.styles.nameContainer, style]}>
+        <Text numberOfLines={1} style={this.styles.name}>
+          {user.first_name}
         </Text>
-        <Image source={{ uri: decodeURIComponent(user.avatar) }} style={this.styles.image} />
-      </TouchableOpacity>
+        <Text numberOfLines={1} style={this.styles.name}>
+          {user.last_name}
+        </Text>
+      </View>
+    ) : null
+
+    return (
+      <View>
+        <TouchableOpacity
+          onPress={onPress}
+          style={[this.styles.container, style]}
+        >
+          <Text style={this.styles.initials} onPress={this.goToProfile}>
+            {user.initials}
+          </Text>
+          <Image source={{ uri: decodeURIComponent(user.avatar) }} style={this.styles.image} />
+        </TouchableOpacity>
+        {username}
+      </View>
     )
   }
 }
@@ -61,7 +90,8 @@ export default class UserAvatar extends React.Component {
 UserAvatar.fragments = {
   avatar: gql`
     fragment Avatar on User {
-      name
+      first_name
+      last_name
       slug
       initials
       avatar(size: SMALL)
@@ -73,6 +103,7 @@ UserAvatar.propTypes = {
   size: PropTypes.number,
   style: PropTypes.any,
   onPress: PropTypes.func,
+  includeName: PropTypes.bool,
   user: PropTypes.shape({
     name: PropTypes.string,
     slug: PropTypes.string,
@@ -85,5 +116,6 @@ UserAvatar.defaultProps = {
   size: 60,
   style: {},
   onPress: () => null,
+  includeName: false,
 }
 
