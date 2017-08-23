@@ -53,6 +53,7 @@ const FeedContents = ({ items, verb }) => {
               mode="feed"
               onPress={() => NavigationService.navigateToProfile(item.id)}
               style={{ marginRight: layout.padding }}
+              includeName
             />
           )
           break
