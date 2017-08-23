@@ -17,6 +17,7 @@ import FeedWordLink from './FeedWordLink'
 import FeedContents from './FeedContents'
 import BlockItem from '../../../components/BlockItem'
 import ChannelItem from '../../../components/ChannelItem'
+import Empty from '../../../components/Empty'
 
 import layout from '../../../constants/Layout'
 
@@ -24,7 +25,7 @@ const { width } = Dimensions.get('window')
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     backgroundColor: '#fff',
   },
   loadingContainer: {
@@ -96,12 +97,17 @@ class FeedContainer extends React.Component {
     }
 
     const { data } = this.props
+    const emptyComponent = (<Empty text="This is your feed" />)
+
+    if (data.me.feed.groups.length === 0) {
+      return emptyComponent
+    }
 
     return (
       <FlatList
         style={styles.container}
-        contentContainerStyle={styles.listContainer}
-        data={this.props.data.me.feed.groups}
+        contentContainerStyle={styles.container}
+        data={data.me.feed.groups}
         refreshing={data.loading}
         initialNumToRender={4}
         keyExtractor={group => group.key}
@@ -109,6 +115,7 @@ class FeedContainer extends React.Component {
         onEndReached={this.onEndReached}
         onEndReachedThreshold={0.9}
         ListFooterComponent={this.renderLoader}
+        ListEmptyComponent={emptyComponent}
         renderItem={({ item, index }) => (
           <View key={`${item.key}-${index}`} style={styles.itemContainer} >
             <FeedSentence group={item} />

@@ -73,8 +73,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   meta: {
-    fontSize: type.sizes.normal,
+    flex: -1,
+    fontSize: type.sizes.small,
     paddingRight: layout.padding / 2,
+    flexWrap: 'nowrap',
   },
   icon: {
     display: 'none',
@@ -115,7 +117,7 @@ export default class ChannelItem extends Component {
 
     const updatedAt = isSelected ? null : (
       <View style={styles.metaLine}>
-        <Text style={[styles.meta, { color: textColor, textAlign: 'right', flex: 1 }]}>
+        <Text numberOfLines={1} style={[styles.meta, { color: textColor, textAlign: 'right', flex: 1 }]}>
           Updated {channel.updated_at}
         </Text>
       </View>
@@ -124,14 +126,8 @@ export default class ChannelItem extends Component {
     return (
       <View style={styles.metaContainer}>
         <View style={styles.metaLine}>
-          <Text style={[styles.meta, { color: textColor }]}>
-            {channel.user.name}
-          </Text>
-          <Text style={[styles.meta, { color: textColor }]}>
-            •
-          </Text>
-          <Text style={[styles.meta, { color: textColor }]}>
-            {counts.connections} blocks
+          <Text numberOfLines={1} style={[styles.meta, { color: textColor }]}>
+            {channel.user.name} • {counts.connections} blocks
           </Text>
         </View>
         {updatedAt}
@@ -170,7 +166,7 @@ export default class ChannelItem extends Component {
       <TouchableOpacity onPress={this.onPressButton}>
         <View style={[styles.channelContainer, containerStyle, selectedContainerStyle, style]}>
           <View style={styles.innerContainer}>
-            <Text style={[styles.channelTitle, { color: textColor }]}>
+            <Text numberOfLines={1} style={[styles.channelTitle, { color: textColor }]}>
               {channel.title}
             </Text>
             {this.renderMeta()}

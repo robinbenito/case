@@ -14,6 +14,7 @@ import {
 import ChannelHeader from './ChannelHeader'
 import ChannelItem from '../../../components/ChannelItem'
 import BlockItem from '../../../components/BlockItem'
+import Empty from '../../../components/Empty'
 
 import layout from '../../../constants/Layout'
 
@@ -21,7 +22,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#fff',
     minHeight: 700,
-    paddingBottom: layout.topbar,
+    paddingBottom: layout.topbar * 2,
   },
   channelItem: {
     marginHorizontal: layout.padding,
@@ -119,6 +120,28 @@ class ChannelContainer extends React.Component {
       blocksData.channel.blocks
     ) || []
 
+    const header = (
+      <ChannelHeader
+        channel={channel}
+        onToggle={this.onToggleChange}
+        type={type}
+      />
+    )
+    const empty = (
+      <Empty text={`No connected ${type.toLowerCase()}s`} />
+    )
+
+    const contentsLoading = blocksData.networkStatus === 2 || blocksData.networkStatus === 1
+
+    if (contents.length === 0 && !contentsLoading) {
+      return (
+        <View style={{ flex: 1 }}>
+          {header}
+          {empty}
+        </View>
+      )
+    }
+
     return (
       <FlatList
         style={styles.container}
@@ -133,13 +156,7 @@ class ChannelContainer extends React.Component {
         onEndReached={this.onEndReached}
         onEndReachedThreshold={0.9}
         ListFooterComponent={this.renderLoader}
-        ListHeaderComponent={() => (
-          <ChannelHeader
-            channel={channel}
-            onToggle={this.onToggleChange}
-            type={type}
-          />
-        )}
+        ListHeaderComponent={header}
         renderItem={({ item }) => {
           if (item.klass === 'Block') {
             return <BlockItem block={item} />
