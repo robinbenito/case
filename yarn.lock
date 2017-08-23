@@ -4727,7 +4727,7 @@ react-native-settings-list@^1.6.1:
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/react-native-settings-list/-/react-native-settings-list-1.6.1.tgz#296228079e5000fc037b072ac3039eba397de432"
 
-react-native-snap-carousel@^2.4.0:
+react-native-snap-carousel@2.4.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/react-native-snap-carousel/-/react-native-snap-carousel-2.4.0.tgz#e0711cc804ca5b11f1c154ba61f5884512a27a71"
   dependencies:
