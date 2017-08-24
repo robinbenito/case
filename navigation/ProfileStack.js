@@ -2,7 +2,7 @@ import { StackNavigator } from 'react-navigation'
 
 import headerStyle from '../constants/Header'
 
-import BlockScreen from '../screens/BlockScreen'
+import BlockStack from './BlockStack'
 import ProfileScreen from '../screens/ProfileScreen'
 import ChannelScreen from '../screens/ChannelScreen'
 
@@ -23,7 +23,7 @@ const ProfileStack = StackNavigator({
     }),
   },
   block: {
-    screen: BlockScreen,
+    screen: BlockStack,
     navigationOptions: () => ({
       tabBarVisible: false,
       title: 'Block',

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { graphql } from 'react-apollo'
+import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 
 import { concat, reject } from 'lodash'
@@ -11,6 +11,7 @@ import {
 } from 'react-native'
 
 import { NavigationActions } from 'react-navigation'
+import NavigationService from '../../utilities/navigationService'
 
 import SelectedChannels from './SelectedChannels'
 
@@ -62,6 +63,8 @@ class SelectConnectionScreen extends React.Component {
       description,
       title,
       source_url,
+      onCancel,
+      block_id,
     } = props.navigation.state.params
 
     this.state = {
@@ -74,10 +77,13 @@ class SelectConnectionScreen extends React.Component {
       description,
       title,
       source_url,
+      block_id,
     }
     this.onToggleConnection = this.onToggleConnection.bind(this)
     this.saveConnections = this.saveConnections.bind(this)
     this.navigateBack = this.navigateBack.bind(this)
+
+    this.onCancel = onCancel
   }
 
   onToggleConnection(connection, isSelected) {
@@ -114,10 +120,20 @@ class SelectConnectionScreen extends React.Component {
   }
 
   saveConnections() {
-    const { title, content, description, source_url } = this.state
-    this.maybeUploadImage()
+    const { title, content, description, source_url, block_id: blockId } = this.state
+    const { createBlock, createConnection } = this.props
+    const channelIds = this.state.selectedConnections.map(channel => channel.id)
+
+    if (blockId) {
+      return createConnection({ variables: {
+        connectable_type: 'BLOCK',
+        connectable_id: blockId,
+        channel_ids: channelIds,
+      } }).then(() => NavigationService.back()).catch(error => console.log('error', error))
+    }
+
+    return this.maybeUploadImage()
       .then((response) => {
-        const channelIds = this.state.selectedConnections.map(channel => channel.id)
         let variables = { channel_ids: channelIds, title, description }
 
         if (response) {
@@ -131,8 +147,7 @@ class SelectConnectionScreen extends React.Component {
           variables = { ...variables, source_url }
         }
 
-        this.props.mutate({ variables })
-          .then(this.navigateBack)
+        createBlock({ variables }).then(this.navigateBack)
       })
   }
 
@@ -170,6 +185,7 @@ class SelectConnectionScreen extends React.Component {
           onChangeText={t => this.search(t)}
           cancelOrDone={cancelOrDone}
           onSubmit={this.saveConnections}
+          onCancel={this.onCancel}
         />
         <View style={styles.innerContainer}>
           <SelectedChannels
@@ -187,7 +203,8 @@ class SelectConnectionScreen extends React.Component {
 
 SelectConnectionScreen.propTypes = {
   navigation: PropTypes.any.isRequired,
-  mutate: PropTypes.any.isRequired,
+  createBlock: PropTypes.any.isRequired,
+  createConnection: PropTypes.any.isRequired,
 }
 
 SelectConnectionScreen.defaultProps = {
@@ -195,7 +212,7 @@ SelectConnectionScreen.defaultProps = {
   searchData: {},
 }
 
-const connectMutation = gql`
+const createMutation = gql`
   mutation createBlockMutation($channel_ids: [ID]!, $title: String, $content: String, $description: String, $source_url: String){
     create_block(input: { channel_ids: $channel_ids, title: $title, content: $content, description: $description, source_url: $source_url }) {
       clientMutationId
@@ -207,6 +224,20 @@ const connectMutation = gql`
   }
 `
 
-const SelectConnectionScreenWithData = graphql(connectMutation)(SelectConnectionScreen)
+const connectMutation = gql`
+mutation createConnectionMutation($channel_ids: [ID]!, $connectable_id: ID!, $connectable_type: BaseConnectableTypeEnum!){
+  create_connection(input: { channel_ids: $channel_ids, connectable_type: $connectable_type, connectable_id: $connectable_id }) {
+    connectable {
+      id
+      title
+    }
+  }
+}
+`
+
+const SelectConnectionScreenWithData = compose(
+  graphql(connectMutation, { name: 'createConnection' }),
+  graphql(createMutation, { name: 'createBlock' }),
+)(SelectConnectionScreen)
 
 export default SelectConnectionScreenWithData

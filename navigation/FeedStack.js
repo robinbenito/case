@@ -3,7 +3,7 @@ import { StackNavigator } from 'react-navigation'
 import headerStyle from '../constants/Header'
 
 import FeedScreen from '../screens/FeedScreen'
-import BlockScreen from '../screens/BlockScreen'
+import BlockStack from './BlockStack'
 import ProfileScreen from '../screens/ProfileScreen'
 import ChannelScreen from '../screens/ChannelScreen'
 
@@ -16,9 +16,8 @@ const FeedStack = StackNavigator({
     }),
   },
   block: {
-    screen: BlockScreen,
+    screen: BlockStack,
     navigationOptions: () => ({
-      tabBarVisible: false,
       title: 'Block',
       headerStyle,
     }),

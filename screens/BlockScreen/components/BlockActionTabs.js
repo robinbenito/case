@@ -4,8 +4,11 @@ import {
   Dimensions,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native'
+
+import NavigatorService from '../../../utilities/navigationService'
 
 import layout from '../../../constants/Layout'
 import colors from '../../../constants/Colors'
@@ -38,13 +41,22 @@ const styles = StyleSheet.create({
 
 export default class BlockActionTabs extends React.Component {
   render() {
-    // const { block } = this.props
+    const { block } = this.props
 
     return (
       <View style={styles.container}>
-        <View style={styles.option}>
+        <TouchableOpacity
+          style={styles.option}
+          onPress={() => {
+            NavigatorService.navigate('connect', {
+              onCancel: () => NavigatorService.back(),
+              block_id: block.id,
+              title: block.title,
+            })
+          }}
+        >
           <Text style={styles.label}>Connect</Text>
-        </View>
+        </TouchableOpacity>
         <View style={styles.option}>
           <Text style={styles.label}>Comment</Text>
         </View>

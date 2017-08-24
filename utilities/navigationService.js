@@ -22,6 +22,12 @@ function reset(routeName, params) {
   )
 }
 
+function back(key) {
+  _container.dispatch(
+    NavigationActions.back(key),
+  )
+}
+
 function navigate(routeName, params) {
   _container.dispatch(
     NavigationActions.navigate({
@@ -73,6 +79,7 @@ export default {
   navigateDeep,
   navigate,
   reset,
+  back,
   getCurrentRoute,
   navigateToProfile,
 }
