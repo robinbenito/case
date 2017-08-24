@@ -12,6 +12,7 @@ import {
 } from 'react-native'
 
 import ChannelItem from '../../../components/ChannelItem'
+import Empty from '../../../components/Empty'
 
 import layout from '../../../constants/Layout'
 
@@ -62,6 +63,18 @@ class BlockConnections extends React.Component {
         </View>
       )
     }
+
+    const contentsLoading = data.networkStatus === 2 || data.networkStatus === 1
+    const empty = (<Empty text="No connections yet" />)
+
+    if (contents.length === 0 && !contentsLoading) {
+      return (
+        <View style={{ flex: 1 }}>
+          {empty}
+        </View>
+      )
+    }
+
 
     return (
       <FlatList
