@@ -18,6 +18,7 @@ import { WebBrowser } from 'expo'
 
 import BlockMetadata from './BlockMetadata'
 import BlockTabs from './BlockTabs'
+import BlockActionTabs from './BlockActionTabs'
 
 import layout from '../../../constants/Layout'
 import colors from '../../../constants/Colors'
@@ -51,6 +52,7 @@ const styles = StyleSheet.create({
     marginTop: contentTopMargin,
     marginBottom: layout.padding * 2,
     alignItems: 'center',
+    flex: 1,
   },
   blockContainer: {
     width: contentLength,
@@ -138,15 +140,18 @@ class BlockContainer extends React.Component {
     }
 
     return (
-      <ScrollView contentContainerStyle={styles.container}>
-        <View style={styles.innerContainer}>
-          <View style={styles.blockContainer}>
-            {blockInner}
+      <View>
+        <ScrollView contentContainerStyle={styles.container}>
+          <View style={styles.innerContainer}>
+            <View style={styles.blockContainer}>
+              {blockInner}
+            </View>
+            <BlockMetadata block={block} />
           </View>
-          <BlockMetadata block={block} />
-        </View>
-        <BlockTabs block={block} />
-      </ScrollView>
+          <BlockTabs block={block} />
+        </ScrollView>
+        <BlockActionTabs block={block} />
+      </View>
     )
   }
 }
