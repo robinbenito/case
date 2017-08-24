@@ -81,8 +81,7 @@ const FeedContents = ({ items, verb }) => {
         itemWidth={itemWidth}
         activeSlideOffset={20}
         inactiveSlideScale={1}
-        scrollEndDragDebounceValue={10}
-        decelerationRate={1}
+        scrollEndDragDebounceValue={50}
         animationOptions={{ duration: 100, easing: Easing.sin }}
       >
         {contentsItems}
