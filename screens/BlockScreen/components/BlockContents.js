@@ -9,6 +9,7 @@ import {
   Image,
   StyleSheet,
   ScrollView,
+  RefreshControl,
   Text,
   TouchableOpacity,
   View,
@@ -68,8 +69,10 @@ class BlockContainer extends React.Component {
     super(props)
     this.state = {
       result: '',
+      refetched: null,
     }
     this.openBrowser = this.openBrowser.bind(this)
+    this.refresh = this.refresh.bind(this)
   }
 
   async openBrowser(url) {
@@ -77,6 +80,12 @@ class BlockContainer extends React.Component {
       const result = await WebBrowser.openBrowserAsync(url)
       this.setState({ result })
     }
+  }
+
+  refresh() {
+    this.props.data.refetch().then(() => {
+      this.setState({ refetched: new Date() })
+    })
   }
 
   render() {
@@ -139,16 +148,27 @@ class BlockContainer extends React.Component {
         break
     }
 
+    const refreshing = this.props.data.networkStatus === 2 || this.props.data.networkStatus === 1
+    const { refetched } = this.state
+
     return (
       <View>
-        <ScrollView contentContainerStyle={styles.container}>
+        <ScrollView
+          contentContainerStyle={styles.container}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={this.refresh}
+            />
+          }
+        >
           <View style={styles.innerContainer}>
             <View style={styles.blockContainer}>
               {blockInner}
             </View>
             <BlockMetadata block={block} />
           </View>
-          <BlockTabs block={block} />
+          <BlockTabs block={block} key={refetched} />
         </ScrollView>
         <BlockActionTabs block={block} />
       </View>
