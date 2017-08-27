@@ -17,7 +17,7 @@ import SelectedChannels from './SelectedChannels'
 
 import SearchHeader from '../SearchHeader'
 import SearchConnectionsWithData from './SearchConnections'
-import RecentConnectionsWithData from './RecentConnections'
+import RecentConnectionsWithData, { RecentConnectionsQuery } from './RecentConnections'
 
 import uploadImage from '../../api/uploadImage'
 
@@ -123,13 +123,17 @@ class SelectConnectionScreen extends React.Component {
     const { title, content, description, source_url, block_id: blockId } = this.state
     const { createBlock, createConnection } = this.props
     const channelIds = this.state.selectedConnections.map(channel => channel.id)
+    const refetchQueries = [{ query: RecentConnectionsQuery }]
 
     if (blockId) {
-      return createConnection({ variables: {
-        connectable_type: 'BLOCK',
-        connectable_id: blockId,
-        channel_ids: channelIds,
-      } }).then(() => NavigationService.back()).catch(error => console.log('error', error))
+      return createConnection({
+        variables: {
+          connectable_type: 'BLOCK',
+          connectable_id: blockId,
+          channel_ids: channelIds,
+        },
+        refetchQueries,
+      }).then(() => NavigationService.back()).catch(error => console.log('error', error))
     }
 
     return this.maybeUploadImage()
@@ -147,7 +151,7 @@ class SelectConnectionScreen extends React.Component {
           variables = { ...variables, source_url }
         }
 
-        createBlock({ variables }).then(this.navigateBack)
+        createBlock({ variables, refetchQueries }).then(this.navigateBack)
       })
   }
 
