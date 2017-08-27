@@ -80,9 +80,9 @@ class SelectConnectionScreen extends React.Component {
       source_url,
       block_id,
     }
+
     this.onToggleConnection = this.onToggleConnection.bind(this)
     this.saveConnections = this.saveConnections.bind(this)
-    this.navigateBack = this.navigateBack.bind(this)
 
     this.onCancel = onCancel
   }
@@ -110,14 +110,9 @@ class SelectConnectionScreen extends React.Component {
     return uploadImage(image)
   }
 
-  navigateBack() {
-    const resetAction = NavigationActions.reset({
-      index: 0,
-      actions: [
-        NavigationActions.navigate({ routeName: 'addMenu' }),
-      ],
-    })
-    this.props.navigation.dispatch(resetAction)
+  navigateToBlock(id, imageLocation) {
+    this.setState({ selectedConnections: [] })
+    NavigationService.navigate('block', { id, imageLocation })
   }
 
   saveConnections() {
@@ -131,7 +126,6 @@ class SelectConnectionScreen extends React.Component {
         query: BlockConnectionsQuery,
         variables: { id: blockId },
       }]
-      console.log('blockRefetchQueries', blockRefetchQueries)
       return createConnection({
         variables: {
           connectable_type: 'BLOCK',
@@ -143,12 +137,12 @@ class SelectConnectionScreen extends React.Component {
     }
 
     return this.maybeUploadImage()
-      .then((response) => {
+      .then((image) => {
         let variables = { channel_ids: channelIds, title, description }
 
-        if (response) {
+        if (image) {
           // This is an image
-          variables = { ...variables, source_url: response.location }
+          variables = { ...variables, source_url: image.location }
         } else if (content) {
           // This is a piece of text
           variables = { ...variables, content }
@@ -157,7 +151,10 @@ class SelectConnectionScreen extends React.Component {
           variables = { ...variables, source_url }
         }
 
-        createBlock({ variables, refetchQueries }).then(this.navigateBack)
+        createBlock({ variables, refetchQueries }).then((response) => {
+          const { data: { create_block: { block } } } = response
+          this.navigateToBlock(block.id, image && image.location)
+        })
       })
   }
 

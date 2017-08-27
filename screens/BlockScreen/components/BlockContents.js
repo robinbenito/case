@@ -89,7 +89,10 @@ class BlockContainer extends React.Component {
   }
 
   render() {
-    if (this.props.data.error) {
+    const { block, error, loading } = this.props.data
+    const { imageLocation } = this.props
+
+    if (error) {
       return (
         <View style={styles.loadingContainer} >
           <Text>
@@ -99,7 +102,7 @@ class BlockContainer extends React.Component {
       )
     }
 
-    if (this.props.data.loading) {
+    if (loading) {
       return (
         <View style={styles.loadingContainer} >
           <ActivityIndicator />
@@ -107,8 +110,8 @@ class BlockContainer extends React.Component {
       )
     }
 
-    const { block } = this.props.data
     const { __typename } = block.kind
+    const imageUrl = block.kind.image_url || imageLocation || 'https://s3.amazonaws.com/arena_assets/assets/brand/arena-app-icon.png'
 
     let blockInner
 
@@ -117,11 +120,12 @@ class BlockContainer extends React.Component {
       case 'Embed':
       case 'Link':
       case 'Image':
+      case 'Block':
         blockInner = (
           <TouchableOpacity onPress={() => this.openBrowser(block.source.url)}>
             <Image
               style={styles.image}
-              source={{ uri: block.kind.image_url }}
+              source={{ uri: imageUrl }}
             />
           </TouchableOpacity>
         )
@@ -196,7 +200,10 @@ const BlockQuery = gql`
         url
       }
       kind {
-        type: __typename
+        __typename
+        ... on Block {
+          is_processed
+        }
         ... on Embed {
           image_url(size: ORIGINAL)
         }
@@ -219,6 +226,11 @@ const BlockQuery = gql`
 
 BlockContainer.propTypes = {
   data: PropTypes.any.isRequired,
+  imageLocation: PropTypes.any,
+}
+
+BlockContainer.defaultProps = {
+  imageLocation: null,
 }
 
 const ChannelContainerWithData = graphql(BlockQuery)(BlockContainer)

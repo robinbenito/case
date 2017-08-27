@@ -5,9 +5,9 @@ import BlockContents from './components/BlockContents'
 
 export default class BlockScreen extends React.Component {
   render() {
-    const { id } = this.props.navigation.state.params
+    const { id, imageLocation } = this.props.navigation.state.params
     return (
-      <BlockContents id={id} />
+      <BlockContents id={id} imageLocation={imageLocation} />
     )
   }
 }

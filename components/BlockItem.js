@@ -64,7 +64,6 @@ export default class BlockItem extends Component {
 
   onPress() {
     NavigatorService.navigate('block', { id: this.props.block.id })
-    return this
   }
 
   render() {
@@ -149,6 +148,9 @@ BlockItem.fragments = {
       klass
       kind {
         __typename
+        ... on Block {
+          is_processed
+        }
         ... on Attachment {
           image_url(size: DISPLAY)
         }
