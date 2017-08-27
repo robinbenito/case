@@ -98,7 +98,7 @@ BlockConnections.propTypes = {
   data: PropTypes.any.isRequired,
 }
 
-const BlockQuery = gql`
+export const BlockConnectionsQuery = gql`
   query BlockQuery($id: ID!){
     block(id: $id) {
       __typename
@@ -111,6 +111,6 @@ const BlockQuery = gql`
   ${ChannelItem.fragments.channel}
 `
 
-const BlockConnectionsWithData = graphql(BlockQuery)(BlockConnections)
+const BlockConnectionsWithData = graphql(BlockConnectionsQuery)(BlockConnections)
 
 export default BlockConnectionsWithData
