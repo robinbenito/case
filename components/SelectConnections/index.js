@@ -10,7 +10,6 @@ import {
   View,
 } from 'react-native'
 
-import { NavigationActions } from 'react-navigation'
 import NavigationService from '../../utilities/navigationService'
 
 import SelectedChannels from './SelectedChannels'
