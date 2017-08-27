@@ -58,7 +58,6 @@ export default class SearchHeader extends React.Component {
       isSearching: false,
       search: '',
     }
-    this.cancel = this.cancel.bind(this)
   }
 
   onChangeText(text) {
@@ -69,15 +68,10 @@ export default class SearchHeader extends React.Component {
     this.props.onChangeText(text)
   }
 
-  cancel() {
-    const { cancelRoute } = this.props
-    navigationService.reset(cancelRoute)
-  }
-
   render() {
-    const { style, cancelOrDone, onSubmit } = this.props
+    const { style, cancelOrDone, onSubmit, onCancel } = this.props
     const { search } = this.state
-    const buttonFunc = cancelOrDone === 'Cancel' ? this.cancel : onSubmit
+    const buttonFunc = cancelOrDone === 'Cancel' ? onCancel : onSubmit
 
     return (
       <View style={styles.container}>
@@ -103,15 +97,15 @@ export default class SearchHeader extends React.Component {
 SearchHeader.propTypes = {
   onChangeText: PropTypes.func,
   style: PropTypes.any,
-  cancelRoute: PropTypes.string,
   cancelOrDone: PropTypes.oneOf(['Cancel', 'Done']),
   onSubmit: PropTypes.func,
+  onCancel: PropTypes.func,
 }
 
 SearchHeader.defaultProps = {
   onChangeText: () => null,
   onSubmit: () => null,
-  cancelRoute: 'addMenu',
+  onCancel: () => navigationService.reset('addMenu'),
   style: {},
   cancelOrDone: 'Cancel',
 }

@@ -12,6 +12,7 @@ import {
 } from 'react-native'
 
 import ChannelItem from '../../../components/ChannelItem'
+import Empty from '../../../components/Empty'
 
 import layout from '../../../constants/Layout'
 
@@ -63,6 +64,18 @@ class BlockConnections extends React.Component {
       )
     }
 
+    const contentsLoading = data.networkStatus === 2 || data.networkStatus === 1
+    const empty = (<Empty text="No connections yet" />)
+
+    if (contents.length === 0 && !contentsLoading) {
+      return (
+        <View style={{ flex: 1 }}>
+          {empty}
+        </View>
+      )
+    }
+
+
     return (
       <FlatList
         style={styles.container}
@@ -85,7 +98,7 @@ BlockConnections.propTypes = {
   data: PropTypes.any.isRequired,
 }
 
-const BlockQuery = gql`
+export const BlockConnectionsQuery = gql`
   query BlockQuery($id: ID!){
     block(id: $id) {
       __typename
@@ -98,6 +111,6 @@ const BlockQuery = gql`
   ${ChannelItem.fragments.channel}
 `
 
-const BlockConnectionsWithData = graphql(BlockQuery)(BlockConnections)
+const BlockConnectionsWithData = graphql(BlockConnectionsQuery)(BlockConnections)
 
 export default BlockConnectionsWithData
