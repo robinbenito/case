@@ -10,6 +10,7 @@ import {
 } from 'react-native'
 
 import { Ionicons } from '@expo/vector-icons'
+import { decode } from 'he'
 
 import layout from '../constants/Layout'
 import colors from '../constants/Colors'
@@ -167,7 +168,7 @@ export default class ChannelItem extends Component {
         <View style={[styles.channelContainer, containerStyle, selectedContainerStyle, style]}>
           <View style={styles.innerContainer}>
             <Text numberOfLines={1} style={[styles.channelTitle, { color: textColor }]}>
-              {channel.title}
+              {decode(channel.title)}
             </Text>
             {this.renderMeta()}
           </View>
