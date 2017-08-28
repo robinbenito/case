@@ -57,9 +57,14 @@ export default class BlockActionTabs extends React.Component {
         >
           <Text style={styles.label}>Connect</Text>
         </TouchableOpacity>
-        <View style={styles.option}>
+        <TouchableOpacity
+          style={styles.option}
+          onPress={() => {
+            NavigatorService.navigate('comment', { id: block.id })
+          }}
+        >
           <Text style={styles.label}>Comment</Text>
-        </View>
+        </TouchableOpacity>
         <View style={styles.option}>
           <Text style={styles.label}>Share</Text>
         </View>
