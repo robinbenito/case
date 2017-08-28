@@ -98,8 +98,8 @@ BlockComments.propTypes = {
   data: PropTypes.any.isRequired,
 }
 
-const BlockQuery = gql`
-  query BlockQuery($id: ID!){
+export const BlockCommentsQuery = gql`
+  query BlockCommentsQuery($id: ID!){
     block(id: $id) {
       __typename
       id
@@ -111,6 +111,6 @@ const BlockQuery = gql`
   ${Comment.fragments.comment}
 `
 
-const BlockCommentsWithData = graphql(BlockQuery)(BlockComments)
+const BlockCommentsWithData = graphql(BlockCommentsQuery)(BlockComments)
 
 export default BlockCommentsWithData
