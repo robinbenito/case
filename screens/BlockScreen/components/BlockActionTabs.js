@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {
   Dimensions,
+  Share,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -65,9 +66,12 @@ export default class BlockActionTabs extends React.Component {
         >
           <Text style={styles.label}>Comment</Text>
         </TouchableOpacity>
-        <View style={styles.option}>
+        <TouchableOpacity
+          style={styles.option}
+          onPress={() => Share.share({ url: `https://www.are.na/block/${block.id}` })}
+        >
           <Text style={styles.label}>Share</Text>
-        </View>
+        </TouchableOpacity>
       </View>
     )
   }
