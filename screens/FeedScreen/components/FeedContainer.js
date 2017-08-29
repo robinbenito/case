@@ -110,7 +110,7 @@ class FeedContainer extends React.Component {
         data={data.me.feed.groups}
         refreshing={data.loading}
         initialNumToRender={4}
-        keyExtractor={group => group.key}
+        keyExtractor={(group, index) => `${group.key}-${index}`}
         onRefresh={this.onRefresh}
         onEndReached={this.onEndReached}
         onEndReachedThreshold={0.9}
