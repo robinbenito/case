@@ -1,5 +1,5 @@
 import React from 'react'
-import { StackNavigator, TabNavigator, NavigationActions, StateUtils } from 'react-navigation'
+import { StackNavigator, TabNavigator, NavigationActions } from 'react-navigation'
 import { Ionicons } from '@expo/vector-icons'
 
 import LoginScreen from '../screens/LoginScreen'
