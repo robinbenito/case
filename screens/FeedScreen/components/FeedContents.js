@@ -1,7 +1,6 @@
 import React from 'react'
 import {
   Easing,
-  Dimensions,
   StyleSheet,
   Text,
   ScrollView,
@@ -23,6 +22,13 @@ const styles = StyleSheet.create({
   blockStyle: {
     borderWidth: 1,
     borderColor: colors.gray.border,
+  },
+  carouselContainer: {
+    marginRight: layout.padding,
+    justifyContent: 'flex-start',
+  },
+  carouselItemContainer: {
+    justifyContent: 'flex-start',
   },
 })
 
@@ -69,9 +75,8 @@ const FeedContents = ({ items, verb }) => {
 
   const { __typename } = items[0]
   const channelGroup = __typename === 'Channel'
-  const { width } = Dimensions.get('window')
-  const sliderWidth = width - (layout.padding * 2)
-  const itemWidth = sliderWidth - layout.padding
+  const sliderWidth = layout.window.width - layout.padding
+  const itemWidth = layout.feedBlock + (layout.padding)
   const showSlider = verb === 'connected' && items.length > 1 && !channelGroup
 
   if (showSlider) {
@@ -80,9 +85,10 @@ const FeedContents = ({ items, verb }) => {
         ref={(carousel) => { this.Carousel = carousel }}
         sliderWidth={sliderWidth}
         itemWidth={itemWidth}
-        activeSlideOffset={20}
+        activeSlideOffset={1}
         inactiveSlideScale={1}
         scrollEndDragDebounceValue={50}
+        contentContainerCustomStyle={styles.carouselItemContainer}
         animationOptions={{ duration: 100, easing: Easing.sin }}
       >
         {contentsItems}
@@ -95,7 +101,7 @@ const FeedContents = ({ items, verb }) => {
   const Container = contentsItems.length > 1 ? ScrollView : View
 
   return (
-    <Container contentContainerStyle={{ flexDirection }} style={{ flexDirection }} horizontal>
+    <Container contentContainerStyle={{ flexDirection, justifyContent: 'flex-start' }} style={{ flexDirection }} horizontal>
       {contentsItems}
     </Container>
   )
