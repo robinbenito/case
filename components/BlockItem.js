@@ -72,8 +72,9 @@ export default class BlockItem extends Component {
     const { __typename } = this.props.block.kind
     const { size, block, style } = this.props
 
-    const blockWidth = size === '1-up' ? width - layout.padding : (width / 2)
-    const blockPadding = size === '1-up' ? layout.padding * 2 : layout.padding
+    const blockWidth = size === '1-up' ? layout.feedBlock : (width / 2)
+    const blockPadding = size === '1-up' ? 0 : layout.padding
+    const blockMargin = size === '1-up' ? layout.padding : 0
 
     const blockSize = {
       width: blockWidth - blockPadding,
@@ -89,8 +90,9 @@ export default class BlockItem extends Component {
       case 'Image':
         blockInner = (
           <Image
+            cache="force-cache"
             style={[styles.image, blockSize]}
-            source={{ uri: block.kind.image_url }}
+            source={{ uri: block.kind.image_url, cache: 'force-cache' }}
           />
         )
         break
@@ -119,7 +121,7 @@ export default class BlockItem extends Component {
       <TouchableOpacity
         activeOpacity={0.95}
         onPress={this.onPress}
-        style={styles.container}
+        style={[styles.container, { marginRight: blockMargin }]}
       >
         <View style={[styles.innerContainer, blockSize, additionalStyle, style]}>
           {blockInner}
