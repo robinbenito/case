@@ -89,8 +89,9 @@ export default class BlockItem extends Component {
       case 'Image':
         blockInner = (
           <Image
+            cache="force-cache"
             style={[styles.image, blockSize]}
-            source={{ uri: block.kind.image_url }}
+            source={{ uri: block.kind.image_url, cache: 'force-cache' }}
           />
         )
         break

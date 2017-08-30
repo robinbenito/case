@@ -125,7 +125,7 @@ class BlockContainer extends React.Component {
           <TouchableOpacity onPress={() => this.openBrowser(block.source.url)}>
             <Image
               style={styles.image}
-              source={{ uri: imageUrl }}
+              source={{ uri: imageUrl, cache: 'force-cache' }}
             />
           </TouchableOpacity>
         )
