@@ -10,7 +10,7 @@ import {
 import { Ionicons } from '@expo/vector-icons'
 
 import layout from '../constants/Layout'
-import type from  '../constants/Type'
+import type from '../constants/Type'
 
 const styles = StyleSheet.create({
   button: {
