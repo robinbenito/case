@@ -33,6 +33,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: layout.padding,
   },
+  footer: {
+    paddingVertical: layout.padding * 2,
+  },
 })
 
 class ChannelContainer extends React.Component {
@@ -150,7 +153,7 @@ class ChannelContainer extends React.Component {
         columnWrapperStyle={columnStyle}
         refreshing={data.networkStatus === 4}
         numColumns={columnCount}
-        keyExtractor={item => item.klass + item.id}
+        keyExtractor={(item, index) => `${item.klass}-${item.id}-${index}`}
         key={type}
         onRefresh={this.onRefresh}
         onEndReached={this.onEndReached}

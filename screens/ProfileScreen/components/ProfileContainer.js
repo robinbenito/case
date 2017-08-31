@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     padding: layout.padding,
   },
   footer: {
-    paddingVertical: layout.padding,
+    paddingVertical: layout.padding * 2,
   },
 })
 
@@ -159,7 +159,7 @@ class ProfileContainer extends React.Component {
         refreshing={userBlocksData.networkStatus === 4}
         onRefresh={this.onRefresh}
         numColumns={columnCount}
-        keyExtractor={item => item.klass + item.id}
+        keyExtractor={(item, index) => `${item.klass}-${item.id}-${index}`}
         key={type}
         onEndReached={this.onEndReached}
         onEndReachedThreshold={0.9}
