@@ -10,6 +10,7 @@ import {
 import { Ionicons } from '@expo/vector-icons'
 
 import layout from '../constants/Layout'
+import type from  '../constants/Type'
 
 const styles = StyleSheet.create({
   button: {
@@ -28,7 +29,8 @@ const styles = StyleSheet.create({
     marginRight: layout.padding,
   },
   buttonText: {
-    fontSize: 12,
+    fontSize: type.sizes.medium,
+    fontWeight: type.weights.semibold,
   },
   buttonContainer: {
     display: 'flex',
