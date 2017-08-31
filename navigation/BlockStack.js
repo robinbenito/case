@@ -1,5 +1,4 @@
 import { StackNavigator } from 'react-navigation'
-import { enhance } from 'react-navigation-addons'
 
 import BlockScreen from '../screens/BlockScreen'
 import SelectConnectionsScreen from '../components/SelectConnections/index'
@@ -7,7 +6,7 @@ import CommentScreen from '../screens/CommentScreen/index'
 
 import headerStyle from '../constants/Header'
 
-const BlockStack = enhance(StackNavigator)({
+const BlockStack = StackNavigator({
   block: {
     screen: BlockScreen,
     navigationOptions: () => ({

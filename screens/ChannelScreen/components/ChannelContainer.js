@@ -17,7 +17,6 @@ import BlockItem from '../../../components/BlockItem'
 import Empty from '../../../components/Empty'
 
 import layout from '../../../constants/Layout'
-import colors from '../../../constants/Colors'
 
 const styles = StyleSheet.create({
   container: {
@@ -50,23 +49,6 @@ class ChannelContainer extends React.Component {
     this.onRefresh = this.onRefresh.bind(this)
     this.onToggleChange = this.onToggleChange.bind(this)
     this.renderLoader = this.renderLoader.bind(this)
-  }
-
-  componentDidUpdate() {
-    const { navigation, data } = this.props
-    if (data && data.channel && data.channel.title) {
-      navigation.setOptions({
-        headerTitle: data.channel.title,
-        headerTitleStyle: { color: colors[data.channel.visibility] },
-      })
-    } else {
-      navigation.setOptions({ headerTitle: '' })
-    }
-  }
-
-  componentWillUnmount() {
-    const { navigation } = this.props
-    navigation.setOptions({ headerTitle: '' })
   }
 
   onRefresh() {
@@ -233,7 +215,6 @@ ChannelContainer.propTypes = {
   type: PropTypes.oneOf(['CHANNEL', 'BLOCK']).isRequired,
   loadMore: PropTypes.any.isRequired,
   page: PropTypes.number,
-  navigation: PropTypes.any.isRequired,
 }
 
 ChannelContainer.defaultProps = {

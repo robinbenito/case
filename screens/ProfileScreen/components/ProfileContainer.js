@@ -52,22 +52,6 @@ class ProfileContainer extends React.Component {
     this.renderLoader = this.renderLoader.bind(this)
   }
 
-  componentDidUpdate() {
-    const { navigation, data } = this.props
-    if (data && data.user && data.user.name) {
-      navigation.setOptions({
-        headerTitle: data.user.name,
-      })
-    } else {
-      navigation.setOptions({ headerTitle: '' })
-    }
-  }
-
-  componentWillUnmount() {
-    const { navigation } = this.props
-    navigation.setOptions({ headerTitle: '' })
-  }
-
   onEndReached() {
     const { userBlocksData } = this.props
     if (!userBlocksData.user || !userBlocksData.user.contents) return false
@@ -232,7 +216,6 @@ ProfileContainer.propTypes = {
   type: PropTypes.oneOf(['CHANNEL', 'BLOCK']).isRequired,
   loadMore: PropTypes.any,
   page: PropTypes.number,
-  navigation: PropTypes.any.isRequired,
 }
 
 ProfileContainer.defaultProps = {

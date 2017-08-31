@@ -12,13 +12,11 @@ export default class ChannelScreen extends React.Component {
   }
 
   render() {
-    const { navigation } = this.props
     return (
       <ChannelContainerWithData
         id={this.state.channelId}
         page={1}
         type="BLOCK"
-        navigation={navigation}
       />
     )
   }

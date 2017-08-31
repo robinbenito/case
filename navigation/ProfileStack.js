@@ -1,5 +1,4 @@
 import { StackNavigator } from 'react-navigation'
-import { enhance } from 'react-navigation-addons'
 
 import headerStyle from '../constants/Header'
 
@@ -8,7 +7,7 @@ import ProfileScreen from '../screens/ProfileScreen'
 import ChannelScreen from '../screens/ChannelScreen'
 
 
-const ProfileStack = enhance(StackNavigator)({
+const ProfileStack = StackNavigator({
   profile: {
     screen: ProfileScreen,
     navigationOptions: () => ({
