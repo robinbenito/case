@@ -1,4 +1,5 @@
 import { StackNavigator } from 'react-navigation'
+import { enhance } from 'react-navigation-addons'
 
 import headerStyle from '../constants/Header'
 
@@ -7,18 +8,22 @@ import ProfileScreen from '../screens/ProfileScreen'
 import ChannelScreen from '../screens/ChannelScreen'
 
 
-const ProfileStack = StackNavigator({
+const ProfileStack = enhance(StackNavigator)({
   profile: {
     screen: ProfileScreen,
     navigationOptions: () => ({
-      title: 'Profile',
+      title: '',
+      headerBackTitle: null,
+      headerTintColor: '#000',
       headerStyle,
     }),
   },
   channel: {
     screen: ChannelScreen,
     navigationOptions: () => ({
-      title: 'Channel',
+      title: '',
+      headerBackTitle: null,
+      headerTintColor: '#000',
       headerStyle,
     }),
   },
@@ -26,7 +31,9 @@ const ProfileStack = StackNavigator({
     screen: BlockStack,
     navigationOptions: () => ({
       tabBarVisible: false,
-      title: 'Block',
+      title: '',
+      headerBackTitle: null,
+      headerTintColor: '#000',
       headerStyle,
     }),
   },
