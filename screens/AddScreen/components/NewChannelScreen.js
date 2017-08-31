@@ -13,6 +13,7 @@ import SettingsList from 'react-native-settings-list'
 import { NavigationActions } from 'react-navigation'
 
 import FieldSet from '../../../components/FieldSet'
+import BackButton from '../../../components/BackButton'
 import HeaderRightButton from '../../../components/HeaderRightButton'
 
 import NavigatorService from '../../../utilities/navigationService'
@@ -32,7 +33,7 @@ const styles = StyleSheet.create({
 
 const navigationOptions = {
   title: 'New Channel',
-  headerLeft: null,
+  headerLeft: (<BackButton />),
 }
 
 class NewChannelScreen extends React.Component {

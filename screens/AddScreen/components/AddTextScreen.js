@@ -8,6 +8,7 @@ import { NavigationActions } from 'react-navigation'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 import FieldSet from '../../../components/FieldSet'
+import BackButton from '../../../components/BackButton'
 import HeaderRightButton from '../../../components/HeaderRightButton'
 
 import layout from '../../../constants/Layout'
@@ -25,7 +26,7 @@ const styles = StyleSheet.create({
 
 const navigationOptions = {
   title: 'New Text',
-  headerLeft: null,
+  headerLeft: (<BackButton />),
 }
 
 export default class AddTextScreen extends React.Component {
