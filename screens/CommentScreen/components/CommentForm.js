@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import {
+  Keyboard,
   StyleSheet,
   TextInput,
 } from 'react-native'
@@ -65,6 +66,7 @@ class CommentForm extends React.Component {
         },
       ],
     }).then(() => {
+      Keyboard.dismiss()
       this.setState({
         body: '',
       })
