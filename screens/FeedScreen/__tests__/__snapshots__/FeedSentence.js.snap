@@ -4,7 +4,7 @@ exports[`renders correctly 1`] = `
 <View
   style={
     Object {
-      "paddingHorizontal": 10,
+      "paddingHorizontal": 20,
       "paddingVertical": 20,
     }
   }
