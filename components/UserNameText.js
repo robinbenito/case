@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { StyleSheet, Text, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text } from 'react-native'
 
 import NavigatorService from '../utilities/navigationService'
 
