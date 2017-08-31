@@ -110,8 +110,7 @@ class ChannelContainer extends React.Component {
   }
 
   render() {
-    console.log('this.props.data', this.props.data)
-    const { data, blocksData, navigation } = this.props
+    const { data, blocksData } = this.props
     const { error, loading, channel } = this.props.data
 
     if (error) {
