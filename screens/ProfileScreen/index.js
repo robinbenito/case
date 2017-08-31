@@ -42,6 +42,7 @@ export default class ProfileScreen extends React.Component {
           id={id}
           type="CHANNEL"
           page={1}
+          navigation={navigation}
         />
       )
     }
