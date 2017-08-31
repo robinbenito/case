@@ -32,9 +32,7 @@ export default class UserNameText extends React.Component {
     const { style } = this.props
 
     return (
-      <TouchableOpacity onPress={this.goToProfile}>
-        <Text style={[styles.text, style]} onPress={this.goToProfile}>{this.props.user.name} </Text>
-      </TouchableOpacity>
+      <Text style={[styles.text, style]} onPress={this.goToProfile}>{this.props.user.name} </Text>
     )
   }
 }

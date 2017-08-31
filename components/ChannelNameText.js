@@ -40,9 +40,7 @@ export default class ChannelNameText extends React.Component {
     const { channel, style } = this.props
 
     return (
-      <TouchableOpacity onPress={this.goToChannel}>
-        <Text style={[styles.text, textStyle, style]}>{channel.title} </Text>
-      </TouchableOpacity>
+      <Text style={[styles.text, textStyle, style]} onPress={this.goToChannel}>{channel.title} </Text>
     )
   }
 }
