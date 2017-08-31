@@ -18,79 +18,86 @@ exports[`renders correctly 1`] = `
       }
     }
   >
-    <UserNameText
-      mode="feed"
-      style={
-        Object {
-          "fontSize": 15,
-        }
-      }
-      user={
-        Object {
-          "name": "Édouard U.",
-          "slug": "edouard-u",
-        }
-      }
-    />
     <Text
       accessible={true}
       allowFontScaling={true}
       disabled={false}
       ellipsizeMode="tail"
-      style={
-        Object {
-          "fontSize": 15,
-        }
-      }
     >
-      connected
-       
+      <UserNameText
+        mode="feed"
+        style={
+          Object {
+            "fontSize": 15,
+          }
+        }
+        user={
+          Object {
+            "name": "Édouard U.",
+            "slug": "edouard-u",
+          }
+        }
+      />
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        disabled={false}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "fontSize": 15,
+          }
+        }
+      >
+        connected
+         
+      </Text>
+      <FeedWordLink
+        object={
+          Object {
+            "__typename": "Connectable",
+            "id": 1164746,
+            "title": "tumblr_noj7p2hXzj1rz4sfeo1_r1_540.jpg",
+          }
+        }
+        phrase="an image"
+        style={
+          Object {
+            "fontSize": 15,
+          }
+        }
+      />
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        disabled={false}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "fontSize": 15,
+          }
+        }
+      >
+        to
+         
+      </Text>
+      <FeedWordLink
+        object={
+          Object {
+            "__typename": "Channel",
+            "id": 15271,
+            "title": "Picture",
+            "visibility": "public",
+          }
+        }
+        phrase="Picture"
+        style={
+          Object {
+            "fontSize": 15,
+          }
+        }
+      />
     </Text>
-    <FeedWordLink
-      object={
-        Object {
-          "__typename": "Connectable",
-          "id": 1164746,
-          "title": "tumblr_noj7p2hXzj1rz4sfeo1_r1_540.jpg",
-        }
-      }
-      phrase="an image"
-      style={
-        Object {
-          "fontSize": 15,
-        }
-      }
-    />
-    <Text
-      accessible={true}
-      allowFontScaling={true}
-      disabled={false}
-      ellipsizeMode="tail"
-      style={
-        Object {
-          "fontSize": 15,
-        }
-      }
-    >
-      to
-       
-    </Text>
-    <FeedWordLink
-      object={
-        Object {
-          "__typename": "Channel",
-          "id": 15271,
-          "title": "Picture",
-          "visibility": "public",
-        }
-      }
-      phrase="Picture"
-      style={
-        Object {
-          "fontSize": 15,
-        }
-      }
-    />
   </View>
   <Text
     accessible={true}

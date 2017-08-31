@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { StyleSheet, Text, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text } from 'react-native'
 
 import Colors from '../constants/Colors'
 import NavigatorService from '../utilities/navigationService'
@@ -31,18 +31,17 @@ export default class ChannelNameText extends React.Component {
   }
 
   render() {
-    const textStyle = {
+    const privacyStyle = {
       public: styles.channelTitlePublic,
       closed: styles.channelTitleClosed,
       private: styles.channelTitlePrivate,
     }[this.props.channel.visibility]
 
     const { channel, style } = this.props
+    const textStyle = [styles.text, privacyStyle, style]
 
     return (
-      <TouchableOpacity onPress={this.goToChannel}>
-        <Text style={[styles.text, textStyle, style]}>{channel.title} </Text>
-      </TouchableOpacity>
+      <Text style={textStyle} onPress={this.goToChannel}>{channel.title} </Text>
     )
   }
 }

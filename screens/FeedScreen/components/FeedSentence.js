@@ -40,11 +40,13 @@ const FeedSentence = ({ group }) => {
   return (
     <View style={styles.container}>
       <View style={styles.sentence}>
-        <UserNameText user={user} mode="feed" style={styles.word} />
-        <Text style={styles.word}>{verb} </Text>
-        <FeedWordLink object={object} phrase={group.object_phrase} style={styles.word} />
-        <Text style={styles.word}>{connector} </Text>
-        <FeedWordLink object={target} phrase={group.target_phrase} style={styles.word} />
+        <Text>
+          <UserNameText user={user} mode="feed" style={styles.word} />
+          <Text style={styles.word}>{verb} </Text>
+          <FeedWordLink object={object} phrase={group.object_phrase} style={styles.word} />
+          <Text style={styles.word}>{connector} </Text>
+          <FeedWordLink object={target} phrase={group.target_phrase} style={styles.word} />
+        </Text>
       </View>
       <Text style={styles.date}>{group.created_at}</Text>
     </View>
