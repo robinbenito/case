@@ -10,11 +10,8 @@ import { NavigationActions } from 'react-navigation'
 
 import IconButton from '../../components/IconButton'
 
-import colors from '../../constants/Colors'
-
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.gray.background,
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
@@ -89,12 +86,12 @@ class AddScreen extends React.Component {
         <IconButton
           onPress={() => this.navigate('addText')}
           iconName="ios-paper-outline"
-          buttonText="Add text"
+          buttonText="New text"
         />
         <IconButton
           onPress={() => this.navigate('addLink')}
           iconName="ios-link-outline"
-          buttonText="Add link"
+          buttonText="New link"
         />
         <IconButton
           onPress={this.showPhotos}
