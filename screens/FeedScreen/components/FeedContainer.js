@@ -38,7 +38,6 @@ const styles = StyleSheet.create({
     paddingVertical: layout.padding,
   },
   itemContainer: {
-    paddingHorizontal: layout.padding,
     marginBottom: layout.padding * 6,
     minHeight: width / 2,
   },
