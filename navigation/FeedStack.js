@@ -1,4 +1,5 @@
 import { StackNavigator } from 'react-navigation'
+import { enhance } from 'react-navigation-addons'
 
 import headerStyle from '../constants/Header'
 
@@ -7,11 +8,13 @@ import BlockStack from './BlockStack'
 import ProfileScreen from '../screens/ProfileScreen'
 import ChannelScreen from '../screens/ChannelScreen'
 
-const FeedStack = StackNavigator({
+const FeedStack = enhance(StackNavigator)({
   feed: {
     screen: FeedScreen,
     navigationOptions: () => ({
       title: 'Feed',
+      headerBackTitle: null,
+      headerTintColor: '#000',
       headerStyle,
     }),
   },
@@ -19,13 +22,17 @@ const FeedStack = StackNavigator({
     screen: BlockStack,
     navigationOptions: () => ({
       title: 'Block',
+      headerBackTitle: null,
+      headerTintColor: '#000',
       headerStyle,
     }),
   },
   channel: {
     screen: ChannelScreen,
     navigationOptions: () => ({
-      title: 'Channel',
+      title: '',
+      headerBackTitle: null,
+      headerTintColor: '#000',
       headerStyle,
     }),
   },
@@ -33,6 +40,8 @@ const FeedStack = StackNavigator({
     screen: ProfileScreen,
     navigationOptions: () => ({
       title: 'Profile',
+      headerBackTitle: null,
+      headerTintColor: '#000',
       headerStyle,
     }),
   },
