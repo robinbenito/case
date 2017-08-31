@@ -36,8 +36,8 @@ const getStyles = size =>
       position: 'absolute',
       top: 0,
       left: 0,
-      width: size,
-      height: size,
+      width: size - 2,
+      height: size - 2,
       borderRadius: size / 2,
     },
     nameContainer: {
