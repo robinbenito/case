@@ -25,6 +25,7 @@ const styles = StyleSheet.create({
     marginVertical: layout.padding / 2,
     paddingHorizontal: layout.padding,
     flex: 1,
+    borderRadius: layout.padding / 4,
   },
   innerContainer: {
     flex: 1,
