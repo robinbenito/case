@@ -2,6 +2,7 @@ import React from 'react'
 import { StackNavigator, TabNavigator, NavigationActions } from 'react-navigation'
 import { Ionicons } from '@expo/vector-icons'
 
+import ArenaLogo from '../components/ArenaLogo'
 import LoginScreen from '../screens/LoginScreen'
 
 import colors from '../constants/Colors'
@@ -36,7 +37,7 @@ const tabs = {
     navigationOptions: ({ navigation }) => ({
       tabBarOnPress: (tab, jumpToIndex) => { onTabPress(navigation, tab, jumpToIndex) },
       tabBarIcon: options => (
-        <Ionicons name="md-reorder" size={30} color={options.tintColor} />
+        <ArenaLogo size={17} fill={options.tintColor} />
       ),
     }),
   },
