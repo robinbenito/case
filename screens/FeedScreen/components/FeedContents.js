@@ -75,7 +75,7 @@ const FeedContents = ({ items, verb }) => {
 
   const { __typename } = items[0]
   const channelGroup = __typename === 'Channel'
-  const sliderWidth = layout.window.width - layout.padding
+  const sliderWidth = layout.window.width
   const itemWidth = layout.feedBlock + (layout.padding)
   const showSlider = verb === 'connected' && items.length > 1 && !channelGroup
 
@@ -90,6 +90,7 @@ const FeedContents = ({ items, verb }) => {
         scrollEndDragDebounceValue={50}
         contentContainerCustomStyle={styles.carouselItemContainer}
         animationOptions={{ duration: 100, easing: Easing.sin }}
+        slideStyle={{ justifyContent: 'flex-start' }}
       >
         {contentsItems}
       </Carousel>
@@ -101,7 +102,7 @@ const FeedContents = ({ items, verb }) => {
   const Container = contentsItems.length > 1 ? ScrollView : View
 
   return (
-    <Container contentContainerStyle={{ flexDirection, justifyContent: 'flex-start' }} style={{ flexDirection }} horizontal>
+    <Container contentContainerStyle={{ flexDirection, justifyContent: 'flex-start' }} style={{ flexDirection, paddingHorizontal: layout.padding }} horizontal>
       {contentsItems}
     </Container>
   )
