@@ -1,5 +1,5 @@
 import React from 'react'
-import { StackNavigator, DrawerNavigator } from 'react-navigation'
+import { StackNavigator } from 'react-navigation'
 
 import headerOptions from '../constants/Header'
 import colors from '../constants/Colors'
