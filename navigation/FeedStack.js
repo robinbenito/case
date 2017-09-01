@@ -1,4 +1,5 @@
-import { StackNavigator } from 'react-navigation'
+import React from 'react'
+import { StackNavigator, DrawerNavigator } from 'react-navigation'
 
 import headerOptions from '../constants/Header'
 import colors from '../constants/Colors'
@@ -8,12 +9,15 @@ import BlockStack from './BlockStack'
 import ProfileScreen from '../screens/ProfileScreen'
 import ChannelScreen from '../screens/ChannelScreen'
 
+import NotificationCountWithData from '../components/NotificationCount'
+
 const FeedStack = StackNavigator({
   feed: {
     screen: FeedScreen,
-    navigationOptions: () => ({
+    navigationOptions: ({ navigation }) => ({
       ...headerOptions,
       title: 'Feed',
+      headerRight: (<NotificationCountWithData navigation={navigation} />),
     }),
   },
   block: {
