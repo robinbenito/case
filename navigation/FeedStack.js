@@ -1,6 +1,7 @@
 import { StackNavigator } from 'react-navigation'
 
-import headerStyle from '../constants/Header'
+import headerOptions from '../constants/Header'
+import colors from '../constants/Colors'
 
 import FeedScreen from '../screens/FeedScreen'
 import BlockStack from './BlockStack'
@@ -11,42 +12,34 @@ const FeedStack = StackNavigator({
   feed: {
     screen: FeedScreen,
     navigationOptions: () => ({
+      ...headerOptions,
       title: 'Feed',
-      headerBackTitle: null,
-      headerTintColor: '#000',
-      headerStyle,
     }),
   },
   block: {
     screen: BlockStack,
     navigationOptions: () => ({
-      title: '',
-      headerBackTitle: null,
-      headerTintColor: '#000',
-      headerStyle,
+      ...headerOptions,
+      title: 'Block',
     }),
   },
   channel: {
     screen: ChannelScreen,
     navigationOptions: () => ({
-      title: '',
-      headerBackTitle: null,
-      headerTintColor: '#000',
-      headerStyle,
+      ...headerOptions,
+      title: 'Channel',
     }),
   },
   feedProfile: {
     screen: ProfileScreen,
     navigationOptions: () => ({
-      title: '',
-      headerBackTitle: null,
-      headerTintColor: '#000',
-      headerStyle,
+      ...headerOptions,
+      title: 'Profile',
     }),
   },
 }, {
   cardStyle: {
-    backgroundColor: '#fff',
+    backgroundColor: colors.gray.text,
   },
 })
 

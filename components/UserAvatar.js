@@ -29,7 +29,7 @@ const getStyles = size =>
     },
     initials: {
       fontWeight: 'bold',
-      fontSize: type.sizes.subheadline,
+      fontSize: size > 50 ? type.sizes.subheadline : type.sizes.normal,
       color: colors.gray.text,
     },
     image: {

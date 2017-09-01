@@ -10,6 +10,9 @@ import {
   View,
 } from 'react-native'
 import HTMLView from 'react-native-htmlview'
+import { decode } from 'he'
+
+import BlockItemIcon from './BlockItemIcon'
 
 import NavigatorService from '../utilities/navigationService'
 import layout from '../constants/Layout'
@@ -29,19 +32,21 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   blockTitleContainer: {
-    alignItems: 'center',
+    flex: 1,
+    flexGrow: 1,
+    alignItems: 'baseline',
     paddingVertical: layout.padding * 2,
     flexDirection: 'row',
+    justifyContent: 'center',
   },
   blockTitle: {
-    flex: 1,
     color: colors.gray.light,
-    flexWrap: 'wrap',
-    overflow: 'hidden',
     fontSize: type.sizes.small,
     alignItems: 'center',
-    paddingHorizontal: layout.padding * 2,
     textAlign: 'center',
+    justifyContent: 'center',
+    flexWrap: 'wrap',
+    overflow: 'hidden',
   },
   image: {
     flex: 1,
@@ -91,7 +96,7 @@ export default class BlockItem extends Component {
         blockInner = (
           <Image
             cache="force-cache"
-            style={[styles.image, blockSize]}
+            style={[styles.image, { width: blockSize.width - 2, height: blockSize.height - 2 }]}
             source={{ uri: block.kind.image_url, cache: 'force-cache' }}
           />
         )
@@ -117,6 +122,8 @@ export default class BlockItem extends Component {
     }
 
     const additionalStyle = __typename === 'Text' ? styles.text : {}
+    const blockTitle = block.title ? decode(block.title) : null
+
     return (
       <TouchableOpacity
         activeOpacity={0.95}
@@ -128,8 +135,9 @@ export default class BlockItem extends Component {
         </View>
         <View style={styles.blockTitleContainer}>
           <Text numberOfLines={1} style={styles.blockTitle}>
-            {block.title}
+            {blockTitle}
           </Text>
+          <BlockItemIcon block={block} />
         </View>
       </TouchableOpacity>
     )
@@ -141,7 +149,7 @@ BlockItem.fragments = {
     fragment BlockThumb on Connectable {
       __typename
       id
-      title(truncate: 55)
+      title(truncate: 30)
       updated_at(relative: true)
       user {
         id
