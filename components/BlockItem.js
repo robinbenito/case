@@ -33,7 +33,8 @@ const styles = StyleSheet.create({
   },
   blockTitleContainer: {
     flex: 1,
-    alignItems: 'center',
+    flexGrow: 1,
+    alignItems: 'baseline',
     paddingVertical: layout.padding * 2,
     flexDirection: 'row',
     justifyContent: 'center',
@@ -43,6 +44,7 @@ const styles = StyleSheet.create({
     fontSize: type.sizes.small,
     alignItems: 'center',
     textAlign: 'center',
+    justifyContent: 'center',
     flexWrap: 'wrap',
     overflow: 'hidden',
   },
