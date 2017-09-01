@@ -114,7 +114,6 @@ class LoginScreen extends React.Component {
     const password = {
       ref: 'Password',
       label: 'Password',
-      maxLength: 12,
       secureTextEntry: true,
       placeholder: 'Password',
       returnKeyType: 'go',
