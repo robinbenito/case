@@ -96,7 +96,7 @@ export default class BlockItem extends Component {
         blockInner = (
           <Image
             cache="force-cache"
-            style={[styles.image, blockSize]}
+            style={[styles.image, { width: blockSize.width - 2, height: blockSize.height - 2 }]}
             source={{ uri: block.kind.image_url, cache: 'force-cache' }}
           />
         )
