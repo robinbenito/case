@@ -46,6 +46,10 @@ class CommentForm extends React.Component {
     this.addComment = this.addComment.bind(this)
   }
 
+  componentWillUnmount() {
+    Keyboard.dismiss()
+  }
+
   onFieldChange(value) {
     this.setState({ body: value })
   }

@@ -2,7 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import {
+  Keyboard,
   StyleSheet,
+  ScrollView,
   View,
 } from 'react-native'
 
@@ -23,7 +25,9 @@ export default class CommentScreen extends React.Component {
     const { id } = this.props.navigation.state.params
     return (
       <View style={styles.container}>
-        <BlockComments id={id} />
+        <ScrollView>
+          <BlockComments id={id} />
+        </ScrollView>
         <CommentForm id={id} />
         <KeyboardSpacer />
       </View>
