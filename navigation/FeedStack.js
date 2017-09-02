@@ -39,7 +39,7 @@ const FeedStack = StackNavigator({
   },
 }, {
   cardStyle: {
-    backgroundColor: colors.gray.text,
+    backgroundColor: '#fff',
   },
 })
 
