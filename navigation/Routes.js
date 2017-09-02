@@ -1,5 +1,5 @@
 import React from 'react'
-import { StackNavigator, TabNavigator, NavigationActions } from 'react-navigation'
+import { StackNavigator, TabNavigator, NavigationActions, DrawerNavigator } from 'react-navigation'
 import { Ionicons } from '@expo/vector-icons'
 
 import ArenaLogo from '../components/ArenaLogo'
@@ -10,6 +10,8 @@ import colors from '../constants/Colors'
 import FeedStack from './FeedStack'
 import AddStack from './AddStack'
 import ProfileStack from './ProfileStack'
+
+import NotificationsScreen from '../screens/NotificationsScreen'
 
 function onTabPress(navigation, tab, jumpToIndex) {
   // if tab currently focused tab
@@ -30,10 +32,19 @@ function onTabPress(navigation, tab, jumpToIndex) {
   }
 }
 
+const FeedScreenWithDrawer = DrawerNavigator({
+  feed: {
+    screen: FeedStack,
+  },
+}, {
+  contentComponent: () => (<NotificationsScreen />),
+  header: null,
+  drawerPosition: 'right',
+})
 
 const tabs = {
   home: {
-    screen: FeedStack,
+    screen: FeedScreenWithDrawer,
     navigationOptions: ({ navigation }) => ({
       tabBarOnPress: (tab, jumpToIndex) => { onTabPress(navigation, tab, jumpToIndex) },
       tabBarIcon: options => (

@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
     marginHorizontal: layout.padding,
   },
   loadingContainer: {
+    backgroundColor: '#fff',
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
