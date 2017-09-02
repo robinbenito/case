@@ -1,7 +1,6 @@
 import { StackNavigator } from 'react-navigation'
 
 import headerOptions from '../constants/Header'
-import colors from '../constants/Colors'
 
 import FeedScreen from '../screens/FeedScreen'
 import BlockStack from './BlockStack'
@@ -39,7 +38,7 @@ const FeedStack = StackNavigator({
   },
 }, {
   cardStyle: {
-    backgroundColor: colors.gray.text,
+    backgroundColor: '#fff',
   },
 })
 
