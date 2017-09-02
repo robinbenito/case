@@ -5,8 +5,8 @@ import {
 } from 'react-native'
 import PropTypes from 'prop-types'
 
-import UserNameText from '../../../components/UserNameText'
-import ChannelNameText from '../../../components/ChannelNameText'
+import UserNameText from './UserNameText'
+import ChannelNameText from './ChannelNameText'
 
 const FeedWordLink = ({ object, phrase, style }) => {
   let objectLink

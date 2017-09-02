@@ -12,9 +12,10 @@ import {
   View,
 } from 'react-native'
 
-import FeedSentence from './FeedSentence'
-import FeedWordLink from './FeedWordLink'
 import FeedContents from './FeedContents'
+
+import FeedWordLink from '../../../components/FeedWordLink'
+import FeedSentence from '../../../components/FeedSentence'
 import BlockItem from '../../../components/BlockItem'
 import ChannelItem from '../../../components/ChannelItem'
 import Empty from '../../../components/Empty'

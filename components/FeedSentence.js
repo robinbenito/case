@@ -7,12 +7,12 @@ import {
 } from 'react-native'
 import PropTypes from 'prop-types'
 
-import UserNameText from '../../../components/UserNameText'
+import UserNameText from './UserNameText'
 import FeedWordLink from './FeedWordLink'
 
-import colors from '../../../constants/Colors'
-import typesizes from '../../../constants/Type'
-import layout from '../../../constants/Layout'
+import colors from '../constants/Colors'
+import typesizes from '../constants/Type'
+import layout from '../constants/Layout'
 
 const styles = StyleSheet.create({
   container: {
