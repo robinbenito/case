@@ -27,12 +27,14 @@ const styles = StyleSheet.create({
     borderTopColor: colors.gray.border,
     borderTopWidth: 1,
     flexDirection: 'row',
+    justifyContent: 'space-between',
     width,
   },
   option: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    paddingHorizontal: layout.padding * 2,
   },
   label: {
     fontWeight: 'bold',
@@ -47,7 +49,7 @@ export default class BlockActionTabs extends React.Component {
     return (
       <View style={styles.container}>
         <TouchableOpacity
-          style={styles.option}
+          style={[styles.option, { alignItems: 'flex-start' }]}
           onPress={() => {
             NavigatorService.navigate('connect', {
               onCancel: () => NavigatorService.back(),
@@ -56,7 +58,7 @@ export default class BlockActionTabs extends React.Component {
             })
           }}
         >
-          <Text style={styles.label}>Connect</Text>
+          <Text style={styles.label}>Connect →</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.option}
@@ -67,7 +69,7 @@ export default class BlockActionTabs extends React.Component {
           <Text style={styles.label}>Comment</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={styles.option}
+          style={[styles.option, { alignItems: 'flex-end' }]}
           onPress={() => Share.share({ url: `https://www.are.na/block/${block.id}` })}
         >
           <Text style={styles.label}>Share</Text>

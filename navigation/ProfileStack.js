@@ -1,6 +1,6 @@
 import { StackNavigator } from 'react-navigation'
 
-import headerStyle from '../constants/Header'
+import headerOptions from '../constants/Header'
 
 import BlockStack from './BlockStack'
 import ProfileScreen from '../screens/ProfileScreen'
@@ -11,29 +11,23 @@ const ProfileStack = StackNavigator({
   profile: {
     screen: ProfileScreen,
     navigationOptions: () => ({
-      title: '',
-      headerBackTitle: null,
-      headerTintColor: '#000',
-      headerStyle,
+      ...headerOptions,
+      title: 'Profile',
     }),
   },
   channel: {
     screen: ChannelScreen,
     navigationOptions: () => ({
+      ...headerOptions,
       title: '',
-      headerBackTitle: null,
-      headerTintColor: '#000',
-      headerStyle,
     }),
   },
   block: {
     screen: BlockStack,
     navigationOptions: () => ({
+      ...headerOptions,
       tabBarVisible: false,
       title: '',
-      headerBackTitle: null,
-      headerTintColor: '#000',
-      headerStyle,
     }),
   },
 }, {

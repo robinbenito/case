@@ -6,6 +6,7 @@ import gql from 'graphql-tag'
 import { concat, reject } from 'lodash'
 
 import {
+  Keyboard,
   StyleSheet,
   View,
 } from 'react-native'
@@ -132,7 +133,10 @@ class SelectConnectionScreen extends React.Component {
           channel_ids: channelIds,
         },
         refetchQueries: blockRefetchQueries,
-      }).then(() => NavigationService.back()).catch(error => console.log('error', error))
+      }).then(() => {
+        Keyboard.dismiss()
+        NavigationService.back()
+      }).catch(error => console.log('error', error))
     }
 
     return this.maybeUploadImage()
@@ -151,6 +155,7 @@ class SelectConnectionScreen extends React.Component {
         }
 
         createBlock({ variables, refetchQueries }).then((response) => {
+          Keyboard.dismiss()
           const { data: { create_block: { block } } } = response
           this.navigateToBlock(block.id, image && image.location)
         })

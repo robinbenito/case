@@ -4,30 +4,30 @@ import BlockScreen from '../screens/BlockScreen'
 import SelectConnectionsScreen from '../components/SelectConnections/index'
 import CommentScreen from '../screens/CommentScreen/index'
 
-import headerStyle from '../constants/Header'
+import headerOptions from '../constants/Header'
 
 const BlockStack = StackNavigator({
   block: {
     screen: BlockScreen,
     navigationOptions: () => ({
+      ...headerOptions,
       tabBarVisible: false,
-      headerStyle,
     }),
   },
   connect: {
     screen: SelectConnectionsScreen,
     navigationOptions: () => ({
+      ...headerOptions,
       tabBarVisible: false,
       title: 'Connect',
-      headerStyle,
     }),
   },
   comment: {
     screen: CommentScreen,
     navigationOptions: () => ({
+      ...headerOptions,
       tabBarVisible: false,
       title: 'Comment',
-      headerStyle,
     }),
   },
 }, {
