@@ -154,7 +154,11 @@ class NotificationContents extends React.Component {
         onEndReachedThreshold={0.9}
         renderItem={({ item: deed, index }) => (
           <View key={`${deed.id}-${index}`} style={styles.itemContainer} >
-            <FeedSentence deed={deed} showUnreadState onPress={() => this.markNotificationAsRead(deed.bulletin_id)} />
+            <FeedSentence
+              deed={deed}
+              showUnreadState
+              onPress={() => this.markNotificationAsRead(deed.bulletin_id)}
+            />
           </View>
           )}
       />
