@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
     marginHorizontal: layout.padding,
   },
   loadingContainer: {
+    backgroundColor: '#fff',
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
@@ -138,7 +139,7 @@ class ChannelContainer extends React.Component {
 
     if (contents.length === 0 && !contentsLoading) {
       return (
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, backgroundColor: '#fff' }}>
           {header}
           {empty}
         </View>
