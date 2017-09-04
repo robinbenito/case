@@ -15,7 +15,7 @@ import {
 import FeedContents from './FeedContents'
 
 import FeedWordLink from '../../../components/FeedWordLink'
-import FeedSentence from '../../../components/FeedSentence'
+import FeedGroupSentence from '../../../components/FeedGroupSentence'
 import BlockItem from '../../../components/BlockItem'
 import ChannelItem from '../../../components/ChannelItem'
 import Empty from '../../../components/Empty'
@@ -118,7 +118,7 @@ class FeedContainer extends React.Component {
         ListEmptyComponent={emptyComponent}
         renderItem={({ item, index }) => (
           <View key={`${item.key}-${index}`} style={styles.itemContainer} >
-            <FeedSentence group={item} />
+            <FeedGroupSentence group={item} />
             {item.items.length > 0 && <FeedContents items={item.items} verb={item.verb} />}
           </View>
           )}

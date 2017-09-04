@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
 })
 
 const FeedContents = ({ items, verb }) => {
-  const contentsItems = items.map((item) => {
+  const contentsItems = items.slice().reverse().map((item) => {
     let objectItem = null
     if (item) {
       const { __typename } = item
