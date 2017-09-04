@@ -3,7 +3,7 @@ import {
   StyleSheet,
   View,
   Text,
-
+  TouchableWithoutFeedback,
 } from 'react-native'
 import PropTypes from 'prop-types'
 
@@ -16,7 +16,7 @@ import layout from '../constants/Layout'
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: layout.padding * 2,
+    paddingVertical: layout.padding,
     paddingHorizontal: layout.padding * 2,
   },
   sentence: {
@@ -34,27 +34,46 @@ const styles = StyleSheet.create({
   },
 })
 
-const FeedSentence = ({ group }) => {
-  const { user, verb, connector, target, object } = group
+const FeedSentence = ({ deed, showUnreadState, onPress }) => {
+  const { user, action, connector, target, item, item_title: itemTitle, is_read: isRead } = deed
+
+  const color = (isRead === false && showUnreadState) ? { color: colors.state.alert } : {}
 
   return (
     <View style={styles.container}>
       <View style={styles.sentence}>
-        <Text>
-          <UserNameText user={user} mode="feed" style={styles.word} />
-          <Text style={styles.word}>{verb} </Text>
-          <FeedWordLink object={object} phrase={group.object_phrase} style={styles.word} />
+        <Text style={color}>
+          <UserNameText user={user} mode="feed" style={styles.word} onPress={onPress} />
+          <Text style={styles.word}>{action} </Text>
+          <FeedWordLink
+            object={item}
+            phrase={itemTitle}
+            style={[styles.word, color, { fontWeight: 'bold' }]}
+            onPress={onPress}
+          />
           <Text style={styles.word}>{connector} </Text>
-          <FeedWordLink object={target} phrase={group.target_phrase} style={styles.word} />
+          {target && <FeedWordLink
+            object={target}
+            phrase={target.title || target.name}
+            style={[styles.word, color]}
+            onPress={onPress}
+          />}
         </Text>
       </View>
-      <Text style={styles.date}>{group.created_at}</Text>
+      <Text style={styles.date}>{deed.created_at}</Text>
     </View>
   )
 }
 
 FeedSentence.propTypes = {
-  group: PropTypes.any.isRequired,
+  deed: PropTypes.any.isRequired,
+  showUnreadState: PropTypes.bool,
+  onPress: PropTypes.func,
+}
+
+FeedSentence.defaultProps = {
+  showUnreadState: false,
+  onPress: () => null,
 }
 
 export default FeedSentence
