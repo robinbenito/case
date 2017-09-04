@@ -27,6 +27,7 @@ export default class ChannelNameText extends React.Component {
   }
 
   goToChannel() {
+    this.props.onPress()
     NavigatorService.navigate('channel', { id: this.props.channel.id })
   }
 
@@ -54,8 +55,10 @@ ChannelNameText.propTypes = {
     title: PropTypes.string,
     slug: PropTypes.string,
   }).isRequired,
+  onPress: PropTypes.func,
 }
 
 ChannelNameText.defaultProps = {
   style: {},
+  onPress: () => null,
 }
