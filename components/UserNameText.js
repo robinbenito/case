@@ -25,6 +25,7 @@ export default class UserNameText extends React.Component {
   }
 
   goToProfile() {
+    this.props.onPress()
     NavigatorService.navigateToProfile(this.props.user.id)
   }
 
@@ -43,8 +44,10 @@ UserNameText.propTypes = {
     name: PropTypes.string,
     id: PropTypes.any,
   }).isRequired,
+  onPress: PropTypes.func,
 }
 
 UserNameText.defaultProps = {
   style: {},
+  onPress: () => null,
 }

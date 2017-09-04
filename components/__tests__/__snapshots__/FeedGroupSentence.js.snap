@@ -26,6 +26,7 @@ exports[`renders correctly 1`] = `
     >
       <UserNameText
         mode="feed"
+        onPress={[Function]}
         style={
           Object {
             "fontSize": 15,
@@ -60,6 +61,7 @@ exports[`renders correctly 1`] = `
             "title": "tumblr_noj7p2hXzj1rz4sfeo1_r1_540.jpg",
           }
         }
+        onPress={[Function]}
         phrase="an image"
         style={
           Object {
@@ -90,6 +92,7 @@ exports[`renders correctly 1`] = `
             "visibility": "public",
           }
         }
+        onPress={[Function]}
         phrase="Picture"
         style={
           Object {

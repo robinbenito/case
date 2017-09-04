@@ -3,7 +3,7 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import toJSON from 'enzyme-to-json'
 
-import FeedSentence from '../components/FeedSentence'
+import FeedGroupSentence from '../FeedGroupSentence'
 
 const group = {
   id: '3630_15271_added_1501702906',
@@ -34,7 +34,7 @@ const group = {
 
 test('renders correctly', () => {
   const tree = shallow(
-    <FeedSentence group={group} />,
+    <FeedGroupSentence group={group} />,
   )
   expect(toJSON(tree)).toMatchSnapshot()
 })

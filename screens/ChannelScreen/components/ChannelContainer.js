@@ -139,7 +139,7 @@ class ChannelContainer extends React.Component {
 
     if (contents.length === 0 && !contentsLoading) {
       return (
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, backgroundColor: '#fff' }}>
           {header}
           {empty}
         </View>

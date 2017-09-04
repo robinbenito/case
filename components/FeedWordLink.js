@@ -5,10 +5,10 @@ import {
 } from 'react-native'
 import PropTypes from 'prop-types'
 
-import UserNameText from '../../../components/UserNameText'
-import ChannelNameText from '../../../components/ChannelNameText'
+import UserNameText from './UserNameText'
+import ChannelNameText from './ChannelNameText'
 
-const FeedWordLink = ({ object, phrase, style }) => {
+const FeedWordLink = ({ object, phrase, style, onPress }) => {
   let objectLink
 
 
@@ -16,10 +16,10 @@ const FeedWordLink = ({ object, phrase, style }) => {
     const { __typename } = object
     switch (__typename) {
       case 'Channel':
-        objectLink = <ChannelNameText channel={object} style={style} />
+        objectLink = <ChannelNameText channel={object} style={style} onPress={onPress} />
         break
       case 'User':
-        objectLink = <UserNameText user={object} style={style} />
+        objectLink = <UserNameText user={object} style={style} onPress={onPress} />
         break
       default:
         objectLink = <Text style={style}>{phrase || object.title} </Text>
@@ -56,12 +56,14 @@ FeedWordLink.propTypes = {
   style: PropTypes.any,
   object: PropTypes.any,
   phrase: PropTypes.string,
+  onPress: PropTypes.func,
 }
 
 FeedWordLink.defaultProps = {
   style: {},
   object: {},
   phrase: '',
+  onPress: () => null,
 }
 
 export default FeedWordLink

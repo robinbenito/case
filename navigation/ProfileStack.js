@@ -19,7 +19,7 @@ const ProfileStack = StackNavigator({
     screen: ChannelScreen,
     navigationOptions: () => ({
       ...headerOptions,
-      title: '',
+      title: 'Channel',
     }),
   },
   block: {
@@ -27,7 +27,7 @@ const ProfileStack = StackNavigator({
     navigationOptions: () => ({
       ...headerOptions,
       tabBarVisible: false,
-      title: '',
+      title: 'Block',
     }),
   },
 }, {

@@ -64,7 +64,7 @@ class NotificationCount extends React.Component {
   }
 }
 
-const NotificationCountQuery = gql`
+export const NotificationCountQuery = gql`
   query NotificationCountQuery {
     me {
       counts {

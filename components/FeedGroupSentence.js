@@ -7,12 +7,12 @@ import {
 } from 'react-native'
 import PropTypes from 'prop-types'
 
-import UserNameText from '../../../components/UserNameText'
+import UserNameText from './UserNameText'
 import FeedWordLink from './FeedWordLink'
 
-import colors from '../../../constants/Colors'
-import typesizes from '../../../constants/Type'
-import layout from '../../../constants/Layout'
+import colors from '../constants/Colors'
+import typesizes from '../constants/Type'
+import layout from '../constants/Layout'
 
 const styles = StyleSheet.create({
   container: {
@@ -34,13 +34,13 @@ const styles = StyleSheet.create({
   },
 })
 
-const FeedSentence = ({ group }) => {
+const FeedGroupSentence = ({ group }) => {
   const { user, verb, connector, target, object } = group
 
   return (
     <View style={styles.container}>
       <View style={styles.sentence}>
-        <Text>
+        <Text >
           <UserNameText user={user} mode="feed" style={styles.word} />
           <Text style={styles.word}>{verb} </Text>
           <FeedWordLink object={object} phrase={group.object_phrase} style={styles.word} />
@@ -53,8 +53,8 @@ const FeedSentence = ({ group }) => {
   )
 }
 
-FeedSentence.propTypes = {
+FeedGroupSentence.propTypes = {
   group: PropTypes.any.isRequired,
 }
 
-export default FeedSentence
+export default FeedGroupSentence
