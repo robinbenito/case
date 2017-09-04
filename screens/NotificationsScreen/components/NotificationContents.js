@@ -10,8 +10,9 @@ import {
 } from 'react-native'
 
 import gql from 'graphql-tag'
-import { graphql } from 'react-apollo'
+import { graphql, compose } from 'react-apollo'
 
+import { NotificationCountQuery } from '../../../components/NotificationCount'
 import FeedWordLink from '../../../components/FeedWordLink'
 import FeedSentence from '../../../components/FeedSentence'
 
@@ -40,12 +41,81 @@ const styles = StyleSheet.create({
   },
 })
 
+const ReadNotificationMutation = gql`
+  mutation ReadNotificationMutation($notification_id: ID!){
+    read_notification(input: { notification_id: $notification_id }) {
+      deed {
+        __typename
+        id
+        is_read
+      }
+    }
+  }
+`
+
+const NotificationsQuery = gql`
+  query FeedQuery($offset: Int, $limit: Int){
+    me {
+      __typename
+      feed(offset: $offset, limit: $limit, type: "Notification") {
+        __typename
+        deeds {
+          __typename
+          id
+          bulletin_id
+          is_read
+          user {
+            id
+            name
+            slug
+          }
+          action
+          item_title
+          item {
+            __typename
+            ...ChannelWord
+            ...ConnectableWord
+            ...UserWord
+          }
+          connector
+          target {
+            __typename
+            ...ChannelWord
+            ...ConnectableWord
+            ...UserWord
+          }
+          created_at(relative: true)
+        }
+      }
+    }
+  }
+  ${FeedWordLink.fragments.channel}
+  ${FeedWordLink.fragments.connectable}
+  ${FeedWordLink.fragments.user}
+`
+
 class NotificationContents extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      offset: 0,
+      offset: props.offset,
+      limit: props.limit,
     }
+    this.onRefresh = this.onRefresh.bind(this)
+    this.markNotificationAsRead = this.markNotificationAsRead.bind(this)
+  }
+
+  onRefresh() {
+    this.setState({
+      offset: 0,
+    })
+    this.props.data.refetch({ notifyOnNetworkStatusChange: true })
+  }
+
+  markNotificationAsRead(notificationId) {
+    const refetchQueries = [{ query: NotificationsQuery }, { query: NotificationCountQuery }]
+    const variables = { notification_id: notificationId }
+    this.props.mutate({ variables, refetchQueries })
   }
 
   render() {
@@ -54,7 +124,7 @@ class NotificationContents extends React.Component {
 
     if (error) {
       return (
-        <View style={styles.loadingContainer} >
+        <View style={styles.loadingContainer}>
           <Text>
             Error fetching notifications
           </Text>
@@ -70,18 +140,21 @@ class NotificationContents extends React.Component {
       )
     }
 
+    const deeds = me.feed.deeds.slice().reverse()
+
     return (
       <FlatList
         style={styles.container}
         contentContainerStyle={styles.container}
-        data={me.feed.groups}
+        data={deeds}
         refreshing={loading}
+        onRefresh={this.onRefresh}
         initialNumToRender={4}
-        keyExtractor={(group, index) => `${group.key}-${index}`}
+        keyExtractor={(deed, index) => `${deed.id}-${index}`}
         onEndReachedThreshold={0.9}
-        renderItem={({ item, index }) => (
-          <View key={`${item.key}-${index}`} style={styles.itemContainer} >
-            <FeedSentence group={item} />
+        renderItem={({ item: deed, index }) => (
+          <View key={`${deed.id}-${index}`} style={styles.itemContainer} >
+            <FeedSentence deed={deed} showUnreadState onPress={() => this.markNotificationAsRead(deed.bulletin_id)} />
           </View>
           )}
       />
@@ -89,51 +162,9 @@ class NotificationContents extends React.Component {
   }
 }
 
-const NotificationsQuery = gql`
-  query FeedQuery($offset: Int, $limit: Int){
-    me {
-      __typename
-      feed(offset: $offset, limit: $limit, type: "Notification") {
-        __typename
-        groups {
-          __typename
-          id: key
-          key
-          length
-          user {
-            id
-            name
-            slug
-          }
-          is_single
-          verb
-          object {
-            __typename
-            ...ChannelWord
-            ...ConnectableWord
-            ...UserWord
-          }
-          object_phrase
-          connector
-          target {
-            __typename
-            ...ChannelWord
-            ...ConnectableWord
-            ...UserWord
-          }
-          target_phrase
-          created_at(relative: true)
-        }
-      }
-    }
-  }
-  ${FeedWordLink.fragments.channel}
-  ${FeedWordLink.fragments.connectable}
-  ${FeedWordLink.fragments.user}
-`
-
 NotificationContents.propTypes = {
   data: PropTypes.any.isRequired,
+  mutate: PropTypes.func.isRequired,
   limit: PropTypes.number,
   offset: PropTypes.number,
 }
@@ -143,6 +174,9 @@ NotificationContents.defaultProps = {
   offset: 0,
 }
 
-const NotificationsWithData = graphql(NotificationsQuery)(NotificationContents)
+const NotificationsWithData = compose(
+  graphql(NotificationsQuery),
+  graphql(ReadNotificationMutation),
+)(NotificationContents)
 
 export default NotificationsWithData
