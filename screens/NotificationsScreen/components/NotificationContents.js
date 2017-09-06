@@ -56,6 +56,7 @@ const ReadNotificationMutation = gql`
 const NotificationsQuery = gql`
   query FeedQuery($offset: Int, $limit: Int){
     me {
+      id
       __typename
       feed(offset: $offset, limit: $limit, type: "Notification") {
         __typename
