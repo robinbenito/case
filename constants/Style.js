@@ -1,11 +1,17 @@
 export const Colors = {
   black: 'black',
-  // TODO: Import real values
-  grayBold: '#333',
-  graySemiBold: '#777',
-  grayMedium: '#999',
-  grayRegular: '#ccc',
-  grayLight: '#eee',
+  white: 'white',
+  gray: {
+    bold: '#333',
+    semiBold: '#777',
+    medium: '#999',
+    regular: '#ccc',
+    light: '#eee',
+  },
+  state: {
+    premium: '#00c5ff',
+    alert: '#e24d4d',
+  },
 }
 
 export const Units = {
@@ -14,7 +20,7 @@ export const Units = {
 
 export const Border = {
   borderWidth: 1.5,
-  borderColor: Colors.graySemiBold,
+  borderColor: Colors.gray.regular,
   borderRadius: 3,
 }
 
@@ -26,6 +32,8 @@ export const Typography = {
   },
   fontSize: {
     base: 17,
+    small: 15,
+    xsmall: 12,
   },
   lineHeight: {
     base: null, // TODO

@@ -1,17 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { StyleSheet, Text } from 'react-native'
-
-import layout from '../constants/Layout'
-import colors from '../constants/Colors'
-import typography from '../constants/Type'
+import { Typography, Colors, Units } from '../constants/Style'
 
 const styles = StyleSheet.create({
   message: {
-    margin: layout.unit,
-    fontSize: typography.sizes.normal,
-    lineHeight: typography.lineHeights.normal,
-    color: colors.state.alert,
+    margin: Units.base,
+    fontSize: Typography.fontSize.xsmall,
+    color: Colors.state.alert,
     textAlign: 'center',
   },
 })

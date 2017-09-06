@@ -22,7 +22,6 @@ class LoginScreen extends React.Component {
     super(props)
 
     this.state = {
-      loggedIn: false,
       email: '',
       password: '',
     }
@@ -43,13 +42,13 @@ class LoginScreen extends React.Component {
 
       return this.props.onLogin()
     } catch (err) {
-      this.setState({
-        error: formatErrors(err),
-      })
+      const error = formatErrors(err)
+      this.setState({ error })
 
+      // Clear error messages after a moment
       setTimeout(() => {
         this.setState({ error: null })
-      }, 25000)
+      }, 5000)
 
       return false
     }
@@ -63,17 +62,19 @@ class LoginScreen extends React.Component {
           placeholder="Email address"
           keyboardType="email-address"
           onChangeText={email => this.setState({ email })}
+          autoCorrect={false}
         />
         <UnderlineInput
+          secureTextEntry
           placeholder="Password"
           autoCapitalize="none"
           onChangeText={password => this.setState({ password })}
           onSubmitEditing={this.onSubmit}
-          secureTextEntry
+          autoCorrect={false}
         />
         <ErrorMessage message={this.state.error} />
         <PillButton onPress={this.onSubmit}>
-          Login
+          Log In
         </PillButton>
       </View>
     )

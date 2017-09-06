@@ -5,8 +5,8 @@ import { Border, Typography, Units } from '../constants/Style'
 
 const styles = StyleSheet.create({
   pill: {
-    width: '75%',
-    marginHorizontal: '12.5%',
+    width: '50%',
+    marginHorizontal: '25%',
     flexDirection: 'row',
     justifyContent: 'center',
     paddingHorizontal: Units.base * 2,
