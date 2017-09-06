@@ -4,7 +4,10 @@ import {
 
 const BLOCK_WIDTH_MULTIPLIER = 0.85
 
+// TODO: Organize this...
 export default {
+  unit: 10,
+  borderRadius: 3,
   padding: 10,
   infoWidth: 260,
   topbar: 70,
