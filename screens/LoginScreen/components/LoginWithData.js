@@ -6,8 +6,8 @@ import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 
 import formatErrors from '../../../utilities/formatErrors'
-import GenericButton from '../../../components/GenericButton'
-import GenericInput from '../../../components/GenericInput'
+import PillButton from '../../../components/PillButton'
+import UnderlineInput from '../../../components/UnderlineInput'
 import ErrorMessage from '../../../components/ErrorMessage'
 
 const styles = StyleSheet.create({
@@ -58,13 +58,13 @@ class LoginScreen extends React.Component {
   render() {
     return (
       <View style={styles.form}>
-        <GenericInput
+        <UnderlineInput
           autoCapitalize="none"
           placeholder="Email address"
           keyboardType="email-address"
           onChangeText={email => this.setState({ email })}
         />
-        <GenericInput
+        <UnderlineInput
           placeholder="Password"
           autoCapitalize="none"
           onChangeText={password => this.setState({ password })}
@@ -72,10 +72,9 @@ class LoginScreen extends React.Component {
           secureTextEntry
         />
         <ErrorMessage message={this.state.error} />
-        <GenericButton
-          label="Login"
-          onPress={this.onSubmit}
-        />
+        <PillButton onPress={this.onSubmit}>
+          Login
+        </PillButton>
       </View>
     )
   }
