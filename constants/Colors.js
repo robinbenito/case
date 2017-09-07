@@ -1,3 +1,7 @@
+// DO NOT USE DEFINITIONS FROM THIS FILE
+// DO NOT ADD DEFINITIONS TO THIS FILE
+// TODO: Delete this file
+
 const tintColor = '#000'
 
 export default {

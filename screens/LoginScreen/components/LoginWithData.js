@@ -1,49 +1,18 @@
 import React from 'react'
-import {
-  StyleSheet,
-  Text,
-  TouchableHighlight,
-  View,
-  AsyncStorage,
-} from 'react-native'
+import { StyleSheet, View, AsyncStorage } from 'react-native'
 import PropTypes from 'prop-types'
 
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 
-import t from 'tcomb-form-native'
-import stylesheet from '../../../styles/form'
-
-t.form.Form.stylesheet = stylesheet
-const Form = t.form.Form
+import formatErrors from '../../../utilities/formatErrors'
+import PillButton from '../../../components/PillButton'
+import UnderlineInput from '../../../components/UnderlineInput'
+import ErrorMessage from '../../../components/ErrorMessage'
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 40,
-  },
-  buttonText: {
-    fontSize: 14,
-    color: '#000',
-    alignSelf: 'center',
-    fontWeight: '500',
-  },
-  error: {
-    color: 'red',
-    textAlign: 'center',
-    alignSelf: 'center',
-    marginBottom: 2,
-  },
-  button: {
-    height: 36,
-    width: 300,
-    borderColor: '#000',
-    borderWidth: 1,
-    marginTop: 10,
-    marginBottom: 10,
-    alignSelf: 'center',
+  form: {
+    alignSelf: 'stretch',
     justifyContent: 'center',
   },
 })
@@ -51,100 +20,62 @@ const styles = StyleSheet.create({
 class LoginScreen extends React.Component {
   constructor(props) {
     super(props)
+
     this.state = {
-      loggedIn: false,
-      user: null,
-      error: null,
-      value: {
-        email: '',
-        password: '',
-      },
+      email: '',
+      password: '',
     }
 
-    this.onPress = this.onPress.bind(this)
-    this.onChange = this.onChange.bind(this)
+    this.onSubmit = this.onSubmit.bind(this)
   }
 
-  onChange(value) {
-    this.setState({ value })
-  }
-
-  async onPress() {
-    const { email, password } = this.state.value
-    const options = {
-      variables: {
-        email,
-        password,
-      },
-    }
-
-    let response
+  async onSubmit() {
+    const { email, password } = this.state
 
     try {
-      response = await this.props.mutate(options)
-    } catch (error) {
-      return this.setState({
-        error: 'Login failed, please try again.',
+      const res = await this.props.mutate({
+        variables: { email, password },
       })
-    }
 
-    try {
-      const currentUser = JSON.stringify(response.data.login.me)
+      const currentUser = JSON.stringify(res.data.login.me)
       await AsyncStorage.setItem('@arena:CurrentUser', currentUser)
-    } catch (error) {
-      return this.setState({
-        error: 'Error logging in, please try again',
-      })
+
+      return this.props.onLogin()
+    } catch (err) {
+      const error = formatErrors(err)
+      this.setState({ error })
+
+      // Clear error messages after a moment
+      setTimeout(() => {
+        this.setState({ error: null })
+      }, 5000)
+
+      return false
     }
-    return this.props.onLogin()
   }
 
   render() {
-    const email = {
-      label: 'Email',
-      keyboardType: 'email-address',
-      autoCapitalize: 'none',
-      placeholder: 'Email address',
-      returnKeyType: 'next',
-      onSubmitEditing: () => {
-        this.refs.form.getComponent('password').refs.input.focus()
-      },
-    }
-
-    const password = {
-      ref: 'Password',
-      label: 'Password',
-      secureTextEntry: true,
-      placeholder: 'Password',
-      returnKeyType: 'go',
-      onSubmitEditing: this.onPress,
-    }
-
-    const loginForm = t.struct({
-      email: t.String,
-      password: t.String,
-    })
-
-    const options = {
-      stylesheet,
-      fields: {
-        email,
-        password,
-      },
-    }
-
     return (
-      <View>
-        <Form
-          type={loginForm}
-          options={options}
-          value={this.state.value}
-          onChange={this.onChange}
+      <View style={styles.form}>
+        <UnderlineInput
+          autoCapitalize="none"
+          placeholder="Email address"
+          keyboardType="email-address"
+          onChangeText={email => this.setState({ email })}
+          autoCorrect={false}
         />
-        <Text style={styles.error}>{this.state.error}</Text>
-        <TouchableHighlight style={styles.button} onPress={this.onPress}>
-          <Text style={styles.buttonText}>Login</Text>
-        </TouchableHighlight>
+        <UnderlineInput
+          secureTextEntry
+          placeholder="Password"
+          autoCapitalize="none"
+          onChangeText={password => this.setState({ password })}
+          onSubmitEditing={this.onSubmit}
+          autoCorrect={false}
+        />
+        <ErrorMessage message={this.state.error} />
+        <PillButton onPress={this.onSubmit}>
+          Log In
+        </PillButton>
       </View>
     )
   }
