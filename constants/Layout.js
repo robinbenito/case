@@ -1,10 +1,13 @@
+// DO NOT USE DEFINITIONS FROM THIS FILE
+// DO NOT ADD DEFINITIONS TO THIS FILE
+// TODO: Delete this file
+
 import {
   Dimensions,
 } from 'react-native'
 
 const BLOCK_WIDTH_MULTIPLIER = 0.85
 
-// TODO: Organize this...
 export default {
   unit: 10,
   borderRadius: 3,
