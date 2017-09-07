@@ -1,0 +1,160 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<View
+  keyboardVerticalOffset={0}
+  onLayout={[Function]}
+  style={
+    Array [
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "white",
+        "flex": 1,
+        "justifyContent": "center",
+      },
+      Object {
+        "paddingBottom": 0,
+      },
+    ]
+  }
+>
+  <Image
+    source={1}
+    style={
+      Object {
+        "height": 50,
+        "marginBottom": 50,
+        "width": 50,
+      }
+    }
+  />
+  <View
+    style={
+      Object {
+        "alignSelf": "stretch",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "borderBottomWidth": 1.5,
+          "borderColor": "#ccc",
+          "marginHorizontal": "12.5%",
+          "marginVertical": 10,
+          "width": "75%",
+        }
+      }
+    >
+      <TextInput
+        autoCapitalize="none"
+        autoCorrect={false}
+        keyboardType="email-address"
+        onChangeText={[Function]}
+        placeholder="Email address"
+        style={
+          Object {
+            "fontSize": 15,
+            "height": 25,
+            "paddingHorizontal": 5,
+          }
+        }
+      />
+    </View>
+    <View
+      style={
+        Object {
+          "borderBottomWidth": 1.5,
+          "borderColor": "#ccc",
+          "marginHorizontal": "12.5%",
+          "marginVertical": 10,
+          "width": "75%",
+        }
+      }
+    >
+      <TextInput
+        autoCapitalize="none"
+        autoCorrect={false}
+        onChangeText={[Function]}
+        onSubmitEditing={[Function]}
+        placeholder="Password"
+        secureTextEntry={true}
+        style={
+          Object {
+            "fontSize": 15,
+            "height": 25,
+            "paddingHorizontal": 5,
+          }
+        }
+      />
+    </View>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      disabled={false}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "color": "#e24d4d",
+          "fontSize": 12,
+          "margin": 10,
+          "textAlign": "center",
+        }
+      }
+    />
+    <View
+      accessibilityComponentType={undefined}
+      accessibilityLabel={undefined}
+      accessibilityTraits={undefined}
+      accessible={true}
+      hasTVPreferredFocus={undefined}
+      hitSlop={undefined}
+      isTVSelectable={true}
+      nativeID={undefined}
+      onLayout={undefined}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Array [
+          Object {
+            "backgroundColor": "transparent",
+          },
+          Object {
+            "borderColor": "#ccc",
+            "borderRadius": 3,
+            "borderWidth": 1.5,
+            "flexDirection": "row",
+            "justifyContent": "center",
+            "marginHorizontal": "25%",
+            "paddingHorizontal": 20,
+            "paddingVertical": 10,
+            "width": "50%",
+          },
+        ]
+      }
+      testID={undefined}
+      tvParallaxProperties={undefined}
+    >
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        disabled={false}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "fontSize": 17,
+            "fontWeight": "500",
+          }
+        }
+      >
+        Log In
+      </Text>
+    </View>
+  </View>
+</View>
+`;
