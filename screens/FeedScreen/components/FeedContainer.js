@@ -130,6 +130,7 @@ class FeedContainer extends React.Component {
 const FeedQuery = gql`
   query FeedQuery($offset: Int, $limit: Int){
     me {
+      id
       __typename
       feed(offset: $offset, limit: $limit) {
         __typename

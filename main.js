@@ -7,6 +7,7 @@ import {
 } from 'react-native'
 import { ApolloProvider } from 'react-apollo'
 import { updateFocus } from 'react-navigation-is-focused-hoc'
+import gql from 'graphql-tag'
 
 import { createRootNavigator } from './navigation/Routes'
 
@@ -56,9 +57,13 @@ class AppContainer extends React.Component {
 
   async checkLoginStateAsync() {
     try {
-      const currentUser = await AsyncStorage.getItem('@arena:CurrentUser')
+      const currentUser = await Promise.all([
+        AsyncStorage.getItem('@arena:CurrentUser'),
+        Client.query({ query: gql`{ me { id } }` }), // Ping user to check to see if actually logged in
+      ]).then(([user]) => user)
       this.setState({ loggedIn: currentUser !== null, storageChecked: true })
-    } catch (e) {
+    } catch (err) {
+      console.log(err)
       this.setState({ loggedIn: false, storageChecked: true })
     }
   }

@@ -16,12 +16,12 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 20,
-    backgroundColor: '#fff',
+    backgroundColor: 'white',
   },
   logo: {
-    width: 100,
-    height: 100,
+    width: 50,
+    height: 50,
+    marginBottom: 50,
   },
 })
 
