@@ -60,7 +60,7 @@ class RecentConnections extends Component {
 export const RecentConnectionsQuery = gql`
   query RecentConnectionsQuery {
     me {
-      name
+      id
       recent_connections(per: 5) {
         ...ChannelThumb
       }

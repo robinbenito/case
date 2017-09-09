@@ -67,6 +67,7 @@ class NotificationCount extends React.Component {
 export const NotificationCountQuery = gql`
   query NotificationCountQuery {
     me {
+      id
       counts {
         notifications
       }
@@ -84,4 +85,6 @@ NotificationCount.defaultProps = {
   navigation: {},
 }
 
-export default graphql(NotificationCountQuery)(NotificationCount)
+export default graphql(NotificationCountQuery, {
+  options: { pollInterval: 20000 },
+})(NotificationCount)

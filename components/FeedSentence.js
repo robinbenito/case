@@ -47,7 +47,7 @@ const FeedSentence = ({ deed, showUnreadState, onPress }) => {
           <FeedWordLink
             object={item}
             phrase={itemTitle}
-            style={[styles.word, color, { fontWeight: 'bold' }]}
+            style={[styles.word, color]}
             onPress={onPress}
           />
           <Text style={styles.word}>{connector} </Text>

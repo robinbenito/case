@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import {
   Alert,
   Clipboard,
+  Keyboard,
   StyleSheet,
   View,
 } from 'react-native'
@@ -50,6 +51,7 @@ export default class AddLinkScreen extends React.Component {
   componentDidMount() {
     Clipboard.getString().then((string) => {
       if (isURL(string)) {
+        Keyboard.dismiss()
         this.clipboardPrompt(string)
         Clipboard.setString('')
       }

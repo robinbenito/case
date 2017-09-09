@@ -7,6 +7,7 @@ import PropTypes from 'prop-types'
 
 import UserNameText from './UserNameText'
 import ChannelNameText from './ChannelNameText'
+import BlockLink from './BlockLink'
 
 const FeedWordLink = ({ object, phrase, style, onPress }) => {
   let objectLink
@@ -20,6 +21,9 @@ const FeedWordLink = ({ object, phrase, style, onPress }) => {
         break
       case 'User':
         objectLink = <UserNameText user={object} style={style} onPress={onPress} />
+        break
+      case 'Connectable':
+        objectLink = <BlockLink block={object} style={style} onPress={onPress} />
         break
       default:
         objectLink = <Text style={style}>{phrase || object.title} </Text>

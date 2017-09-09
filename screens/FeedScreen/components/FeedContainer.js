@@ -213,10 +213,11 @@ const FeedContainerWithData = graphql(FeedQuery, {
           },
           updateQuery: (previousResult, { fetchMoreResult }) => {
             if (!fetchMoreResult.me.feed.groups.length) { return previousResult }
-            const { __typename: meTypename } = previousResult.me
+            const { __typename: meTypename, id } = previousResult.me
             const { __typename: feedTypename } = previousResult.me.feed
             const response = {
               me: {
+                id,
                 __typename: meTypename,
                 feed: {
                   __typename: feedTypename,
