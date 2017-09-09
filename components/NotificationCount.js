@@ -45,10 +45,12 @@ class NotificationCount extends React.Component {
       {}
 
     return (
-      <TouchableWithoutFeedback style={[styles.container, extraClass]} onPress={onPress}>
-        <Text style={styles.count}>
-          {data.me.counts.notifications}
-        </Text>
+      <TouchableWithoutFeedback onPress={onPress}>
+        <View style={[styles.container, extraClass]} >
+          <Text style={styles.count}>
+            {data.me.counts.notifications}
+          </Text>
+        </View>
       </TouchableWithoutFeedback>
     )
   }
