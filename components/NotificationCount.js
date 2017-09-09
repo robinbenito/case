@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import {
   StyleSheet,
   Text,
-  TouchableHighlight,
+  TouchableWithoutFeedback,
   View,
 } from 'react-native'
 
@@ -45,11 +45,11 @@ class NotificationCount extends React.Component {
       {}
 
     return (
-      <TouchableHighlight style={[styles.container, extraClass]} onPress={onPress}>
+      <TouchableWithoutFeedback style={[styles.container, extraClass]} onPress={onPress}>
         <Text style={styles.count}>
           {data.me.counts.notifications}
         </Text>
-      </TouchableHighlight>
+      </TouchableWithoutFeedback>
     )
   }
 }
