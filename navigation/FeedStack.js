@@ -16,7 +16,7 @@ const FeedStack = StackNavigator({
     navigationOptions: ({ navigation }) => ({
       ...headerOptions,
       title: 'Feed',
-      headerRight: (<NotificationCountWithData navigation={navigation} />),
+      headerRight: (<NotificationCountWithData onPress={() => navigation.navigate('DrawerOpen')} />),
     }),
   },
   block: {

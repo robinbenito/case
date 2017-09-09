@@ -33,18 +33,8 @@ const styles = StyleSheet.create({
 })
 
 class NotificationCount extends React.Component {
-  constructor(props) {
-    super(props)
-    this.onPress = this.onPress.bind(this)
-  }
-
-  onPress() {
-    const { navigation } = this.props
-    navigation.navigate('DrawerOpen')
-  }
-
   render() {
-    const { data } = this.props
+    const { data, onPress } = this.props
 
     if (data.loading || data.error) {
       return (<View />)
@@ -55,7 +45,7 @@ class NotificationCount extends React.Component {
       {}
 
     return (
-      <TouchableHighlight style={[styles.container, extraClass]} onPress={this.onPress}>
+      <TouchableHighlight style={[styles.container, extraClass]} onPress={onPress}>
         <Text style={styles.count}>
           {data.me.counts.notifications}
         </Text>
@@ -77,12 +67,12 @@ export const NotificationCountQuery = gql`
 
 NotificationCount.propTypes = {
   data: PropTypes.any.isRequired,
-  navigation: PropTypes.any,
+  onPress: PropTypes.func,
 }
 
 NotificationCount.defaultProps = {
   data: {},
-  navigation: {},
+  onPress: () => null,
 }
 
 export default graphql(NotificationCountQuery, {
