@@ -8,7 +8,7 @@ import BlockStack from './BlockStack'
 import ProfileScreen from '../screens/ProfileScreen'
 import ChannelScreen from '../screens/ChannelScreen'
 
-import NotificationCountWithData from '../components/NotificationCount'
+import HeaderIcon from '../screens/FeedScreen/components/HeaderIcons'
 
 const FeedStack = StackNavigator({
   feed: {
@@ -16,7 +16,7 @@ const FeedStack = StackNavigator({
     navigationOptions: ({ navigation }) => ({
       ...headerOptions,
       title: 'Feed',
-      headerRight: (<NotificationCountWithData onPress={() => navigation.navigate('DrawerOpen')} />),
+      headerRight: (<HeaderIcon navigation={navigation} />),
     }),
   },
   block: {
