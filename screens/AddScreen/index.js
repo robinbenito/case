@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {
+  CameraRoll,
   StyleSheet,
   View,
 } from 'react-native'
@@ -62,6 +63,7 @@ class AddScreen extends React.Component {
   async showCamera() {
     const result = await ImagePicker.launchCameraAsync({})
     if (!result.cancelled) {
+      CameraRoll.saveToCameraRoll(result.uri)
       this.setState({ image: result.uri })
       this.navigateToConnect()
     }
