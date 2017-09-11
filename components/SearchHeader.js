@@ -57,7 +57,14 @@ export default class SearchHeader extends React.Component {
     this.state = {
       isSearching: false,
       search: '',
+      isSubmitting: false,
     }
+    this.onSubmit = this.onSubmit.bind(this)
+  }
+
+  onSubmit() {
+    this.setState({ isSubmitting: true })
+    this.props.onSubmit()
   }
 
   onChangeText(text) {
@@ -69,9 +76,9 @@ export default class SearchHeader extends React.Component {
   }
 
   render() {
-    const { style, cancelOrDone, onSubmit, onCancel } = this.props
-    const { search } = this.state
-    const buttonFunc = cancelOrDone === 'Cancel' ? onCancel : onSubmit
+    const { style, cancelOrDone, onCancel } = this.props
+    const { search, isSubmitting } = this.state
+    const buttonFunc = cancelOrDone === 'Cancel' ? onCancel : this.onSubmit
 
     return (
       <View style={styles.container}>
@@ -83,7 +90,7 @@ export default class SearchHeader extends React.Component {
             value={search}
             clearButtonMode="while-editing"
           />
-          <TouchableOpacity onPress={buttonFunc}>
+          <TouchableOpacity onPress={buttonFunc} disabled={isSubmitting}>
             <Text style={styles.text}>
               {cancelOrDone}
             </Text>
