@@ -12,7 +12,6 @@ import BlockLink from './BlockLink'
 const FeedWordLink = ({ object, phrase, style, onPress }) => {
   let objectLink
 
-
   if (object) {
     const { __typename } = object
     switch (__typename) {
