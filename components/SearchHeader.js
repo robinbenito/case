@@ -89,6 +89,7 @@ export default class SearchHeader extends React.Component {
             autoCapitalize="none"
             value={search}
             clearButtonMode="while-editing"
+            autoFocus
           />
           <TouchableOpacity onPress={buttonFunc} disabled={isSubmitting}>
             <Text style={styles.text}>
