@@ -1,5 +1,5 @@
 import React from 'react'
-import { StackNavigator, TabNavigator, NavigationActions, DrawerNavigator } from 'react-navigation'
+import { TabNavigator, NavigationActions, DrawerNavigator } from 'react-navigation'
 import { Ionicons } from '@expo/vector-icons'
 
 import ArenaLogo from '../components/ArenaLogo'

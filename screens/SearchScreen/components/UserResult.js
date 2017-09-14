@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   metaText: {
     fontSize: Typography.fontSize.xsmall,
     color: Colors.gray.semiBold,
-  }
+  },
 })
 
 export default class SearchResultUserItem extends React.Component {
