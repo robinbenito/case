@@ -6,8 +6,8 @@ import NavigationService from '../utilities/navigationService'
 
 import { Colors } from '../constants/Style'
 
-export default props => (
-  <TouchableWithoutFeedback onPress={() => NavigationService.navigate('searchModal') }>
-    <Ionicons name='ios-search-outline' size={25} color={Colors.gray.medium} />
+export default () => (
+  <TouchableWithoutFeedback onPress={() => NavigationService.navigate('search')}>
+    <Ionicons name="ios-search-outline" size={25} color={Colors.gray.medium} />
   </TouchableWithoutFeedback>
 )
