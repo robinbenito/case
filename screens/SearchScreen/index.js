@@ -1,30 +1,81 @@
 import React from 'react'
 import {
-  Text,
-  View
+  StyleSheet,
+  View,
 } from 'react-native'
 
-import { NavigationActions } from 'react-navigation'
-
 import SearchHeader from '../../components/SearchHeader'
+import TabToggle from '../../components/TabToggle'
+import SearchContents from './components/SearchContents'
+
+import NavigationService from '../../utilities/navigationService'
+
+import { Colors } from '../../constants/Style'
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  innerContainer: {
+    flex: 1,
+    marginTop: 65,
+  },
+})
+
+const tabOptions = {
+  Channels: 'CHANNEL',
+  Users: 'USER',
+  Blocks: 'CONNECTABLE',
+}
 
 export default class SearchScreen extends React.Component {
   constructor(props) {
     super(props)
+    this.state = {
+      q: null,
+      type: 'CHANNEL',
+    }
     this.onCancel = this.onCancel.bind(this)
+    this.onToggle = this.onToggle.bind(this)
   }
 
   onCancel() {
-    const { navigation } = this.props
-    navigation.dispatch(NavigationActions.back())
+    NavigationService.back()
+    return this
+  }
+
+  onToggle(value) {
+    const type = tabOptions[value]
+    this.setState({ type })
+  }
+
+  search(q) {
+    this.setState({ q })
   }
 
   render() {
-    const { navigation } = this.props
+    const { type } = this.state
+
     return (
-      <View >
-        <SearchHeader onCancel={this.onCancel} />
+      <View style={styles.container}>
+        <SearchHeader
+          onCancel={this.onCancel}
+          onChangeText={q => this.search(q)}
+        />
+        <View style={styles.innerContainer}>
+          <TabToggle
+            selectedSegment={type}
+            onToggleChange={this.onToggle}
+            options={tabOptions}
+            style={{ backgroundColor: Colors.gray.extraLight }}
+          />
+          <SearchContents q={this.state.q} type={type} />
+        </View>
       </View>
     )
   }
+}
+
+SearchScreen.propTypes = {
+  
 }
