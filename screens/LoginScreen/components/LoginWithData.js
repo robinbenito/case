@@ -6,9 +6,10 @@ import { graphql } from 'react-apollo'
 
 import CurrentUser from '../../../utilities/currentUserService'
 import formatErrors from '../../../utilities/formatErrors'
-import PillButton from '../../../components/PillButton'
 import ErrorMessage from '../../../components/ErrorMessage'
 import { UnderlineInput } from '../../../components/UI/Inputs'
+import { BlockButton, ButtonLabel } from '../../../components/UI/Buttons'
+import { CenterColumn } from '../../../components/UI/Layout'
 
 const styles = StyleSheet.create({
   form: {
@@ -72,9 +73,11 @@ class LoginScreen extends React.Component {
           autoCorrect={false}
         />
         <ErrorMessage message={this.state.error} />
-        <PillButton onPress={this.onSubmit}>
-          Log In
-        </PillButton>
+        <CenterColumn>
+          <BlockButton onPress={this.onSubmit}>
+            <ButtonLabel>Log In</ButtonLabel>
+          </BlockButton>
+        </CenterColumn>
       </View>
     )
   }

@@ -38,15 +38,6 @@ export const StackedInputBorder = styled.View`
   border-color: ${Border.borderColor};
 `
 
-export const StackedButtonBorder = styled.TouchableHighlight.attrs({
-  underlayColor: Border.borderColor,
-})`
-  border-top-width: ${Units.hairlineWidth};
-  border-color: ${Border.borderColor};
-  padding-vertical: ${Units.base};
-  padding-left: ${Units.base};
-`
-
 export const StackedInput = props => (
   <StackedInputBorder>
     <Input {...props} />
@@ -72,21 +63,3 @@ export const UnderlineInput = props => (
     <ShortTextInput {...props} />
   </Underline>
 )
-
-// Move this out of file
-export const StackedButtonLabel = styled.Text`
-  font-size: ${Typography.fontSize.small};
-  padding-vertical: ${Units.base / 3};
-  padding-right: ${Units.base};
-  color: ${Colors.semantic.text};
-`
-
-export const StackedButton = ({ children, ...rest }) => (
-  <StackedButtonBorder {...rest}>
-    <StackedButtonLabel>{children}</StackedButtonLabel>
-  </StackedButtonBorder>
-)
-
-StackedButton.propTypes = {
-  children: PropTypes.node.isRequired,
-}

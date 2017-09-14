@@ -12,3 +12,10 @@ export const CenteringPane = styled(KeyboardAvoidingView)`
   justify-content: center;
   background-color: white;
 `
+
+export const CenterColumn = styled.View`
+  width: 50%;
+  margin-horizontal: 25%;
+  flex-direction: row;
+  justify-content: center;
+`
