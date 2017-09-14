@@ -7,8 +7,8 @@ import { graphql } from 'react-apollo'
 import CurrentUser from '../../../utilities/currentUserService'
 import formatErrors from '../../../utilities/formatErrors'
 import PillButton from '../../../components/PillButton'
-import UnderlineInput from '../../../components/UnderlineInput'
 import ErrorMessage from '../../../components/ErrorMessage'
+import { UnderlineInput } from '../../../components/UI/Inputs'
 
 const styles = StyleSheet.create({
   form: {

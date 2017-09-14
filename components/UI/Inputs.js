@@ -53,6 +53,27 @@ export const StackedInput = props => (
   </StackedInputBorder>
 )
 
+export const Underline = styled.View`
+  width: 75%;
+  margin-horizontal: 12.5%;
+  margin-vertical: ${Units.base};
+  border-color: ${Border.borderColor};
+  border-bottom-width: ${Border.borderWidth};
+`
+
+export const ShortTextInput = styled.TextInput`
+  font-size: ${Typography.fontSize.small};
+  height: ${Typography.fontSize.small + Units.base};
+  padding-horizontal: ${Units.base / 2};
+`
+
+export const UnderlineInput = props => (
+  <Underline>
+    <ShortTextInput {...props} />
+  </Underline>
+)
+
+// Move this out of file
 export const StackedButtonLabel = styled.Text`
   font-size: ${Typography.fontSize.small};
   padding-vertical: ${Units.base / 3};
