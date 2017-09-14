@@ -7,10 +7,16 @@ export const Colors = {
     medium: '#999',
     regular: '#ccc',
     light: '#eee',
+    extraLight: '#f7f7f7',
   },
   state: {
     premium: '#00c5ff',
     alert: '#e24d4d',
+  },
+  channel: {
+    closed: '#4b3d67',
+    public: '#17ac10',
+    private: '#b60202',
   },
 }
 
