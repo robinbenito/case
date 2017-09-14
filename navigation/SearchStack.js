@@ -1,4 +1,3 @@
-import React from 'react'
 import { StackNavigator } from 'react-navigation'
 
 import headerOptions from '../constants/Header'
@@ -8,12 +7,11 @@ import BlockStack from './BlockStack'
 import ProfileScreen from '../screens/ProfileScreen'
 import ChannelScreen from '../screens/ChannelScreen'
 
-import HeaderIcon from '../screens/FeedScreen/components/HeaderIcons'
 
 const FeedStack = StackNavigator({
   search: {
     screen: SearchScreen,
-    navigationOptions: ({ navigation }) => ({
+    navigationOptions: () => ({
       header: null,
     }),
   },
@@ -22,6 +20,7 @@ const FeedStack = StackNavigator({
     navigationOptions: () => ({
       ...headerOptions,
       title: 'Block',
+      mode: 'card',
     }),
   },
   channel: {
@@ -29,18 +28,19 @@ const FeedStack = StackNavigator({
     navigationOptions: () => ({
       ...headerOptions,
       title: 'Channel',
+      mode: 'card',
     }),
   },
-  feedProfile: {
+  searchProfile: {
     screen: ProfileScreen,
     navigationOptions: () => ({
       ...headerOptions,
       title: 'Profile',
+      mode: 'card',
     }),
   },
 }, {
-  headerMode: 'none',
-  mode: 'modal',
+  mode: 'card',
   cardStyle: {
     backgroundColor: '#fff',
   },
