@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
 
 export default class TabToggle extends Component {
   render() {
-    const { options, selectedSegment } = this.props
+    const { options, selectedSegment, style } = this.props
     const labelKeys = keys(options)
 
     const tabs = labelKeys.map((label) => {
@@ -56,7 +56,7 @@ export default class TabToggle extends Component {
     })
 
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, style]}>
         {tabs}
       </View>
     )
@@ -64,7 +64,12 @@ export default class TabToggle extends Component {
 }
 
 TabToggle.propTypes = {
+  style: PropTypes.any,
   options: PropTypes.any.isRequired,
   onToggleChange: PropTypes.func.isRequired,
   selectedSegment: PropTypes.string.isRequired,
+}
+
+TabToggle.defaultProps = {
+  style: {},
 }

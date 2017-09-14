@@ -14,6 +14,11 @@ export const Colors = {
     premium: '#00c5ff',
     alert: '#e24d4d',
   },
+  channel: {
+    closed: '#4b3d67',
+    public: '#17ac10',
+    private: '#b60202',
+  },
   semantic: {
     text: '#333',
     background: '#f7f7f7',

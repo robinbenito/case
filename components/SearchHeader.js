@@ -28,17 +28,17 @@ const styles = StyleSheet.create({
     width,
   },
   innerContainer: {
-    borderRadius: 0.5,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
   },
   input: {
+    borderRadius: 5,
     fontSize: type.sizes.normal,
     backgroundColor: colors.gray.border,
     marginRight: layout.padding,
-    height: 40,
+    height: 35,
     padding: layout.padding,
     flex: 4,
   },
@@ -89,6 +89,7 @@ export default class SearchHeader extends React.Component {
             autoCapitalize="none"
             value={search}
             clearButtonMode="while-editing"
+            autoFocus
           />
           <TouchableOpacity onPress={buttonFunc} disabled={isSubmitting}>
             <Text style={styles.text}>

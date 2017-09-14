@@ -1,15 +1,18 @@
 import React from 'react'
-import { StackNavigator, TabNavigator, NavigationActions, DrawerNavigator } from 'react-navigation'
+import { TabNavigator, NavigationActions, DrawerNavigator } from 'react-navigation'
 import { Ionicons } from '@expo/vector-icons'
 
 import ArenaLogo from '../components/ArenaLogo'
 import LoginScreen from '../screens/LoginScreen'
+
+import StackModalNavigator from '../utilities/stackModalNavigator'
 
 import colors from '../constants/Colors'
 
 import FeedStack from './FeedStack'
 import AddStack from './AddStack'
 import ProfileStack from './ProfileStack'
+import SearchStack from './SearchStack'
 
 import NotificationsScreen from '../screens/NotificationsScreen'
 
@@ -90,7 +93,7 @@ const tabOptions = {
 
 export const MainNav = TabNavigator(tabs, tabOptions)
 
-export const createRootNavigator = (loggedIn = false) => StackNavigator({
+export const createRootNavigator = (loggedIn = false) => StackModalNavigator({
   login: {
     screen: LoginScreen,
     navigationOptions: {
@@ -102,6 +105,9 @@ export const createRootNavigator = (loggedIn = false) => StackNavigator({
   },
   main: {
     screen: MainNav,
+  },
+  search: {
+    screen: SearchStack,
   },
 }, {
   headerMode: 'screen',
