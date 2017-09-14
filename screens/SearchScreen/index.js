@@ -67,7 +67,7 @@ export default class SearchScreen extends React.Component {
             selectedSegment={type}
             onToggleChange={this.onToggle}
             options={tabOptions}
-            style={{ backgroundColor: Colors.gray.extraLight }}
+            style={{ backgroundColor: Colors.semantic.background }}
           />
           <SearchContents q={this.state.q} type={type} />
         </View>

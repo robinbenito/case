@@ -96,12 +96,12 @@ export const MainNav = TabNavigator(tabs, tabOptions)
 export const createRootNavigator = (loggedIn = false) => StackModalNavigator({
   login: {
     screen: LoginScreen,
-    navigationOptions: () => ({
+    navigationOptions: {
       header: null,
       cardStyle: {
-        backgroundColor: '#fff',
+        backgroundColor: 'white',
       },
-    }),
+    },
   },
   main: {
     screen: MainNav,

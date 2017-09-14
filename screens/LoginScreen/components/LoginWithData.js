@@ -1,10 +1,10 @@
 import React from 'react'
-import { StyleSheet, View, AsyncStorage } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
-
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 
+import CurrentUser from '../../../utilities/currentUserService'
 import formatErrors from '../../../utilities/formatErrors'
 import PillButton from '../../../components/PillButton'
 import UnderlineInput from '../../../components/UnderlineInput'
@@ -37,8 +37,7 @@ class LoginScreen extends React.Component {
         variables: { email, password },
       })
 
-      const currentUser = JSON.stringify(res.data.login.me)
-      await AsyncStorage.setItem('@arena:CurrentUser', currentUser)
+      await CurrentUser.set(res.data.login.me)
 
       return this.props.onLogin()
     } catch (err) {

@@ -1,3 +1,5 @@
+import { StyleSheet } from 'react-native'
+
 export const Colors = {
   black: 'black',
   white: 'white',
@@ -7,7 +9,6 @@ export const Colors = {
     medium: '#999',
     regular: '#ccc',
     light: '#eee',
-    extraLight: '#f7f7f7',
   },
   state: {
     premium: '#00c5ff',
@@ -18,10 +19,15 @@ export const Colors = {
     public: '#17ac10',
     private: '#b60202',
   },
+  semantic: {
+    text: '#333',
+    background: '#f7f7f7',
+  },
 }
 
 export const Units = {
   base: 10,
+  hairlineWidth: StyleSheet.hairlineWidth,
 }
 
 export const Border = {

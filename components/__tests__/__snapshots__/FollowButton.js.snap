@@ -1,36 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<TouchableHighlight
-  activeOpacity={0.85}
+<Styled(TouchableOpacity)
   onPress={[Function]}
-  style={
-    Object {
-      "borderColor": "#e7e7e5",
-      "borderRadius": 4,
-      "borderWidth": 1,
-      "marginBottom": 5,
-      "padding": 10,
-      "width": 75,
-    }
-  }
-  underlayColor="black"
 >
-  <Text
+  <Styled(Text)
     accessibilityLabel="Follow"
-    accessible={true}
-    allowFontScaling={true}
-    disabled={false}
-    ellipsizeMode="tail"
-    style={
-      Object {
-        "fontSize": 12,
-        "fontWeight": "600",
-        "textAlign": "center",
-      }
-    }
   >
     Follow
-  </Text>
-</TouchableHighlight>
+  </Styled(Text)>
+</Styled(TouchableOpacity)>
 `;
