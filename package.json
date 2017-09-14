@@ -47,6 +47,7 @@
     "react-navigation-is-focused-hoc": "^1.0.0",
     "react-test-renderer": "16.0.0-alpha.12",
     "redux": "^3.7.1",
+    "styled-components": "^2.1.2",
     "tcomb-form-native": "^0.6.4",
     "validator": "^8.0.0"
   },

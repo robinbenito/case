@@ -1,3 +1,5 @@
+import { StyleSheet } from 'react-native'
+
 export const Colors = {
   black: 'black',
   white: 'white',
@@ -12,10 +14,15 @@ export const Colors = {
     premium: '#00c5ff',
     alert: '#e24d4d',
   },
+  semantic: {
+    text: '#333',
+    background: '#f7f7f7',
+  },
 }
 
 export const Units = {
   base: 10,
+  hairlineWidth: StyleSheet.hairlineWidth,
 }
 
 export const Border = {

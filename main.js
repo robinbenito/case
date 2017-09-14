@@ -1,33 +1,18 @@
 import Expo from 'expo'
 import React from 'react'
-import {
-  AsyncStorage,
-  StyleSheet,
-  View,
-} from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { ApolloProvider } from 'react-apollo'
 import { updateFocus } from 'react-navigation-is-focused-hoc'
 import gql from 'graphql-tag'
 
 import { createRootNavigator } from './navigation/Routes'
-
 import Store from './state/Store'
 import Client from './state/Apollo'
-
 import NavigatorService from './utilities/navigationService'
 import cacheAssetsAsync from './utilities/cacheAssetsAsync'
+import CurrentUser from './utilities/currentUserService'
 
 const logo = require('./assets/images/logo.png')
-
-const styles = StyleSheet.create({
-  container: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-  },
-})
 
 class AppContainer extends React.Component {
   constructor(props) {
@@ -57,22 +42,33 @@ class AppContainer extends React.Component {
 
   async checkLoginStateAsync() {
     try {
-      const currentUser = await Promise.all([
-        AsyncStorage.getItem('@arena:CurrentUser'),
+      await Promise.all([
+        CurrentUser.get(),
         Client.query({ query: gql`{ me { id } }` }), // Ping user to check to see if actually logged in
-      ]).then(([user]) => user)
-      this.setState({ loggedIn: currentUser !== null, storageChecked: true })
+      ])
+
+      this.setState({
+        loggedIn: true,
+        storageChecked: true,
+      })
     } catch (err) {
       console.log(err)
-      this.setState({ loggedIn: false, storageChecked: true })
+
+      CurrentUser.clear()
+
+      this.setState({
+        loggedIn: false,
+        storageChecked: true,
+      })
     }
   }
 
   render() {
     if (this.state.assetsLoaded && this.state.storageChecked) {
       const Navigation = createRootNavigator(this.state.loggedIn)
+
       return (
-        <View style={styles.container}>
+        <View style={StyleSheet.absoluteFill}>
           <ApolloProvider store={Store} client={Client}>
             <Navigation
               onNavigationStateChange={(prevState, currentState) => {

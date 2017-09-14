@@ -5,8 +5,9 @@
 
 import ApolloClient, { createNetworkInterface } from 'apollo-client'
 import { IntrospectionFragmentMatcher } from 'react-apollo'
-import { AsyncStorage } from 'react-native'
 import Config from '../config'
+
+import CurrentUser from '../utilities/currentUserService'
 
 const fragmentMatcher = new IntrospectionFragmentMatcher({
   introspectionQueryResultData: {
@@ -39,14 +40,15 @@ networkInterface.use([{
     if (!req.options.headers) {
       req.options.headers = {} // Create the header object if needed.
     }
+
     req.options.headers['X-APP-TOKEN'] = Config.X_APP_TOKEN
-    AsyncStorage.getItem('@arena:CurrentUser', (err, result) => {
-      if (result) {
-        const user = JSON.parse(result)
+
+    CurrentUser.get()
+      .then((user) => {
         req.options.headers['X-AUTH-TOKEN'] = user.authentication_token
-      }
-      next()
-    })
+        next()
+      })
+      .catch(next)
   },
 }])
 
