@@ -5,7 +5,6 @@ import BlockStack from './BlockStack'
 import ProfileScreen from '../screens/ProfileScreen'
 import ChannelScreen from '../screens/ChannelScreen'
 import UserSettingsScreen from '../screens/UserSettingsScreen'
-import LoginScreen from '../screens/LoginScreen'
 
 const ProfileStack = StackNavigator({
   profile: {

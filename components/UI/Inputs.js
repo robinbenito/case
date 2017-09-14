@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
 import { Units, Typography, Colors, Border } from '../../constants/Style'
 
@@ -19,6 +20,10 @@ export const Label = styled.Text`
 export const FieldsetLabel = ({ children }) => (
   <Label>{children.toUpperCase()}</Label>
 )
+
+FieldsetLabel.propTypes = {
+  children: PropTypes.node.isRequired,
+}
 
 export const Input = styled.TextInput`
   font-size: ${Typography.fontSize.small};
@@ -60,3 +65,7 @@ export const StackedButton = ({ children, ...rest }) => (
     <StackedButtonLabel>{children}</StackedButtonLabel>
   </StackedButtonBorder>
 )
+
+StackedButton.propTypes = {
+  children: PropTypes.node.isRequired,
+}
