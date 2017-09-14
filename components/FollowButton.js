@@ -1,33 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  StyleSheet,
-  Text,
-  TouchableHighlight,
-} from 'react-native'
-
 import gql from 'graphql-tag'
 import { graphql, compose } from 'react-apollo'
-
-import layout from '../constants/Layout'
-import colors from '../constants/Colors'
-import typesizes from '../constants/Type'
-
-const styles = StyleSheet.create({
-  button: {
-    borderColor: colors.gray.border,
-    borderWidth: 1,
-    marginBottom: 5,
-    padding: layout.padding,
-    borderRadius: 4,
-    width: 75,
-  },
-  text: {
-    textAlign: 'center',
-    fontSize: typesizes.sizes.normal,
-    fontWeight: '600',
-  },
-})
+import { SmallButton, SmallButtonLabel } from './UI/Buttons'
 
 export class FollowButton extends React.Component {
   constructor(props) {
@@ -63,13 +38,15 @@ export class FollowButton extends React.Component {
   }
 
   render() {
-    const followTitle = this.props.data.followable && this.props.data.followable.is_followed ? 'Unfollow' : 'Follow'
+    const label = this.props.data.followable &&
+      this.props.data.followable.is_followed ? 'Unfollow' : 'Follow'
+
     return (
-      <TouchableHighlight onPress={this.handlePress} style={styles.button}>
-        <Text style={styles.text} accessibilityLabel={followTitle}>
-          {followTitle}
-        </Text>
-      </TouchableHighlight>
+      <SmallButton onPress={this.handlePress}>
+        <SmallButtonLabel accessibilityLabel={label}>
+          {label}
+        </SmallButtonLabel>
+      </SmallButton>
     )
   }
 }
