@@ -1,19 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  StyleSheet,
-  View,
-  Text,
-} from 'react-native'
-
+import { StyleSheet, View, Text } from 'react-native'
 import HTMLView from 'react-native-htmlview'
+
 import TabToggle from '../../../components/TabToggle'
 import UserAvatar from '../../../components/UserAvatar'
 import FollowButtonWithData from '../../../components/FollowButton'
-
 import { sansSerif } from '../../../constants/HtmlView'
 import layout from '../../../constants/Layout'
 import typevalues from '../../../constants/Type'
+import { BaseIcon } from '../../../components/UI/Icons'
+import { XSmallButton } from '../../../components/UI/Buttons'
+import NavigationService from '../../../utilities/navigationService'
 
 const styles = StyleSheet.create({
   avatar: {
@@ -33,7 +31,6 @@ const styles = StyleSheet.create({
   userInfo: {
     display: 'flex',
     flexDirection: 'row',
-    maxWidth: 180,
   },
   headerText: {
     fontSize: typevalues.sizes.headline,
@@ -47,7 +44,7 @@ const tabOptions = {
   Blocks: 'BLOCK',
 }
 
-const ProfileHeader = ({ user, type, onToggle }) => (
+const ProfileHeader = ({ user, type, onToggle, isTheCurrentUser }) => (
   <View style={styles.header}>
     <View style={styles.innerHeader}>
       <View style={styles.userInfo}>
@@ -56,15 +53,25 @@ const ProfileHeader = ({ user, type, onToggle }) => (
           <Text style={styles.headerText}>
             {user.name}
           </Text>
+
           <HTMLView
-            value={user.bio || '–'}
+            value={user.bio || ''}
             stylesheet={sansSerif}
             addLineBreaks={false}
           />
         </View>
       </View>
-      {
-        user.can.follow && <FollowButtonWithData id={user.id} type="USER" />
+
+      {isTheCurrentUser &&
+        <XSmallButton
+          onPress={() => NavigationService.navigate('userSettings')}
+        >
+          <BaseIcon name="ios-settings" />
+        </XSmallButton>
+      }
+
+      {user.can.follow &&
+        <FollowButtonWithData id={user.id} type="USER" />
       }
     </View>
     <TabToggle

@@ -15,7 +15,7 @@ import ProfileHeader from './ProfileHeader'
 import ChannelItem from '../../../components/ChannelItem'
 import BlockItem from '../../../components/BlockItem'
 import Empty from '../../../components/Empty'
-
+import CurrentUser from '../../../utilities/currentUserService'
 import layout from '../../../constants/Layout'
 
 const styles = StyleSheet.create({
@@ -127,11 +127,14 @@ class ProfileContainer extends React.Component {
     const columnCount = shouldShowChannel ? 1 : 2
     const columnStyle = columnCount > 1 ? { justifyContent: 'space-around' } : false
 
+    const currentUser = CurrentUser.sync.get()
+
     const header = (
       <ProfileHeader
         user={data.user}
         onToggle={this.onToggleChange}
         type={type}
+        isTheCurrentUser={currentUser && currentUser.id === data.user.id}
       />
     )
 
