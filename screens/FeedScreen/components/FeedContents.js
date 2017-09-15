@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
   },
 })
 
-const renderItem = ({ item, index }) => {
+const renderItem = ({ item }) => {
   let objectItem = null
   if (item) {
     const { __typename } = item
