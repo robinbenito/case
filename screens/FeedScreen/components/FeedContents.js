@@ -32,46 +32,48 @@ const styles = StyleSheet.create({
   },
 })
 
-const FeedContents = ({ items, verb }) => {
-  const contentsItems = items.slice().reverse().map((item) => {
-    let objectItem = null
-    if (item) {
-      const { __typename } = item
-      switch (__typename) {
-        case 'Connectable':
-          objectItem = (
-            <BlockItem
-              size="1-up"
-              block={item}
-              key={item.id}
-              style={styles.blockStyle}
-            />
-          )
-          break
-        case 'Channel':
-          objectItem = <ChannelItem channel={item} key={item.id} />
-          break
-        case 'User':
-          objectItem = (
-            <UserAvatar
-              user={item}
-              key={item.id}
-              size={90}
-              mode="feed"
-              onPress={() => NavigationService.navigateToProfile(item.id)}
-              style={{ marginRight: layout.padding }}
-              includeName
-            />
-          )
-          break
-        default:
-          objectItem = <Text key={`klass-${item.id}`} >{item.id}</Text>
-          break
-      }
-      return objectItem
+const renderItem = ({ item }) => {
+  let objectItem = null
+  if (item) {
+    const { __typename } = item
+    switch (__typename) {
+      case 'Connectable':
+        objectItem = (
+          <BlockItem
+            size="1-up"
+            block={item}
+            key={item.id}
+            style={styles.blockStyle}
+          />
+        )
+        break
+      case 'Channel':
+        objectItem = <ChannelItem channel={item} key={item.id} />
+        break
+      case 'User':
+        objectItem = (
+          <UserAvatar
+            user={item}
+            key={item.id}
+            size={90}
+            mode="feed"
+            onPress={() => NavigationService.navigateToProfile(item.id)}
+            style={{ marginRight: layout.padding }}
+            includeName
+          />
+        )
+        break
+      default:
+        objectItem = <Text key={`klass-${item.id}`} >{item.id}</Text>
+        break
     }
-    return null
-  })
+    return objectItem
+  }
+  return null
+}
+
+const FeedContents = ({ items, verb }) => {
+  const itemData = items.slice().reverse()
 
   const { __typename } = items[0]
   const channelGroup = __typename === 'Channel'
@@ -87,18 +89,18 @@ const FeedContents = ({ items, verb }) => {
         itemWidth={itemWidth}
         activeSlideOffset={1}
         inactiveSlideScale={1}
+        renderItem={renderItem}
+        data={itemData}
         scrollEndDragDebounceValue={50}
         contentContainerCustomStyle={styles.carouselItemContainer}
         animationOptions={{ duration: 100, easing: Easing.sin }}
         slideStyle={{ justifyContent: 'flex-start' }}
-      >
-        {contentsItems}
-      </Carousel>
+      />
     )
   }
 
   const flexDirection = channelGroup ? 'column' : 'row'
-
+  const contentsItems = itemData.map((item, index) => renderItem({ item, index }))
   const Container = contentsItems.length > 1 ? ScrollView : View
 
   return (
