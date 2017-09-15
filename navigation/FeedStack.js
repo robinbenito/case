@@ -1,40 +1,43 @@
+import React from 'react'
 import { StackNavigator } from 'react-navigation'
 
-import headerStyle from '../constants/Header'
+import headerOptions from '../constants/Header'
 
 import FeedScreen from '../screens/FeedScreen'
-import BlockScreen from '../screens/BlockScreen'
+import BlockStack from './BlockStack'
 import ProfileScreen from '../screens/ProfileScreen'
 import ChannelScreen from '../screens/ChannelScreen'
+
+import NotificationCountWithData from '../components/NotificationCount'
 
 const FeedStack = StackNavigator({
   feed: {
     screen: FeedScreen,
-    navigationOptions: () => ({
+    navigationOptions: ({ navigation }) => ({
+      ...headerOptions,
       title: 'Feed',
-      headerStyle,
+      headerRight: (<NotificationCountWithData onPress={() => navigation.navigate('DrawerOpen')} />),
     }),
   },
   block: {
-    screen: BlockScreen,
+    screen: BlockStack,
     navigationOptions: () => ({
-      tabBarVisible: false,
+      ...headerOptions,
       title: 'Block',
-      headerStyle,
     }),
   },
   channel: {
     screen: ChannelScreen,
     navigationOptions: () => ({
+      ...headerOptions,
       title: 'Channel',
-      headerStyle,
     }),
   },
   feedProfile: {
     screen: ProfileScreen,
     navigationOptions: () => ({
+      ...headerOptions,
       title: 'Profile',
-      headerStyle,
     }),
   },
 }, {

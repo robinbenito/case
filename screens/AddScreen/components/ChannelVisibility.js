@@ -9,6 +9,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import SettingsList from 'react-native-settings-list'
 import { Ionicons } from '@expo/vector-icons'
 
+import BackButton from '../../../components/BackButton'
 import HeaderRightButton from '../../../components/HeaderRightButton'
 
 import layout from '../../../constants/Layout'
@@ -40,6 +41,7 @@ const styles = StyleSheet.create({
 
 const navigationOptions = {
   title: 'Channel Privacy',
+  headerLeft: (<BackButton />),
 }
 
 export default class ChannelVisibilityScreen extends React.Component {

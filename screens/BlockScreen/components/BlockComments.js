@@ -11,6 +11,7 @@ import {
   View,
 } from 'react-native'
 
+import Empty from '../../../components/Empty'
 import Comment from '../../../components/Comment'
 
 import layout from '../../../constants/Layout'
@@ -18,6 +19,7 @@ import layout from '../../../constants/Layout'
 const styles = StyleSheet.create({
   container: {
     padding: layout.padding / 2,
+    flex: 1,
   },
   loadingContainer: {
     flex: 1,
@@ -63,6 +65,17 @@ class BlockComments extends React.Component {
       )
     }
 
+    const contentsLoading = data.networkStatus === 2 || data.networkStatus === 1
+    const empty = (<Empty text="No comments yet" />)
+
+    if (contents.length === 0 && !contentsLoading) {
+      return (
+        <View style={{ flexGrow: 1 }}>
+          {empty}
+        </View>
+      )
+    }
+
     return (
       <FlatList
         style={styles.container}
@@ -85,8 +98,8 @@ BlockComments.propTypes = {
   data: PropTypes.any.isRequired,
 }
 
-const BlockQuery = gql`
-  query BlockQuery($id: ID!){
+export const BlockCommentsQuery = gql`
+  query BlockCommentsQuery($id: ID!){
     block(id: $id) {
       __typename
       id
@@ -98,6 +111,6 @@ const BlockQuery = gql`
   ${Comment.fragments.comment}
 `
 
-const BlockCommentsWithData = graphql(BlockQuery)(BlockComments)
+const BlockCommentsWithData = graphql(BlockCommentsQuery)(BlockComments)
 
 export default BlockCommentsWithData

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { StyleSheet, Text, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text } from 'react-native'
 
 import NavigatorService from '../utilities/navigationService'
 
@@ -25,6 +25,7 @@ export default class UserNameText extends React.Component {
   }
 
   goToProfile() {
+    this.props.onPress()
     NavigatorService.navigateToProfile(this.props.user.id)
   }
 
@@ -32,9 +33,7 @@ export default class UserNameText extends React.Component {
     const { style } = this.props
 
     return (
-      <TouchableOpacity onPress={this.goToProfile}>
-        <Text style={[styles.text, style]} onPress={this.goToProfile}>{this.props.user.name} </Text>
-      </TouchableOpacity>
+      <Text style={[styles.text, style]} onPress={this.goToProfile}>{this.props.user.name} </Text>
     )
   }
 }
@@ -45,8 +44,10 @@ UserNameText.propTypes = {
     name: PropTypes.string,
     id: PropTypes.any,
   }).isRequired,
+  onPress: PropTypes.func,
 }
 
 UserNameText.defaultProps = {
   style: {},
+  onPress: () => null,
 }

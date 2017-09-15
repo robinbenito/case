@@ -71,6 +71,7 @@ class SearchConnection extends Component {
 const ConnectionSearchQuery = gql`
   query ConnectionSearchQuery($q: String!) {
     me {
+      id
       connection_search(q: $q) {
         ...ChannelThumb
       }

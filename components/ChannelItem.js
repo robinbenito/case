@@ -10,6 +10,7 @@ import {
 } from 'react-native'
 
 import { Ionicons } from '@expo/vector-icons'
+import { decode } from 'he'
 
 import layout from '../constants/Layout'
 import colors from '../constants/Colors'
@@ -24,6 +25,7 @@ const styles = StyleSheet.create({
     marginVertical: layout.padding / 2,
     paddingHorizontal: layout.padding,
     flex: 1,
+    borderRadius: layout.padding / 4,
   },
   innerContainer: {
     flex: 1,
@@ -167,7 +169,7 @@ export default class ChannelItem extends Component {
         <View style={[styles.channelContainer, containerStyle, selectedContainerStyle, style]}>
           <View style={styles.innerContainer}>
             <Text numberOfLines={1} style={[styles.channelTitle, { color: textColor }]}>
-              {channel.title}
+              {decode(channel.title)}
             </Text>
             {this.renderMeta()}
           </View>

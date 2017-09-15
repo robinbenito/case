@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import {
   Alert,
   Clipboard,
+  Keyboard,
   StyleSheet,
   View,
 } from 'react-native'
@@ -11,6 +12,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { isURL } from 'validator'
 
 import FieldSet from '../../../components/FieldSet'
+import BackButton from '../../../components/BackButton'
 import HeaderRightButton from '../../../components/HeaderRightButton'
 
 import layout from '../../../constants/Layout'
@@ -28,7 +30,7 @@ const styles = StyleSheet.create({
 
 const navigationOptions = {
   title: 'New Link',
-  headerLeft: null,
+  headerLeft: (<BackButton />),
 }
 
 export default class AddLinkScreen extends React.Component {
@@ -49,6 +51,7 @@ export default class AddLinkScreen extends React.Component {
   componentDidMount() {
     Clipboard.getString().then((string) => {
       if (isURL(string)) {
+        Keyboard.dismiss()
         this.clipboardPrompt(string)
         Clipboard.setString('')
       }

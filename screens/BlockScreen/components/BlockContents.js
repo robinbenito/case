@@ -9,6 +9,7 @@ import {
   Image,
   StyleSheet,
   ScrollView,
+  RefreshControl,
   Text,
   TouchableOpacity,
   View,
@@ -18,6 +19,7 @@ import { WebBrowser } from 'expo'
 
 import BlockMetadata from './BlockMetadata'
 import BlockTabs from './BlockTabs'
+import BlockActionTabs from './BlockActionTabs'
 
 import layout from '../../../constants/Layout'
 import colors from '../../../constants/Colors'
@@ -51,6 +53,7 @@ const styles = StyleSheet.create({
     marginTop: contentTopMargin,
     marginBottom: layout.padding * 2,
     alignItems: 'center',
+    flex: 1,
   },
   blockContainer: {
     width: contentLength,
@@ -66,8 +69,10 @@ class BlockContainer extends React.Component {
     super(props)
     this.state = {
       result: '',
+      refetched: null,
     }
     this.openBrowser = this.openBrowser.bind(this)
+    this.refresh = this.refresh.bind(this)
   }
 
   async openBrowser(url) {
@@ -77,8 +82,17 @@ class BlockContainer extends React.Component {
     }
   }
 
+  refresh() {
+    this.props.data.refetch().then(() => {
+      this.setState({ refetched: new Date() })
+    })
+  }
+
   render() {
-    if (this.props.data.error) {
+    const { block, error, loading } = this.props.data
+    const { imageLocation } = this.props
+
+    if (error) {
       return (
         <View style={styles.loadingContainer} >
           <Text>
@@ -88,7 +102,7 @@ class BlockContainer extends React.Component {
       )
     }
 
-    if (this.props.data.loading) {
+    if (loading) {
       return (
         <View style={styles.loadingContainer} >
           <ActivityIndicator />
@@ -96,8 +110,8 @@ class BlockContainer extends React.Component {
       )
     }
 
-    const { block } = this.props.data
     const { __typename } = block.kind
+    const imageUrl = block.kind.image_url || imageLocation || 'https://s3.amazonaws.com/arena_assets/assets/brand/arena-app-icon.png'
 
     let blockInner
 
@@ -106,11 +120,12 @@ class BlockContainer extends React.Component {
       case 'Embed':
       case 'Link':
       case 'Image':
+      case 'Block':
         blockInner = (
           <TouchableOpacity onPress={() => this.openBrowser(block.source.url)}>
             <Image
               style={styles.image}
-              source={{ uri: block.kind.image_url }}
+              source={{ uri: imageUrl, cache: 'force-cache' }}
             />
           </TouchableOpacity>
         )
@@ -137,16 +152,30 @@ class BlockContainer extends React.Component {
         break
     }
 
+    const refreshing = this.props.data.networkStatus === 2 || this.props.data.networkStatus === 1
+    const { refetched } = this.state
+
     return (
-      <ScrollView contentContainerStyle={styles.container}>
-        <View style={styles.innerContainer}>
-          <View style={styles.blockContainer}>
-            {blockInner}
+      <View>
+        <ScrollView
+          contentContainerStyle={styles.container}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={this.refresh}
+            />
+          }
+        >
+          <View style={styles.innerContainer}>
+            <View style={styles.blockContainer}>
+              {blockInner}
+            </View>
+            <BlockMetadata block={block} />
           </View>
-          <BlockMetadata block={block} />
-        </View>
-        <BlockTabs block={block} />
-      </ScrollView>
+          <BlockTabs block={block} key={refetched} />
+        </ScrollView>
+        <BlockActionTabs block={block} />
+      </View>
     )
   }
 }
@@ -171,7 +200,10 @@ const BlockQuery = gql`
         url
       }
       kind {
-        type: __typename
+        __typename
+        ... on Block {
+          is_processed
+        }
         ... on Embed {
           image_url(size: ORIGINAL)
         }
@@ -194,6 +226,11 @@ const BlockQuery = gql`
 
 BlockContainer.propTypes = {
   data: PropTypes.any.isRequired,
+  imageLocation: PropTypes.any,
+}
+
+BlockContainer.defaultProps = {
+  imageLocation: null,
 }
 
 const ChannelContainerWithData = graphql(BlockQuery)(BlockContainer)

@@ -57,8 +57,14 @@ export default class SearchHeader extends React.Component {
     this.state = {
       isSearching: false,
       search: '',
+      isSubmitting: false,
     }
-    this.cancel = this.cancel.bind(this)
+    this.onSubmit = this.onSubmit.bind(this)
+  }
+
+  onSubmit() {
+    this.setState({ isSubmitting: true })
+    this.props.onSubmit()
   }
 
   onChangeText(text) {
@@ -69,15 +75,10 @@ export default class SearchHeader extends React.Component {
     this.props.onChangeText(text)
   }
 
-  cancel() {
-    const { cancelRoute } = this.props
-    navigationService.reset(cancelRoute)
-  }
-
   render() {
-    const { style, cancelOrDone, onSubmit } = this.props
-    const { search } = this.state
-    const buttonFunc = cancelOrDone === 'Cancel' ? this.cancel : onSubmit
+    const { style, cancelOrDone, onCancel } = this.props
+    const { search, isSubmitting } = this.state
+    const buttonFunc = cancelOrDone === 'Cancel' ? onCancel : this.onSubmit
 
     return (
       <View style={styles.container}>
@@ -89,7 +90,7 @@ export default class SearchHeader extends React.Component {
             value={search}
             clearButtonMode="while-editing"
           />
-          <TouchableOpacity onPress={buttonFunc}>
+          <TouchableOpacity onPress={buttonFunc} disabled={isSubmitting}>
             <Text style={styles.text}>
               {cancelOrDone}
             </Text>
@@ -103,15 +104,15 @@ export default class SearchHeader extends React.Component {
 SearchHeader.propTypes = {
   onChangeText: PropTypes.func,
   style: PropTypes.any,
-  cancelRoute: PropTypes.string,
   cancelOrDone: PropTypes.oneOf(['Cancel', 'Done']),
   onSubmit: PropTypes.func,
+  onCancel: PropTypes.func,
 }
 
 SearchHeader.defaultProps = {
   onChangeText: () => null,
   onSubmit: () => null,
-  cancelRoute: 'addMenu',
+  onCancel: () => navigationService.reset('addMenu'),
   style: {},
   cancelOrDone: 'Cancel',
 }

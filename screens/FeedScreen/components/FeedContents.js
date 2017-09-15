@@ -1,10 +1,10 @@
 import React from 'react'
 import {
   Easing,
-  Dimensions,
   StyleSheet,
   Text,
   ScrollView,
+  View,
 } from 'react-native'
 import PropTypes from 'prop-types'
 import Carousel from 'react-native-snap-carousel'
@@ -23,54 +23,62 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.gray.border,
   },
+  carouselContainer: {
+    marginRight: layout.padding,
+    justifyContent: 'flex-start',
+  },
+  carouselItemContainer: {
+    justifyContent: 'flex-start',
+  },
 })
 
-const FeedContents = ({ items, verb }) => {
-  const contentsItems = items.map((item) => {
-    let objectItem = null
-    if (item) {
-      const { __typename } = item
-      switch (__typename) {
-        case 'Connectable':
-          objectItem = (
-            <BlockItem
-              size="1-up"
-              block={item}
-              key={item.id}
-              style={styles.blockStyle}
-            />
-          )
-          break
-        case 'Channel':
-          objectItem = <ChannelItem channel={item} key={item.id} />
-          break
-        case 'User':
-          objectItem = (
-            <UserAvatar
-              user={item}
-              key={item.id}
-              size={90}
-              mode="feed"
-              onPress={() => NavigationService.navigateToProfile(item.id)}
-              style={{ marginRight: layout.padding }}
-              includeName
-            />
-          )
-          break
-        default:
-          objectItem = <Text key={`klass-${item.id}`} >{item.id}</Text>
-          break
-      }
-      return objectItem
+const renderItem = ({ item, index }) => {
+  let objectItem = null
+  if (item) {
+    const { __typename } = item
+    switch (__typename) {
+      case 'Connectable':
+        objectItem = (
+          <BlockItem
+            size="1-up"
+            block={item}
+            key={item.id}
+            style={styles.blockStyle}
+          />
+        )
+        break
+      case 'Channel':
+        objectItem = <ChannelItem channel={item} key={item.id} />
+        break
+      case 'User':
+        objectItem = (
+          <UserAvatar
+            user={item}
+            key={item.id}
+            size={90}
+            mode="feed"
+            onPress={() => NavigationService.navigateToProfile(item.id)}
+            style={{ marginRight: layout.padding }}
+            includeName
+          />
+        )
+        break
+      default:
+        objectItem = <Text key={`klass-${item.id}`} >{item.id}</Text>
+        break
     }
-    return null
-  })
+    return objectItem
+  }
+  return null
+}
+
+const FeedContents = ({ items, verb }) => {
+  const itemData = items.slice().reverse()
 
   const { __typename } = items[0]
   const channelGroup = __typename === 'Channel'
-  const { width } = Dimensions.get('window')
-  const sliderWidth = width - (layout.padding * 2)
-  const itemWidth = sliderWidth - layout.padding
+  const sliderWidth = layout.window.width
+  const itemWidth = layout.feedBlock + (layout.padding)
   const showSlider = verb === 'connected' && items.length > 1 && !channelGroup
 
   if (showSlider) {
@@ -79,23 +87,26 @@ const FeedContents = ({ items, verb }) => {
         ref={(carousel) => { this.Carousel = carousel }}
         sliderWidth={sliderWidth}
         itemWidth={itemWidth}
-        activeSlideOffset={20}
+        activeSlideOffset={1}
         inactiveSlideScale={1}
-        scrollEndDragDebounceValue={10}
-        decelerationRate={1}
+        renderItem={renderItem}
+        data={itemData}
+        scrollEndDragDebounceValue={50}
+        contentContainerCustomStyle={styles.carouselItemContainer}
         animationOptions={{ duration: 100, easing: Easing.sin }}
-      >
-        {contentsItems}
-      </Carousel>
+        slideStyle={{ justifyContent: 'flex-start' }}
+      />
     )
   }
 
   const flexDirection = channelGroup ? 'column' : 'row'
+  const contentsItems = itemData.map((item, index) => renderItem({ item, index }))
+  const Container = contentsItems.length > 1 ? ScrollView : View
 
   return (
-    <ScrollView contentContainerStyle={{ flexDirection }} style={{ flexDirection }} horizontal>
+    <Container contentContainerStyle={{ flexDirection, justifyContent: 'flex-start' }} style={{ flexDirection, paddingHorizontal: layout.padding }} horizontal>
       {contentsItems}
-    </ScrollView>
+    </Container>
   )
 }
 

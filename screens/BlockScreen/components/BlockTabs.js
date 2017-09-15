@@ -7,7 +7,7 @@ import BlockConnections from './BlockConnections'
 import BlockComments from './BlockComments'
 
 const styles = StyleSheet.create({
-  tabContainer: {
+  container: {
     flex: 1,
   },
 })
@@ -37,13 +37,13 @@ export default class BlockTabs extends React.Component {
     const { block } = this.props
     const { selectedSegment } = this.state
     const content = selectedSegment === 'connections' ? (
-      <BlockConnections id={block.id} />
+      <BlockConnections id={block.id} style={{ flex: 1 }} />
     ) : (
       <BlockComments id={block.id} />
     )
 
     return (
-      <View style={styles.tabContainer}>
+      <View style={styles.container}>
         <TabToggle
           options={tabOptions}
           onToggleChange={this.onToggleChange}

@@ -29,15 +29,15 @@ const getStyles = size =>
     },
     initials: {
       fontWeight: 'bold',
-      fontSize: type.sizes.subheadline,
+      fontSize: size > 50 ? type.sizes.subheadline : type.sizes.normal,
       color: colors.gray.text,
     },
     image: {
       position: 'absolute',
       top: 0,
       left: 0,
-      width: size,
-      height: size,
+      width: size - 2,
+      height: size - 2,
       borderRadius: size / 2,
     },
     nameContainer: {

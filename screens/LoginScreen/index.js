@@ -1,12 +1,8 @@
 import React from 'react'
-import {
-  Image,
-  StyleSheet,
-  KeyboardAvoidingView,
-} from 'react-native'
+import { Image, StyleSheet, KeyboardAvoidingView } from 'react-native'
 import PropTypes from 'prop-types'
-
 import { NavigationActions } from 'react-navigation'
+
 import LoginWithData from './components/LoginWithData'
 
 const logo = require('../../assets/images/logo.png')
@@ -16,15 +12,14 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 20,
-    backgroundColor: '#fff',
+    backgroundColor: 'white',
   },
   logo: {
-    width: 100,
-    height: 100,
+    width: 50,
+    height: 50,
+    marginBottom: 50,
   },
 })
-
 
 export default class LoginScreen extends React.Component {
   constructor(props) {

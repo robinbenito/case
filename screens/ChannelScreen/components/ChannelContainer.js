@@ -28,10 +28,14 @@ const styles = StyleSheet.create({
     marginHorizontal: layout.padding,
   },
   loadingContainer: {
+    backgroundColor: '#fff',
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     padding: layout.padding,
+  },
+  footer: {
+    paddingVertical: layout.padding * 2,
   },
 })
 
@@ -48,6 +52,13 @@ class ChannelContainer extends React.Component {
     this.renderLoader = this.renderLoader.bind(this)
   }
 
+  onRefresh() {
+    this.setState({
+      page: 1,
+    })
+    this.props.data.refetch({ notifyOnNetworkStatusChange: true })
+  }
+
   onEndReached() {
     const { blocksData } = this.props
     if (!blocksData.channel || !blocksData.channel.blocks) return false
@@ -62,13 +73,6 @@ class ChannelContainer extends React.Component {
     const page = this.state.page + 1
     this.setState({ page })
     return this.props.loadMore(page)
-  }
-
-  onRefresh() {
-    this.setState({
-      page: 1,
-    })
-    this.props.data.refetch({ notifyOnNetworkStatusChange: true })
   }
 
   onToggleChange(value) {
@@ -135,7 +139,7 @@ class ChannelContainer extends React.Component {
 
     if (contents.length === 0 && !contentsLoading) {
       return (
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, backgroundColor: '#fff' }}>
           {header}
           {empty}
         </View>
@@ -150,7 +154,7 @@ class ChannelContainer extends React.Component {
         columnWrapperStyle={columnStyle}
         refreshing={data.networkStatus === 4}
         numColumns={columnCount}
-        keyExtractor={item => item.klass + item.id}
+        keyExtractor={(item, index) => `${item.klass}-${item.id}-${index}`}
         key={type}
         onRefresh={this.onRefresh}
         onEndReached={this.onEndReached}

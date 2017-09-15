@@ -12,9 +12,10 @@ import {
   View,
 } from 'react-native'
 
-import FeedSentence from './FeedSentence'
-import FeedWordLink from './FeedWordLink'
 import FeedContents from './FeedContents'
+
+import FeedWordLink from '../../../components/FeedWordLink'
+import FeedGroupSentence from '../../../components/FeedGroupSentence'
 import BlockItem from '../../../components/BlockItem'
 import ChannelItem from '../../../components/ChannelItem'
 import Empty from '../../../components/Empty'
@@ -38,7 +39,6 @@ const styles = StyleSheet.create({
     paddingVertical: layout.padding,
   },
   itemContainer: {
-    paddingHorizontal: layout.padding,
     marginBottom: layout.padding * 6,
     minHeight: width / 2,
   },
@@ -110,7 +110,7 @@ class FeedContainer extends React.Component {
         data={data.me.feed.groups}
         refreshing={data.loading}
         initialNumToRender={4}
-        keyExtractor={group => group.key}
+        keyExtractor={(group, index) => `${group.key}-${index}`}
         onRefresh={this.onRefresh}
         onEndReached={this.onEndReached}
         onEndReachedThreshold={0.9}
@@ -118,7 +118,7 @@ class FeedContainer extends React.Component {
         ListEmptyComponent={emptyComponent}
         renderItem={({ item, index }) => (
           <View key={`${item.key}-${index}`} style={styles.itemContainer} >
-            <FeedSentence group={item} />
+            <FeedGroupSentence group={item} />
             {item.items.length > 0 && <FeedContents items={item.items} verb={item.verb} />}
           </View>
           )}
@@ -130,6 +130,7 @@ class FeedContainer extends React.Component {
 const FeedQuery = gql`
   query FeedQuery($offset: Int, $limit: Int){
     me {
+      id
       __typename
       feed(offset: $offset, limit: $limit) {
         __typename
@@ -212,10 +213,11 @@ const FeedContainerWithData = graphql(FeedQuery, {
           },
           updateQuery: (previousResult, { fetchMoreResult }) => {
             if (!fetchMoreResult.me.feed.groups.length) { return previousResult }
-            const { __typename: meTypename } = previousResult.me
+            const { __typename: meTypename, id } = previousResult.me
             const { __typename: feedTypename } = previousResult.me.feed
             const response = {
               me: {
+                id,
                 __typename: meTypename,
                 feed: {
                   __typename: feedTypename,

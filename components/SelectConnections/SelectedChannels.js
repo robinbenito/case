@@ -71,9 +71,11 @@ export default class SelectedChannels extends React.Component {
       return (
         <View style={styles.container}>
           <View style={styles.labelLine}>
-            <Text>Connect </Text>
-            <Text style={{ fontWeight: 'bold' }}>{title}</Text>
-            <Text> to:</Text>
+            <Text>
+              <Text>Connect </Text>
+              <Text style={{ fontWeight: 'bold' }}>{title}</Text>
+              <Text> to:</Text>
+            </Text>
           </View>
           <View style={styles.channelsLine}>
             {this.renderChannels()}

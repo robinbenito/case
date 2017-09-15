@@ -1,3 +1,7 @@
+// DO NOT USE DEFINITIONS FROM THIS FILE
+// DO NOT ADD DEFINITIONS TO THIS FILE
+// TODO: Delete this file
+
 export default {
   sizes: {
     headline: 24,

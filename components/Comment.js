@@ -24,7 +24,12 @@ const styles = StyleSheet.create({
     marginRight: layout.padding,
   },
   contentContainer: {
+    flex: 1,
     flexDirection: 'column',
+  },
+  body: {
+    flexWrap: 'wrap',
+    flexDirection: 'row',
   },
   date: {
     color: colors.gray.text,
@@ -44,7 +49,7 @@ export default class Comment extends React.Component {
         </View>
         <View style={styles.contentContainer}>
           <UserNameText user={comment.user} />
-          <Text>{comment.body}</Text>
+          <Text style={styles.body}>{comment.body}</Text>
           <Text style={styles.date}>
             {comment.updated_at.toUpperCase()}
           </Text>
