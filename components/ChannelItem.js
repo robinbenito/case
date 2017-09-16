@@ -9,7 +9,6 @@ import {
   TouchableOpacity,
 } from 'react-native'
 
-import { Ionicons } from '@expo/vector-icons'
 import { decode } from 'he'
 
 import layout from '../constants/Layout'
