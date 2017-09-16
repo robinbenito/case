@@ -101,12 +101,11 @@ const FeedContents = ({ items, verb }) => {
 
   const flexDirection = channelGroup ? 'column' : 'row'
   const contentsItems = itemData.map((item, index) => renderItem({ item, index }))
-  const Container = contentsItems.length > 1 ? ScrollView : View
 
   return (
-    <Container contentContainerStyle={{ flexDirection, justifyContent: 'flex-start' }} style={{ flexDirection, paddingHorizontal: layout.padding }} horizontal>
+    <View style={{ flexDirection, paddingHorizontal: layout.padding, flex: 1, justifyContent: 'center' }}>
       {contentsItems}
-    </Container>
+    </View>
   )
 }
 
