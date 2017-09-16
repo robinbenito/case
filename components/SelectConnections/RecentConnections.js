@@ -12,6 +12,11 @@ import { graphql } from 'react-apollo'
 import ChannelItem from '../ChannelItem'
 
 class RecentConnections extends Component {
+  constructor(props) {
+    super(props)
+    this.renderItem = this.renderItem.bind(this)
+    this.isSelected = this.isSelected.bind(this)
+  }
 
   isSelected(channel) {
     const { selected } = this.props
@@ -19,8 +24,20 @@ class RecentConnections extends Component {
     return index > -1
   }
 
+  renderItem({ item }) {
+    const isSelected = this.isSelected(item)
+    const { onToggleConnection } = this.props
+    return (
+      <ChannelItem
+        isSelected={isSelected}
+        channel={item}
+        onToggleSelect={onToggleConnection}
+      />
+    )
+  }
+
   render() {
-    const { data, onToggleConnection, selected } = this.props
+    const { data } = this.props
 
     if (data && data.error) {
       return (
@@ -44,14 +61,7 @@ class RecentConnections extends Component {
       <FlatList
         data={data.me.recent_connections}
         keyExtractor={item => item.id}
-        extraData={selected}
-        renderItem={({ item }) => (
-          <ChannelItem
-            isSelected={this.isSelected(item)}
-            channel={item}
-            onToggleSelect={onToggleConnection}
-          />
-        )}
+        renderItem={this.renderItem}
       />
     )
   }

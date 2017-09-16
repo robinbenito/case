@@ -19,6 +19,12 @@ const styles = StyleSheet.create({
 })
 
 class SearchConnection extends Component {
+  constructor(props) {
+    super(props)
+    this.renderItem = this.renderItem.bind(this)
+    this.isSelected = this.isSelected.bind(this)
+  }
+
   shouldComponentUpdate(newProps) {
     if (newProps.data && newProps.data.loading) { return false }
     return true
@@ -30,8 +36,20 @@ class SearchConnection extends Component {
     return index > -1
   }
 
+  renderItem({ item }) {
+    const isSelected = this.isSelected(item)
+    const { onToggleConnection } = this.props
+    return (
+      <ChannelItem
+        isSelected={isSelected}
+        channel={item}
+        onToggleSelect={onToggleConnection}
+      />
+    )
+  }
+
   render() {
-    const { q, onToggleConnection, data } = this.props
+    const { q, data } = this.props
 
     if (data && data.error) {
       return (
@@ -56,13 +74,7 @@ class SearchConnection extends Component {
         data={data.me.connection_search}
         keyExtractor={item => item.id}
         keyboardShouldPersistTaps="always"
-        renderItem={({ item }) => (
-          <ChannelItem
-            isSelected={this.isSelected(item)}
-            channel={item}
-            onToggleSelect={onToggleConnection}
-          />
-        )}
+        renderItem={this.renderItem}
       />
     )
   }

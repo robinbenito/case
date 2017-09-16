@@ -80,9 +80,6 @@ const styles = StyleSheet.create({
     paddingRight: layout.padding / 2,
     flexWrap: 'nowrap',
   },
-  icon: {
-    display: 'none',
-  },
 })
 
 export default class ChannelItem extends Component {
@@ -112,12 +109,11 @@ export default class ChannelItem extends Component {
 
   renderMeta() {
     const { channel } = this.props
-    const { isSelected } = this.state
     const counts = channel.counts || channel.kind.counts
     const visibility = channel.visibility || channel.kind.visibility
     const textColor = colors[visibility]
 
-    const updatedAt = isSelected ? null : (
+    const updatedAt = (
       <View style={styles.metaLine}>
         <Text numberOfLines={1} style={[styles.meta, { color: textColor, textAlign: 'right', flex: 1 }]}>
           Updated {channel.updated_at}
@@ -154,14 +150,6 @@ export default class ChannelItem extends Component {
       private: styles.channelContainerSelectedPrivate,
     }[visibility] : null
 
-    const selectedIcon = isSelected ? (
-      <Ionicons
-        name="ios-checkmark-circle"
-        size={18}
-        color={colors.gray.light}
-        style={styles.icon}
-      />
-    ) : null
     const textColor = colors.channel[visibility]
 
     return (
@@ -173,7 +161,6 @@ export default class ChannelItem extends Component {
             </Text>
             {this.renderMeta()}
           </View>
-          {selectedIcon}
         </View>
       </TouchableOpacity>
     )
