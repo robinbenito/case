@@ -42,7 +42,9 @@ const styles = StyleSheet.create({
     padding: layout.padding,
   },
   textContainer: {
+    flex: 1,
     padding: layout.padding,
+    overflow: 'hidden',
   },
   image: {
     width: contentLength - 2,
@@ -138,6 +140,7 @@ class BlockContainer extends React.Component {
               value={block.kind.content}
               stylesheet={HTMLStyles}
               addLineBreaks={null}
+              numberOfLines={12}
             />
           </View>
         )

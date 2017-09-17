@@ -3,7 +3,6 @@ import {
   Easing,
   StyleSheet,
   Text,
-  ScrollView,
   View,
 } from 'react-native'
 import PropTypes from 'prop-types'
@@ -29,6 +28,11 @@ const styles = StyleSheet.create({
   },
   carouselItemContainer: {
     justifyContent: 'flex-start',
+  },
+  container: {
+    flex: 1,
+    paddingHorizontal: layout.padding,
+    flexWrap: 'wrap',
   },
 })
 
@@ -77,6 +81,7 @@ const FeedContents = ({ items, verb }) => {
 
   const { __typename } = items[0]
   const channelGroup = __typename === 'Channel'
+  const userGroup = __typename === 'User'
   const sliderWidth = layout.window.width
   const itemWidth = layout.feedBlock + (layout.padding)
   const showSlider = verb === 'connected' && items.length > 1 && !channelGroup
@@ -100,13 +105,13 @@ const FeedContents = ({ items, verb }) => {
   }
 
   const flexDirection = channelGroup ? 'column' : 'row'
+  const justifyContent = userGroup ? 'flex-start' : 'center'
   const contentsItems = itemData.map((item, index) => renderItem({ item, index }))
-  const Container = contentsItems.length > 1 ? ScrollView : View
 
   return (
-    <Container contentContainerStyle={{ flexDirection, justifyContent: 'flex-start' }} style={{ flexDirection, paddingHorizontal: layout.padding }} horizontal>
+    <View style={[{ flexDirection, justifyContent }, styles.container]}>
       {contentsItems}
-    </Container>
+    </View>
   )
 }
 

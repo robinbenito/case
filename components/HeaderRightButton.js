@@ -19,11 +19,25 @@ const styles = StyleSheet.create({
 })
 
 export default class HeaderRightButton extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      isSaving: false,
+    }
+    this.onPress = this.onPress.bind(this)
+  }
+
+  onPress() {
+    if (this.state.isSaving) return false
+    this.setState({ isSaving: true })
+    return this.props.onPress()
+  }
+
   render() {
-    const { text, onPress } = this.props
+    const { text } = this.props
 
     return (
-      <TouchableOpacity onPress={onPress} style={styles.button}>
+      <TouchableOpacity onPress={this.onPress} style={styles.button}>
         <Text style={styles.text}>{text}</Text>
       </TouchableOpacity>
     )

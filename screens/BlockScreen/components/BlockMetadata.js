@@ -1,8 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { StyleSheet, Text, View } from 'react-native'
+import { Share, StyleSheet, Text, View } from 'react-native'
 
 import UserNameText from '../../../components/UserNameText'
+import { ExternalLink, Link } from '../../../components/UI/Link'
 
 import layout from '../../../constants/Layout'
 import type from '../../../constants/Type'
@@ -38,6 +39,8 @@ const styles = StyleSheet.create({
 export default class BlockMetadata extends React.Component {
   render() {
     const { block } = this.props
+    const { kind: { __typename: typeName } } = block
+    const sourceUrl = block.source.url || block.kind.image_url
 
     return (
       <View style={styles.metadata}>
@@ -51,6 +54,15 @@ export default class BlockMetadata extends React.Component {
         <Text style={styles.description}>
           {block.description}
         </Text>
+        {sourceUrl && <ExternalLink url={sourceUrl}>
+          Source
+        </ExternalLink>}
+        {typeName === 'Image' && <ExternalLink url={`https://www.google.com/searchbyimage?&image_url=${block.kind.image_url}`}>
+          Find Original
+        </ExternalLink>}
+        <Link onPress={() => Share.share({ url: `https://www.are.na/block/${block.id}` })}>
+          Share
+        </Link>
       </View>
     )
   }

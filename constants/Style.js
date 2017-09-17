@@ -49,5 +49,6 @@ export const Typography = {
   },
   lineHeight: {
     base: null, // TODO
+    xsmall: 15,
   },
 }
