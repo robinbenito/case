@@ -11,6 +11,7 @@ const BaseGlyph = styled(Ionicons)`
   bottom: -1;
 `
 
+// eslint-disable-next-line
 export const BaseIcon = ({ name, ...rest }) => (
   <BaseGlyph
     name={name}
@@ -18,9 +19,6 @@ export const BaseIcon = ({ name, ...rest }) => (
   />
 )
 
-
 BaseIcon.propTypes = {
   name: PropTypes.string.isRequired,
 }
-
-export const Canary = null // Remove later when there are more exports
