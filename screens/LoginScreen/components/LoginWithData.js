@@ -8,7 +8,7 @@ import CurrentUser from '../../../utilities/currentUserService'
 import formatErrors from '../../../utilities/formatErrors'
 import ErrorMessage from '../../../components/ErrorMessage'
 import { UnderlineInput } from '../../../components/UI/Inputs'
-import { BlockButton, ButtonLabel } from '../../../components/UI/Buttons'
+import { Button, ButtonLabel } from '../../../components/UI/Buttons'
 import { CenterColumn } from '../../../components/UI/Layout'
 
 const styles = StyleSheet.create({
@@ -74,9 +74,9 @@ class LoginScreen extends React.Component {
         />
         <ErrorMessage message={this.state.error} />
         <CenterColumn>
-          <BlockButton onPress={this.onSubmit}>
+          <Button onPress={this.onSubmit}>
             <ButtonLabel>Log In</ButtonLabel>
-          </BlockButton>
+          </Button>
         </CenterColumn>
       </View>
     )
