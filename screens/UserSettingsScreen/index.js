@@ -33,7 +33,7 @@ export default class UserSettingsScreen extends React.Component {
               onPress={() => {
                 CurrentUser.clear()
                 Client.resetStore()
-                NavigatorService.navigate('login')
+                NavigatorService.navigate('loggedOut')
               }}
             >
               <Text style={{ color: Colors.state.alert }}>Log Out</Text>
