@@ -9,7 +9,7 @@ export const Link = styled.Text`
   font-weight: ${Typography.fontWeight.bold};
   color: ${Colors.semantic.text};
   font-size: ${Typography.fontSize.xsmall};
-  line-height: ${Typography.lineHeight.xsmall};
+  line-height: ${Typography.fontSize.xsmall * Typography.lineHeight.compact};
 `
 
 export class ExternalLink extends React.Component {
