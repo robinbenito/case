@@ -15,7 +15,11 @@ export const CenteringPane = styled(KeyboardAvoidingView)`
 
 export const CenterColumn = styled.View`
   width: 50%;
-  margin-horizontal: 25%;
-  flex-direction: row;
+  align-self: center;
+  flex-direction: column;
   justify-content: center;
+`
+
+export const P = styled.View`
+  margin-vertical: ${props => Units.scale[props.space || 1]};
 `
