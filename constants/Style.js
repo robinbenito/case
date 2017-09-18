@@ -25,11 +25,6 @@ export const Colors = {
   },
 }
 
-export const Units = {
-  base: 10,
-  hairlineWidth: StyleSheet.hairlineWidth,
-}
-
 export const Border = {
   borderWidth: 1.5,
   borderColor: Colors.gray.regular,
@@ -43,12 +38,28 @@ export const Typography = {
     bold: 'bold', // 700
   },
   fontSize: {
-    base: 17,
-    small: 15,
-    xsmall: 12,
+    base: 16,
+    small: 14,
+    xsmall: 11,
   },
   lineHeight: {
-    base: null, // TODO
-    xsmall: 15,
+    base: 1.5,
+    compact: 1.33, // DELETE THIS
   },
+}
+
+// Equivalient to one line-height
+const base = Typography.fontSize.base * Typography.lineHeight.base
+
+export const Units = {
+  hairlineWidth: StyleSheet.hairlineWidth,
+  base,
+  scale: [
+    0,
+    (base / 4),
+    (base / 2),
+    base,
+    (base * 2),
+    (base * 4),
+  ],
 }
