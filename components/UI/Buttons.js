@@ -12,10 +12,7 @@ export const ButtonOutline = styled.TouchableOpacity`
 export const Button = ButtonOutline.extend`
   padding-vertical: ${Typography.fontSize.base / 2};
   padding-horizontal: ${Typography.fontSize.base};
-`
-
-export const BlockButton = Button.extend`
-  width: 100%;
+  margin-vertical: ${props => Units.scale[props.space || 0]}
   align-items: center;
 `
 
@@ -44,14 +41,12 @@ export const StackedButtonBorder = styled.TouchableHighlight.attrs({
 })`
   border-top-width: ${Units.hairlineWidth};
   border-color: ${Border.borderColor};
-  padding-vertical: ${Units.base};
-  padding-left: ${Units.base};
+  padding-left: ${Units.scale[2]};
+  padding-vertical: ${Units.scale[2]};
 `
 
 export const StackedButtonLabel = styled.Text`
   font-size: ${Typography.fontSize.small};
-  padding-vertical: ${Units.base / 3};
-  padding-right: ${Units.base};
   color: ${Colors.semantic.text};
 `
 
