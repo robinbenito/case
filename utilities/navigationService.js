@@ -29,11 +29,6 @@ function back(key) {
 }
 
 function navigate(routeName, params) {
-  console.log('navigate', routeName, params)
-  console.log('sending options to action', {
-    routeName,
-    params,
-  })
   _container.dispatch(
     NavigationActions.navigate({
       routeName,
