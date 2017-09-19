@@ -1,57 +1,21 @@
 import React from 'react'
-import { Image, StyleSheet, KeyboardAvoidingView } from 'react-native'
-import PropTypes from 'prop-types'
-import { NavigationActions } from 'react-navigation'
-
+import { TouchableOpacity } from 'react-native'
 import LoginWithData from './components/LoginWithData'
-
-const logo = require('../../assets/images/logo.png')
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'white',
-  },
-  logo: {
-    width: 50,
-    height: 50,
-    marginBottom: 50,
-  },
-})
+import { SmallLogo } from '../../components/UI/Logos'
+import { P, CenteringPane } from '../../components/UI/Layout'
+import navigate from '../../utilities/navigationService'
 
 export default class LoginScreen extends React.Component {
-  constructor(props) {
-    super(props)
-    this.resetStack = this.resetStack.bind(this)
-  }
-
-  resetStack() {
-    const resetAction = NavigationActions.reset({
-      index: 0,
-      actions: [
-        NavigationActions.navigate({ routeName: 'main' }),
-      ],
-    })
-    this.props.navigation.dispatch(resetAction)
-  }
-
   render() {
     return (
-      <KeyboardAvoidingView behavior="padding" style={styles.container}>
-        <Image
-          style={styles.logo}
-          source={logo}
-        />
-        <LoginWithData onLogin={this.resetStack} />
-      </KeyboardAvoidingView>
+      <CenteringPane>
+        <P space={3}>
+          <TouchableOpacity onPress={() => navigate.reset('loggedOut')}>
+            <SmallLogo />
+          </TouchableOpacity>
+        </P>
+        <LoginWithData onLogin={() => navigate.reset('main')} />
+      </CenteringPane>
     )
   }
-}
-
-LoginScreen.propTypes = {
-  navigation: PropTypes.shape({
-    dispatch: PropTypes.func,
-  }).isRequired,
 }

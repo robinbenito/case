@@ -13,8 +13,8 @@ export const Fieldset = styled.View`
 export const Label = styled.Text`
   font-size: ${Typography.fontSize.xsmall};
   color: ${Colors.gray.semiBold};
-  margin-bottom: ${Units.base / 2};
-  margin-horizontal: ${Units.base};
+  margin-bottom: ${Units.scale[1] / 2};
+  margin-horizontal: ${Units.scale[1]};
 `
 
 export const FieldsetLabel = ({ children }) => (
@@ -27,8 +27,8 @@ FieldsetLabel.propTypes = {
 
 export const Input = styled.TextInput`
   font-size: ${Typography.fontSize.small};
-  height: ${Typography.fontSize.small + (Units.base * 3)};
-  padding-horizontal: ${Units.base};
+  height: ${Typography.fontSize.small + (Units.scale[1])};
+  padding-horizontal: ${Units.scale[1]};
   color: ${Colors.semantic.text};
   background-color: white;
 `
@@ -38,34 +38,29 @@ export const StackedInputBorder = styled.View`
   border-color: ${Border.borderColor};
 `
 
-export const StackedButtonBorder = styled.TouchableHighlight.attrs({
-  underlayColor: Border.borderColor,
-})`
-  border-top-width: ${Units.hairlineWidth};
-  border-color: ${Border.borderColor};
-  padding-vertical: ${Units.base};
-  padding-left: ${Units.base};
-`
-
 export const StackedInput = props => (
   <StackedInputBorder>
     <Input {...props} />
   </StackedInputBorder>
 )
 
-export const StackedButtonLabel = styled.Text`
-  font-size: ${Typography.fontSize.small};
-  padding-vertical: ${Units.base / 3};
-  padding-right: ${Units.base};
-  color: ${Colors.semantic.text};
+export const Underline = styled.View`
+  width: 75%;
+  margin-horizontal: 12.5%;
+  margin-vertical: ${Units.scale[1]};
+  border-color: ${Border.borderColor};
+  border-bottom-width: ${Border.borderWidth};
+  padding-top: ${Units.scale[2]};
 `
 
-export const StackedButton = ({ children, ...rest }) => (
-  <StackedButtonBorder {...rest}>
-    <StackedButtonLabel>{children}</StackedButtonLabel>
-  </StackedButtonBorder>
-)
+export const ShortTextInput = styled.TextInput`
+  font-size: ${Typography.fontSize.small};
+  height: ${Typography.fontSize.small * Typography.lineHeight.base};
+  padding-horizontal: ${Units.scale[1]};
+`
 
-StackedButton.propTypes = {
-  children: PropTypes.node.isRequired,
-}
+export const UnderlineInput = props => (
+  <Underline>
+    <ShortTextInput {...props} />
+  </Underline>
+)

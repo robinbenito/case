@@ -6,7 +6,8 @@ import Client from '../../state/Apollo'
 import CurrentUser from '../../utilities/currentUserService'
 import NavigatorService from '../../utilities/navigationService'
 import { Colors, Units } from '../../constants/Style'
-import { Fieldset, StackedButton } from '../../components/UI/Inputs'
+import { Fieldset } from '../../components/UI/Inputs'
+import { StackedButton } from '../../components/UI/Buttons'
 import { Section } from '../../components/UI/Layout'
 import openExternalArenaPath from '../../utilities/openExternalArenaPath'
 
@@ -32,7 +33,7 @@ export default class UserSettingsScreen extends React.Component {
               onPress={() => {
                 CurrentUser.clear()
                 Client.resetStore()
-                NavigatorService.navigate('login')
+                NavigatorService.navigate('loggedOut')
               }}
             >
               <Text style={{ color: Colors.state.alert }}>Log Out</Text>

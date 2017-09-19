@@ -3,7 +3,9 @@ import { TabNavigator, NavigationActions, DrawerNavigator } from 'react-navigati
 import { Ionicons } from '@expo/vector-icons'
 
 import ArenaLogo from '../components/ArenaLogo'
+import LoggedOutScreen from '../screens/LoggedOutScreen'
 import LoginScreen from '../screens/LoginScreen'
+import SignUpScreen from '../screens/SignUpScreen'
 
 import StackModalNavigator from '../utilities/stackModalNavigator'
 
@@ -94,8 +96,27 @@ const tabOptions = {
 export const MainNav = TabNavigator(tabs, tabOptions)
 
 export const createRootNavigator = (loggedIn = false) => StackModalNavigator({
+  loggedOut: {
+    screen: LoggedOutScreen,
+    navigationOptions: {
+      header: null,
+      cardStyle: {
+        backgroundColor: 'white',
+      },
+    },
+  },
+
   login: {
     screen: LoginScreen,
+    navigationOptions: {
+      header: null,
+      cardStyle: {
+        backgroundColor: 'white',
+      },
+    },
+  },
+  signUp: {
+    screen: SignUpScreen,
     navigationOptions: {
       header: null,
       cardStyle: {
@@ -111,7 +132,7 @@ export const createRootNavigator = (loggedIn = false) => StackModalNavigator({
   },
 }, {
   headerMode: 'screen',
-  initialRouteName: loggedIn ? 'main' : 'login',
+  initialRouteName: loggedIn ? 'main' : 'loggedOut',
   navigationOptions: {
     header: null,
   },

@@ -9,106 +9,32 @@ exports[`renders correctly 1`] = `
       Object {
         "alignItems": "center",
         "backgroundColor": "white",
-        "flex": 1,
+        "flexBasis": 0,
+        "flexGrow": 1,
+        "flexShrink": 1,
         "justifyContent": "center",
       },
-      Object {
-        "paddingBottom": 0,
-      },
+      undefined,
     ]
   }
 >
-  <Image
-    source={1}
-    style={
-      Object {
-        "height": 50,
-        "marginBottom": 50,
-        "width": 50,
-      }
-    }
-  />
   <View
+    space={3}
     style={
-      Object {
-        "alignSelf": "stretch",
-        "justifyContent": "center",
-      }
+      Array [
+        Object {
+          "marginVertical": 24,
+        },
+        undefined,
+      ]
     }
   >
-    <View
-      style={
-        Object {
-          "borderBottomWidth": 1.5,
-          "borderColor": "#ccc",
-          "marginHorizontal": "12.5%",
-          "marginVertical": 10,
-          "width": "75%",
-        }
-      }
-    >
-      <TextInput
-        autoCapitalize="none"
-        autoCorrect={false}
-        keyboardType="email-address"
-        onChangeText={[Function]}
-        placeholder="Email address"
-        style={
-          Object {
-            "fontSize": 15,
-            "height": 25,
-            "paddingHorizontal": 5,
-          }
-        }
-      />
-    </View>
-    <View
-      style={
-        Object {
-          "borderBottomWidth": 1.5,
-          "borderColor": "#ccc",
-          "marginHorizontal": "12.5%",
-          "marginVertical": 10,
-          "width": "75%",
-        }
-      }
-    >
-      <TextInput
-        autoCapitalize="none"
-        autoCorrect={false}
-        onChangeText={[Function]}
-        onSubmitEditing={[Function]}
-        placeholder="Password"
-        secureTextEntry={true}
-        style={
-          Object {
-            "fontSize": 15,
-            "height": 25,
-            "paddingHorizontal": 5,
-          }
-        }
-      />
-    </View>
-    <Text
-      accessible={true}
-      allowFontScaling={true}
-      disabled={false}
-      ellipsizeMode="tail"
-      style={
-        Object {
-          "color": "#e24d4d",
-          "fontSize": 12,
-          "margin": 10,
-          "textAlign": "center",
-        }
-      }
-    />
     <View
       accessibilityComponentType={undefined}
       accessibilityLabel={undefined}
       accessibilityTraits={undefined}
       accessible={true}
-      hasTVPreferredFocus={undefined}
+      collapsable={undefined}
       hitSlop={undefined}
       isTVSelectable={true}
       nativeID={undefined}
@@ -120,40 +46,175 @@ exports[`renders correctly 1`] = `
       onResponderTerminationRequest={[Function]}
       onStartShouldSetResponder={[Function]}
       style={
-        Array [
-          Object {
-            "backgroundColor": "transparent",
-          },
-          Object {
-            "borderColor": "#ccc",
-            "borderRadius": 3,
-            "borderWidth": 1.5,
-            "flexDirection": "row",
-            "justifyContent": "center",
-            "marginHorizontal": "25%",
-            "paddingHorizontal": 20,
-            "paddingVertical": 10,
-            "width": "50%",
-          },
-        ]
+        Object {
+          "opacity": 1,
+        }
       }
       testID={undefined}
       tvParallaxProperties={undefined}
     >
-      <Text
-        accessible={true}
-        allowFontScaling={true}
-        disabled={false}
-        ellipsizeMode="tail"
+      <Image
+        source={1}
         style={
           Object {
-            "fontSize": 17,
-            "fontWeight": "500",
+            "height": 50,
+            "width": 50,
           }
         }
+      />
+    </View>
+  </View>
+  <View
+    style={
+      Object {
+        "alignSelf": "stretch",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <View
+      style={
+        Array [
+          Object {
+            "borderBottomWidth": 1.5,
+            "borderColor": "#ccc",
+            "marginHorizontal": "12.5%",
+            "marginVertical": 6,
+            "paddingTop": 12,
+            "width": "75%",
+          },
+          undefined,
+        ]
+      }
+    >
+      <TextInput
+        autoCapitalize="none"
+        autoCorrect={false}
+        keyboardType="email-address"
+        onChangeText={[Function]}
+        placeholder="Email address"
+        style={
+          Array [
+            Object {
+              "fontSize": 14,
+              "height": 21,
+              "paddingHorizontal": 6,
+            },
+            undefined,
+          ]
+        }
+      />
+    </View>
+    <View
+      style={
+        Array [
+          Object {
+            "borderBottomWidth": 1.5,
+            "borderColor": "#ccc",
+            "marginHorizontal": "12.5%",
+            "marginVertical": 6,
+            "paddingTop": 12,
+            "width": "75%",
+          },
+          undefined,
+        ]
+      }
+    >
+      <TextInput
+        autoCapitalize="none"
+        autoCorrect={false}
+        onChangeText={[Function]}
+        onSubmitEditing={[Function]}
+        placeholder="Password"
+        secureTextEntry={true}
+        style={
+          Array [
+            Object {
+              "fontSize": 14,
+              "height": 21,
+              "paddingHorizontal": 6,
+            },
+            undefined,
+          ]
+        }
+      />
+    </View>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      disabled={false}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "color": "#e24d4d",
+          "fontSize": 11,
+          "margin": 24,
+          "textAlign": "center",
+        }
+      }
+    />
+    <View
+      style={
+        Array [
+          Object {
+            "alignSelf": "center",
+            "flexDirection": "column",
+            "justifyContent": "center",
+            "width": "50%",
+          },
+          undefined,
+        ]
+      }
+    >
+      <View
+        accessibilityComponentType={undefined}
+        accessibilityLabel={undefined}
+        accessibilityTraits={undefined}
+        accessible={true}
+        collapsable={undefined}
+        hitSlop={undefined}
+        isTVSelectable={true}
+        nativeID={undefined}
+        onLayout={undefined}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "borderColor": "#ccc",
+            "borderRadius": 3,
+            "borderWidth": 1.5,
+            "marginVertical": 0,
+            "opacity": 1,
+            "paddingHorizontal": 16,
+            "paddingVertical": 8,
+          }
+        }
+        testID={undefined}
+        tvParallaxProperties={undefined}
       >
-        Log In
-      </Text>
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          disabled={false}
+          ellipsizeMode="tail"
+          style={
+            Array [
+              Object {
+                "fontSize": 16,
+                "fontWeight": "500",
+              },
+              undefined,
+            ]
+          }
+        >
+          Log In
+        </Text>
+      </View>
     </View>
   </View>
 </View>
