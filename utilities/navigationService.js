@@ -31,7 +31,6 @@ function back(key) {
 function navigate(routeName, params) {
   _container.dispatch(
     NavigationActions.navigate({
-      type: 'Navigation/NAVIGATE',
       routeName,
       params,
     }),
@@ -70,7 +69,7 @@ function navigateToProfile(id) {
   if (lastStack.params && lastStack.params.id === id) {
     return false
   }
-  const route = routeName === 'home' ? 'feedProfile' : 'profile'
+  const route = routeName === 'main' ? 'feedProfile' : 'profile'
   return navigate(route, { id })
 }
 

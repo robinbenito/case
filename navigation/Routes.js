@@ -45,6 +45,9 @@ const FeedScreenWithDrawer = DrawerNavigator({
   contentComponent: () => (<NotificationsScreen />),
   header: null,
   drawerPosition: 'right',
+  cardStack: {
+    gesturesEnabled: false,
+  },
 })
 
 const tabs = {
