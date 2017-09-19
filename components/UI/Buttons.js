@@ -5,7 +5,7 @@ import { Border, Typography, Units, Colors } from '../../constants/Style'
 
 export const ButtonOutline = styled.TouchableOpacity`
   border-width: ${Border.borderWidth};
-  border-color: ${Border.borderColor};
+  border-color: ${Colors.gray.semiBold};
   border-radius: ${Border.borderRadius};
 `
 
@@ -29,6 +29,7 @@ export const XSmallButton = Button.extend`
 export const ButtonLabel = styled.Text`
   fontSize: ${Typography.fontSize.base};
   fontWeight: ${Typography.fontWeight.medium};
+  color: ${Colors.gray.semiBold};
 `
 
 export const SmallButtonLabel = ButtonLabel.extend`
@@ -40,7 +41,7 @@ export const StackedButtonBorder = styled.TouchableHighlight.attrs({
   underlayColor: Border.borderColor,
 })`
   border-top-width: ${Units.hairlineWidth};
-  border-color: ${Border.borderColor};
+  border-color: ${Colors.gray.regular};
   padding-left: ${Units.scale[2]};
   padding-vertical: ${Units.scale[2]};
 `
