@@ -33,23 +33,20 @@ export const Border = {
 
 export const Typography = {
   fontWeight: {
-    normal: 'normal', // 400
-    medium: '700',
-    semiBold: '700', // Alias for medium
+    normal: '400',
+    medium: '500',
+    semiBold: '700',
     bold: '800',
   },
   fontSize: {
     h1: 24,
     h2: 18,
-    h3: 17,
-    h4: 15,
+
+    large: 24, // h1
+    medium: 18, // h2
     base: 14,
     small: 12,
     tiny: 10,
-
-    // base: 16, // DELETE THIS
-    small: 14, // DELETE THIS
-    xsmall: 11, // DELETE THIS
   },
   lineHeight: {
     base: 1.5,

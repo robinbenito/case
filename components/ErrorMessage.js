@@ -6,7 +6,7 @@ import { Typography, Colors, Units } from '../constants/Style'
 const styles = StyleSheet.create({
   message: {
     margin: Units.base,
-    fontSize: Typography.fontSize.xsmall,
+    fontSize: Typography.fontSize.tiny,
     color: Colors.state.alert,
     textAlign: 'center',
   },

@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     paddingTop: Units.base / 2,
   },
   metaText: {
-    fontSize: Typography.fontSize.xsmall,
+    fontSize: Typography.fontSize.small,
     color: Colors.gray.semiBold,
   },
 })

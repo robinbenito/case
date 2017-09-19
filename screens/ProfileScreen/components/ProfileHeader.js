@@ -13,7 +13,7 @@ import UserAvatar from '../../../components/UserAvatar'
 import FollowButtonWithData from '../../../components/FollowButton'
 
 import { BaseIcon } from '../../../components/UI/Icons'
-import { XSmallButton } from '../../../components/UI/Buttons'
+import { SmallButton } from '../../../components/UI/Buttons'
 import { H1 } from '../../../components/UI/Texts'
 import { P } from '../../../components/UI/Layout'
 
@@ -42,11 +42,11 @@ const Blurb = styled.View`
 const ProfileAction = ({ isTheCurrentUser, user }) => (
   <View>
     {isTheCurrentUser &&
-      <XSmallButton
+      <SmallButton
         onPress={() => NavigationService.navigate('userSettings')}
       >
         <BaseIcon name="ios-settings" />
-      </XSmallButton>
+      </SmallButton>
     }
 
     {user.can.follow &&
