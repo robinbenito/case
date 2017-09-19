@@ -1,22 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { StyleSheet, View, Text } from 'react-native'
+import { View } from 'react-native'
 import HTMLView from 'react-native-htmlview'
 import styled from 'styled-components/native'
 
 import HTMLViewStyles from '../../../constants/HtmlView'
-
 import { Units } from '../../../constants/Style'
-
 import TabToggle from '../../../components/TabToggle'
 import UserAvatar from '../../../components/UserAvatar'
 import FollowButtonWithData from '../../../components/FollowButton'
-
 import { BaseIcon } from '../../../components/UI/Icons'
 import { SmallButton } from '../../../components/UI/Buttons'
 import { H1 } from '../../../components/UI/Texts'
 import { P } from '../../../components/UI/Layout'
-
 import NavigationService from '../../../utilities/navigationService'
 
 const tabOptions = {
@@ -55,6 +51,13 @@ const ProfileAction = ({ isTheCurrentUser, user }) => (
   </View>
 )
 
+ProfileAction.propTypes = {
+  user: PropTypes.shape({
+    can: PropTypes.any,
+  }).isRequired,
+  isTheCurrentUser: PropTypes.bool.isRequired,
+}
+
 const HTML = styled(HTMLView)`
   margin: 0;
 `
@@ -73,7 +76,10 @@ const ProfileHeader = ({ user, type, onToggle, isTheCurrentUser }) => (
           />
         </P>
       </Blurb>
-      <ProfileAction user={user} isTheCurrentUser={isTheCurrentUser} />
+      <ProfileAction
+        user={user}
+        isTheCurrentUser={isTheCurrentUser}
+      />
     </Header>
     <TabToggle
       selectedSegment={type}
