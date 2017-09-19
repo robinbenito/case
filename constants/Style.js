@@ -5,7 +5,7 @@ export const Colors = {
   white: 'white',
   gray: {
     bold: '#333',
-    semiBold: '#777',
+    semiBold: '#6d6d6d',
     medium: '#999',
     regular: '#ccc',
     light: '#eee',
@@ -26,7 +26,7 @@ export const Colors = {
 }
 
 export const Border = {
-  borderWidth: 1.5,
+  borderWidth: StyleSheet.hairlineWidth,
   borderColor: Colors.gray.regular,
   borderRadius: 3,
 }
@@ -34,13 +34,22 @@ export const Border = {
 export const Typography = {
   fontWeight: {
     normal: 'normal', // 400
-    medium: '500',
-    bold: 'bold', // 700
+    medium: '700',
+    semiBold: '700', // Alias for medium
+    bold: '800',
   },
   fontSize: {
-    base: 16,
-    small: 14,
-    xsmall: 11,
+    h1: 24,
+    h2: 18,
+    h3: 17,
+    h4: 15,
+    base: 14,
+    small: 12,
+    tiny: 10,
+
+    // base: 16, // DELETE THIS
+    small: 14, // DELETE THIS
+    xsmall: 11, // DELETE THIS
   },
   lineHeight: {
     base: 1.5,
