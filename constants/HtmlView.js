@@ -1,32 +1,20 @@
 import { merge, cloneDeep } from 'lodash'
+import { Typography } from './Style'
 
-import type from './Type'
-
-const base = {
+const baseStyles = {
   p: {
-    padding: 0,
-    margin: 0,
-    fontFamily: 'Times New Roman',
-    lineHeight: type.lineHeights.normal,
-    fontSize: type.sizes.middle,
+    fontFamily: 'System',
+    lineHeight: (Typography.fontSize.base * Typography.lineHeight.base),
+    fontSize: Typography.fontSize.base,
   },
+  a: {},
 }
 
-export default base
-
-const smallStyles = {
+export const smallStyles = merge(cloneDeep(baseStyles), {
   p: {
-    padding: 0,
-    margin: 0,
-    fontFamily: 'Times New Roman',
-    fontSize: type.sizes.normal,
-    lineHeight: type.lineHeights.normal,
+    lineHeight: (Typography.fontSize.small * Typography.lineHeight.base),
+    fontSize: Typography.fontSize.small,
   },
-}
+})
 
-const sansSerif = merge(cloneDeep(base), { p: { fontFamily: 'Arial' } })
-
-export {
-  smallStyles,
-  sansSerif,
-}
+export default baseStyles

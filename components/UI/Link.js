@@ -8,8 +8,8 @@ import { Colors, Typography } from '../../constants/Style'
 export const Link = styled.Text`
   font-weight: ${Typography.fontWeight.bold};
   color: ${Colors.semantic.text};
-  font-size: ${Typography.fontSize.xsmall};
-  line-height: ${Typography.fontSize.xsmall * Typography.lineHeight.compact};
+  font-size: ${Typography.fontSize.small};
+  line-height: ${Typography.fontSize.small * Typography.lineHeight.compact};
 `
 
 export class ExternalLink extends React.Component {

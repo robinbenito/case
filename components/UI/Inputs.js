@@ -7,11 +7,11 @@ export const Fieldset = styled.View`
   background-color: white;
   border-top-width: ${Units.hairlineWidth};
   border-bottom-width: ${Units.hairlineWidth};
-  border-color: ${Border.borderColor};
+  border-color: ${Colors.gray.medium};
 `
 
 export const Label = styled.Text`
-  font-size: ${Typography.fontSize.xsmall};
+  font-size: ${Typography.fontSize.small};
   color: ${Colors.gray.semiBold};
   margin-bottom: ${Units.scale[1] / 2};
   margin-horizontal: ${Units.scale[1]};
@@ -26,8 +26,8 @@ FieldsetLabel.propTypes = {
 }
 
 export const Input = styled.TextInput`
-  font-size: ${Typography.fontSize.small};
-  height: ${Typography.fontSize.small + (Units.scale[1])};
+  font-size: ${Typography.fontSize.base};
+  height: ${Typography.fontSize.base + (Units.scale[1])};
   padding-horizontal: ${Units.scale[1]};
   color: ${Colors.semantic.text};
   background-color: white;
@@ -54,8 +54,8 @@ export const Underline = styled.View`
 `
 
 export const ShortTextInput = styled.TextInput`
-  font-size: ${Typography.fontSize.small};
-  height: ${Typography.fontSize.small * Typography.lineHeight.base};
+  font-size: ${Typography.fontSize.base};
+  height: ${Typography.fontSize.base * Typography.lineHeight.base};
   padding-horizontal: ${Units.scale[1]};
 `
 

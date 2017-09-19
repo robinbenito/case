@@ -1,79 +1,86 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { StyleSheet, View, Text } from 'react-native'
+import { View } from 'react-native'
 import HTMLView from 'react-native-htmlview'
+import styled from 'styled-components/native'
 
+import HTMLViewStyles from '../../../constants/HtmlView'
+import { Units } from '../../../constants/Style'
 import TabToggle from '../../../components/TabToggle'
 import UserAvatar from '../../../components/UserAvatar'
 import FollowButtonWithData from '../../../components/FollowButton'
-import { sansSerif } from '../../../constants/HtmlView'
-import layout from '../../../constants/Layout'
-import typevalues from '../../../constants/Type'
 import { BaseIcon } from '../../../components/UI/Icons'
-import { XSmallButton } from '../../../components/UI/Buttons'
+import { SmallButton } from '../../../components/UI/Buttons'
+import { H1 } from '../../../components/UI/Texts'
+import { P } from '../../../components/UI/Layout'
 import NavigationService from '../../../utilities/navigationService'
-
-const styles = StyleSheet.create({
-  avatar: {
-    marginRight: layout.padding * 2,
-  },
-  header: {
-    paddingVertical: layout.padding * 2,
-  },
-  innerHeader: {
-    paddingHorizontal: layout.padding * 2,
-    marginBottom: layout.padding,
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    justifyContent: 'space-between',
-  },
-  userInfo: {
-    display: 'flex',
-    flexDirection: 'row',
-  },
-  headerText: {
-    fontSize: typevalues.sizes.headline,
-    fontWeight: typevalues.weights.semibold,
-    paddingBottom: layout.padding / 2,
-  },
-})
 
 const tabOptions = {
   Channels: 'CHANNEL',
   Blocks: 'BLOCK',
 }
 
-const ProfileHeader = ({ user, type, onToggle, isTheCurrentUser }) => (
-  <View style={styles.header}>
-    <View style={styles.innerHeader}>
-      <View style={styles.userInfo}>
-        <UserAvatar user={user} style={styles.avatar} />
-        <View>
-          <Text style={styles.headerText}>
-            {user.name}
-          </Text>
+const Header = styled.View`
+  flex-direction: row;
+  padding-vertical: ${Units.scale[2]};
+  padding-horizontal: ${Units.scale[3]};
+`
 
-          <HTMLView
-            value={user.bio || ''}
-            stylesheet={sansSerif}
+const Avatar = styled(UserAvatar)`
+  align-self: center;
+`
+
+const Blurb = styled.View`
+  flex: auto;
+  padding-horizontal: ${Units.scale[2]};
+`
+
+const ProfileAction = ({ isTheCurrentUser, user }) => (
+  <View>
+    {isTheCurrentUser &&
+      <SmallButton
+        onPress={() => NavigationService.navigate('userSettings')}
+      >
+        <BaseIcon name="ios-settings" />
+      </SmallButton>
+    }
+
+    {user.can.follow &&
+      <FollowButtonWithData id={user.id} type="USER" />
+    }
+  </View>
+)
+
+ProfileAction.propTypes = {
+  user: PropTypes.shape({
+    can: PropTypes.any,
+  }).isRequired,
+  isTheCurrentUser: PropTypes.bool.isRequired,
+}
+
+const HTML = styled(HTMLView)`
+  margin: 0;
+`
+
+const ProfileHeader = ({ user, type, onToggle, isTheCurrentUser }) => (
+  <View>
+    <Header>
+      <Avatar user={user} />
+      <Blurb>
+        <H1>{user.name}</H1>
+        <P space={2}>
+          <HTML
+            value={user.bio || '—'}
+            stylesheet={HTMLViewStyles}
             addLineBreaks={false}
           />
-        </View>
-      </View>
-
-      {isTheCurrentUser &&
-        <XSmallButton
-          onPress={() => NavigationService.navigate('userSettings')}
-        >
-          <BaseIcon name="ios-settings" />
-        </XSmallButton>
-      }
-
-      {user.can.follow &&
-        <FollowButtonWithData id={user.id} type="USER" />
-      }
-    </View>
+        </P>
+      </Blurb>
+      <ProfileAction
+        user={user}
+        isTheCurrentUser={isTheCurrentUser}
+      />
+    </Header>
     <TabToggle
       selectedSegment={type}
       onToggleChange={onToggle}
