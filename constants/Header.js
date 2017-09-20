@@ -1,18 +1,14 @@
-// TODO: ???
-import colors from './Colors'
+import { Colors, Typography } from './Style'
 
-const headerOptions = {
-  headerTintColor: colors.gray.text,
+export default {
+  headerTintColor: Colors.semantic.text,
   headerBackTitle: null,
   headerStyle: {
-    backgroundColor: colors.gray.background,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.gray.border,
-    shadowColor: 'transparent',
+    backgroundColor: 'white',
+    borderBottomWidth: 0,
   },
   headerTitleStyle: {
-    fontWeight: 'normal',
+    fontWeight: Typography.fontWeight.semiBold,
+    color: Colors.semantic.text,
   },
 }
-
-export default headerOptions
