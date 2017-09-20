@@ -13,6 +13,7 @@ const styles = StyleSheet.create({
 // eslint-disable-next-line
 export const SmallLogo = props => (
   <Image
+    {...props}
     style={styles.small}
     source={logo}
   />

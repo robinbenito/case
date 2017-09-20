@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components/native'
 import PropTypes from 'prop-types'
+import { TouchableOpacity } from 'react-native'
 import { Border, Typography, Units, Colors } from '../../constants/Style'
 
 export const ButtonOutline = styled.TouchableOpacity`
@@ -53,5 +54,20 @@ export const StackedButton = ({ children, ...rest }) => (
 )
 
 StackedButton.propTypes = {
+  children: PropTypes.node.isRequired,
+}
+
+export const SecondaryButtonLabel = styled.Text`
+  color: ${Colors.gray.medium};
+  font-size: ${Typography.fontSize.small}
+`
+
+export const SecondaryButton = ({ children, ...rest }) => (
+  <TouchableOpacity {...rest}>
+    <SecondaryButtonLabel>{children}</SecondaryButtonLabel>
+  </TouchableOpacity>
+)
+
+SecondaryButton.propTypes = {
   children: PropTypes.node.isRequired,
 }
