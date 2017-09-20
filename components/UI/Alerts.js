@@ -11,4 +11,5 @@ export const ErrorMessage = styled.Text`
   color: ${Colors.state.alert};
   text-align: center;
   margin-vertical: ${Units.base};
+  margin-horizontal: ${Units.base};
 `
