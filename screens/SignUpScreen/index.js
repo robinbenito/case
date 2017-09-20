@@ -2,28 +2,35 @@
 
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { gql, graphql } from 'react-apollo'
 import { pick } from 'lodash'
+import { gql, graphql } from 'react-apollo'
+import { View } from 'react-native'
 
+import currentUser from '../../utilities/currentUserService'
 import formatErrors from '../../utilities/formatErrors'
-import navigate from '../../utilities/navigationService'
-import CurrentUser from '../../utilities/currentUserService'
-import { CenteringPane, CenterColumn } from '../../components/UI/Layout'
+import navigationService from '../../utilities/navigationService'
+import wait from '../../utilities/wait'
+
+import { StatusMessage, ErrorMessage } from '../../components/UI/Alerts'
+import { Button, ButtonLabel, SecondaryButton } from '../../components/UI/Buttons'
+import { CenteringPane, CenterColumn, P } from '../../components/UI/Layout'
+import { SmallLogo } from '../../components/UI/Logos'
 import { UnderlineInput } from '../../components/UI/Inputs'
-import { Button, ButtonLabel } from '../../components/UI/Buttons'
-import ErrorMessage from '../../components/ErrorMessage'
 
 class SignUpScreen extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
+      // Model
       first_name: null,
       last_name: null,
       email: null,
       password: null,
       password_confirmation: null,
+      // UI
       error: null,
+      signingUp: false,
     }
 
     this.onSubmit = this.onSubmit.bind(this)
@@ -38,59 +45,96 @@ class SignUpScreen extends Component {
       'password_confirmation',
     ])
 
+    this.setState({ signingUp: true })
+
     this.props
       .mutate({ variables })
       .then(({ data: { registration: { me } } }) => {
-        CurrentUser.set(me)
+        currentUser.set(me)
       })
       .then(() => {
-        navigate.reset('main')
+        navigationService.reset('main')
       })
-      .catch((err) => {
+      .catch(async (err) => {
         const error = formatErrors(err)
-        this.setState({ error })
+        this.setState({
+          error,
+          signingUp: false,
+        })
+
+        await wait(5000)
+
+        this.setState({ error: null })
       })
   }
 
   render() {
     return (
       <CenteringPane>
-        <UnderlineInput
-          placeholder="First name"
-          onChangeText={first_name => this.setState({ first_name })}
-        />
-        <UnderlineInput
-          placeholder="Last name"
-          onChangeText={last_name => this.setState({ last_name })}
-        />
-        <UnderlineInput
-          autoCapitalize="none"
-          placeholder="Email address"
-          keyboardType="email-address"
-          onChangeText={email => this.setState({ email })}
-          autoCorrect={false}
-        />
-        <UnderlineInput
-          secureTextEntry
-          placeholder="Password"
-          autoCapitalize="none"
-          onChangeText={password => this.setState({ password })}
-          autoCorrect={false}
-        />
-        <UnderlineInput
-          secureTextEntry
-          placeholder="Confirm password"
-          autoCapitalize="none"
-          onChangeText={password_confirmation => this.setState({ password_confirmation })}
-          onSubmitEditing={this.onSubmit}
-          autoCorrect={false}
-        />
-        <ErrorMessage message={this.state.error} />
-        <CenterColumn>
-          <Button onPress={this.onSubmit}>
-            <ButtonLabel>Create account</ButtonLabel>
-          </Button>
-        </CenterColumn>
+        {this.state.signingUp &&
+          <View>
+            <SmallLogo alignSelf="center" />
+            <StatusMessage>
+              Registering…
+            </StatusMessage>
+          </View>
+        }
+
+        {!this.state.signingUp &&
+          <View width="100%">
+            <UnderlineInput
+              placeholder="First name"
+              onChangeText={first_name => this.setState({ first_name })}
+              autoFocus
+            />
+
+            <UnderlineInput
+              placeholder="Last name"
+              onChangeText={last_name => this.setState({ last_name })}
+            />
+
+            <UnderlineInput
+              autoCapitalize="none"
+              placeholder="Email address"
+              keyboardType="email-address"
+              onChangeText={email => this.setState({ email })}
+              autoCorrect={false}
+            />
+
+            <UnderlineInput
+              secureTextEntry
+              placeholder="Password"
+              autoCapitalize="none"
+              onChangeText={password => this.setState({ password })}
+              autoCorrect={false}
+            />
+
+            <UnderlineInput
+              secureTextEntry
+              placeholder="Confirm password"
+              autoCapitalize="none"
+              onChangeText={password_confirmation => this.setState({ password_confirmation })}
+              onSubmitEditing={this.onSubmit}
+              autoCorrect={false}
+            />
+
+            <ErrorMessage>
+              {this.state.error}
+            </ErrorMessage>
+
+            <CenterColumn>
+              <Button onPress={this.onSubmit}>
+                <ButtonLabel>Create account</ButtonLabel>
+              </Button>
+
+              <P space={3} alignSelf="center">
+                <SecondaryButton onPress={() => navigationService.reset('loggedOut')}>
+                  cancel
+                </SecondaryButton>
+              </P>
+            </CenterColumn>
+          </View>
+        }
       </CenteringPane>
     )
   }

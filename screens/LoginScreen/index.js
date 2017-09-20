@@ -1,20 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import gql from 'graphql-tag'
-import { graphql } from 'react-apollo'
-import { TouchableOpacity, View } from 'react-native'
 import { pick } from 'lodash'
+import { gql, graphql } from 'react-apollo'
+import { TouchableOpacity, View } from 'react-native'
 
-import { SmallLogo } from '../../components/UI/Logos'
-import { P, CenteringPane, CenterColumn } from '../../components/UI/Layout'
-import { StatusMessage, ErrorMessage } from '../../components/UI/Alerts'
-import CurrentUser from '../../utilities/currentUserService'
+import currentUser from '../../utilities/currentUserService'
 import formatErrors from '../../utilities/formatErrors'
-import { UnderlineInput } from '../../components/UI/Inputs'
-import { Button, ButtonLabel } from '../../components/UI/Buttons'
 import navigationService from '../../utilities/navigationService'
 import wait from '../../utilities/wait'
 
+import { StatusMessage, ErrorMessage } from '../../components/UI/Alerts'
+import { Button, ButtonLabel } from '../../components/UI/Buttons'
+import { UnderlineInput } from '../../components/UI/Inputs'
+import { P, CenteringPane, CenterColumn } from '../../components/UI/Layout'
+import { SmallLogo } from '../../components/UI/Logos'
 
 class LoginScreen extends React.Component {
   constructor(props) {
@@ -43,7 +42,7 @@ class LoginScreen extends React.Component {
       .mutate({ variables })
 
       .then(({ data: { login: { me } } }) => {
-        CurrentUser.set(me)
+        currentUser.set(me)
       })
 
       .then(() => {
@@ -67,20 +66,23 @@ class LoginScreen extends React.Component {
   render() {
     return (
       <CenteringPane>
-        <P space={3}>
-          <TouchableOpacity onPress={() => navigationService.reset('loggedOut')}>
-            <SmallLogo />
-          </TouchableOpacity>
-        </P>
-
         {this.state.loggingIn &&
-          <StatusMessage>
-            Logging in…
-          </StatusMessage>
+          <View>
+            <SmallLogo alignSelf="center" />
+            <StatusMessage>
+              Logging in…
+            </StatusMessage>
+          </View>
         }
 
         {!this.state.loggingIn &&
           <View width="100%">
+            <P space={3}>
+              <TouchableOpacity onPress={() => navigationService.reset('loggedOut')}>
+                <SmallLogo alignSelf="center" />
+              </TouchableOpacity>
+            </P>
+
             <UnderlineInput
               autoCapitalize="none"
               placeholder="Email address"
