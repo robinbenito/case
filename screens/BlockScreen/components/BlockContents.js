@@ -17,9 +17,13 @@ import {
 import HTMLView from 'react-native-htmlview'
 import { WebBrowser } from 'expo'
 
+import NavigationService from '../../../utilities/navigationService'
+
 import BlockMetadata from './BlockMetadata'
 import BlockTabs from './BlockTabs'
 import BlockActionTabs from './BlockActionTabs'
+
+import { BaseIcon } from '../../../components/UI/Icons'
 
 import layout from '../../../constants/Layout'
 import colors from '../../../constants/Colors'
@@ -45,6 +49,18 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: layout.padding,
     overflow: 'hidden',
+    position: 'relative',
+  },
+  textIcon: {
+    fontSize: 24,
+  },
+  expandText: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    flex: 1,
+    alignItems: 'center',
   },
   image: {
     width: contentLength - 2,
@@ -65,6 +81,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 })
+
+// eslint-disable-next-line
+const ExpandText = ({ block }) => (
+  <TouchableOpacity
+    style={styles.expandText}
+    onPress={() => NavigationService.navigate('text', { block })}
+  >
+    <BaseIcon name="ios-more" style={styles.textIcon} />
+  </TouchableOpacity>
+)
 
 class BlockContainer extends React.Component {
   constructor(props) {
@@ -142,6 +168,7 @@ class BlockContainer extends React.Component {
               addLineBreaks={null}
               numberOfLines={12}
             />
+            <ExpandText block={block} />
           </View>
         )
         break
