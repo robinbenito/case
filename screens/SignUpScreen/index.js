@@ -13,7 +13,7 @@ import wait from '../../utilities/wait'
 
 import { StatusMessage, ErrorMessage } from '../../components/UI/Alerts'
 import { Button, ButtonLabel, SecondaryButton } from '../../components/UI/Buttons'
-import { CenteringPane, CenterColumn, P } from '../../components/UI/Layout'
+import { CenteringPane, CenterColumn, Section } from '../../components/UI/Layout'
 import { SmallLogo } from '../../components/UI/Logos'
 import { UnderlineInput } from '../../components/UI/Inputs'
 
@@ -127,11 +127,11 @@ class SignUpScreen extends Component {
                 <ButtonLabel>Create account</ButtonLabel>
               </Button>
 
-              <P space={3} alignSelf="center">
+              <Section space={3} alignSelf="center">
                 <SecondaryButton onPress={() => navigationService.reset('loggedOut')}>
                   cancel
                 </SecondaryButton>
-              </P>
+              </Section>
             </CenterColumn>
           </View>
         }

@@ -12,7 +12,7 @@ import FollowButtonWithData from '../../../components/FollowButton'
 import { BaseIcon } from '../../../components/UI/Icons'
 import { SmallButton } from '../../../components/UI/Buttons'
 import { H1 } from '../../../components/UI/Texts'
-import { P } from '../../../components/UI/Layout'
+import { Section } from '../../../components/UI/Layout'
 import NavigationService from '../../../utilities/navigationService'
 
 const tabOptions = {
@@ -68,12 +68,12 @@ const ProfileHeader = ({ user, type, onToggle, isTheCurrentUser }) => (
       <Avatar user={user} />
       <Blurb>
         <H1>{user.name}</H1>
-        <P space={2}>
+        <Section space={2}>
           <HTML
             value={user.bio || '—'}
             stylesheet={HTMLViewStyles}
           />
-        </P>
+        </Section>
       </Blurb>
       <ProfileAction
         user={user}
