@@ -58,6 +58,7 @@ export const Typography = {
 const base = Typography.fontSize.base * Typography.lineHeight.base
 
 export const Units = {
+  statusBarHeight: 20,
   hairlineWidth: StyleSheet.hairlineWidth,
   base,
   scale: [
