@@ -10,8 +10,10 @@ import HTMLStyles from '../../../constants/HtmlView'
 const Wrapper = styled.View`
   border-width: ${Border.borderWidth};
   border-color: ${Border.borderColor};
-  padding: ${Units.scale[2]}px;
-  margin: ${Units.scale[2]}px;
+  padding-horizontal: ${Units.scale[2]};
+  padding-vertical: ${Units.scale[2]};
+  margin-horizontal: ${Units.scale[2]};
+  margin-vertical: ${Units.scale[2]};
 `
 
 export default class BlockText extends React.Component {
@@ -24,8 +26,6 @@ export default class BlockText extends React.Component {
           <HTMLView
             value={block.kind.content}
             stylesheet={HTMLStyles}
-            addLineBreaks={null}
-            numberOfLines={12}
           />
         </Wrapper>
       </ScrollView>
