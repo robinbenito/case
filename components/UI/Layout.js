@@ -1,9 +1,9 @@
 import { KeyboardAvoidingView } from 'react-native'
 import styled from 'styled-components/native'
-import { Units } from '../../constants/Style'
+import { Units, Colors } from '../../constants/Style'
 
 export const Section = styled.View`
-  margin-vertical: ${Units.base * 2}
+  margin-vertical: ${props => Units.scale[props.space || 1]};
 `
 
 export const CenteringPane = styled(KeyboardAvoidingView)`
@@ -20,6 +20,8 @@ export const CenterColumn = styled.View`
   justify-content: center;
 `
 
-export const P = styled.View`
-  margin-vertical: ${props => Units.scale[props.space || 1]};
+export const HorizontalRule = styled.View`
+  width: 100%;
+  height: ${Units.hairlineWidth};
+  background-color: ${({ color }) => color || Colors.semantic.text};
 `
