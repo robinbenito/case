@@ -7,66 +7,87 @@ import {
   ActivityIndicator,
   Dimensions,
   Image,
-  StyleSheet,
-  ScrollView,
-  RefreshControl,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native'
 import HTMLView from 'react-native-htmlview'
 import { WebBrowser } from 'expo'
+import styled from 'styled-components/native'
+
+import NavigationService from '../../../utilities/navigationService'
 
 import BlockMetadata from './BlockMetadata'
 import BlockTabs from './BlockTabs'
 import BlockActionTabs from './BlockActionTabs'
 
-import layout from '../../../constants/Layout'
-import colors from '../../../constants/Colors'
+import { BaseIcon } from '../../../components/UI/Icons'
+import { CenteringPane } from '../../../components/UI/Layout'
+import ScrollWithRefresh from '../../../components/ScrollWithRefresh'
+
 import HTMLStyles from '../../../constants/HtmlView'
 
-const { width, height } = Dimensions.get('window')
-const contentLength = width - (layout.padding * 2)
-const contentTopMargin = ((height - contentLength) / 2) - layout.topbar
+import { Colors, Units } from '../../../constants/Style'
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#fff',
-    paddingBottom: layout.padding * 10,
-  },
-  loadingContainer: {
-    flex: 1,
-    backgroundColor: '#fff',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: layout.padding,
-  },
-  textContainer: {
-    flex: 1,
-    padding: layout.padding,
-    overflow: 'hidden',
-  },
-  image: {
-    width: contentLength - 2,
-    height: contentLength - 2,
-    resizeMode: 'contain',
-  },
-  innerContainer: {
-    marginTop: contentTopMargin,
-    marginBottom: layout.padding * 2,
-    alignItems: 'center',
-    flex: 1,
-  },
-  blockContainer: {
-    width: contentLength,
-    height: contentLength,
-    borderWidth: 1,
-    borderColor: colors.gray.border,
-    alignItems: 'center',
-  },
-})
+const { width } = Dimensions.get('window')
+const contentWidth = width - Units.base
 
-class BlockContainer extends React.Component {
+const TextContainer = styled.View`
+  flex: 1;
+  padding-horizontal: ${Units.scale[2]};
+  padding-vertical: ${Units.scale[2]};
+  overflow: hidden;
+  position: relative;
+`
+
+const Container = styled.View`
+  margin-vertical: ${Units.scale[4]};
+  align-items: center;
+  flex: 1;
+`
+
+const BlockContainer = styled.View`
+  width: ${contentWidth};
+  height: ${contentWidth};
+  border-width: 1;
+  border-color: ${Colors.gray.light};
+  align-items: center;
+`
+
+const ExpandTextContainer = styled.TouchableHighlight`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  flex: 1;
+  alignItems: center;
+  backgroundColor: white;
+`
+
+const TextIcon = styled(BaseIcon)`
+  font-size: 24;
+`
+
+const BlockImage = styled(Image)`
+  width: ${contentWidth - 2};
+  height: ${contentWidth - 2};
+  resize-mode: contain;
+`
+
+// eslint-disable-next-line
+const ExpandText = ({ block }) => (
+  <ExpandTextContainer
+    onPress={() => NavigationService.navigate('text', { block })}
+    underlayColor={Colors.semantic.background}
+  >
+    {/* TouchableHighlight needs a view for rendering */}
+    <View>
+      <TextIcon name="ios-more" />
+    </View>
+  </ExpandTextContainer >
+)
+
+class BlockContents extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -96,19 +117,19 @@ class BlockContainer extends React.Component {
 
     if (error) {
       return (
-        <View style={styles.loadingContainer} >
+        <CenteringPane>
           <Text>
             Block not found
           </Text>
-        </View>
+        </CenteringPane>
       )
     }
 
     if (loading) {
       return (
-        <View style={styles.loadingContainer} >
+        <CenteringPane>
           <ActivityIndicator />
-        </View>
+        </CenteringPane>
       )
     }
 
@@ -125,8 +146,7 @@ class BlockContainer extends React.Component {
       case 'Block':
         blockInner = (
           <TouchableOpacity onPress={() => this.openBrowser(block.source.url)}>
-            <Image
-              style={styles.image}
+            <BlockImage
               source={{ uri: imageUrl, cache: 'force-cache' }}
             />
           </TouchableOpacity>
@@ -135,22 +155,19 @@ class BlockContainer extends React.Component {
 
       case 'Text':
         blockInner = (
-          <View style={styles.textContainer}>
+          <TextContainer>
             <HTMLView
               value={block.kind.content}
               stylesheet={HTMLStyles}
-              addLineBreaks={null}
-              numberOfLines={12}
             />
-          </View>
+            <ExpandText block={block} />
+          </TextContainer>
         )
         break
 
       default:
         blockInner = (
-          <Text>
-            {block.title}
-          </Text>
+          <Text>{block.title}</Text>
         )
         break
     }
@@ -160,23 +177,15 @@ class BlockContainer extends React.Component {
 
     return (
       <View>
-        <ScrollView
-          contentContainerStyle={styles.container}
-          refreshControl={
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={this.refresh}
-            />
-          }
-        >
-          <View style={styles.innerContainer}>
-            <View style={styles.blockContainer}>
+        <ScrollWithRefresh refreshing={refreshing} onRefresh={this.refresh}>
+          <Container>
+            <BlockContainer>
               {blockInner}
-            </View>
+            </BlockContainer>
             <BlockMetadata block={block} />
-          </View>
+          </Container>
           <BlockTabs block={block} key={refetched} />
-        </ScrollView>
+        </ScrollWithRefresh>
         <BlockActionTabs block={block} />
       </View>
     )
@@ -227,15 +236,15 @@ const BlockQuery = gql`
   }
 `
 
-BlockContainer.propTypes = {
+BlockContents.propTypes = {
   data: PropTypes.any.isRequired,
   imageLocation: PropTypes.any,
 }
 
-BlockContainer.defaultProps = {
+BlockContents.defaultProps = {
   imageLocation: null,
 }
 
-const ChannelContainerWithData = graphql(BlockQuery)(BlockContainer)
+const BlockContentsWithData = graphql(BlockQuery)(BlockContents)
 
-export default ChannelContainerWithData
+export default BlockContentsWithData

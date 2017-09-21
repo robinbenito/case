@@ -3,6 +3,7 @@ import colors from './Colors'
 
 const headerOptions = {
   headerTintColor: colors.gray.text,
+  headerBackTitle: null,
   headerStyle: {
     backgroundColor: colors.gray.background,
     borderBottomWidth: 1,

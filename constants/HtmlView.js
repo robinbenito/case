@@ -6,6 +6,7 @@ const baseStyles = {
     fontFamily: 'System',
     lineHeight: (Typography.fontSize.base * Typography.lineHeight.base),
     fontSize: Typography.fontSize.base,
+    marginBottom: (Typography.fontSize.base * Typography.lineHeight.base),
   },
   a: {},
 }
