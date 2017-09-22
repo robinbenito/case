@@ -1,9 +1,14 @@
 import { KeyboardAvoidingView } from 'react-native'
 import styled from 'styled-components/native'
+import { HEADER_HEIGHT } from '../Header'
 import { Units, Colors } from '../../constants/Style'
 
 export const Section = styled.View`
   margin-vertical: ${props => Units.scale[props.space || 1]};
+`
+
+export const Container = styled.View`
+  margin-top: ${HEADER_HEIGHT};
 `
 
 export const CenteringPane = styled(KeyboardAvoidingView)`
