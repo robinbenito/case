@@ -113,7 +113,7 @@ SearchHeader.propTypes = {
 SearchHeader.defaultProps = {
   onChangeText: () => null,
   onSubmit: () => null,
-  onCancel: () => navigationService.reset('addMenu'),
+  onCancel: () => navigationService.back(),
   style: {},
   cancelOrDone: 'Cancel',
 }
