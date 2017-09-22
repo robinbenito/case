@@ -3,19 +3,31 @@ import PropTypes from 'prop-types'
 import {
   FlatList,
   View,
+  StyleSheet,
   Text,
 } from 'react-native'
 import { findIndex } from 'lodash'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 
-import ChannelItem from '../ChannelItem'
+import ChannelItem from '../../../components/ChannelItem'
 
-class RecentConnections extends Component {
+const styles = StyleSheet.create({
+  container: {
+    display: 'flex',
+  },
+})
+
+class SearchConnection extends Component {
   constructor(props) {
     super(props)
     this.renderItem = this.renderItem.bind(this)
     this.isSelected = this.isSelected.bind(this)
+  }
+
+  shouldComponentUpdate(newProps) {
+    if (newProps.data && newProps.data.loading) { return false }
+    return true
   }
 
   isSelected(channel) {
@@ -37,13 +49,13 @@ class RecentConnections extends Component {
   }
 
   render() {
-    const { data } = this.props
+    const { q, data } = this.props
 
     if (data && data.error) {
       return (
         <View>
           <Text>
-            No connections found
+            No results found
           </Text>
         </View>
       )
@@ -52,26 +64,27 @@ class RecentConnections extends Component {
     if (data && data.loading) {
       return (
         <View>
-          <Text>Loading</Text>
+          <Text>Searching for {q}</Text>
         </View>
       )
     }
-
     return (
       <FlatList
-        data={data.me.recent_connections}
+        contentContainerStyle={styles.container}
+        data={data.me.connection_search}
         keyExtractor={item => item.id}
+        keyboardShouldPersistTaps="always"
         renderItem={this.renderItem}
       />
     )
   }
 }
 
-export const RecentConnectionsQuery = gql`
-  query RecentConnectionsQuery {
+const ConnectionSearchQuery = gql`
+  query ConnectionSearchQuery($q: String!) {
     me {
       id
-      recent_connections(per: 5) {
+      connection_search(q: $q) {
         ...ChannelThumb
       }
     }
@@ -79,17 +92,19 @@ export const RecentConnectionsQuery = gql`
   ${ChannelItem.fragments.channel}
 `
 
-RecentConnections.propTypes = {
+SearchConnection.propTypes = {
   data: PropTypes.any.isRequired,
+  q: PropTypes.string.isRequired,
   onToggleConnection: PropTypes.func,
   selected: PropTypes.any,
 }
 
-RecentConnections.defaultProps = {
+SearchConnection.defaultProps = {
   onToggleConnection: () => null,
   selected: [],
 }
 
-const RecentConnectionsWithData = graphql(RecentConnectionsQuery)(RecentConnections)
 
-export default RecentConnectionsWithData
+const ConnectionSearchWithData = graphql(ConnectionSearchQuery)(SearchConnection)
+
+export default ConnectionSearchWithData

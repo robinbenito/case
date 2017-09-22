@@ -17,10 +17,10 @@ import ProfileStack from './ProfileStack'
 import SearchStack from './SearchStack'
 
 import NewChannelStack from './NewChannelStack'
-import AddTextScreen from '../screens/AddScreen/components/AddTextScreen'
-import AddLinkScreen from '../screens/AddScreen/components/AddLinkScreen'
 
-import SelectConnectionsScreen from '../components/SelectConnections/index'
+import AddTextScreen from '../screens/AddTextScreen'
+import AddLinkScreen from '../screens/AddLinkScreen'
+import AddConnectionsScreen from '../screens/AddConnectionScreen'
 
 function onTabPress(navigation, tab, jumpToIndex) {
   // if tab currently focused tab
@@ -134,21 +134,30 @@ export const createRootNavigator = (loggedIn = false) => StackModalNavigator({
   },
   search: {
     screen: SearchStack,
+    navigationOptions: {
+      header: null,
+      cardStyle: {
+        backgroundColor: 'white',
+      },
+    },
   },
   newChannel: {
     screen: NewChannelStack,
+    navigationOptions: {
+      header: null,
+      cardStyle: {
+        backgroundColor: 'white',
+      },
+    },
   },
   newText: {
     screen: AddTextScreen,
   },
   newLink: {
     screen: AddLinkScreen,
-    navigationOptions: {
-      title: 'New link',
-    },
   },
   connect: {
-    screen: SelectConnectionsScreen,
+    screen: AddConnectionsScreen,
   },
 }, {
   headerMode: 'screen',

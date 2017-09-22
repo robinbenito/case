@@ -3,8 +3,8 @@ import { enhance } from 'react-navigation-addons'
 
 import headerStyle from '../constants/Header'
 
-import NewChannelScreen from '../screens/AddScreen/components/NewChannelScreen'
-import ChannelVisibility from '../screens/AddScreen/components/ChannelVisibility'
+import NewChannelScreen from '../screens/NewChannelScreen'
+import ChannelVisibility from '../screens/NewChannelScreen/components/ChannelVisibility'
 
 const NewChannelStack = enhance(StackNavigator)({
   newChannel: {

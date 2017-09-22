@@ -2,7 +2,7 @@ import { StackNavigator } from 'react-navigation'
 
 import BlockScreen from '../screens/BlockScreen'
 import BlockTextScreen from '../screens/BlockScreen/components/BlockText'
-import SelectConnectionsScreen from '../components/SelectConnections/index'
+import SelectConnectionsScreen from '../screens/AddConnectionScreen'
 import CommentScreen from '../screens/CommentScreen/index'
 
 import headerOptions from '../constants/Header'
