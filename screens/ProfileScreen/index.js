@@ -4,8 +4,15 @@ import {
   AsyncStorage,
   View,
 } from 'react-native'
+import styled from 'styled-components/native'
 
+import AddMenu from '../../components/AddMenu'
 import ProfileContainerWithData from './components/ProfileContainer'
+
+const ProfileWrapper = styled.View`
+  position: relative;
+  flex: 1;
+`
 
 export default class ProfileScreen extends React.Component {
   constructor(props) {
@@ -38,11 +45,14 @@ export default class ProfileScreen extends React.Component {
       const id = profileParam || this.state.currentUser.id
 
       return (
-        <ProfileContainerWithData
-          id={id}
-          type="CHANNEL"
-          page={1}
-        />
+        <ProfileWrapper>
+          <ProfileContainerWithData
+            id={id}
+            type="CHANNEL"
+            page={1}
+          />
+          <AddMenu />
+        </ProfileWrapper>
       )
     }
     return (
