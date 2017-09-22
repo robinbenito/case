@@ -1,18 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  AsyncStorage,
-  View,
-} from 'react-native'
-import styled from 'styled-components/native'
-
 import AddMenu from '../../components/AddMenu'
+import { AsyncStorage, View } from 'react-native'
 import ProfileContainerWithData from './components/ProfileContainer'
-
-const ProfileWrapper = styled.View`
-  position: relative;
-  flex: 1;
-`
+import { Container } from '../../components/UI/Layout'
 
 export default class ProfileScreen extends React.Component {
   constructor(props) {
@@ -32,7 +23,6 @@ export default class ProfileScreen extends React.Component {
       const currentUser = await AsyncStorage.getItem('@arena:CurrentUser')
       this.setState({ currentUser: JSON.parse(currentUser), storageSynced: true })
     } catch (e) {
-      // console.warn('Error fetching currentUser from localStorage', e)
       this.setState({ currentUser: false, storageSynced: true })
     }
   }
@@ -45,14 +35,14 @@ export default class ProfileScreen extends React.Component {
       const id = profileParam || this.state.currentUser.id
 
       return (
-        <ProfileWrapper>
+        <Container>
           <ProfileContainerWithData
             id={id}
             type="CHANNEL"
             page={1}
           />
           <AddMenu />
-        </ProfileWrapper>
+        </Container>
       )
     }
     return (
