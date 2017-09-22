@@ -72,7 +72,6 @@ const ProfileHeader = ({ user, type, onToggle, isTheCurrentUser }) => (
           <HTML
             value={user.bio || '—'}
             stylesheet={HTMLViewStyles}
-            addLineBreaks={false}
           />
         </P>
       </Blurb>
