@@ -13,11 +13,11 @@ import {
 
 import NavigationService from '../../utilities/navigationService'
 
-import SelectedChannels from './SelectedChannels'
+import SelectedChannels from './components/SelectedChannels'
 
-import SearchHeader from '../SearchHeader'
-import SearchConnectionsWithData from './SearchConnections'
-import RecentConnectionsWithData, { RecentConnectionsQuery } from './RecentConnections'
+import SearchHeader from '../../components/SearchHeader'
+import SearchConnectionsWithData from './components/SearchConnections'
+import RecentConnectionsWithData, { RecentConnectionsQuery } from './components/RecentConnections'
 import { BlockConnectionsQuery } from '../../screens/BlockScreen/components/BlockConnections'
 
 import uploadImage from '../../api/uploadImage'

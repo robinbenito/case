@@ -12,14 +12,14 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import SettingsList from 'react-native-settings-list'
 import { NavigationActions } from 'react-navigation'
 
-import FieldSet from '../../../components/FieldSet'
-import BackButton from '../../../components/BackButton'
-import HeaderRightButton from '../../../components/HeaderRightButton'
+import FieldSet from '../../components/FieldSet'
+import BackButton from '../../components/BackButton'
+import HeaderRightButton from '../../components/HeaderRightButton'
 
-import NavigatorService from '../../../utilities/navigationService'
+import NavigatorService from '../../utilities/navigationService'
 
-import layout from '../../../constants/Layout'
-import colors from '../../../constants/Colors'
+import layout from '../../constants/Layout'
+import colors from '../../constants/Colors'
 
 const styles = StyleSheet.create({
   container: {

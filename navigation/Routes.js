@@ -12,11 +12,15 @@ import StackModalNavigator from '../utilities/stackModalNavigator'
 import colors from '../constants/Colors'
 
 import FeedStack from './FeedStack'
-import AddStack from './AddStack'
+import NotificationsScreen from '../screens/NotificationsScreen'
 import ProfileStack from './ProfileStack'
 import SearchStack from './SearchStack'
 
-import NotificationsScreen from '../screens/NotificationsScreen'
+import NewChannelStack from './NewChannelStack'
+
+import AddTextScreen from '../screens/AddTextScreen'
+import AddLinkScreen from '../screens/AddLinkScreen'
+import AddConnectionsScreen from '../screens/AddConnectionScreen'
 
 function onTabPress(navigation, tab, jumpToIndex) {
   // if tab currently focused tab
@@ -59,14 +63,6 @@ const tabs = {
         <ArenaLogo size={17} fill={options.tintColor} />
       ),
     }),
-  },
-  add: {
-    screen: AddStack,
-    navigationOptions: {
-      tabBarIcon: options => (
-        <Ionicons name="md-add" size={30} color={options.tintColor} />
-      ),
-    },
   },
   profile: {
     screen: ProfileStack,
@@ -129,14 +125,41 @@ export const createRootNavigator = (loggedIn = false) => StackModalNavigator({
   },
   main: {
     screen: MainNav,
+    navigationOptions: {
+      header: null,
+      cardStyle: {
+        backgroundColor: 'white',
+      },
+    },
   },
   search: {
     screen: SearchStack,
+    navigationOptions: {
+      header: null,
+      cardStyle: {
+        backgroundColor: 'white',
+      },
+    },
+  },
+  newChannel: {
+    screen: NewChannelStack,
+    navigationOptions: {
+      header: null,
+      cardStyle: {
+        backgroundColor: 'white',
+      },
+    },
+  },
+  newText: {
+    screen: AddTextScreen,
+  },
+  newLink: {
+    screen: AddLinkScreen,
+  },
+  connect: {
+    screen: AddConnectionsScreen,
   },
 }, {
   headerMode: 'screen',
   initialRouteName: loggedIn ? 'main' : 'loggedOut',
-  navigationOptions: {
-    header: null,
-  },
 })
