@@ -1,3 +1,4 @@
+import { get } from 'lodash'
 import React, { Component } from 'react'
 import styled from 'styled-components/native'
 import { Units } from '../../constants/Style'
@@ -52,12 +53,15 @@ export default class Header extends Component {
   }
 
   render() {
+    const title = get(this, 'props.navigation.state.params.title')
+
     return (
       <HeaderModal
         onPress={this.onModalPress}
         isExpanded={this.state.isExpanded}
       >
         <HeaderPullDown
+          title={title}
           onPress={this.onPress}
           isExpanded={this.state.isExpanded}
           primary={this.props.primary}

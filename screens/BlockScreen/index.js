@@ -1,14 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import BlockContents from './components/BlockContents'
+import { Container } from '../../components/UI/Layout'
 
 export default class BlockScreen extends React.Component {
   render() {
-    console.log('BlockScreen', this.props.navigation)
     const { id, imageLocation } = this.props.navigation.state.params
+
     return (
-      <BlockContents id={id} imageLocation={imageLocation} />
+      <Container>
+        <BlockContents
+          id={id}
+          imageLocation={imageLocation}
+        />
+      </Container>
     )
   }
 }

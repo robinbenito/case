@@ -43,7 +43,7 @@ export default class HeaderPullDown extends Component {
         {!this.props.isExpanded &&
           <HeaderButton onPress={this.onPress}>
             <HeaderButtonLabel active>
-              {this.props.primary.title}
+              {this.props.title || this.props.primary.title}
               <Caret />
             </HeaderButtonLabel>
           </HeaderButton>
@@ -53,7 +53,7 @@ export default class HeaderPullDown extends Component {
           <ToggleSelect>
             <ToggleSelectOption>
               <HeaderButtonLabel active>
-                {this.props.primary.title}
+                {this.props.primary.title || '—'}
               </HeaderButtonLabel>
               <ToggleCheck />
             </ToggleSelectOption>
@@ -78,6 +78,7 @@ export default class HeaderPullDown extends Component {
 }
 
 HeaderPullDown.propTypes = {
+  title: PropTypes.string,
   onPress: PropTypes.func,
   isExpanded: PropTypes.bool,
   // TODO

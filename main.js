@@ -5,7 +5,7 @@ import { ApolloProvider } from 'react-apollo'
 import { updateFocus } from 'react-navigation-is-focused-hoc'
 import gql from 'graphql-tag'
 
-import { createRootNavigator } from './navigation/Routes'
+import createRootNavigator from './navigation/Routes'
 import Store from './state/Store'
 import Client from './state/Apollo'
 import NavigatorService from './utilities/navigationService'

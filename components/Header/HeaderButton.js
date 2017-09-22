@@ -32,7 +32,9 @@ export const HeaderButton = styled.TouchableOpacity`
   align-self: center;
 `
 
-export const HeaderButtonLabel = styled.Text`
+export const HeaderButtonLabel = styled.Text.attrs({
+  numberOfLines: 1,
+})`
   color: ${Colors.semantic.text};
   font-size: ${Typography.fontSize.h2};
   line-height: ${Typography.lineHeightFor(Typography.fontSize.h2)}

@@ -77,7 +77,10 @@ const BlockImage = styled(Image)`
 // eslint-disable-next-line
 const ExpandText = ({ block }) => (
   <ExpandTextContainer
-    onPress={() => NavigationService.navigate('text', { block })}
+    onPress={() => NavigationService.navigate('text', {
+      block,
+      title: block.title,
+    })}
     underlayColor={Colors.semantic.background}
   >
     {/* TouchableHighlight needs a view for rendering */}

@@ -8,6 +8,7 @@ export const Section = styled.View`
 `
 
 export const Container = styled.View`
+  flex: 1;
   margin-top: ${HEADER_HEIGHT};
 `
 
