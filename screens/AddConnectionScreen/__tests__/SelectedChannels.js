@@ -3,7 +3,7 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import toJSON from 'enzyme-to-json'
 
-import SelectedChannels from '../SelectedChannels'
+import SelectedChannels from '../components/SelectedChannels'
 
 const channelUno = {
   title: 'Round things',
