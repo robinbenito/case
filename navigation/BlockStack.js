@@ -15,7 +15,7 @@ const BlockStack = StackNavigator({
       tabBarVisible: false,
     },
   },
-  connect: {
+  blockConnect: {
     screen: SelectConnectionsScreen,
     navigationOptions: {
       ...headerOptions,
