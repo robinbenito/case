@@ -12,7 +12,7 @@ export const Colors = {
   },
   state: {
     premium: '#00c5ff',
-    alert: '#e24d4d',
+    alert: 'rgb(255, 100, 0)',
   },
   channel: {
     closed: '#4b3d67',
