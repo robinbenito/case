@@ -22,3 +22,10 @@ export const BaseIcon = ({ name, ...rest }) => (
 BaseIcon.propTypes = {
   name: PropTypes.string.isRequired,
 }
+
+export const CaretGlyph = styled(BaseGlyph).attrs({
+  name: 'md-arrow-dropdown',
+})`
+  font-size: 20;
+  line-height: 20;
+`
