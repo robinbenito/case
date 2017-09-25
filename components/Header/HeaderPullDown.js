@@ -84,10 +84,10 @@ HeaderPullDown.propTypes = {
   primary: PropTypes.shape({
     title: PropTypes.string.isRequired,
   }).isRequired,
-  secondary: PropTypes.shape([{
+  secondary: PropTypes.arrayOf(PropTypes.shape({
     title: PropTypes.string.isRequired,
     key: PropTypes.string.isRequired,
-  }]).isRequired,
+  })).isRequired,
 }
 
 HeaderPullDown.defaultProps = {
