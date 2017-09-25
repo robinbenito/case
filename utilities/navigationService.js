@@ -1,5 +1,4 @@
 import { NavigationActions } from 'react-navigation'
-import { last } from 'lodash'
 
 let _container; // eslint-disable-line
 
