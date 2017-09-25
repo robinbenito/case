@@ -24,6 +24,7 @@ export default StackNavigator({
         secondary={[
           { title: 'Profile', key: 'profile' },
         ]}
+        headerLeft={null}
         headerRight={<HeaderIcon navigation={navigation} />}
       />,
     }),
@@ -34,7 +35,6 @@ export default StackNavigator({
       header: <Header
         navigation={navigation}
         primary={{ title: 'Block' }}
-        headerLeft={<BackButton />}
         secondary={[
           { title: 'Profile', key: 'profile' },
           { title: 'Feed', key: 'feed' },
@@ -48,7 +48,6 @@ export default StackNavigator({
       header: <Header
         navigation={navigation}
         primary={{ title: 'Add Connection' }}
-        headerLeft={<BackButton />}
         secondary={[
           { title: 'Profile', key: 'profile' },
           { title: 'Feed', key: 'feed' },
@@ -62,7 +61,6 @@ export default StackNavigator({
       header: <Header
         navigation={navigation}
         primary={{ title: null }}
-        headerLeft={<BackButton />}
         secondary={[
           { title: 'Profile', key: 'profile' },
           { title: 'Feed', key: 'feed' },
@@ -76,7 +74,6 @@ export default StackNavigator({
       header: <Header
         navigation={navigation}
         primary={{ title: 'Comment' }}
-        headerLeft={<BackButton />}
         secondary={[
           { title: 'Profile', key: 'profile' },
           { title: 'Feed', key: 'feed' },
@@ -90,7 +87,6 @@ export default StackNavigator({
       header: <Header
         navigation={navigation}
         primary={{ title: 'Channel' }}
-        headerLeft={<BackButton />}
         secondary={[
           { title: 'Profile', key: 'profile' },
           { title: 'Feed', key: 'feed' },
@@ -120,7 +116,6 @@ export default StackNavigator({
       header: <Header
         navigation={navigation}
         primary={{ title: 'Settings' }}
-        headerLeft={<BackButton />}
         secondary={[
           { title: 'Profile', key: 'profile' },
           { title: 'Feed', key: 'feed' },

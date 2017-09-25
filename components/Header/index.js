@@ -6,6 +6,8 @@ import { Units } from '../../constants/Style'
 import HeaderPullDown from './HeaderPullDown'
 import { HEADER_BUTTON_HEIGHT } from './HeaderButton'
 
+import BackButton from '../BackButton'
+
 export const HEADER_HEIGHT = HEADER_BUTTON_HEIGHT + Units.statusBarHeight
 
 const HeaderModal = styled.TouchableOpacity`
@@ -102,5 +104,5 @@ Header.propTypes = {
 
 Header.defaultProps = {
   headerRight: null,
-  headerLeft: null,
+  headerLeft: <BackButton />,
 }
