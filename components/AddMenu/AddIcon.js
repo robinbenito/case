@@ -42,10 +42,9 @@ export default class AddIcon extends React.Component {
     this.spin = this.spin.bind(this)
   }
 
-  componentWillReceiveProps(props) {
-    this.setState({
-      active: props.active,
-    })
+  componentWillReceiveProps({ active }) {
+    if (this.state.active === active) return
+    this.setState({ active })
     this.spin()
   }
 
@@ -57,12 +56,14 @@ export default class AddIcon extends React.Component {
   spin() {
     const { active } = this.state
     const toValue = active ? 0 : 1
-    this.setState({ active: !active })
+
     Animated.timing(this.state.rotation, {
       toValue,
       duration: 100,
       easing: Easing.linear,
     }).start()
+
+    this.setState({ active: !active })
   }
 
   render() {
