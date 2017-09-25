@@ -28,7 +28,10 @@ export default class ChannelNameText extends React.Component {
 
   goToChannel() {
     this.props.onPress()
-    NavigatorService.navigate('channel', { id: this.props.channel.id })
+    NavigatorService.navigate('channel', {
+      id: this.props.channel.id,
+      title: this.props.channel.title,
+    })
   }
 
   render() {
