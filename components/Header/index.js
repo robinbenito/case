@@ -6,6 +6,8 @@ import { Units } from '../../constants/Style'
 import HeaderPullDown from './HeaderPullDown'
 import { HEADER_BUTTON_HEIGHT } from './HeaderButton'
 
+import BackButton from '../BackButton'
+
 export const HEADER_HEIGHT = HEADER_BUTTON_HEIGHT + Units.statusBarHeight
 
 const HeaderModal = styled.TouchableOpacity`
@@ -31,6 +33,11 @@ const HeaderRight = styled.View`
   justify-content: center;
   flex-direction: column;
   display: ${({ isExpanded }) => (isExpanded ? 'none' : 'flex')}
+`
+
+const HeaderLeft = styled(HeaderRight)`
+  right: auto;
+  left: 0;
 `
 
 export default class Header extends Component {
@@ -68,7 +75,11 @@ export default class Header extends Component {
           primary={this.props.primary}
           secondary={this.props.secondary}
         />
-
+        {this.props.headerLeft &&
+          <HeaderLeft isExpanded={this.state.isExpanded}>
+            {this.props.headerLeft}
+          </HeaderLeft>
+        }
         {this.props.headerRight &&
           <HeaderRight isExpanded={this.state.isExpanded}>
             {this.props.headerRight}
@@ -88,8 +99,10 @@ Header.propTypes = {
     key: PropTypes.string.isRequired,
   })).isRequired,
   headerRight: PropTypes.node,
+  headerLeft: PropTypes.node,
 }
 
 Header.defaultProps = {
   headerRight: null,
+  headerLeft: <BackButton />,
 }

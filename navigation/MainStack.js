@@ -12,6 +12,7 @@ import UserSettingsScreen from '../screens/UserSettingsScreen'
 
 import Header from '../components/Header'
 import HeaderIcon from '../screens/FeedScreen/components/HeaderIcons'
+import BackButton from '../components/BackButton'
 
 export default StackNavigator({
   feed: {
@@ -23,6 +24,7 @@ export default StackNavigator({
         secondary={[
           { title: 'Profile', key: 'profile' },
         ]}
+        headerLeft={null}
         headerRight={<HeaderIcon navigation={navigation} />}
       />,
     }),
@@ -94,15 +96,19 @@ export default StackNavigator({
   },
   profile: {
     screen: ProfileScreen,
-    navigationOptions: ({ navigation }) => ({
-      header: <Header
-        navigation={navigation}
-        primary={{ title: 'Profile' }}
-        secondary={[
-          { title: 'Feed', key: 'feed' },
-        ]}
-      />,
-    }),
+    navigationOptions: ({ navigation }) => {
+      const headerLeft = navigation.state.params ? <BackButton /> : null
+      return {
+        header: <Header
+          navigation={navigation}
+          primary={{ title: 'Profile' }}
+          headerLeft={headerLeft}
+          secondary={[
+            { title: 'Feed', key: 'feed' },
+          ]}
+        />,
+      }
+    },
   },
   userSettings: {
     screen: UserSettingsScreen,
