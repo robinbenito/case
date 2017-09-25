@@ -5,7 +5,7 @@ import gql from 'graphql-tag'
 
 import { concat, reject } from 'lodash'
 
-import {Keyboard, StyleSheet, View } from 'react-native'
+import { Keyboard, StyleSheet, View } from 'react-native'
 import NavigationService from '../../utilities/navigationService'
 
 import SelectedChannels from './components/SelectedChannels'

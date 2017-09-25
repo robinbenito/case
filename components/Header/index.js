@@ -1,5 +1,6 @@
 import { get } from 'lodash'
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
 import { Units } from '../../constants/Style'
 import HeaderPullDown from './HeaderPullDown'
@@ -76,4 +77,19 @@ export default class Header extends Component {
       </HeaderModal>
     )
   }
+}
+
+Header.propTypes = {
+  primary: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+  }).isRequired,
+  secondary: PropTypes.shape([{
+    title: PropTypes.string.isRequired,
+    key: PropTypes.string.isRequired,
+  }]).isRequired,
+  headerRight: PropTypes.node,
+}
+
+Header.defaultProps = {
+  headerRight: null,
 }

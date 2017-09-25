@@ -81,7 +81,17 @@ HeaderPullDown.propTypes = {
   title: PropTypes.string,
   onPress: PropTypes.func,
   isExpanded: PropTypes.bool,
-  // TODO
-  primary: PropTypes.any,
-  secondary: PropTypes.any,
+  primary: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+  }).isRequired,
+  secondary: PropTypes.shape([{
+    title: PropTypes.string.isRequired,
+    key: PropTypes.string.isRequired,
+  }]).isRequired,
+}
+
+HeaderPullDown.defaultProps = {
+  title: null,
+  onPress: (() => {}),
+  isExpanded: false,
 }

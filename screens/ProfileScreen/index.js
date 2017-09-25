@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import AddMenu from '../../components/AddMenu'
 import { AsyncStorage, View } from 'react-native'
+import AddMenu from '../../components/AddMenu'
 import ProfileContainerWithData from './components/ProfileContainer'
 import { Container } from '../../components/UI/Layout'
 
