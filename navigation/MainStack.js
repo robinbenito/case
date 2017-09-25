@@ -12,6 +12,7 @@ import UserSettingsScreen from '../screens/UserSettingsScreen'
 
 import Header from '../components/Header'
 import HeaderIcon from '../screens/FeedScreen/components/HeaderIcons'
+import BackButton from '../components/BackButton'
 
 export default StackNavigator({
   feed: {
@@ -33,6 +34,7 @@ export default StackNavigator({
       header: <Header
         navigation={navigation}
         primary={{ title: 'Block' }}
+        headerLeft={<BackButton />}
         secondary={[
           { title: 'Profile', key: 'profile' },
           { title: 'Feed', key: 'feed' },
@@ -46,6 +48,7 @@ export default StackNavigator({
       header: <Header
         navigation={navigation}
         primary={{ title: 'Add Connection' }}
+        headerLeft={<BackButton />}
         secondary={[
           { title: 'Profile', key: 'profile' },
           { title: 'Feed', key: 'feed' },
@@ -59,6 +62,7 @@ export default StackNavigator({
       header: <Header
         navigation={navigation}
         primary={{ title: null }}
+        headerLeft={<BackButton />}
         secondary={[
           { title: 'Profile', key: 'profile' },
           { title: 'Feed', key: 'feed' },
@@ -72,6 +76,7 @@ export default StackNavigator({
       header: <Header
         navigation={navigation}
         primary={{ title: 'Comment' }}
+        headerLeft={<BackButton />}
         secondary={[
           { title: 'Profile', key: 'profile' },
           { title: 'Feed', key: 'feed' },
@@ -85,6 +90,7 @@ export default StackNavigator({
       header: <Header
         navigation={navigation}
         primary={{ title: 'Channel' }}
+        headerLeft={<BackButton />}
         secondary={[
           { title: 'Profile', key: 'profile' },
           { title: 'Feed', key: 'feed' },
@@ -94,15 +100,19 @@ export default StackNavigator({
   },
   profile: {
     screen: ProfileScreen,
-    navigationOptions: ({ navigation }) => ({
-      header: <Header
-        navigation={navigation}
-        primary={{ title: 'Profile' }}
-        secondary={[
-          { title: 'Feed', key: 'feed' },
-        ]}
-      />,
-    }),
+    navigationOptions: ({ navigation }) => {
+      const headerLeft = navigation.state.params ? <BackButton /> : null
+      return {
+        header: <Header
+          navigation={navigation}
+          primary={{ title: 'Profile' }}
+          headerLeft={headerLeft}
+          secondary={[
+            { title: 'Feed', key: 'feed' },
+          ]}
+        />,
+      }
+    },
   },
   userSettings: {
     screen: UserSettingsScreen,
@@ -110,6 +120,7 @@ export default StackNavigator({
       header: <Header
         navigation={navigation}
         primary={{ title: 'Settings' }}
+        headerLeft={<BackButton />}
         secondary={[
           { title: 'Profile', key: 'profile' },
           { title: 'Feed', key: 'feed' },

@@ -33,6 +33,11 @@ const HeaderRight = styled.View`
   display: ${({ isExpanded }) => (isExpanded ? 'none' : 'flex')}
 `
 
+const HeaderLeft = styled(HeaderRight)`
+  right: auto;
+  left: 0;
+`
+
 export default class Header extends Component {
   constructor(props) {
     super(props)
@@ -68,7 +73,11 @@ export default class Header extends Component {
           primary={this.props.primary}
           secondary={this.props.secondary}
         />
-
+        {this.props.headerLeft &&
+          <HeaderLeft isExpanded={this.state.isExpanded}>
+            {this.props.headerLeft}
+          </HeaderLeft>
+        }
         {this.props.headerRight &&
           <HeaderRight isExpanded={this.state.isExpanded}>
             {this.props.headerRight}
@@ -88,8 +97,10 @@ Header.propTypes = {
     key: PropTypes.string.isRequired,
   })).isRequired,
   headerRight: PropTypes.node,
+  headerLeft: PropTypes.node,
 }
 
 Header.defaultProps = {
   headerRight: null,
+  headerLeft: null,
 }
