@@ -98,7 +98,7 @@ ProfileHeader.propTypes = {
     avatar: PropTypes.string,
     can: PropTypes.any,
   }).isRequired,
-  isTheCurrentUser: PropTypes.bool.isRequired,
+  isTheCurrentUser: PropTypes.bool,
 }
 
 ProfileHeader.defaultProps = {

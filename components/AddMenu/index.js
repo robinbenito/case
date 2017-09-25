@@ -1,7 +1,8 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
 import { ImagePicker } from 'expo'
-import { CameraRoll } from 'react-native'
+import { CameraRoll, View } from 'react-native'
 
 import {
   Border,
@@ -12,6 +13,13 @@ import {
 
 import NavigationService from '../../utilities/navigationService'
 import AddIcon from './AddIcon'
+
+const ADD_MENU_ROUTE_WHITELIST = [
+  'main',
+  'feed',
+  'channel',
+  'profile',
+]
 
 const AddModal = styled.TouchableOpacity`
   position: absolute;
@@ -107,12 +115,27 @@ export default class AddMenu extends React.Component {
     const { active } = this.state
     const menu = active ? this.renderMenu() : null
 
-    return (
-      <AddModal activeOpacity={1} active={active} onPress={this.toggleActive} >
-        <AddIcon active={active} onPress={this.toggleActive} />
-        {menu}
-      </AddModal>
-    )
+    if (ADD_MENU_ROUTE_WHITELIST.includes(this.props.routes.current)) {
+      return (
+        <AddModal activeOpacity={1} active={active} onPress={this.toggleActive} >
+          <AddIcon active={active} onPress={this.toggleActive} />
+          {menu}
+        </AddModal>
+      )
+    }
+
+    return <View />
   }
 }
 
+AddMenu.propTypes = {
+  routes: PropTypes.shape({
+    current: PropTypes.string,
+  }).isRequired,
+}
+
+AddMenu.defaultProps = {
+  routes: {
+    current: null,
+  },
+}

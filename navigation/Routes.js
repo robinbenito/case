@@ -26,7 +26,7 @@ const MainStackWithDrawer = DrawerNavigator({
 })
 
 
-export default (loggedIn = false) => StackModalNavigator({
+export default initialRouteName => StackModalNavigator({
   loggedOut: {
     screen: LoggedOutScreen,
     navigationOptions: {
@@ -93,5 +93,5 @@ export default (loggedIn = false) => StackModalNavigator({
   },
 }, {
   headerMode: 'screen',
-  initialRouteName: loggedIn ? 'main' : 'loggedOut',
+  initialRouteName,
 })
