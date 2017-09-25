@@ -60,7 +60,7 @@ export default class HeaderPullDown extends Component {
 
             {this.props.secondary.map(option => (
               <View key={option.key}>
-                <HorizontalRule color={Border.borderColor} />
+                <HorizontalRule />
                 <ToggleSelectOption
                   onPress={() => optionPress(this.props, option)}
                 >
