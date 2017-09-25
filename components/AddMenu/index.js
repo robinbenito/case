@@ -4,13 +4,8 @@ import styled from 'styled-components/native'
 import { ImagePicker } from 'expo'
 import { CameraRoll, View } from 'react-native'
 
-import {
-  Border,
-  Typography,
-  Units,
-  Colors,
-} from '../../constants/Style'
-
+import { Border, Typography, Units, Colors } from '../../constants/Style'
+import { HorizontalRule } from '../UI/Layout'
 import NavigationService from '../../utilities/navigationService'
 import AddIcon from './AddIcon'
 
@@ -36,14 +31,11 @@ const Menu = styled.View`
   border-width: ${Border.borderWidth};
   border-color: ${Border.borderColor};
   border-radius: ${Border.borderRadius};
-  width: 66%;
+  width: 66.6%;
   background-color: white;
 `
 
 const Item = styled.TouchableOpacity`
-  border-bottom-width: ${Border.borderWidth};
-  border-bottom-color: ${Border.borderColor};
-  margin-bottom: -${Border.borderWidth};
   padding-horizontal: ${Units.scale[2]};
   padding-vertical: ${Units.scale[2]};
   align-items: center;
@@ -51,9 +43,9 @@ const Item = styled.TouchableOpacity`
 `
 
 const ItemText = styled.Text`
-  font-weight: ${Typography.fontWeight.semiBold};
+  font-weight: ${Typography.fontWeight.medium};
   font-size: ${Typography.fontSize.medium};
-  color: ${Colors.gray.semiBold}
+  color: ${Colors.gray.semiBold};
 `
 
 export default class AddMenu extends React.Component {
@@ -95,15 +87,19 @@ export default class AddMenu extends React.Component {
         <Item onPress={() => NavigationService.navigate('newChannel')} >
           <ItemText>New Channel</ItemText>
         </Item>
+        <HorizontalRule />
         <Item onPress={() => NavigationService.navigate('newText')}>
           <ItemText>Enter text</ItemText>
         </Item>
+        <HorizontalRule />
         <Item onPress={() => NavigationService.navigate('newLink')}>
           <ItemText>Paste link</ItemText>
         </Item>
+        <HorizontalRule />
         <Item onPress={() => this.showPhotos()}>
           <ItemText>Upload image</ItemText>
         </Item>
+        <HorizontalRule />
         <Item onPress={() => this.takePhoto()}>
           <ItemText>Take photo</ItemText>
         </Item>
