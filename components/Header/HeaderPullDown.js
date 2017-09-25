@@ -3,14 +3,12 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
 import { View } from 'react-native'
 
-import { Border, Units } from '../../constants/Style'
-
 import navigationService from '../../utilities/navigationService'
-
 import { HeaderButton, HeaderButtonLabel, Caret } from './HeaderButton'
 import ToggleCheck from './ToggleCheck'
 import { ToggleSelect, ToggleSelectOption } from './ToggleSelect'
 import { HorizontalRule } from '../UI/Layout'
+import { Units } from '../../constants/Style'
 
 const optionPress = (props, option) => {
   props.onPress()
@@ -60,7 +58,7 @@ export default class HeaderPullDown extends Component {
 
             {this.props.secondary.map(option => (
               <View key={option.key}>
-                <HorizontalRule color={Border.borderColor} />
+                <HorizontalRule />
                 <ToggleSelectOption
                   onPress={() => optionPress(this.props, option)}
                 >

@@ -1,7 +1,7 @@
 import { KeyboardAvoidingView } from 'react-native'
 import styled from 'styled-components/native'
 import { HEADER_HEIGHT } from '../Header'
-import { Units, Colors } from '../../constants/Style'
+import { Units, Border } from '../../constants/Style'
 
 export const Section = styled.View`
   margin-vertical: ${props => Units.scale[props.space || 1]};
@@ -29,5 +29,5 @@ export const CenterColumn = styled.View`
 export const HorizontalRule = styled.View`
   width: 100%;
   height: ${Units.hairlineWidth};
-  background-color: ${({ color }) => color || Colors.semantic.text};
+  background-color: ${({ color }) => color || Border.borderColor};
 `
