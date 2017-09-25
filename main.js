@@ -4,15 +4,31 @@ import { StyleSheet, View } from 'react-native'
 import { ApolloProvider } from 'react-apollo'
 import { updateFocus } from 'react-navigation-is-focused-hoc'
 import gql from 'graphql-tag'
+import { connect } from 'react-redux'
 
+import AddMenu from './components/AddMenu'
 import createRootNavigator from './navigation/Routes'
-import Store from './state/Store'
+import Store, { SET_CURRENT_ROUTE } from './state/Store'
 import Client from './state/Apollo'
 import NavigatorService from './utilities/navigationService'
 import cacheAssetsAsync from './utilities/cacheAssetsAsync'
 import CurrentUser from './utilities/currentUserService'
 
 const logo = require('./assets/images/logo.png')
+
+const getCurrentRouteName = (navigationState) => {
+  if (!navigationState) return null
+
+  const route = navigationState.routes[navigationState.index]
+
+  // Dive into nested navigators
+  if (route.routes) return getCurrentRouteName(route)
+
+  return route.routeName
+}
+
+const mapStateToProps = ({ routes }) => ({ routes })
+const AddMenuWithState = connect(mapStateToProps)(AddMenu)
 
 class AppContainer extends React.Component {
   constructor(props) {
@@ -52,8 +68,6 @@ class AppContainer extends React.Component {
         storageChecked: true,
       })
     } catch (err) {
-      console.log(err)
-
       CurrentUser.clear()
 
       this.setState({
@@ -65,21 +79,32 @@ class AppContainer extends React.Component {
 
   render() {
     if (this.state.assetsLoaded && this.state.storageChecked) {
-      const Navigation = createRootNavigator(this.state.loggedIn)
+      const initialRouteName = this.state.loggedIn ? 'main' : 'loggedOut'
+      const Navigation = createRootNavigator(initialRouteName)
+
+      Store.dispatch({
+        type: SET_CURRENT_ROUTE,
+        current: initialRouteName,
+      })
 
       return (
-        <View style={StyleSheet.absoluteFill}>
-          <ApolloProvider store={Store} client={Client}>
+        <ApolloProvider store={Store} client={Client}>
+          <View style={StyleSheet.absoluteFill}>
             <Navigation
               onNavigationStateChange={(prevState, currentState) => {
+                Store.dispatch({
+                  type: SET_CURRENT_ROUTE,
+                  current: getCurrentRouteName(currentState),
+                })
                 updateFocus(currentState)
               }}
               ref={(navigatorRef) => {
                 NavigatorService.setContainer(navigatorRef)
               }}
             />
-          </ApolloProvider>
-        </View>
+            <AddMenuWithState />
+          </View>
+        </ApolloProvider>
       )
     }
     return (

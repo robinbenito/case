@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import AddMenu from '../../components/AddMenu'
 import ChannelContainerWithData from './components/ChannelContainer'
 import { Container } from '../../components/UI/Layout'
 
@@ -20,7 +19,6 @@ export default class ChannelScreen extends React.Component {
           page={1}
           type="BLOCK"
         />
-        <AddMenu />
       </Container>
     )
   }
