@@ -5,12 +5,7 @@ import gql from 'graphql-tag'
 
 import { concat, reject } from 'lodash'
 
-import {
-  Keyboard,
-  StyleSheet,
-  View,
-} from 'react-native'
-
+import { Keyboard, StyleSheet, View } from 'react-native'
 import NavigationService from '../../utilities/navigationService'
 
 import SelectedChannels from './components/SelectedChannels'
@@ -24,6 +19,8 @@ import uploadImage from '../../api/uploadImage'
 
 import layout from '../../constants/Layout'
 import type from '../../constants/Type'
+
+import { Container } from '../../components/UI/Layout'
 
 const styles = StyleSheet.create({
   container: {
@@ -190,7 +187,7 @@ class SelectConnectionScreen extends React.Component {
     const cancelOrDone = selectedConnections.length > 0 ? 'Done' : 'Cancel'
 
     return (
-      <View style={styles.container}>
+      <Container style={styles.container}>
         <SearchHeader
           style={styles.input}
           onChangeText={t => this.search(t)}
@@ -207,7 +204,7 @@ class SelectConnectionScreen extends React.Component {
           />
           {ConnectionContent}
         </View>
-      </View>
+      </Container>
     )
   }
 }

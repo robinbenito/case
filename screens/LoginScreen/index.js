@@ -12,7 +12,7 @@ import wait from '../../utilities/wait'
 import { StatusMessage, ErrorMessage } from '../../components/UI/Alerts'
 import { Button, ButtonLabel } from '../../components/UI/Buttons'
 import { UnderlineInput } from '../../components/UI/Inputs'
-import { P, CenteringPane, CenterColumn } from '../../components/UI/Layout'
+import { Section, CenteringPane, CenterColumn } from '../../components/UI/Layout'
 import { SmallLogo } from '../../components/UI/Logos'
 
 class LoginScreen extends React.Component {
@@ -77,11 +77,11 @@ class LoginScreen extends React.Component {
 
         {!this.state.loggingIn &&
           <View width="100%">
-            <P space={3}>
+            <Section space={3}>
               <TouchableOpacity onPress={() => navigationService.reset('loggedOut')}>
                 <SmallLogo alignSelf="center" />
               </TouchableOpacity>
-            </P>
+            </Section>
 
             <UnderlineInput
               autoCapitalize="none"

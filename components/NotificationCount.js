@@ -1,57 +1,40 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  StyleSheet,
-  Text,
-  TouchableWithoutFeedback,
-  View,
-} from 'react-native'
-
+import { View } from 'react-native'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
+import styled from 'styled-components/native'
 
-import layout from '../constants/Layout'
-import colors from '../constants/Colors'
-import typesizes from '../constants/Type'
+import { Typography, Colors, Units, Border } from '../constants/Style'
 
-const styles = StyleSheet.create({
-  container: {
-    width: layout.padding * 2,
-    height: layout.padding * 2,
-    alignContent: 'center',
-    justifyContent: 'center',
-    backgroundColor: colors.gray.lighter,
-    borderRadius: layout.padding / 4,
-    marginRight: layout.padding,
-  },
-  count: {
-    textAlign: 'center',
-    fontSize: typesizes.sizes.small,
-    fontWeight: typesizes.weights.semibold,
-    color: '#fff',
-  },
-})
+const Count = styled.Text`
+  font-size: ${Typography.fontSize.base};
+  font-weight: ${Typography.fontWeight.medium};
+  color: white;
+  align-self: center;
+`
+
+const Badge = styled.TouchableOpacity`
+  align-content: center;
+  justify-content: center;
+  background-color: ${p => (p.hasUnread ? Colors.state.alert : Colors.gray.medium)};
+  border-radius: ${Border.borderRadius};
+  padding-vertical: ${Units.scale[1] / 2};
+  padding-horizontal: ${Units.scale[1]};
+`
 
 class NotificationCount extends React.Component {
   render() {
     const { data, onPress } = this.props
 
-    if (data.loading || data.error) {
-      return (<View />)
-    }
-
-    const extraClass = data.me.counts.notifications > 0 ?
-      { backgroundColor: colors.state.alert } :
-      {}
+    if (data.loading || data.error) return <View />
 
     return (
-      <TouchableWithoutFeedback onPress={onPress}>
-        <View style={[styles.container, extraClass]} >
-          <Text style={styles.count}>
-            {data.me.counts.notifications}
-          </Text>
-        </View>
-      </TouchableWithoutFeedback>
+      <Badge onPress={onPress} hasUnread={data.me.counts.notifications > 0}>
+        <Count>
+          {data.me.counts.notifications}
+        </Count>
+      </Badge>
     )
   }
 }

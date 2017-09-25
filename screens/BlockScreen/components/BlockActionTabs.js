@@ -51,8 +51,8 @@ export default class BlockActionTabs extends React.Component {
         <TouchableOpacity
           style={[styles.option, { alignItems: 'flex-start' }]}
           onPress={() => {
-            NavigatorService.navigate('blockConnect', {
-              onCancel: () => NavigatorService.back(),
+            NavigatorService.navigate('addConnection', {
+              // onCancel: () => NavigatorService.back(),
               block_id: block.id,
               title: block.title,
             })
@@ -63,7 +63,10 @@ export default class BlockActionTabs extends React.Component {
         <TouchableOpacity
           style={styles.option}
           onPress={() => {
-            NavigatorService.navigate('comment', { id: block.id })
+            NavigatorService.navigate('comment', {
+              id: block.id,
+              title: block.title,
+            })
           }}
         >
           <Text style={styles.label}>Comment</Text>

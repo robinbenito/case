@@ -1,49 +1,20 @@
 import React from 'react'
-import { TabNavigator, NavigationActions, DrawerNavigator } from 'react-navigation'
-import { Ionicons } from '@expo/vector-icons'
-
-import ArenaLogo from '../components/ArenaLogo'
+import { DrawerNavigator } from 'react-navigation'
+import StackModalNavigator from '../utilities/stackModalNavigator'
 import LoggedOutScreen from '../screens/LoggedOutScreen'
 import LoginScreen from '../screens/LoginScreen'
 import SignUpScreen from '../screens/SignUpScreen'
-
-import StackModalNavigator from '../utilities/stackModalNavigator'
-
-import colors from '../constants/Colors'
-
-import FeedStack from './FeedStack'
+import MainStack from './MainStack'
 import NotificationsScreen from '../screens/NotificationsScreen'
-import ProfileStack from './ProfileStack'
 import SearchStack from './SearchStack'
-
 import NewChannelStack from './NewChannelStack'
-
 import AddTextScreen from '../screens/AddTextScreen'
 import AddLinkScreen from '../screens/AddLinkScreen'
 import AddConnectionsScreen from '../screens/AddConnectionScreen'
 
-function onTabPress(navigation, tab, jumpToIndex) {
-  // if tab currently focused tab
-  if (tab.focused) {
-    // if not on first screen of the StackNavigator in focused tab.
-    if (tab.route.index !== 0) {
-      // go to first screen of the StackNavigator
-      navigation.dispatch(NavigationActions.reset({
-        index: 0,
-        actions: [
-          NavigationActions.navigate({ routeName: tab.route.routes[0].routeName }),
-        ],
-      }))
-    }
-  } else {
-    // go to another tab (the default behavior)
-    jumpToIndex(tab.index)
-  }
-}
-
-const FeedScreenWithDrawer = DrawerNavigator({
+const MainStackWithDrawer = DrawerNavigator({
   feed: {
-    screen: FeedStack,
+    screen: MainStack,
   },
 }, {
   contentComponent: () => (<NotificationsScreen />),
@@ -54,47 +25,8 @@ const FeedScreenWithDrawer = DrawerNavigator({
   },
 })
 
-const tabs = {
-  home: {
-    screen: FeedScreenWithDrawer,
-    navigationOptions: ({ navigation }) => ({
-      tabBarOnPress: (tab, jumpToIndex) => { onTabPress(navigation, tab, jumpToIndex) },
-      tabBarIcon: options => (
-        <ArenaLogo size={17} fill={options.tintColor} />
-      ),
-    }),
-  },
-  profile: {
-    screen: ProfileStack,
-    navigationOptions: ({ navigation }) => ({
-      tabBarOnPress: (tab, jumpToIndex) => { onTabPress(navigation, tab, jumpToIndex) },
-      tabBarIcon: options => (
-        <Ionicons name="ios-person" size={30} color={options.tintColor} />
-      ),
-    }),
-  },
-}
 
-const tabOptions = {
-  initialRouteName: 'home',
-  lazy: true,
-  tabBarOptions: {
-    tabBarPosition: 'bottom',
-    activeTintColor: colors.gray.hover,
-    showLabel: false,
-    inactiveTintColor: colors.tabIconDefault,
-    style: {
-      backgroundColor: colors.gray.tab,
-    },
-    tabStyle: {
-      backgroundColor: colors.gray.tab,
-    },
-  },
-}
-
-export const MainNav = TabNavigator(tabs, tabOptions)
-
-export const createRootNavigator = (loggedIn = false) => StackModalNavigator({
+export default (loggedIn = false) => StackModalNavigator({
   loggedOut: {
     screen: LoggedOutScreen,
     navigationOptions: {
@@ -124,7 +56,7 @@ export const createRootNavigator = (loggedIn = false) => StackModalNavigator({
     },
   },
   main: {
-    screen: MainNav,
+    screen: MainStackWithDrawer,
     navigationOptions: {
       header: null,
       cardStyle: {

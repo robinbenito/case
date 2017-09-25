@@ -95,7 +95,10 @@ export default class ChannelItem extends Component {
     if (onToggleSelect) {
       this.toggleSelect()
     } else {
-      NavigatorService.navigate('channel', { id: this.props.channel.id })
+      NavigatorService.navigate('channel', {
+        id: this.props.channel.id,
+        title: this.props.channel.title,
+      })
     }
   }
 

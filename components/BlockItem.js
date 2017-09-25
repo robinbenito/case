@@ -68,7 +68,10 @@ export default class BlockItem extends Component {
   }
 
   onPress() {
-    NavigatorService.navigate('block', { id: this.props.block.id })
+    NavigatorService.navigate('block', {
+      id: this.props.block.id,
+      title: this.props.block.title,
+    })
   }
 
   render() {

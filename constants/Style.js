@@ -12,7 +12,7 @@ export const Colors = {
   },
   state: {
     premium: '#00c5ff',
-    alert: '#e24d4d',
+    alert: 'rgb(255, 100, 0)',
   },
   channel: {
     closed: '#4b3d67',
@@ -54,10 +54,14 @@ export const Typography = {
   },
 }
 
+Typography.lineHeightFor = size =>
+  size * Typography.lineHeight.base
+
 // Equivalient to one line-height
-const base = Typography.fontSize.base * Typography.lineHeight.base
+const base = Typography.lineHeightFor(Typography.fontSize.base)
 
 export const Units = {
+  statusBarHeight: 20,
   hairlineWidth: StyleSheet.hairlineWidth,
   base,
   scale: [
