@@ -19,6 +19,7 @@ import FeedGroupSentence from '../../../components/FeedGroupSentence'
 import BlockItem from '../../../components/BlockItem'
 import ChannelItem from '../../../components/ChannelItem'
 import Empty from '../../../components/Empty'
+import UserAvatar from '../../../components/UserAvatar'
 
 import layout from '../../../constants/Layout'
 
@@ -164,15 +165,7 @@ const FeedQuery = gql`
           created_at(relative: true)
           items {
             __typename
-            ... on User {
-              id
-              first_name
-              last_name
-              slug
-              href
-              initials
-              avatar(size: MEDIUM)
-            }
+            ...Avatar
             ...ChannelThumb
             ...BlockThumb
           }
@@ -180,6 +173,7 @@ const FeedQuery = gql`
       }
     }
   }
+  ${UserAvatar.fragments.avatar}
   ${BlockItem.fragments.block}
   ${ChannelItem.fragments.channel}
   ${FeedWordLink.fragments.channel}

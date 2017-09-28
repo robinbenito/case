@@ -63,7 +63,7 @@ const renderItem = ({ item }) => {
             mode="feed"
             onPress={() => NavigationService.navigate('profile', {
               id: item.id,
-              title: item.title,
+              title: item.name,
             })}
             style={{ marginRight: layout.padding }}
             includeName
