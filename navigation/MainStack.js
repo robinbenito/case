@@ -104,7 +104,6 @@ export default StackNavigator({
     screen: ProfileScreen,
     navigationOptions: ({ navigation }) => {
       const headerLeft = navigation.state.params ? <BackButton /> : null
-      console.log('in profile screen route', 'false')
       return {
         header: <HeaderWithState
           navigation={navigation}
