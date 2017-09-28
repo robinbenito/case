@@ -2,7 +2,6 @@ import React from 'react'
 import gql from 'graphql-tag'
 import { graphql, compose } from 'react-apollo'
 import PropTypes from 'prop-types'
-import { once } from 'lodash'
 import {
   ActivityIndicator,
   FlatList,
@@ -50,18 +49,14 @@ class ChannelContainer extends React.Component {
     this.onRefresh = this.onRefresh.bind(this)
     this.onToggleChange = this.onToggleChange.bind(this)
     this.renderLoader = this.renderLoader.bind(this)
+  }
 
-    this.ensureHeaderVisibilityOnInitialRender = once(() => {
-      // Despite our best effors, sometimes the header component is cached (?)
-      // and the title remains visible on first render. This explicitly sets it to false
-      setTimeout(() => scrollHeaderVisibilitySensor.dispatch(false), 1)
-    })
+  componentDidMount() {
+    scrollHeaderVisibilitySensor.dispatch(false)
   }
 
   onRefresh() {
-    this.setState({
-      page: 1,
-    })
+    this.setState({ page: 1 })
     this.props.data.refetch({ notifyOnNetworkStatusChange: true })
   }
 
@@ -99,8 +94,6 @@ class ChannelContainer extends React.Component {
   }
 
   render() {
-    this.ensureHeaderVisibilityOnInitialRender()
-
     const { data, blocksData } = this.props
     const { error, loading, channel } = this.props.data
 
