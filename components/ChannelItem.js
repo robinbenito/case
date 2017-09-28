@@ -16,6 +16,8 @@ import colors from '../constants/Colors'
 import type from '../constants/Type'
 import NavigatorService from '../utilities/navigationService'
 
+import { Colors } from '../constants/Style'
+
 const styles = StyleSheet.create({
   channelContainer: {
     borderWidth: 1,
@@ -98,6 +100,7 @@ export default class ChannelItem extends Component {
       NavigatorService.navigate('channel', {
         id: this.props.channel.id,
         title: this.props.channel.title,
+        color: Colors.channel[this.props.channel.visibility],
       })
     }
   }

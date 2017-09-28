@@ -26,7 +26,10 @@ export default class UserNameText extends React.Component {
 
   goToProfile() {
     this.props.onPress()
-    NavigatorService.navigateToProfile(this.props.user.id)
+    NavigatorService.navigate('profile', {
+      id: this.props.user.id,
+      title: this.props.user.name,
+    })
   }
 
   render() {

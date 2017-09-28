@@ -61,7 +61,10 @@ const renderItem = ({ item }) => {
             key={item.id}
             size={90}
             mode="feed"
-            onPress={() => NavigationService.navigateToProfile(item.id)}
+            onPress={() => NavigationService.navigate('profile', {
+              id: item.id,
+              title: item.title,
+            })}
             style={{ marginRight: layout.padding }}
             includeName
           />
