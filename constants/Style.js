@@ -15,9 +15,9 @@ export const Colors = {
     alert: 'rgb(255, 100, 0)',
   },
   channel: {
-    closed: '#4b3d67',
-    public: '#17ac10',
-    private: '#b60202',
+    closed: 'rgb(58, 44, 106)',
+    public: 'rgb(66, 133, 60)',
+    private: 'rgb(165, 0, 0)',
   },
   semantic: {
     text: '#333',

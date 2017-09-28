@@ -20,6 +20,7 @@ import NavigatorService from '../../utilities/navigationService'
 
 import layout from '../../constants/Layout'
 import colors from '../../constants/Colors'
+import { Colors } from '../../constants/Style'
 
 const styles = StyleSheet.create({
   container: {
@@ -83,9 +84,9 @@ class NewChannelScreen extends React.Component {
     this.props.mutate({ variables: this.state }).then((response) => {
       const { data } = response
       if (!data.error) {
-        const { create_channel: { channel: { id } } } = data
+        const { create_channel: { channel: { id, title, visibility } } } = data
         NavigatorService.reset('addMenu')
-        NavigatorService.navigate('channel', { id })
+        NavigatorService.navigate('channel', { id, title, color: Colors.channel[visibility] })
       }
     })
   }
@@ -132,7 +133,7 @@ class NewChannelScreen extends React.Component {
             <SettingsList.Item
               title="Privacy"
               titleInfo={visibility.charAt(0).toUpperCase() + visibility.substr(1).toLowerCase()}
-              titleInfoStyle={{ color: colors[visibility.toLowerCase()] }}
+              titleInfoStyle={{ color: Colors.channel[visibility.toLowerCase()] }}
               onPress={this.goToChannelVisibilityScreen}
             />
           </SettingsList>
@@ -158,6 +159,7 @@ const createChannelMutation = gql`
       channel {
         id
         title
+        visibility
       }
     }
   }

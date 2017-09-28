@@ -1,5 +1,6 @@
 import React from 'react'
 import { StackNavigator } from 'react-navigation'
+import { connect } from 'react-redux'
 
 import AddConnectionScreen from '../screens/AddConnectionScreen'
 import BlockScreen from '../screens/BlockScreen'
@@ -14,6 +15,10 @@ import Header from '../components/Header'
 import HeaderIcon from '../screens/FeedScreen/components/HeaderIcons'
 import BackButton from '../components/BackButton'
 
+const HeaderWithState = connect(({ ui: { isHeaderTitleVisible } }) => ({
+  isHeaderTitleVisible,
+}))(Header)
+
 export default StackNavigator({
   feed: {
     screen: FeedScreen,
@@ -22,7 +27,7 @@ export default StackNavigator({
         navigation={navigation}
         primary={{ title: 'Feed' }}
         secondary={[
-          { title: 'Profile', key: 'profile' },
+          { title: 'Your profile', key: 'profile' },
         ]}
         headerLeft={null}
         headerRight={<HeaderIcon navigation={navigation} />}
@@ -36,7 +41,7 @@ export default StackNavigator({
         navigation={navigation}
         primary={{ title: 'Block' }}
         secondary={[
-          { title: 'Profile', key: 'profile' },
+          { title: 'Your profile', key: 'profile' },
           { title: 'Feed', key: 'feed' },
         ]}
       />,
@@ -49,7 +54,7 @@ export default StackNavigator({
         navigation={navigation}
         primary={{ title: 'Add Connection' }}
         secondary={[
-          { title: 'Profile', key: 'profile' },
+          { title: 'Your profile', key: 'profile' },
           { title: 'Feed', key: 'feed' },
         ]}
       />,
@@ -62,7 +67,7 @@ export default StackNavigator({
         navigation={navigation}
         primary={{ title: null }}
         secondary={[
-          { title: 'Profile', key: 'profile' },
+          { title: 'Your profile', key: 'profile' },
           { title: 'Feed', key: 'feed' },
         ]}
       />,
@@ -75,7 +80,7 @@ export default StackNavigator({
         navigation={navigation}
         primary={{ title: 'Comment' }}
         secondary={[
-          { title: 'Profile', key: 'profile' },
+          { title: 'Your profile', key: 'profile' },
           { title: 'Feed', key: 'feed' },
         ]}
       />,
@@ -84,13 +89,14 @@ export default StackNavigator({
   channel: {
     screen: ChannelScreen,
     navigationOptions: ({ navigation }) => ({
-      header: <Header
+      header: <HeaderWithState
         navigation={navigation}
         primary={{ title: 'Channel' }}
         secondary={[
-          { title: 'Profile', key: 'profile' },
+          { title: 'Your profile', key: 'profile' },
           { title: 'Feed', key: 'feed' },
         ]}
+        isHeaderTitleVisible={false}
       />,
     }),
   },
@@ -98,14 +104,16 @@ export default StackNavigator({
     screen: ProfileScreen,
     navigationOptions: ({ navigation }) => {
       const headerLeft = navigation.state.params ? <BackButton /> : null
+      console.log('in profile screen route', 'false')
       return {
-        header: <Header
+        header: <HeaderWithState
           navigation={navigation}
           primary={{ title: 'Profile' }}
           headerLeft={headerLeft}
           secondary={[
             { title: 'Feed', key: 'feed' },
           ]}
+          isHeaderTitleVisible={false}
         />,
       }
     },
@@ -117,7 +125,7 @@ export default StackNavigator({
         navigation={navigation}
         primary={{ title: 'Settings' }}
         secondary={[
-          { title: 'Profile', key: 'profile' },
+          { title: 'Your profile', key: 'profile' },
           { title: 'Feed', key: 'feed' },
         ]}
       />,

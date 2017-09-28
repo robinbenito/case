@@ -2,7 +2,7 @@ import React from 'react'
 import gql from 'graphql-tag'
 import { graphql, compose, withApollo } from 'react-apollo'
 import PropTypes from 'prop-types'
-
+import { once } from 'lodash'
 import {
   ActivityIndicator,
   FlatList,
@@ -17,6 +17,7 @@ import BlockItem from '../../../components/BlockItem'
 import Empty from '../../../components/Empty'
 import CurrentUser from '../../../utilities/currentUserService'
 import layout from '../../../constants/Layout'
+import scrollHeaderVisibilitySensor from '../../../utilities/scrollHeaderVisibilitySensor'
 
 const styles = StyleSheet.create({
   container: {
@@ -50,6 +51,12 @@ class ProfileContainer extends React.Component {
     this.onRefresh = this.onRefresh.bind(this)
     this.onToggleChange = this.onToggleChange.bind(this)
     this.renderLoader = this.renderLoader.bind(this)
+
+    this.ensureHeaderVisibilityOnInitialRender = once(() => {
+      // Despite our best effors, sometimes the header component is cached (?)
+      // and the title remains visible on first render. This explicitly sets it to false
+      setTimeout(() => scrollHeaderVisibilitySensor.dispatch(false), 1)
+    })
   }
 
   onEndReached() {
@@ -94,6 +101,8 @@ class ProfileContainer extends React.Component {
   }
 
   render() {
+    this.ensureHeaderVisibilityOnInitialRender()
+
     const { userBlocksData, data } = this.props
     const { error, loading } = this.props.data
 
@@ -166,6 +175,8 @@ class ProfileContainer extends React.Component {
         key={type}
         onEndReached={this.onEndReached}
         onEndReachedThreshold={0.9}
+        scrollEventThrottle={50}
+        onScroll={scrollHeaderVisibilitySensor}
         ListFooterComponent={this.renderLoader}
         ListHeaderComponent={header}
         renderItem={({ item }) => {

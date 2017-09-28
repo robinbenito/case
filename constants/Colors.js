@@ -1,6 +1,7 @@
 // DO NOT USE DEFINITIONS FROM THIS FILE
 // DO NOT ADD DEFINITIONS TO THIS FILE
 // TODO: Delete this file
+import { Colors as RealColors } from './Style'
 
 const tintColor = '#000'
 
@@ -9,17 +10,17 @@ export default {
   tabIconDefault: '#aaa',
   tabBar: '#fff',
   privateBackground: '#B6020211',
-  private: '#B60202',
+  private: RealColors.channel.private,
   closedBackground: '#4B3D6711',
-  closed: '#4B3D67',
+  closed: RealColors.channel.closed,
   publicBackground: '#17AC1011',
-  public: '#17AC10',
+  public: RealColors.channel.public,
   openBackground: '#17AC1011',
   open: '#17AC10',
   channel: {
-    closed: '#4b3d67',
-    public: '#17ac10',
-    private: '#b60202',
+    closed: RealColors.channel.closed,
+    public: RealColors.channel.public,
+    private: RealColors.channel.private,
   },
   state: {
     premium: '#00c5ff',

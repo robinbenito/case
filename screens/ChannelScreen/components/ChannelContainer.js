@@ -2,7 +2,7 @@ import React from 'react'
 import gql from 'graphql-tag'
 import { graphql, compose } from 'react-apollo'
 import PropTypes from 'prop-types'
-
+import { once } from 'lodash'
 import {
   ActivityIndicator,
   FlatList,
@@ -15,8 +15,8 @@ import ChannelHeader from './ChannelHeader'
 import ChannelItem from '../../../components/ChannelItem'
 import BlockItem from '../../../components/BlockItem'
 import Empty from '../../../components/Empty'
-
 import layout from '../../../constants/Layout'
+import scrollHeaderVisibilitySensor from '../../../utilities/scrollHeaderVisibilitySensor'
 
 const styles = StyleSheet.create({
   container: {
@@ -50,6 +50,12 @@ class ChannelContainer extends React.Component {
     this.onRefresh = this.onRefresh.bind(this)
     this.onToggleChange = this.onToggleChange.bind(this)
     this.renderLoader = this.renderLoader.bind(this)
+
+    this.ensureHeaderVisibilityOnInitialRender = once(() => {
+      // Despite our best effors, sometimes the header component is cached (?)
+      // and the title remains visible on first render. This explicitly sets it to false
+      setTimeout(() => scrollHeaderVisibilitySensor.dispatch(false), 1)
+    })
   }
 
   onRefresh() {
@@ -93,6 +99,8 @@ class ChannelContainer extends React.Component {
   }
 
   render() {
+    this.ensureHeaderVisibilityOnInitialRender()
+
     const { data, blocksData } = this.props
     const { error, loading, channel } = this.props.data
 
@@ -159,6 +167,8 @@ class ChannelContainer extends React.Component {
         onRefresh={this.onRefresh}
         onEndReached={this.onEndReached}
         onEndReachedThreshold={0.9}
+        scrollEventThrottle={50}
+        onScroll={scrollHeaderVisibilitySensor}
         ListFooterComponent={this.renderLoader}
         ListHeaderComponent={header}
         renderItem={({ item }) => {

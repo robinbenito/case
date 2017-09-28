@@ -20,7 +20,7 @@ const AddModal = styled.TouchableOpacity`
   position: absolute;
   bottom: 0;
   right: 0;
-  background-color: ${({ active }) => (active ? 'rgba(0,0,0,0.5)' : 'rgba(0,0,0,00)')};
+  background-color: ${({ active }) => (active ? 'rgba(0,0,0,0.5)' : 'transparent')};
   width: ${({ active }) => (active ? '100%' : 100)};
   height: ${({ active }) => (active ? '100%' : 100)};
   align-items: center;

@@ -8,7 +8,8 @@ import { connect } from 'react-redux'
 
 import AddMenu from './components/AddMenu'
 import createRootNavigator from './navigation/Routes'
-import Store, { SET_CURRENT_ROUTE } from './state/Store'
+import Store from './state/Store'
+import { SET_CURRENT_ROUTE } from './state/actions'
 import Client from './state/Apollo'
 import NavigatorService from './utilities/navigationService'
 import cacheAssetsAsync from './utilities/cacheAssetsAsync'
@@ -27,8 +28,7 @@ const getCurrentRouteName = (navigationState) => {
   return route.routeName
 }
 
-const mapStateToProps = ({ routes }) => ({ routes })
-const AddMenuWithState = connect(mapStateToProps)(AddMenu)
+const AddMenuWithState = connect(({ routes }) => ({ routes }))(AddMenu)
 
 class AppContainer extends React.Component {
   constructor(props) {

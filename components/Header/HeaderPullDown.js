@@ -40,9 +40,11 @@ export default class HeaderPullDown extends Component {
       <HeaderDrawer>
         {!this.props.isExpanded &&
           <HeaderButton onPress={this.onPress}>
-            <HeaderButtonLabel active>
-              {this.props.title || this.props.primary.title}
-              <Caret />
+            <HeaderButtonLabel style={{ color: this.props.color }} active>
+              {this.props.isHeaderTitleVisible &&
+                (this.props.title || this.props.primary.title)
+              }
+              <Caret style={{ color: this.props.color }} />
             </HeaderButtonLabel>
           </HeaderButton>
         }
@@ -77,6 +79,7 @@ export default class HeaderPullDown extends Component {
 
 HeaderPullDown.propTypes = {
   title: PropTypes.string,
+  color: PropTypes.string,
   onPress: PropTypes.func,
   isExpanded: PropTypes.bool,
   primary: PropTypes.shape({
@@ -86,10 +89,13 @@ HeaderPullDown.propTypes = {
     title: PropTypes.string.isRequired,
     key: PropTypes.string.isRequired,
   })).isRequired,
+  isHeaderTitleVisible: PropTypes.bool,
 }
 
 HeaderPullDown.defaultProps = {
   title: null,
+  color: null,
   onPress: (() => {}),
   isExpanded: false,
+  isHeaderTitleVisible: true,
 }

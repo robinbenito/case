@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { StyleSheet, Text } from 'react-native'
 
-import Colors from '../constants/Colors'
+import { Colors } from '../constants/Style'
 import NavigatorService from '../utilities/navigationService'
 
 const styles = StyleSheet.create({
@@ -10,13 +10,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   channelTitlePrivate: {
-    color: Colors.private,
+    color: Colors.channel.private,
   },
   channelTitleClosed: {
-    color: Colors.closed,
+    color: Colors.channel.closed,
   },
   channelTitlePublic: {
-    color: Colors.public,
+    color: Colors.channel.public,
   },
 })
 
@@ -31,6 +31,7 @@ export default class ChannelNameText extends React.Component {
     NavigatorService.navigate('channel', {
       id: this.props.channel.id,
       title: this.props.channel.title,
+      color: Colors.channel[this.props.channel.visibility],
     })
   }
 
