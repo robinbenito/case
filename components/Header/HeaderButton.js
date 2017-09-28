@@ -17,9 +17,9 @@ const CaretSpacer = styled.View`
   right: 0;
 `
 
-export const Caret = () => (
+export const Caret = props => (
   <CaretSpacer>
-    <CaretGlyph />
+    <CaretGlyph {...props} />
   </CaretSpacer>
 )
 

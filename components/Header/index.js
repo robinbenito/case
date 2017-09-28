@@ -62,6 +62,7 @@ export default class Header extends Component {
 
   render() {
     const title = get(this, 'props.navigation.state.params.title')
+    const color = get(this, 'props.navigation.state.params.color')
 
     return (
       <HeaderModal
@@ -70,6 +71,8 @@ export default class Header extends Component {
       >
         <HeaderPullDown
           title={title}
+          color={color}
+          isHeaderTitleVisible={this.props.isHeaderTitleVisible}
           onPress={this.onPress}
           isExpanded={this.state.isExpanded}
           primary={this.props.primary}
@@ -100,9 +103,11 @@ Header.propTypes = {
   })).isRequired,
   headerRight: PropTypes.node,
   headerLeft: PropTypes.node,
+  isHeaderTitleVisible: PropTypes.bool,
 }
 
 Header.defaultProps = {
   headerRight: null,
   headerLeft: <BackButton />,
+  isHeaderTitleVisible: true,
 }
