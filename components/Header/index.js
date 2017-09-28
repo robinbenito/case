@@ -1,11 +1,9 @@
-import { get } from 'lodash'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
 import { Units } from '../../constants/Style'
 import HeaderPullDown from './HeaderPullDown'
 import { HEADER_BUTTON_HEIGHT } from './HeaderButton'
-
 import BackButton from '../BackButton'
 
 export const HEADER_HEIGHT = HEADER_BUTTON_HEIGHT + Units.statusBarHeight
@@ -46,6 +44,7 @@ export default class Header extends Component {
 
     this.state = {
       isExpanded: false,
+      headerRight: props.headerRight,
     }
 
     this.onPress = this.onPress.bind(this)
@@ -61,31 +60,32 @@ export default class Header extends Component {
   }
 
   render() {
-    const title = get(this, 'props.navigation.state.params.title')
-    const color = get(this, 'props.navigation.state.params.color')
+    const { isExpanded, headerRight } = this.state
+    const primary = { ...this.props.primary, ...this.props.navigation.state.params }
+    const { secondary, headerLeft, isHeaderTitleVisible } = this.props
 
     return (
       <HeaderModal
+        isExpanded={isExpanded}
         onPress={this.onModalPress}
-        isExpanded={this.state.isExpanded}
       >
         <HeaderPullDown
-          title={title}
-          color={color}
-          isHeaderTitleVisible={this.props.isHeaderTitleVisible}
+          primary={primary}
+          secondary={secondary}
+          isExpanded={isExpanded}
+          isHeaderTitleVisible={isHeaderTitleVisible}
           onPress={this.onPress}
-          isExpanded={this.state.isExpanded}
-          primary={this.props.primary}
-          secondary={this.props.secondary}
         />
-        {this.props.headerLeft &&
-          <HeaderLeft isExpanded={this.state.isExpanded}>
-            {this.props.headerLeft}
+
+        {headerLeft &&
+          <HeaderLeft isExpanded={isExpanded}>
+            {headerLeft}
           </HeaderLeft>
         }
-        {this.props.headerRight &&
-          <HeaderRight isExpanded={this.state.isExpanded}>
-            {this.props.headerRight}
+
+        {headerRight &&
+          <HeaderRight isExpanded={isExpanded}>
+            {headerRight}
           </HeaderRight>
         }
       </HeaderModal>
@@ -94,6 +94,14 @@ export default class Header extends Component {
 }
 
 Header.propTypes = {
+  navigation: PropTypes.shape({
+    state: PropTypes.shape({
+      params: PropTypes.shape({
+        title: PropTypes.string,
+        color: PropTypes.string,
+      }),
+    }),
+  }),
   primary: PropTypes.shape({
     title: PropTypes.string.isRequired,
   }).isRequired,
@@ -107,6 +115,14 @@ Header.propTypes = {
 }
 
 Header.defaultProps = {
+  navigation: {
+    state: {
+      params: {},
+    },
+  },
+  primary: {
+    title: '—',
+  },
   headerRight: null,
   headerLeft: <BackButton />,
   isHeaderTitleVisible: true,
