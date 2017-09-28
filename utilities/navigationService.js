@@ -62,10 +62,6 @@ function getCurrentRoute() {
   return null
 }
 
-function navigateToProfile(id) {
-  return navigate('profile', { id })
-}
-
 export default {
   setContainer,
   navigateDeep,
@@ -73,5 +69,4 @@ export default {
   reset,
   back,
   getCurrentRoute,
-  navigateToProfile,
 }
