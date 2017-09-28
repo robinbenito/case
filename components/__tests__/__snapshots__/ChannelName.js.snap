@@ -13,7 +13,7 @@ exports[`renders correctly 1`] = `
         "fontWeight": "bold",
       },
       Object {
-        "color": "#B60202",
+        "color": "rgb(165, 0, 0)",
       },
       Object {},
     ]

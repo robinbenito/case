@@ -82,7 +82,7 @@ exports[`renders correctly 1`] = `
       >
         <Icon
           allowFontScaling={false}
-          color="#B60202"
+          color="rgb(165, 0, 0)"
           name="ios-remove-circle-outline"
           size={18}
           style={
@@ -98,7 +98,7 @@ exports[`renders correctly 1`] = `
           ellipsizeMode="tail"
           style={
             Object {
-              "color": "#B60202",
+              "color": "rgb(165, 0, 0)",
               "fontWeight": "bold",
             }
           }
@@ -131,7 +131,7 @@ exports[`renders correctly 1`] = `
       >
         <Icon
           allowFontScaling={false}
-          color="#B60202"
+          color="rgb(165, 0, 0)"
           name="ios-remove-circle-outline"
           size={18}
           style={
@@ -147,7 +147,7 @@ exports[`renders correctly 1`] = `
           ellipsizeMode="tail"
           style={
             Object {
-              "color": "#B60202",
+              "color": "rgb(165, 0, 0)",
               "fontWeight": "bold",
             }
           }
