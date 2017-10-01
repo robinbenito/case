@@ -1,5 +1,7 @@
 import React from 'react'
-import { DrawerNavigator } from 'react-navigation'
+import { DrawerNavigator, StackNavigator } from 'react-navigation'
+import { enhance } from 'react-navigation-addons'
+
 import StackModalNavigator from '../utilities/stackModalNavigator'
 import LoggedOutScreen from '../screens/LoggedOutScreen'
 import LoginScreen from '../screens/LoginScreen'
@@ -83,13 +85,37 @@ export default initialRouteName => StackModalNavigator({
     },
   },
   newText: {
-    screen: AddTextScreen,
+    screen: enhance(StackNavigator)({
+      newText: { screen: AddTextScreen },
+    }),
+    navigationOptions: {
+      header: null,
+      cardStyle: {
+        backgroundColor: 'white',
+      },
+    },
   },
   newLink: {
-    screen: AddLinkScreen,
+    screen: enhance(StackNavigator)({
+      newLink: { screen: AddLinkScreen },
+    }),
+    navigationOptions: {
+      header: null,
+      cardStyle: {
+        backgroundColor: 'white',
+      },
+    },
   },
   connect: {
-    screen: AddConnectionsScreen,
+    screen: enhance(StackNavigator)({
+      connect: { screen: AddConnectionsScreen },
+    }),
+    navigationOptions: {
+      header: null,
+      cardStyle: {
+        backgroundColor: 'white',
+      },
+    },
   },
 }, {
   headerMode: 'screen',
