@@ -2,12 +2,15 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
 import { View } from 'react-native'
+import { decode } from 'he'
+
 import navigationService from '../../utilities/navigationService'
 import { HeaderButton, HeaderButtonLabel, Caret } from './HeaderButton'
 import ToggleCheck from './ToggleCheck'
 import { ToggleSelect, ToggleSelectOption } from './ToggleSelect'
 import { HorizontalRule } from '../UI/Layout'
 import { Units } from '../../constants/Style'
+
 
 const HeaderDrawer = styled.View`
   position: absolute;
@@ -30,9 +33,7 @@ export default class HeaderPullDown extends Component {
         {!isExpanded &&
           <HeaderButton onPress={onPress}>
             <HeaderButtonLabel style={{ color: primary.color }} active>
-              {isHeaderTitleVisible &&
-                (primary.title)
-              }
+              {isHeaderTitleVisible && primary.title && decode(primary.title)}
               <Caret style={{ color: primary.color }} />
             </HeaderButtonLabel>
           </HeaderButton>
@@ -42,7 +43,7 @@ export default class HeaderPullDown extends Component {
           <ToggleSelect>
             <ToggleSelectOption>
               <HeaderButtonLabel active>
-                {primary.title}
+                {primary.title && decode(primary.title)}
               </HeaderButtonLabel>
               <ToggleCheck />
             </ToggleSelectOption>
@@ -58,7 +59,7 @@ export default class HeaderPullDown extends Component {
                   }}
                 >
                   <HeaderButtonLabel>
-                    {option.title}
+                    {option.title && decode(option.title)}
                   </HeaderButtonLabel>
                 </ToggleSelectOption>
               </View>
