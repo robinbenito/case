@@ -15,6 +15,8 @@ import colors from '../../../constants/Colors'
 import layout from '../../../constants/Layout'
 import typevalues from '../../../constants/Type'
 
+import { Colors } from '../../../constants/Style'
+
 const styles = StyleSheet.create({
   header: {
     paddingVertical: layout.padding * 2,
@@ -84,6 +86,7 @@ const ChannelHeader = ({ channel, type, onToggle }) => {
         selectedSegment={type}
         onToggleChange={onToggle}
         options={tabOptions}
+        color={Colors.channel[channel.visibility]}
       />
     </View>
   )

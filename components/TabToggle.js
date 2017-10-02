@@ -1,75 +1,60 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import { keys } from 'lodash'
-import {
-  StyleSheet,
-  View,
-  Text,
-  TouchableWithoutFeedback,
-} from 'react-native'
+import styled from 'styled-components/native'
+import { Border, Units, Typography, Colors } from '../constants/Style'
 
-import color from '../constants/Colors'
-import type from '../constants/Type'
+const Tabs = styled.View`
+  flex-direction: row;
+  align-items: center;
+`
 
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  tab: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderBottomWidth: 1,
-    borderBottomColor: color.gray.border,
-    height: 45,
-  },
-  tabText: {
-    fontSize: type.sizes.normal,
-  },
-  textSelected: {
-    fontWeight: 'bold',
-  },
-  tabSelected: {
-    borderBottomColor: '#000',
-  },
-})
+const Tab = styled.TouchableOpacity`
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  border-bottom-width: ${Border.borderWidth};
+  border-bottom-color: ${({ color, isSelected }) => (isSelected && (color || Colors.semantic.text)) || Border.borderColor};
+  padding-vertical: ${Units.scale[2]};
+  padding-horizontal: ${Units.scale[2]};
+`
 
-export default class TabToggle extends Component {
-  render() {
-    const { options, selectedSegment, style } = this.props
-    const labelKeys = keys(options)
+const TabLabel = styled.Text`
+  font-size: ${Typography.fontSize.base};
+  font-weight: ${({ isSelected }) => Typography.fontWeight[isSelected ? 'semiBold' : 'normal']};
+  color: ${({ color }) => color || Colors.semantic.text};
+`
 
-    const tabs = labelKeys.map((label) => {
-      const isSelected = options[label] === selectedSegment
-      const tabStyle = isSelected ? styles.tabSelected : {}
-      const tabTextStyle = isSelected ? styles.textSelected : {}
-      return (
-        <TouchableWithoutFeedback key={label} onPress={() => this.props.onToggleChange(label)}>
-          <View style={[styles.tab, tabStyle]}>
-            <Text style={[styles.tabText, tabTextStyle]}>
+const TabToggle = ({ options, selectedSegment, onToggleChange, color }) => (
+  <Tabs>
+    {
+      Object.keys(options).map((label) => {
+        const isSelected = options[label] === selectedSegment
+        return (
+          <Tab
+            key={label}
+            onPress={() => onToggleChange(label)}
+            isSelected={isSelected}
+            color={color}
+          >
+            <TabLabel isSelected={isSelected} color={color}>
               {label}
-            </Text>
-          </View>
-        </TouchableWithoutFeedback>
-      )
-    })
-
-    return (
-      <View style={[styles.container, style]}>
-        {tabs}
-      </View>
-    )
-  }
-}
+            </TabLabel>
+          </Tab>
+        )
+      })
+    }
+  </Tabs>
+)
 
 TabToggle.propTypes = {
-  style: PropTypes.any,
+  color: PropTypes.string,
   options: PropTypes.any.isRequired,
   onToggleChange: PropTypes.func.isRequired,
   selectedSegment: PropTypes.string.isRequired,
 }
 
 TabToggle.defaultProps = {
-  style: {},
+  color: null,
 }
+
+export default TabToggle
