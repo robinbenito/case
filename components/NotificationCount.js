@@ -14,12 +14,16 @@ const Count = styled.Text`
   align-self: center;
 `
 
-const Badge = styled.TouchableOpacity`
+const Badge = styled.View`
   align-content: center;
   justify-content: center;
   background-color: ${p => (p.hasUnread ? Colors.state.alert : Colors.gray.medium)};
   border-radius: ${Border.borderRadius};
   padding-vertical: ${Units.scale[1] / 2};
+  padding-horizontal: ${Units.scale[1]};
+`
+
+const Container = styled.TouchableOpacity`
   padding-horizontal: ${Units.scale[1]};
 `
 
@@ -30,11 +34,13 @@ class NotificationCount extends React.Component {
     if (data.loading || data.error) return <View />
 
     return (
-      <Badge onPress={onPress} hasUnread={data.me.counts.notifications > 0}>
-        <Count>
-          {data.me.counts.notifications}
-        </Count>
-      </Badge>
+      <Container onPress={onPress}>
+        <Badge hasUnread={data.me.counts.notifications > 0}>
+          <Count>
+            {data.me.counts.notifications}
+          </Count>
+        </Badge>
+      </Container>
     )
   }
 }
