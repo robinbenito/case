@@ -1,96 +1,81 @@
 import React from 'react'
-import {
-  StyleSheet,
-  View,
-  Text,
-
-} from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
-
+import styled from 'styled-components/native'
 import UserNameText from '../../../components/UserNameText'
 import TabToggle from '../../../components/TabToggle'
 import FollowButtonWithData from '../../../components/FollowButton'
+import { Colors, Units, Typography } from '../../../constants/Style'
 
-import colors from '../../../constants/Colors'
-import layout from '../../../constants/Layout'
-import typevalues from '../../../constants/Type'
-
-import { Colors } from '../../../constants/Style'
-
-const styles = StyleSheet.create({
-  header: {
-    paddingVertical: layout.padding * 2,
-  },
-  innerHeader: {
-    paddingHorizontal: layout.padding * 2,
-    marginBottom: layout.padding,
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    justifyContent: 'space-between',
-  },
-  channelInfo: {
-    maxWidth: layout.infoWidth,
-  },
-  headerText: {
-    fontSize: typevalues.sizes.headline,
-    fontWeight: typevalues.weights.semibold,
-    paddingBottom: layout.padding,
-  },
-  smallText: {
-    fontSize: typevalues.sizes.normal,
-  },
-  collaborators: {
-    flexDirection: 'row',
-  },
-  channelPrivate: {
-    color: colors.private,
-  },
-  channelClosed: {
-    color: colors.closed,
-  },
-  channelPublic: {
-    color: colors.public,
-  },
-})
-
-const tabOptions = {
+const TAB_OPTIONS = {
   Channels: 'CHANNEL',
   Blocks: 'BLOCK',
 }
 
-const ChannelHeader = ({ channel, type, onToggle }) => {
-  const textStyle = {
-    public: styles.channelPublic,
-    closed: styles.channelClosed,
-    private: styles.channelPrivate,
-  }[channel.visibility]
+const Header = styled.View`
+  padding-top: ${Units.scale[3]};
+  padding-horizontal: ${Units.scale[3]};
+  padding-bottom: ${Units.scale[4]};
+`
 
-  return (
-    <View style={styles.header}>
-      <View style={styles.innerHeader}>
-        <View style={styles.channelInfo}>
-          <Text style={[styles.headerText, textStyle]}>
-            {channel.title}
-          </Text>
-          <View style={styles.collaborators}>
-            <Text style={[textStyle, styles.smallText]}>by </Text>
-            <UserNameText style={[textStyle, styles.smallText]} user={channel.user} />
-          </View>
-        </View>
-        {
-          channel.can.follow && <FollowButtonWithData id={channel.id} type="CHANNEL" />
+const Headline = styled.View`
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+`
+
+const Title = styled.Text`
+  flex: 1;
+  margin-right: ${Units.scale[2]};
+  margin-bottom: ${Units.scale[3]};
+  font-size: ${Typography.fontSize.h1};
+  font-weight: ${Typography.fontWeight.medium};
+  color: ${({ visibility }) => Colors.channel[visibility]};
+`
+
+const Metadata = styled.Text`
+  margin-vertical: ${Units.scale[1]};
+  color: ${({ visibility }) => Colors.channel[visibility]};
+  font-size: ${Typography.fontSize.small};
+  width: 85%;
+`
+
+const Follow = styled.View`
+  margin-top: ${Units.scale[1]};
+`
+
+const ChannelHeader = ({ channel, type, onToggle }) => (
+  <View>
+    <Header>
+      <Headline>
+        <Title visibility={channel.visibility}>
+          {channel.title}
+        </Title>
+
+        {channel.can.follow &&
+          <Follow>
+            <FollowButtonWithData id={channel.id} type="CHANNEL" />
+          </Follow>
         }
-      </View>
-      <TabToggle
-        selectedSegment={type}
-        onToggleChange={onToggle}
-        options={tabOptions}
-        color={Colors.channel[channel.visibility]}
-      />
-    </View>
-  )
-}
+      </Headline>
+
+      <Metadata visibility={channel.visibility}>
+        {channel.description || '—'}
+      </Metadata>
+
+      <Metadata visibility={channel.visibility}>
+        by <UserNameText user={channel.user} />
+      </Metadata>
+    </Header>
+
+    <TabToggle
+      selectedSegment={type}
+      onToggleChange={onToggle}
+      options={TAB_OPTIONS}
+      color={Colors.channel[channel.visibility]}
+    />
+  </View>
+)
 
 ChannelHeader.propTypes = {
   type: PropTypes.oneOf(['CHANNEL', 'BLOCK']).isRequired,
