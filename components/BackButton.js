@@ -1,31 +1,30 @@
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
+import styled from 'styled-components/native'
 
 import NavigatorService from '../utilities/navigationService'
 
-import layout from '../constants/Layout'
+import { Units } from '../constants/Style'
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-})
+const Container = styled.TouchableOpacity`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  padding-horizontal: ${Units.scale[1]};
+`
 
 export default class BackButton extends React.Component {
   render() {
     return (
-      <View onPress={this.goBack} style={styles.container}>
+      <Container onPress={() => NavigatorService.back()}>
         <Ionicons
           name="ios-arrow-back"
           size={24}
           color="black"
           onPress={() => NavigatorService.back()}
-          style={{ paddingLeft: layout.padding, paddingRight: layout.padding }}
+          style={{ paddingHorizontal: Units.scale[1] }}
         />
-      </View>
+      </Container>
     )
   }
 }
