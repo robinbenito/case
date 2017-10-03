@@ -56,6 +56,7 @@ export default class ChannelVisibilityScreen extends React.Component {
       onVisibilityChange: onVisibilityChangeUpdate,
     } = props.navigation.state.params
     this.state = { visibility }
+    console.log('visibility', visibility)
     this.onVisibilityChangeUpdate = onVisibilityChangeUpdate
   }
 
@@ -87,7 +88,7 @@ export default class ChannelVisibilityScreen extends React.Component {
   }
 
   renderRightContent(visibility) {
-    if (visibility === this.state.visibility) {
+    if (visibility === this.state.visibility.toLowerCase()) {
       return (
         <View style={styles.buttonContainer}>
           <Ionicons
