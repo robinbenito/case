@@ -43,7 +43,7 @@ export default class HeaderPullDown extends Component {
           <ToggleSelect>
             <ToggleSelectOption>
               <HeaderButtonLabel active>
-                {primary.title && decode(primary.title)}
+                {(primary.title && decode(primary.title)) || '—'}
               </HeaderButtonLabel>
               <ToggleCheck />
             </ToggleSelectOption>
@@ -75,7 +75,7 @@ HeaderPullDown.propTypes = {
   onPress: PropTypes.func,
   isExpanded: PropTypes.bool,
   primary: PropTypes.shape({
-    title: PropTypes.string.isRequired,
+    title: PropTypes.string,
     color: PropTypes.string,
   }).isRequired,
   secondary: PropTypes.arrayOf(PropTypes.shape({
@@ -87,8 +87,6 @@ HeaderPullDown.propTypes = {
 }
 
 HeaderPullDown.defaultProps = {
-  title: '—',
-  color: null,
   onPress: (() => {}),
   isExpanded: false,
   isHeaderTitleVisible: true,
