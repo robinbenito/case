@@ -34,9 +34,8 @@ export default class AddIcon extends React.Component {
   constructor(props) {
     super(props)
 
-    const rotationValue = props.active ? 1 : 0
     this.state = {
-      rotation: new Animated.Value(rotationValue),
+      rotation: new Animated.Value(0),
     }
 
     this.spin = this.spin.bind(this)
