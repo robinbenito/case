@@ -11,6 +11,8 @@ import {
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import SettingsList from 'react-native-settings-list'
 import { NavigationActions } from 'react-navigation'
+import Store from '../../state/Store'
+import { TOGGLE_ADD_MENU } from '../../state/actions'
 
 import FieldSet from '../../components/FieldSet'
 import BackButton from '../../components/BackButton'
@@ -85,6 +87,7 @@ class NewChannelScreen extends React.Component {
       const { data } = response
       if (!data.error) {
         const { create_channel: { channel: { id, title, visibility } } } = data
+        Store.dispatch({ type: TOGGLE_ADD_MENU })
         NavigatorService.navigate('channel', { id, title, color: Colors.channel[visibility] })
       }
     })
