@@ -56,7 +56,6 @@ export default class ChannelVisibilityScreen extends React.Component {
       onVisibilityChange: onVisibilityChangeUpdate,
     } = props.navigation.state.params
     this.state = { visibility }
-    console.log('visibility', visibility)
     this.onVisibilityChangeUpdate = onVisibilityChangeUpdate
   }
 
