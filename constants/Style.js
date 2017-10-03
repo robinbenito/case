@@ -35,8 +35,8 @@ export const Typography = {
   fontWeight: {
     normal: '400',
     medium: '500',
-    semiBold: '700',
-    bold: '800',
+    semiBold: '600',
+    bold: '700',
   },
   fontSize: {
     h1: 24,
@@ -50,12 +50,15 @@ export const Typography = {
   },
   lineHeight: {
     base: 1.5,
-    compact: 1.33, // DELETE THIS
+    compact: 1.25,
   },
 }
 
-Typography.lineHeightFor = size =>
-  size * Typography.lineHeight.base
+Typography.lineHeightFor = (size, lineHeight = 'base') => {
+  let value = size
+  if (typeof size === 'string') value = Typography.fontSize[size]
+  return value * Typography.lineHeight[lineHeight]
+}
 
 // Equivalient to one line-height
 const base = Typography.lineHeightFor(Typography.fontSize.base)
