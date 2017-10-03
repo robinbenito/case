@@ -1,29 +1,38 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { View } from 'react-native'
-import HTMLView from 'react-native-htmlview'
 import styled from 'styled-components/native'
-
-import HTMLViewStyles from '../../../constants/HtmlView'
-import { Units } from '../../../constants/Style'
+import { Units, Typography } from '../../../constants/Style'
 import TabToggle from '../../../components/TabToggle'
 import UserAvatar from '../../../components/UserAvatar'
+import HTML from '../../../components/HTML'
 import FollowButtonWithData from '../../../components/FollowButton'
 import { BaseIcon } from '../../../components/UI/Icons'
 import { SmallButton } from '../../../components/UI/Buttons'
-import { H1 } from '../../../components/UI/Texts'
 import { Section } from '../../../components/UI/Layout'
 import NavigationService from '../../../utilities/navigationService'
 
-const tabOptions = {
+const TAB_OPTIONS = {
   Channels: 'CHANNEL',
   Blocks: 'BLOCK',
 }
 
+const Container = styled.View`
+  margin-bottom: ${Units.base};
+`
+
 const Header = styled.View`
   flex-direction: row;
-  padding-vertical: ${Units.scale[2]};
+  padding-top: ${Units.scale[3]};
   padding-horizontal: ${Units.scale[3]};
+  padding-bottom: ${Units.scale[4]};
+`
+
+const Name = styled.Text`
+  margin-right: ${Units.scale[2]};
+  margin-bottom: ${Units.scale[3]};
+  font-size: ${Typography.fontSize.h1};
+  font-weight: ${Typography.fontWeight.medium};
 `
 
 const Avatar = styled(UserAvatar)`
@@ -58,34 +67,29 @@ ProfileAction.propTypes = {
   isTheCurrentUser: PropTypes.bool.isRequired,
 }
 
-const HTML = styled(HTMLView)`
-  margin: 0;
-`
-
 const ProfileHeader = ({ user, type, onToggle, isTheCurrentUser }) => (
-  <View>
+  <Container>
     <Header>
       <Avatar user={user} />
       <Blurb>
-        <H1>{user.name}</H1>
+        <Name>{user.name}</Name>
         <Section space={2}>
-          <HTML
-            value={user.bio || '—'}
-            stylesheet={HTMLViewStyles}
-          />
+          <HTML value={user.bio || '—'} />
         </Section>
       </Blurb>
+
       <ProfileAction
         user={user}
         isTheCurrentUser={isTheCurrentUser}
       />
     </Header>
+
     <TabToggle
       selectedSegment={type}
       onToggleChange={onToggle}
-      options={tabOptions}
+      options={TAB_OPTIONS}
     />
-  </View>
+  </Container>
 )
 
 ProfileHeader.propTypes = {
