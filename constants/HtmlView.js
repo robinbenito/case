@@ -1,20 +1,21 @@
 import { merge, cloneDeep } from 'lodash'
-import { Typography } from './Style'
+import { Typography, Units } from './Style'
 
 const baseStyles = {
   p: {
     fontFamily: 'System',
-    lineHeight: (Typography.fontSize.base * Typography.lineHeight.base),
     fontSize: Typography.fontSize.base,
-    marginBottom: (Typography.fontSize.base * Typography.lineHeight.base),
+    lineHeight: Typography.lineHeightFor(Typography.fontSize.base),
+    marginBottom: Units.scale[2],
   },
   a: {},
 }
 
 export const smallStyles = merge(cloneDeep(baseStyles), {
   p: {
-    lineHeight: (Typography.fontSize.small * Typography.lineHeight.base),
     fontSize: Typography.fontSize.small,
+    lineHeight: Typography.lineHeightFor(Typography.fontSize.small),
+    marginBottom: Units.scale[1],
   },
 })
 

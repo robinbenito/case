@@ -4,6 +4,7 @@ import styled from 'styled-components/native'
 import UserNameText from '../../../components/UserNameText'
 import TabToggle from '../../../components/TabToggle'
 import FollowButtonWithData from '../../../components/FollowButton'
+import HTML from '../../../components/HTML'
 import { Colors, Units, Typography } from '../../../constants/Style'
 
 const TAB_OPTIONS = {
@@ -37,10 +38,15 @@ const Title = styled.Text`
 `
 
 const Metadata = styled.Text`
+  width: 85%;
   margin-vertical: ${Units.scale[1]};
   color: ${({ visibility }) => Colors.channel[visibility]};
   font-size: ${Typography.fontSize.small};
+`
+
+const Description = styled(HTML)`
   width: 85%;
+  margin-vertical: ${Units.scale[1]};
 `
 
 const Follow = styled.View`
@@ -62,9 +68,14 @@ const ChannelHeader = ({ channel, type, onToggle }) => (
         }
       </Headline>
 
-      <Metadata visibility={channel.visibility}>
-        {channel.description || '—'}
-      </Metadata>
+      <Description
+        value={channel.description || '<p>—</p>'}
+        stylesheet={{
+          p: {
+            color: Colors.channel[channel.visibility],
+          },
+        }}
+      />
 
       <Metadata visibility={channel.visibility}>
         by <UserNameText user={channel.user} />

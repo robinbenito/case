@@ -182,7 +182,7 @@ const ChannelQuery = gql`
       id
       slug
       title
-      description
+      description(format: HTML)
       visibility
       can {
         follow
