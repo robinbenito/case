@@ -85,7 +85,6 @@ class NewChannelScreen extends React.Component {
       const { data } = response
       if (!data.error) {
         const { create_channel: { channel: { id, title, visibility } } } = data
-        NavigatorService.reset('addMenu')
         NavigatorService.navigate('channel', { id, title, color: Colors.channel[visibility] })
       }
     })
