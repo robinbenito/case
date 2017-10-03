@@ -41,10 +41,10 @@ export default class AddIcon extends React.Component {
     this.spin = this.spin.bind(this)
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.active === nextProps.active) return
-    this.spin()
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   if (this.props.active === nextProps.active) return
+  //   this.spin()
+  // }
 
   spin() {
     const { active } = this.props
