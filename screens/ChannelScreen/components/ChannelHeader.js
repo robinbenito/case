@@ -1,5 +1,4 @@
 import React from 'react'
-import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
 import UserNameText from '../../../components/UserNameText'
@@ -11,6 +10,10 @@ const TAB_OPTIONS = {
   Channels: 'CHANNEL',
   Blocks: 'BLOCK',
 }
+
+const Container = styled.View`
+  margin-bottom: ${Units.base};
+`
 
 const Header = styled.View`
   padding-top: ${Units.scale[3]};
@@ -45,7 +48,7 @@ const Follow = styled.View`
 `
 
 const ChannelHeader = ({ channel, type, onToggle }) => (
-  <View>
+  <Container>
     <Header>
       <Headline>
         <Title visibility={channel.visibility}>
@@ -74,7 +77,7 @@ const ChannelHeader = ({ channel, type, onToggle }) => (
       options={TAB_OPTIONS}
       color={Colors.channel[channel.visibility]}
     />
-  </View>
+  </Container>
 )
 
 ChannelHeader.propTypes = {
