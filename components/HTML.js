@@ -16,7 +16,6 @@ const STYLESHEET = {
 }
 
 const ArenaHTML = styled(HTMLView).attrs({
-  STYLESHEET,
   addLineBreaks: false,
 })`
   margin-bottom: ${-Units.scale[1]};
