@@ -68,6 +68,7 @@ export default class Header extends Component {
       <HeaderModal
         isExpanded={isExpanded}
         onPress={this.onModalPress}
+        disabled={!isExpanded}
       >
         <HeaderPullDown
           primary={primary}
