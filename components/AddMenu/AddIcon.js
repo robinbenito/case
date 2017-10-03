@@ -39,7 +39,6 @@ export default class AddIcon extends React.Component {
       rotation: new Animated.Value(rotationValue),
     }
 
-    this.onPress = this.onPress.bind(this)
     this.spin = this.spin.bind(this)
   }
 
@@ -48,13 +47,8 @@ export default class AddIcon extends React.Component {
     this.spin()
   }
 
-  onPress() {
-    this.spin()
-    this.props.onPress()
-  }
-
   spin() {
-    const { active } = this.state
+    const { active } = this.props
     const toValue = active ? 0 : 1
 
     Animated.timing(this.state.rotation, {
@@ -62,8 +56,6 @@ export default class AddIcon extends React.Component {
       duration: 100,
       easing: Easing.linear,
     }).start()
-
-    this.setState({ active: !active })
   }
 
   render() {
@@ -79,7 +71,7 @@ export default class AddIcon extends React.Component {
     }
 
     return (
-      <TouchableWithoutFeedback onPress={this.onPress}>
+      <TouchableWithoutFeedback onPress={this.props.onPress}>
         <AnimatedCircle style={rotateAnimation}>
           <Icon name="ios-add" />
         </AnimatedCircle>
