@@ -28,7 +28,10 @@ const getCurrentRouteName = (navigationState) => {
   return route.routeName
 }
 
-const AddMenuWithState = connect(({ routes }) => ({ routes }))(AddMenu)
+const AddMenuWithState = connect(({ routes, ui }) => ({
+  routes,
+  active: ui.isAddMenuActive,
+}))(AddMenu)
 
 class AppContainer extends React.Component {
   constructor(props) {

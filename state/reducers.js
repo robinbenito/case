@@ -1,4 +1,4 @@
-import { SET_CURRENT_ROUTE, SET_HEADER_TITLE_VISIBILITY } from './actions'
+import { SET_CURRENT_ROUTE, SET_HEADER_TITLE_VISIBILITY, TOGGLE_ADD_MENU } from './actions'
 
 const STATES = {
   routes: {
@@ -6,6 +6,7 @@ const STATES = {
   },
   ui: {
     isHeaderTitleVisible: true,
+    isAddMenuActive: false,
   },
 }
 
@@ -22,6 +23,8 @@ export const ui = (state = STATES.ui, { type, isHeaderTitleVisible }) => {
   switch (type) {
     case SET_HEADER_TITLE_VISIBILITY:
       return { ...state, isHeaderTitleVisible }
+    case TOGGLE_ADD_MENU:
+      return { ...state, isAddMenuActive: !state.isAddMenuActive }
     default:
       return state
   }

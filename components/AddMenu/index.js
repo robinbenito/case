@@ -6,6 +6,8 @@ import { CameraRoll, View } from 'react-native'
 
 import { Border, Typography, Units, Colors } from '../../constants/Style'
 import { HorizontalRule } from '../UI/Layout'
+import Store from '../../state/Store'
+import { TOGGLE_ADD_MENU } from '../../state/actions'
 import NavigationService from '../../utilities/navigationService'
 import AddIcon from './AddIcon'
 
@@ -51,17 +53,9 @@ const ItemText = styled.Text`
 export default class AddMenu extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      active: false,
-    }
-    this.toggleActive = this.toggleActive.bind(this)
+
     this.showPhotos = this.showPhotos.bind(this)
     this.takePhoto = this.takePhoto.bind(this)
-  }
-
-  toggleActive() {
-    const { active } = this.state
-    this.setState({ active: !active })
   }
 
   async showPhotos() {
@@ -108,13 +102,17 @@ export default class AddMenu extends React.Component {
   }
 
   render() {
-    const { active } = this.state
+    const { active } = this.props
     const menu = active ? this.renderMenu() : null
 
     if (ADD_MENU_ROUTE_WHITELIST.includes(this.props.routes.current)) {
       return (
-        <AddModal activeOpacity={1} active={active} onPress={this.toggleActive} >
-          <AddIcon active={active} onPress={this.toggleActive} />
+        <AddModal
+          activeOpacity={1}
+          active={active}
+          onPress={() => Store.dispatch({ type: TOGGLE_ADD_MENU })}
+        >
+          <AddIcon active={active} onPress={() => Store.dispatch({ type: TOGGLE_ADD_MENU })} />
           {menu}
         </AddModal>
       )
@@ -125,6 +123,7 @@ export default class AddMenu extends React.Component {
 }
 
 AddMenu.propTypes = {
+  active: PropTypes.bool.isRequired,
   routes: PropTypes.shape({
     current: PropTypes.string,
   }).isRequired,

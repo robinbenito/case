@@ -87,7 +87,7 @@ export default class ChannelVisibilityScreen extends React.Component {
   }
 
   renderRightContent(visibility) {
-    if (visibility === this.state.visibility) {
+    if (visibility === this.state.visibility.toLowerCase()) {
       return (
         <View style={styles.buttonContainer}>
           <Ionicons
@@ -111,8 +111,8 @@ export default class ChannelVisibilityScreen extends React.Component {
               title="Open"
               titleStyle={{ color: colors.public }}
               hasNavArrow={false}
-              onPress={() => this.onVisibilityChange('open')}
-              rightSideContent={this.renderRightContent('open')}
+              onPress={() => this.onVisibilityChange('public')}
+              rightSideContent={this.renderRightContent('public')}
             />
             <SettingsList.Header headerText="" />
             <View style={styles.labelContainer}>

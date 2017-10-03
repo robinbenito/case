@@ -33,28 +33,22 @@ const AnimatedCircle = Animated.createAnimatedComponent(IconCircle)
 export default class AddIcon extends React.Component {
   constructor(props) {
     super(props)
+
     const rotationValue = props.active ? 1 : 0
     this.state = {
       rotation: new Animated.Value(rotationValue),
-      active: props.active,
     }
-    this.onPress = this.onPress.bind(this)
+
     this.spin = this.spin.bind(this)
   }
 
-  componentWillReceiveProps({ active }) {
-    if (this.state.active === active) return
-    this.setState({ active })
+  componentWillReceiveProps(nextProps) {
+    if (this.props.active === nextProps.active) return
     this.spin()
-  }
-
-  onPress() {
-    this.spin()
-    this.props.onPress()
   }
 
   spin() {
-    const { active } = this.state
+    const { active } = this.props
     const toValue = active ? 0 : 1
 
     Animated.timing(this.state.rotation, {
@@ -62,8 +56,6 @@ export default class AddIcon extends React.Component {
       duration: 100,
       easing: Easing.linear,
     }).start()
-
-    this.setState({ active: !active })
   }
 
   render() {
@@ -79,7 +71,7 @@ export default class AddIcon extends React.Component {
     }
 
     return (
-      <TouchableWithoutFeedback onPress={this.onPress}>
+      <TouchableWithoutFeedback onPress={this.props.onPress}>
         <AnimatedCircle style={rotateAnimation}>
           <Icon name="ios-add" />
         </AnimatedCircle>
