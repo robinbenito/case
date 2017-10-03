@@ -33,18 +33,18 @@ const AnimatedCircle = Animated.createAnimatedComponent(IconCircle)
 export default class AddIcon extends React.Component {
   constructor(props) {
     super(props)
+
     const rotationValue = props.active ? 1 : 0
     this.state = {
       rotation: new Animated.Value(rotationValue),
-      active: props.active,
     }
+
     this.onPress = this.onPress.bind(this)
     this.spin = this.spin.bind(this)
   }
 
-  componentWillReceiveProps({ active }) {
-    if (this.state.active === active) return
-    this.setState({ active })
+  componentWillReceiveProps(nextProps) {
+    if (this.props.active === nextProps.active) return
     this.spin()
   }
 
