@@ -1,89 +1,102 @@
 import React from 'react'
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native'
 import PropTypes from 'prop-types'
 import { Ionicons } from '@expo/vector-icons'
 
-import colors from '../../../constants/Colors'
-import layout from '../../../constants/Layout'
+import styled from 'styled-components/native'
+import { Units, Typography, Colors, Border } from '../../../constants/Style'
 
-const styles = StyleSheet.create({
-  container: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: layout.padding,
-    marginBottom: layout.padding * 3,
-  },
-  icon: {
-    paddingRight: layout.padding / 2,
-  },
-  labelLine: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-  },
-  channelsLine: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-  },
-  channelWord: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    paddingRight: layout.padding / 2,
-  },
-})
+const Status = styled.View`
+  justify-content: center;
+  align-items: flex-start;
+  margin-bottom: ${Units.scale[3]};
+`
+
+const Sentence = styled.View`
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: ${Units.scale[2]};
+`
+
+const StatusText = styled.Text`
+  font-size: ${Typography.fontSize.base};
+  color: ${Colors.gray.semiBold};
+`
+
+const BoldStatusText = styled(StatusText)`
+  font-weight: ${Typography.fontWeight.semiBold};
+`
+
+const SelectedChannelsContainer = styled.View`
+  flex-direction: row;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+`
+
+const SelectedChannel = styled.TouchableOpacity`
+  margin-horizontal: ${Units.scale[1]};
+  margin-vertical: ${Units.scale[1]};
+  border-width: ${Border.borderWidth};
+  border-radius: ${Border.borderRadius};
+  padding-horizontal: ${Units.scale[2]};
+  padding-vertical: ${Units.scale[1]};
+  flex-direction: row;
+  align-items: center;
+`
+
+const Icon = styled(Ionicons)`
+  padding-right: ${Units.scale[1]};
+  position: relative;
+  bottom: -1;
+`
+
+const ChannelWord = styled.Text`
+  font-weight: ${Typography.fontWeight.semiBold};
+`
 
 export default class SelectedChannels extends React.Component {
   renderChannels() {
     const { channels, onRemove } = this.props
-    return channels.map((channel, index) => {
-      const textColor = colors[channel.visibility]
-      const showComma = index < channels.length - 1
+    return channels.map((channel) => {
+      const channelColor = Colors.channel[channel.visibility]
+      const backgroundColor = `rgba(${Colors.background(channelColor)})`
       return (
-        <TouchableOpacity key={`connection-${channel.id}`} onPress={() => onRemove(channel)}>
-          <View style={styles.channelWord}>
-            <Ionicons
-              style={styles.icon}
-              name="ios-remove-circle-outline"
-              size={18}
-              color={textColor}
-            />
-            <Text style={{ color: textColor, fontWeight: 'bold' }}>
-              {channel.title}
-            </Text>
-            {
-              showComma && <Text>,</Text>
-            }
-          </View>
-        </TouchableOpacity>
+        <SelectedChannel
+          key={`connection-${channel.id}`}
+          onPress={() => onRemove(channel)}
+          style={{ backgroundColor, borderColor: channelColor }}
+        >
+          <Icon
+            name="ios-close-outline"
+            size={20}
+            color={channelColor}
+          />
+          <ChannelWord style={{ color: channelColor }}>
+            {channel.title}
+          </ChannelWord>
+        </SelectedChannel>
       )
     })
   }
 
   render() {
     const { channels, title } = this.props
-    if (channels.length) {
-      return (
-        <View style={styles.container}>
-          <View style={styles.labelLine}>
-            <Text>
-              <Text>Connect </Text>
-              <Text style={{ fontWeight: 'bold' }}>{title}</Text>
-              <Text> to:</Text>
-            </Text>
-          </View>
-          <View style={styles.channelsLine}>
+    return (
+      <Status>
+        <Sentence>
+          <StatusText>
+            <StatusText>Connect </StatusText>
+            <BoldStatusText>&#8220;{title}&#8220;</BoldStatusText>
+            <StatusText> to</StatusText>
+          </StatusText>
+        </Sentence>
+        {channels.length > 0 &&
+          <SelectedChannelsContainer>
             {this.renderChannels()}
-          </View>
-        </View>
-      )
-    }
-    return (<View />)
+          </SelectedChannelsContainer>
+        }
+      </Status>
+    )
   }
 }
 
