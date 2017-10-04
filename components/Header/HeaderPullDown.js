@@ -1,9 +1,8 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
 import { View } from 'react-native'
 import { decode } from 'he'
-
 import navigationService from '../../utilities/navigationService'
 import { HeaderButton, HeaderButtonLabel, Caret } from './HeaderButton'
 import ToggleCheck from './ToggleCheck'
@@ -11,64 +10,61 @@ import { ToggleSelect, ToggleSelectOption } from './ToggleSelect'
 import { HorizontalRule } from '../UI/Layout'
 import { Units } from '../../constants/Style'
 
-
 const HeaderDrawer = styled.View`
   position: absolute;
   top: ${Units.statusBarHeight};
   width: 100%;
 `
 
-export default class HeaderPullDown extends Component {
-  render() {
-    const {
-      primary,
-      secondary,
-      onPress,
-      isExpanded,
-      isHeaderTitleVisible,
-    } = this.props
+const HeaderPullDown = (props) => {
+  const {
+    primary,
+    secondary,
+    onPress,
+    isExpanded,
+    isHeaderTitleVisible,
+  } = props
 
-    return (
-      <HeaderDrawer>
-        {!isExpanded &&
-          <HeaderButton onPress={onPress}>
-            <HeaderButtonLabel style={{ color: primary.color }} active>
-              {isHeaderTitleVisible && primary.title && decode(primary.title)}
-              <Caret style={{ color: primary.color }} />
+  return (
+    <HeaderDrawer>
+      {!isExpanded &&
+        <HeaderButton onPress={onPress}>
+          <HeaderButtonLabel style={{ color: primary.color }} active>
+            {isHeaderTitleVisible && primary.title && decode(primary.title)}
+            <Caret style={{ color: primary.color }} />
+          </HeaderButtonLabel>
+        </HeaderButton>
+      }
+
+      {isExpanded &&
+        <ToggleSelect>
+          <ToggleSelectOption>
+            <HeaderButtonLabel active>
+              {(primary.title && decode(primary.title)) || '—'}
             </HeaderButtonLabel>
-          </HeaderButton>
-        }
+            <ToggleCheck />
+          </ToggleSelectOption>
 
-        {isExpanded &&
-          <ToggleSelect>
-            <ToggleSelectOption>
-              <HeaderButtonLabel active>
-                {(primary.title && decode(primary.title)) || '—'}
-              </HeaderButtonLabel>
-              <ToggleCheck />
-            </ToggleSelectOption>
-
-            {secondary.map(option => (
-              <View key={option.key}>
-                <HorizontalRule />
-                <ToggleSelectOption
-                  onPress={() => {
-                    onPress()
-                    if (option.onPress) return option.onPress()
-                    return navigationService.reset(option.key)
-                  }}
-                >
-                  <HeaderButtonLabel>
-                    {option.title && decode(option.title)}
-                  </HeaderButtonLabel>
-                </ToggleSelectOption>
-              </View>
-            ))}
-          </ToggleSelect>
-        }
-      </HeaderDrawer>
-    )
-  }
+          {secondary.map(option => (
+            <View key={option.key}>
+              <HorizontalRule />
+              <ToggleSelectOption
+                onPress={() => {
+                  onPress()
+                  if (option.onPress) return option.onPress()
+                  return navigationService.reset(option.key)
+                }}
+              >
+                <HeaderButtonLabel>
+                  {option.title && decode(option.title)}
+                </HeaderButtonLabel>
+              </ToggleSelectOption>
+            </View>
+          ))}
+        </ToggleSelect>
+      }
+    </HeaderDrawer>
+  )
 }
 
 HeaderPullDown.propTypes = {
@@ -91,3 +87,5 @@ HeaderPullDown.defaultProps = {
   isExpanded: false,
   isHeaderTitleVisible: true,
 }
+
+export default HeaderPullDown

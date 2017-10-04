@@ -1,33 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { StyleSheet, Text } from 'react-native'
-
-import { Colors } from '../constants/Style'
+import { Text } from 'react-native'
 import NavigatorService from '../utilities/navigationService'
-
-const styles = StyleSheet.create({
-  text: {
-    fontWeight: 'bold',
-  },
-  channelTitlePrivate: {
-    color: Colors.channel.private,
-  },
-  channelTitleClosed: {
-    color: Colors.channel.closed,
-  },
-  channelTitlePublic: {
-    color: Colors.channel.public,
-  },
-})
+import { Colors } from '../constants/Style'
 
 export default class ChannelNameText extends React.Component {
-  constructor(props) {
-    super(props)
-    this.goToChannel = this.goToChannel.bind(this)
-  }
-
-  goToChannel() {
+  goToChannel = () => {
     this.props.onPress()
+
     NavigatorService.navigate('channel', {
       id: this.props.channel.id,
       title: this.props.channel.title,
@@ -36,17 +16,12 @@ export default class ChannelNameText extends React.Component {
   }
 
   render() {
-    const privacyStyle = {
-      public: styles.channelTitlePublic,
-      closed: styles.channelTitleClosed,
-      private: styles.channelTitlePrivate,
-    }[this.props.channel.visibility]
-
-    const { channel, style } = this.props
-    const textStyle = [styles.text, privacyStyle, style]
+    const { channel, onPress, ...rest } = this.props
 
     return (
-      <Text style={textStyle} onPress={this.goToChannel}>{channel.title} </Text>
+      <Text onPress={this.goToChannel} {...rest}>
+        {channel.title}
+      </Text>
     )
   }
 }

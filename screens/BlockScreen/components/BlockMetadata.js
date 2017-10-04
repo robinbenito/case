@@ -1,71 +1,99 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Share, StyleSheet, Text, View } from 'react-native'
-
+import { Share } from 'react-native'
+import styled from 'styled-components/native'
 import UserNameText from '../../../components/UserNameText'
-import { ExternalLink, Link } from '../../../components/UI/Link'
+import ExternalLink from '../../../components/UI/Link'
+import HTML from '../../../components/HTML'
+import { Units, Typography, Colors } from '../../../constants/Style'
 
-import layout from '../../../constants/Layout'
-import type from '../../../constants/Type'
-import colors from '../../../constants/Colors'
+const Container = styled.View`
+  width: 100%;
+  margin-vertical: ${Units.base};
+  padding-horizontal: ${Units.scale[2]};
+`
 
-const styles = StyleSheet.create({
-  metadata: {
-    marginTop: layout.padding * 4,
-    paddingHorizontal: layout.padding,
-    flexWrap: 'wrap',
-    alignSelf: 'flex-start',
-  },
-  description: {
-    paddingVertical: layout.padding,
-    color: colors.gray.text,
-    fontSize: type.sizes.normal,
-    lineHeight: type.lineHeights.normal,
-  },
-  title: {
-    fontWeight: type.weights.semibold,
-    color: colors.gray.text,
-  },
-  authorContainer: {
-    paddingTop: layout.padding,
-    flexDirection: 'row',
-  },
-  author: {
-    color: colors.gray.text,
-    fontSize: type.sizes.normal,
-  },
-})
+const Title = styled.Text`
+  font-size: ${Typography.fontSize.h2};
+  line-height: ${Typography.lineHeightFor(Typography.fontSize.h2)};
+  font-weight: ${Typography.fontWeight.semiBold};
+  color: ${Colors.semantic.text};
+  margin-bottom: ${Units.base};
+`
 
-export default class BlockMetadata extends React.Component {
-  render() {
-    const { block } = this.props
-    const { kind: { __typename: typeName } } = block
-    const sourceUrl = block.source.url || block.kind.image_url
+const Metadata = styled.Text`
+  width: 85%;
+  margin-bottom: ${Units.scale[1]};
+  font-size: ${Typography.fontSize.small};
+  color: ${Colors.semantic.text};
+`
 
-    return (
-      <View style={styles.metadata}>
-        <Text style={styles.title}>
-          {block.title}
-        </Text>
-        <View style={styles.authorContainer}>
-          <Text style={styles.author}>Added {block.created_at} by </Text>
-          <UserNameText user={block.user} style={styles.author} />
-        </View>
-        <Text style={styles.description}>
-          {block.description}
-        </Text>
-        {sourceUrl && <ExternalLink url={sourceUrl}>
-          Source
-        </ExternalLink>}
-        {typeName === 'Image' && <ExternalLink url={`https://www.google.com/searchbyimage?&image_url=${block.kind.image_url}`}>
-          Find Original
-        </ExternalLink>}
-        <Link onPress={() => Share.share({ url: `https://www.are.na/block/${block.id}` })}>
+const Description = styled(HTML)`
+  width: 85%;
+`
+
+const UserNameLink = styled(UserNameText)`
+  font-weight: ${Typography.fontWeight.bold};
+`
+
+const Actions = styled.View`
+  margin-vertical: ${Units.base};
+`
+
+const action = `
+  margin-vertical: ${Units.scale[1] / 2};
+  font-size: ${Typography.fontSize.base};
+  line-height: ${Typography.lineHeightFor('base')};
+  font-weight: ${Typography.fontWeight.bold};
+  color: ${Colors.semantic.text};
+`
+
+const Action = styled.Text`${action}`
+const ExternalAction = styled(ExternalLink)`${action}`
+
+const BlockMetadata = ({ block }) => {
+  const { kind: { __typename: typeName } } = block
+  const sourceUrl = block.source.url || block.kind.image_url
+
+  return (
+    <Container>
+      <Title>
+        {block.title}
+      </Title>
+
+      <Metadata>
+        Added {block.created_at} by <UserNameLink user={block.user} />
+      </Metadata>
+
+      <Description
+        value={block.description || '<p>—</p>'}
+        stylesheet={{
+          p: {
+            fontSize: Typography.fontSize.small,
+            lineHeight: Typography.lineHeightFor('base', 'compact'),
+          },
+        }}
+      />
+
+      <Actions>
+        {sourceUrl &&
+          <ExternalAction url={sourceUrl}>
+            Source
+          </ExternalAction>
+        }
+
+        {typeName === 'Image' &&
+          <ExternalAction url={`https://www.google.com/searchbyimage?&image_url=${block.kind.image_url}`}>
+            Find original
+          </ExternalAction>
+        }
+
+        <Action onPress={() => Share.share({ url: `https://www.are.na/block/${block.id}` })}>
           Share
-        </Link>
-      </View>
-    )
-  }
+        </Action>
+      </Actions>
+    </Container>
+  )
 }
 
 BlockMetadata.propTypes = {
@@ -75,3 +103,5 @@ BlockMetadata.propTypes = {
 BlockMetadata.defaultProps = {
   block: {},
 }
+
+export default BlockMetadata
