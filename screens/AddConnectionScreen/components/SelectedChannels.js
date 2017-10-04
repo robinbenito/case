@@ -34,7 +34,7 @@ const SelectedChannelsContainer = styled.View`
 `
 
 const SelectedChannel = styled.TouchableOpacity`
-  margin-horizontal: ${Units.scale[1]};
+  margin-right: ${Units.scale[2]};
   margin-vertical: ${Units.scale[1]};
   border-width: ${Border.borderWidth};
   border-radius: ${Border.borderRadius};

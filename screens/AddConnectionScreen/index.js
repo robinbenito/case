@@ -2,14 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
-
 import { concat, reject } from 'lodash'
+import styled from 'styled-components/native'
 
-import { Keyboard, StyleSheet, View } from 'react-native'
+import { Keyboard } from 'react-native'
 import NavigationService from '../../utilities/navigationService'
 
 import SelectedChannels from './components/SelectedChannels'
-
 import SearchHeader from '../../components/SearchHeader'
 import SearchConnectionsWithData from './components/SearchConnections'
 import RecentConnectionsWithData, { RecentConnectionsQuery } from './components/RecentConnections'
@@ -17,33 +16,19 @@ import { BlockConnectionsQuery } from '../../screens/BlockScreen/components/Bloc
 
 import uploadImage from '../../api/uploadImage'
 
-import layout from '../../constants/Layout'
-import type from '../../constants/Type'
-
+import { Units } from '../../constants/Style'
 import { Container } from '../../components/UI/Layout'
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: layout.padding,
-    backgroundColor: '#fff',
-  },
-  innerContainer: {
-    flex: 1,
-    marginTop: 100,
-  },
-  label: {
-    fontSize: type.sizes.small,
-    color: '#222',
-    textAlign: 'center',
-    marginBottom: 20,
-  },
-  input: {
-    color: '#585858',
-    borderColor: '#cbcbcb',
-    borderWidth: 1,
-  },
-})
+const SelectContainer = styled(Container)`
+  margin-top: 0;
+  background-color: white;
+  padding-horizontal: ${Units.scale[2]};
+`
+
+const SelectedContainer = styled.View`
+  flex: 1;
+  margin-top: ${Units.scale[5]};
+`
 
 class SelectConnectionScreen extends React.Component {
   static navigationOptions() {
@@ -187,15 +172,14 @@ class SelectConnectionScreen extends React.Component {
     const cancelOrDone = selectedConnections.length > 0 ? 'Done' : 'Cancel'
 
     return (
-      <Container style={styles.container}>
+      <SelectContainer>
         <SearchHeader
-          style={styles.input}
           onChangeText={t => this.search(t)}
           cancelOrDone={cancelOrDone}
           onSubmit={this.saveConnections}
           onCancel={this.onCancel}
         />
-        <View style={styles.innerContainer}>
+        <SelectedContainer>
           <SelectedChannels
             onRemove={channel => this.onToggleConnection(channel, false)}
             channels={selectedConnections}
@@ -203,8 +187,8 @@ class SelectConnectionScreen extends React.Component {
             key={`selected-${selectedConnections.length}`}
           />
           {ConnectionContent}
-        </View>
-      </Container>
+        </SelectedContainer>
+      </SelectContainer>
     )
   }
 }
