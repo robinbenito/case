@@ -1,35 +1,34 @@
 import React from 'react'
 import gql from 'graphql-tag'
-import {
-  Text,
-} from 'react-native'
+import { Text } from 'react-native'
 import PropTypes from 'prop-types'
-
 import UserNameText from './UserNameText'
 import ChannelNameText from './ChannelNameText'
 import BlockLink from './BlockLink'
 
-const FeedWordLink = ({ object, phrase, style, onPress }) => {
-  let objectLink
+// TODO: Get rid of `phrase` prop in favor of children...
+const FeedWordLink = ({ object, phrase, ...rest }) => {
+  let link = <Text {...rest}>{phrase}</Text>
 
   if (object) {
     const { __typename } = object
+
     switch (__typename) {
       case 'Channel':
-        objectLink = <ChannelNameText channel={object} style={style} onPress={onPress} />
+        link = <ChannelNameText channel={object} {...rest} />
         break
       case 'User':
-        objectLink = <UserNameText user={object} style={style} onPress={onPress} />
+        link = <UserNameText user={object} {...rest} />
         break
       case 'Connectable':
-        objectLink = <BlockLink block={object} style={style} onPress={onPress} />
+        link = <BlockLink block={object} {...rest} />
         break
       default:
-        objectLink = <Text style={style}>{phrase || object.title} </Text>
+        link = <Text {...rest}>{phrase || object.title}</Text>
     }
   }
 
-  return objectLink || <Text style={style}>{phrase} </Text>
+  return link
 }
 
 FeedWordLink.fragments = {
@@ -44,6 +43,9 @@ FeedWordLink.fragments = {
     fragment ConnectableWord on Connectable {
       id
       title
+      kind {
+        __typename
+      }
     }
   `,
   user: gql`
@@ -56,17 +58,13 @@ FeedWordLink.fragments = {
 }
 
 FeedWordLink.propTypes = {
-  style: PropTypes.any,
   object: PropTypes.any,
   phrase: PropTypes.string,
-  onPress: PropTypes.func,
 }
 
 FeedWordLink.defaultProps = {
-  style: {},
   object: {},
   phrase: '',
-  onPress: () => null,
 }
 
 export default FeedWordLink

@@ -1,114 +1,59 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<View
-  style={
-    Object {
-      "paddingHorizontal": 20,
-      "paddingVertical": 20,
-    }
-  }
->
-  <View
-    style={
-      Object {
-        "display": "flex",
-        "flexDirection": "row",
-        "flexWrap": "wrap",
+<Styled(View)>
+  <Styled(Text)>
+    <UserNameText
+      onPress={[Function]}
+      user={
+        Object {
+          "name": "Édouard U.",
+          "slug": "edouard-u",
+        }
       }
-    }
-  >
+    />
     <Text
       accessible={true}
       allowFontScaling={true}
       disabled={false}
       ellipsizeMode="tail"
     >
-      <UserNameText
-        mode="feed"
-        onPress={[Function]}
-        style={
-          Object {
-            "fontSize": 15,
-          }
-        }
-        user={
-          Object {
-            "name": "Édouard U.",
-            "slug": "edouard-u",
-          }
-        }
-      />
-      <Text
-        accessible={true}
-        allowFontScaling={true}
-        disabled={false}
-        ellipsizeMode="tail"
-        style={
-          Object {
-            "fontSize": 15,
-          }
-        }
-      >
-         
-      </Text>
-      <FeedWordLink
-        object={Object {}}
-        onPress={[Function]}
-        phrase=""
-        style={
-          Object {
-            "fontSize": 15,
-          }
-        }
-      />
-      <Text
-        accessible={true}
-        allowFontScaling={true}
-        disabled={false}
-        ellipsizeMode="tail"
-        style={
-          Object {
-            "fontSize": 15,
-          }
-        }
-      >
-        to
-         
-      </Text>
-      <FeedWordLink
-        object={
-          Object {
-            "__typename": "Channel",
-            "id": 15271,
-            "title": "Picture",
-            "visibility": "public",
-          }
-        }
-        onPress={[Function]}
-        phrase=""
-        style={
-          Object {
-            "fontSize": 15,
-          }
-        }
-      />
+       
+       
     </Text>
-  </View>
-  <Text
-    accessible={true}
-    allowFontScaling={true}
-    disabled={false}
-    ellipsizeMode="tail"
-    style={
-      Object {
-        "color": "#cbcbcb",
-        "fontSize": 12,
-        "paddingTop": 5,
+    <FeedWordLink
+      object={Object {}}
+      phrase=""
+    />
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      disabled={false}
+      ellipsizeMode="tail"
+    >
+       
+      to
+       
+    </Text>
+    <FeedWordLink
+      object={
+        Object {
+          "__typename": "Channel",
+          "id": 15271,
+          "title": "Picture",
+          "visibility": "public",
+        }
       }
-    }
-  >
+      phrase=""
+      style={
+        Object {
+          "color": "rgb(66, 133, 60)",
+        }
+      }
+    />
+  </Styled(Text)>
+  <Styled(Text)>
     19 minutes ago
-  </Text>
-</View>
+  </Styled(Text)>
+</Styled(View)>
 `;

@@ -41,7 +41,6 @@ const TextContainer = styled.View`
 `
 
 const Container = styled.View`
-  margin-vertical: ${Units.scale[4]};
   align-items: center;
   flex: 1;
 `
@@ -203,7 +202,7 @@ const BlockQuery = gql`
       title
       updated_at(relative: true)
       created_at(relative: true)
-      description
+      description(format: HTML)
       user {
         __typename
         id

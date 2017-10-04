@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import {
   ActivityIndicator,
   FlatList,
@@ -8,17 +7,14 @@ import {
   Text,
   View,
 } from 'react-native'
-
 import gql from 'graphql-tag'
 import { graphql, compose } from 'react-apollo'
-
 import { NotificationCountQuery } from '../../../components/NotificationCount'
 import FeedWordLink from '../../../components/FeedWordLink'
 import FeedSentence from '../../../components/FeedSentence'
+import { HorizontalRule } from '../../../components/UI/Layout'
 
-import layout from '../../../constants/Layout'
 import type from '../../../constants/Type'
-import colors from '../../../constants/Colors'
 
 const styles = StyleSheet.create({
   container: {
@@ -30,11 +26,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#fff',
-  },
-  itemContainer: {
-    marginBottom: layout.padding,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.gray.border,
   },
   text: {
     fontSize: type.sizes.medium,
@@ -154,14 +145,15 @@ class NotificationContents extends React.Component {
         keyExtractor={(deed, index) => `${deed.id}-${index}`}
         onEndReachedThreshold={0.9}
         renderItem={({ item: deed, index }) => (
-          <View key={`${deed.id}-${index}`} style={styles.itemContainer} >
+          <View key={`${deed.id}-${index}`}>
             <FeedSentence
               deed={deed}
               showUnreadState
               onPress={() => this.markNotificationAsRead(deed.bulletin_id)}
             />
+            <HorizontalRule />
           </View>
-          )}
+        )}
       />
     )
   }

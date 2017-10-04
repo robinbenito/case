@@ -46,16 +46,13 @@ export default class Header extends Component {
       isExpanded: false,
       headerRight: props.headerRight,
     }
-
-    this.onPress = this.onPress.bind(this)
-    this.onModalPress = this.onModalPress.bind(this)
   }
 
-  onPress() {
+  onPress = () => {
     this.setState({ isExpanded: !this.state.isExpanded })
   }
 
-  onModalPress() {
+  onModalPress = () => {
     this.setState({ isExpanded: false })
   }
 
@@ -102,9 +99,9 @@ Header.propTypes = {
         color: PropTypes.string,
       }),
     }),
-  }),
+  }).isRequired,
   primary: PropTypes.shape({
-    title: PropTypes.string.isRequired,
+    title: PropTypes.string,
   }).isRequired,
   secondary: PropTypes.arrayOf(PropTypes.shape({
     title: PropTypes.string.isRequired,
@@ -116,14 +113,6 @@ Header.propTypes = {
 }
 
 Header.defaultProps = {
-  navigation: {
-    state: {
-      params: {},
-    },
-  },
-  primary: {
-    title: '—',
-  },
   headerRight: null,
   headerLeft: <BackButton />,
   isHeaderTitleVisible: true,

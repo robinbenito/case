@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { merge } from 'lodash'
 import styled from 'styled-components/native'
 import HTMLView from 'react-native-htmlview'
-import { Typography, Units } from '../constants/Style'
+import { Typography, Units, Colors } from '../constants/Style'
 
 const STYLESHEET = {
   p: {
@@ -11,6 +11,7 @@ const STYLESHEET = {
     fontSize: Typography.fontSize.small,
     lineHeight: Typography.lineHeightFor(Typography.fontSize.small),
     marginBottom: Units.scale[1],
+    color: Colors.semantic.text,
   },
   a: {},
 }
@@ -23,7 +24,7 @@ const ArenaHTML = styled(HTMLView).attrs({
 
 const HTML = ({ stylesheet, ...rest }) => (
   <ArenaHTML
-    stylesheet={merge({}, stylesheet, STYLESHEET)}
+    stylesheet={merge({}, STYLESHEET, stylesheet)}
     {...rest}
   />
 )
