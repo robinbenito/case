@@ -2,7 +2,6 @@ import React from 'react'
 import { StackNavigator } from 'react-navigation'
 import { connect } from 'react-redux'
 
-import AddConnectionScreen from '../screens/AddConnectionScreen'
 import BlockScreen from '../screens/BlockScreen'
 import BlockTextScreen from '../screens/BlockScreen/components/BlockText' // TODO: Move this to screens
 import ChannelScreen from '../screens/ChannelScreen'
@@ -40,19 +39,6 @@ export default StackNavigator({
       header: <Header
         navigation={navigation}
         primary={{ title: 'Block' }}
-        secondary={[
-          { title: 'Your profile', key: 'profile' },
-          { title: 'Feed', key: 'feed' },
-        ]}
-      />,
-    }),
-  },
-  addConnection: {
-    screen: AddConnectionScreen,
-    navigationOptions: ({ navigation }) => ({
-      header: <Header
-        navigation={navigation}
-        primary={{ title: 'Add Connection' }}
         secondary={[
           { title: 'Your profile', key: 'profile' },
           { title: 'Feed', key: 'feed' },
