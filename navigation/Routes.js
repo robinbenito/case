@@ -120,14 +120,16 @@ export default initialRouteName => StackModalNavigator({
   },
   connect: {
     screen: enhance(StackNavigator)({
-      connect: { screen: AddConnectionsScreen },
-    }),
-    navigationOptions: {
-      header: null,
-      cardStyle: {
-        backgroundColor: 'white',
+      connect: {
+        screen: AddConnectionsScreen,
+        navigationOptions: {
+          header: null,
+          cardStyle: {
+            backgroundColor: 'white',
+          },
+        },
       },
-    },
+    }),
   },
 }, {
   headerMode: 'screen',
