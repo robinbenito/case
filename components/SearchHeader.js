@@ -9,7 +9,7 @@ import navigationService from '../utilities/navigationService'
 
 const SearchInput = styled(Input)`
   flex: 4;
-  border-radius: ${Border.borderRadius + 1};
+  border-radius: ${Border.borderRadius};
   background-color: ${Colors.semantic.background};
   height: ${Units.searchBarHeight};
   padding-horizontal: ${Units.scale[1]};
