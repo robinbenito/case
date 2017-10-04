@@ -1,14 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Dimensions } from 'react-native'
 
 import styled from 'styled-components/native'
 import { Colors, Border, Units, Typography } from '../constants/Style'
 import { Input } from '../components/UI/Inputs'
 
 import navigationService from '../utilities/navigationService'
-
-const { width } = Dimensions.get('window')
 
 const SearchInput = styled(Input)`
   flex: 4;
@@ -35,7 +32,7 @@ const ButtonText = styled.Text`
 const Container = styled.View`
   position: absolute;
   top: ${Units.searchBarHeight};
-  width: ${width};
+  width: 100%;
   flex-direction: row;
   padding-horizontal: ${Units.scale[2]};
   align-items: center;
@@ -57,7 +54,7 @@ export default class SearchHeader extends React.Component {
     this.props.onSubmit()
   }
 
-  onChangeText(text) {
+  onChangeText = (text) => {
     this.setState({
       isSearching: text.length,
       search: text,
@@ -73,7 +70,7 @@ export default class SearchHeader extends React.Component {
     return (
       <Container>
         <SearchInput
-          onChangeText={t => this.onChangeText(t)}
+          onChangeText={this.onChangeText}
           autoCapitalize="none"
           value={search}
           clearButtonMode="while-editing"
