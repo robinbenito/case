@@ -1,161 +1,71 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<View
-  style={
-    Object {
-      "alignItems": "center",
-      "justifyContent": "center",
-      "marginBottom": 30,
-      "paddingHorizontal": 10,
-    }
-  }
->
-  <View
-    style={
-      Object {
-        "flexDirection": "row",
-        "flexWrap": "wrap",
-        "justifyContent": "center",
-      }
-    }
-  >
-    <Text
-      accessible={true}
-      allowFontScaling={true}
-      disabled={false}
-      ellipsizeMode="tail"
-    >
-      <Text
-        accessible={true}
-        allowFontScaling={true}
-        disabled={false}
-        ellipsizeMode="tail"
-      >
+<Styled(View)>
+  <Styled(View)>
+    <Styled(Text)>
+      <Styled(Text)>
         Connect 
-      </Text>
-      <Text
-        accessible={true}
-        allowFontScaling={true}
-        disabled={false}
-        ellipsizeMode="tail"
-        style={
-          Object {
-            "fontWeight": "bold",
-          }
-        }
-      >
+      </Styled(Text)>
+      <Styled(Styled(Text))>
+        “
         Untitled block
-      </Text>
-      <Text
-        accessible={true}
-        allowFontScaling={true}
-        disabled={false}
-        ellipsizeMode="tail"
-      >
-         to:
-      </Text>
-    </Text>
-  </View>
-  <View
-    style={
-      Object {
-        "flexDirection": "row",
-        "flexWrap": "wrap",
-        "justifyContent": "center",
+        “
+      </Styled(Styled(Text))>
+      <Styled(Text)>
+         to
+      </Styled(Text)>
+    </Styled(Text)>
+  </Styled(View)>
+  <Styled(View)>
+    <Styled(TouchableOpacity)
+      onPress={[Function]}
+      style={
+        Object {
+          "backgroundColor": "rgba(165,0,0,0.05)",
+          "borderColor": "rgb(165, 0, 0)",
+        }
       }
-    }
-  >
-    <TouchableOpacity
-      activeOpacity={0.2}
-      focusedOpacity={0.7}
-      onPress={[Function]}
     >
-      <View
+      <Styled(Icon)
+        color="rgb(165, 0, 0)"
+        name="ios-close-outline"
+        size={20}
+      />
+      <Styled(Text)
         style={
           Object {
-            "flexDirection": "row",
-            "justifyContent": "center",
-            "paddingRight": 5,
+            "color": "rgb(165, 0, 0)",
           }
         }
       >
-        <Icon
-          allowFontScaling={false}
-          color="rgb(165, 0, 0)"
-          name="ios-remove-circle-outline"
-          size={18}
-          style={
-            Object {
-              "paddingRight": 5,
-            }
-          }
-        />
-        <Text
-          accessible={true}
-          allowFontScaling={true}
-          disabled={false}
-          ellipsizeMode="tail"
-          style={
-            Object {
-              "color": "rgb(165, 0, 0)",
-              "fontWeight": "bold",
-            }
-          }
-        >
-          Round things
-        </Text>
-        <Text
-          accessible={true}
-          allowFontScaling={true}
-          disabled={false}
-          ellipsizeMode="tail"
-        >
-          ,
-        </Text>
-      </View>
-    </TouchableOpacity>
-    <TouchableOpacity
-      activeOpacity={0.2}
-      focusedOpacity={0.7}
+        Round things
+      </Styled(Text)>
+    </Styled(TouchableOpacity)>
+    <Styled(TouchableOpacity)
       onPress={[Function]}
+      style={
+        Object {
+          "backgroundColor": "rgba(165,0,0,0.05)",
+          "borderColor": "rgb(165, 0, 0)",
+        }
+      }
     >
-      <View
+      <Styled(Icon)
+        color="rgb(165, 0, 0)"
+        name="ios-close-outline"
+        size={20}
+      />
+      <Styled(Text)
         style={
           Object {
-            "flexDirection": "row",
-            "justifyContent": "center",
-            "paddingRight": 5,
+            "color": "rgb(165, 0, 0)",
           }
         }
       >
-        <Icon
-          allowFontScaling={false}
-          color="rgb(165, 0, 0)"
-          name="ios-remove-circle-outline"
-          size={18}
-          style={
-            Object {
-              "paddingRight": 5,
-            }
-          }
-        />
-        <Text
-          accessible={true}
-          allowFontScaling={true}
-          disabled={false}
-          ellipsizeMode="tail"
-          style={
-            Object {
-              "color": "rgb(165, 0, 0)",
-              "fontWeight": "bold",
-            }
-          }
-        >
-          Square things
-        </Text>
-      </View>
-    </TouchableOpacity>
-  </View>
-</View>
+        Square things
+      </Styled(Text)>
+    </Styled(TouchableOpacity)>
+  </Styled(View)>
+</Styled(View)>
 `;

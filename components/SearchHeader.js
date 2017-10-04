@@ -1,55 +1,44 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  Dimensions,
-  StyleSheet,
-  TextInput,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native'
 
-import colors from '../constants/Colors'
-import layout from '../constants/Layout'
-import type from '../constants/Type'
+import styled from 'styled-components/native'
+import { Colors, Border, Units, Typography } from '../constants/Style'
+import { Input } from '../components/UI/Inputs'
 
 import navigationService from '../utilities/navigationService'
 
-const { width } = Dimensions.get('window')
+export const SEARCH_BAR_HEIGHT = 28
 
-const styles = StyleSheet.create({
-  container: {
-    position: 'absolute',
-    top: 0,
-    backgroundColor: colors.gray.background,
-    paddingTop: layout.padding * 2.5,
-    paddingHorizontal: layout.padding,
-    paddingBottom: layout.padding / 2,
-    width,
-  },
-  innerContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  input: {
-    borderRadius: 5,
-    fontSize: type.sizes.normal,
-    backgroundColor: colors.gray.border,
-    marginRight: layout.padding,
-    height: 35,
-    padding: layout.padding,
-    flex: 4,
-  },
-  text: {
-    minWidth: layout.padding * 5,
-    fontSize: type.sizes.normal,
-    textAlign: 'center',
-    fontWeight: 'bold',
-    color: colors.gray.text,
-  },
-})
+const SearchInput = styled(Input)`
+  flex: 4;
+  border-radius: ${Border.borderRadius};
+  background-color: ${Colors.semantic.background};
+  height: ${Units.searchBarHeight};
+  padding-horizontal: ${Units.scale[1]};
+  padding-vertical: ${Units.scale[1]};
+  font-size: ${Typography.fontSize.base};
+`
+
+const Button = styled.TouchableOpacity`
+  flex: 1;
+  align-items: flex-end;
+  padding-horizontal: ${Units.scale[1]};
+`
+
+const ButtonText = styled.Text`
+  font-size: ${Typography.fontSize.medium};
+  color: ${Colors.gray.semiBold};
+  text-align: left;
+`
+
+const Container = styled.View`
+  position: absolute;
+  top: ${SEARCH_BAR_HEIGHT};
+  width: 100%;
+  flex-direction: row;
+  padding-horizontal: ${Units.scale[2]};
+  align-items: center;
+`
 
 export default class SearchHeader extends React.Component {
   constructor(props) {
@@ -67,7 +56,7 @@ export default class SearchHeader extends React.Component {
     this.props.onSubmit()
   }
 
-  onChangeText(text) {
+  onChangeText = (text) => {
     this.setState({
       isSearching: text.length,
       search: text,
@@ -76,35 +65,32 @@ export default class SearchHeader extends React.Component {
   }
 
   render() {
-    const { style, cancelOrDone, onCancel } = this.props
+    const { cancelOrDone, onCancel } = this.props
     const { search, isSubmitting } = this.state
     const buttonFunc = cancelOrDone === 'Cancel' ? onCancel : this.onSubmit
 
     return (
-      <View style={styles.container}>
-        <View style={styles.innerContainer}>
-          <TextInput
-            style={[styles.input, style]}
-            onChangeText={t => this.onChangeText(t)}
-            autoCapitalize="none"
-            value={search}
-            clearButtonMode="while-editing"
-            autoFocus
-          />
-          <TouchableOpacity onPress={buttonFunc} disabled={isSubmitting}>
-            <Text style={styles.text}>
-              {cancelOrDone}
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+      <Container>
+        <SearchInput
+          onChangeText={this.onChangeText}
+          autoCapitalize="none"
+          value={search}
+          clearButtonMode="while-editing"
+          placeholder="Search"
+          autoFocus
+        />
+        <Button onPress={buttonFunc} disabled={isSubmitting}>
+          <ButtonText>
+            {cancelOrDone}
+          </ButtonText>
+        </Button>
+      </Container>
     )
   }
 }
 
 SearchHeader.propTypes = {
   onChangeText: PropTypes.func,
-  style: PropTypes.any,
   cancelOrDone: PropTypes.oneOf(['Cancel', 'Done']),
   onSubmit: PropTypes.func,
   onCancel: PropTypes.func,
