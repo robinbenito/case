@@ -69,7 +69,6 @@ const base = Typography.lineHeightFor(Typography.fontSize.base)
 
 export const Units = {
   statusBarHeight: 20,
-  searchBarHeight: 28,
   hairlineWidth: StyleSheet.hairlineWidth,
   base,
   scale: [

@@ -7,6 +7,8 @@ import { Input } from '../components/UI/Inputs'
 
 import navigationService from '../utilities/navigationService'
 
+export const SEARCH_BAR_HEIGHT = 28
+
 const SearchInput = styled(Input)`
   flex: 4;
   border-radius: ${Border.borderRadius};
@@ -31,7 +33,7 @@ const ButtonText = styled.Text`
 
 const Container = styled.View`
   position: absolute;
-  top: ${Units.searchBarHeight};
+  top: ${SEARCH_BAR_HEIGHT};
   width: 100%;
   flex-direction: row;
   padding-horizontal: ${Units.scale[2]};
