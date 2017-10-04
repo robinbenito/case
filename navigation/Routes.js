@@ -11,6 +11,7 @@ import NotificationsScreen from '../screens/NotificationsScreen'
 import SearchStack from './SearchStack'
 import NewChannelStack from './NewChannelStack'
 import AddTextScreen from '../screens/AddTextScreen'
+import AddImageScreen from '../screens/AddImageScreen'
 import AddLinkScreen from '../screens/AddLinkScreen'
 import AddConnectionsScreen from '../screens/AddConnectionScreen'
 
@@ -87,6 +88,17 @@ export default initialRouteName => StackModalNavigator({
   newText: {
     screen: enhance(StackNavigator)({
       newText: { screen: AddTextScreen },
+    }),
+    navigationOptions: {
+      header: null,
+      cardStyle: {
+        backgroundColor: 'white',
+      },
+    },
+  },
+  newImage: {
+    screen: enhance(StackNavigator)({
+      newText: { screen: AddImageScreen },
     }),
     navigationOptions: {
       header: null,

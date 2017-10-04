@@ -62,7 +62,7 @@ export default class AddMenu extends React.Component {
     const result = await ImagePicker.launchImageLibraryAsync({})
     if (!result.cancelled) {
       this.setState({ image: result.uri })
-      NavigationService.navigate('connect', { image: result.uri })
+      NavigationService.navigate('newImage', { image: result.uri })
     }
   }
 
@@ -71,7 +71,7 @@ export default class AddMenu extends React.Component {
     if (!result.cancelled) {
       CameraRoll.saveToCameraRoll(result.uri)
       this.setState({ image: result.uri })
-      NavigationService.navigate('connect', { image: result.uri })
+      NavigationService.navigate('newImage', { image: result.uri })
     }
   }
 
