@@ -23,7 +23,6 @@ import { Container } from '../../components/UI/Layout'
 const SelectContainer = styled(Container)`
   margin-top: 0;
   background-color: white;
-  padding-horizontal: ${Units.scale[2]};
 `
 
 const SelectedContainer = styled.View`

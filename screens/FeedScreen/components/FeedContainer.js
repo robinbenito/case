@@ -2,18 +2,11 @@ import React from 'react'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 import PropTypes from 'prop-types'
-
-import {
-  ActivityIndicator,
-  Dimensions,
-  FlatList,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native'
+import styled from 'styled-components/native'
+import { ActivityIndicator, FlatList } from 'react-native'
 
 import FeedContents from './FeedContents'
-
+import { CenterColumn } from '../../../components/UI/Layout'
 import FeedWordLink from '../../../components/FeedWordLink'
 import FeedGroupSentence from '../../../components/FeedGroupSentence'
 import BlockItem from '../../../components/BlockItem'
@@ -21,29 +14,15 @@ import ChannelItem from '../../../components/ChannelItem'
 import Empty from '../../../components/Empty'
 import UserAvatar from '../../../components/UserAvatar'
 
-import layout from '../../../constants/Layout'
+import { Units } from '../../../constants/Style'
 
-const { width } = Dimensions.get('window')
+const ItemContainer = styled.View`
+  margin-bottom: ${Units.scale[4]};
+`
 
-const styles = StyleSheet.create({
-  container: {
-    flexGrow: 1,
-    backgroundColor: '#fff',
-  },
-  loadingContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#fff',
-  },
-  footer: {
-    paddingVertical: layout.padding,
-  },
-  itemContainer: {
-    marginBottom: layout.padding * 6,
-    minHeight: width / 2,
-  },
-})
+const Footer = styled(CenterColumn)`
+  margin-vertical: ${Units.base};
+`
 
 class FeedContainer extends React.Component {
 
@@ -72,28 +51,26 @@ class FeedContainer extends React.Component {
   }
 
   renderLoader() {
-    if (!this.props.data.loading) return null
+    if (!this.props.data.loading) return <Footer />
     return (
-      <ActivityIndicator animating size="small" style={styles.footer} />
+      <Footer>
+        <ActivityIndicator animating size="small" />
+      </Footer>
     )
   }
 
   render() {
     if (this.props.data.error) {
       return (
-        <View style={styles.loadingContainer} >
-          <Text>
-            Error fetching feed
-          </Text>
-        </View>
+        <Empty text="Error fetching feed" />
       )
     }
 
     if (this.props.data.loading && !this.props.data.me) {
       return (
-        <View style={styles.loadingContainer} >
+        <Empty>
           <ActivityIndicator />
-        </View>
+        </Empty>
       )
     }
 
@@ -106,8 +83,8 @@ class FeedContainer extends React.Component {
 
     return (
       <FlatList
-        style={styles.container}
-        contentContainerStyle={styles.container}
+        style={{ flexGrow: 1, backgroundColor: '#fff' }}
+        contentContainerStyle={{ flexGrow: 1, backgroundColor: '#fff' }}
         data={data.me.feed.groups}
         refreshing={data.loading}
         initialNumToRender={4}
@@ -118,10 +95,10 @@ class FeedContainer extends React.Component {
         ListFooterComponent={this.renderLoader}
         ListEmptyComponent={emptyComponent}
         renderItem={({ item, index }) => (
-          <View key={`${item.key}-${index}`} style={styles.itemContainer} >
+          <ItemContainer key={`${item.key}-${index}`}>
             <FeedGroupSentence group={item} />
             {item.items.length > 0 && <FeedContents items={item.items} verb={item.verb} />}
-          </View>
+          </ItemContainer>
           )}
       />
     )

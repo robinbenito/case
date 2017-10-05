@@ -20,7 +20,6 @@ const Submit = styled(CenterColumn)`
 
 const Connections = styled.View`
   padding-vertical: ${Units.scale[2]};
-  padding-horizontal: ${Units.scale[2]};
 `
 
 class BlockConnections extends React.Component {
