@@ -76,11 +76,7 @@ class ChannelContainer extends React.Component {
     return this.props.loadMore(page)
   }
 
-  onToggleChange(value) {
-    const type = {
-      Channels: 'CHANNEL',
-      Blocks: 'BLOCK',
-    }[value]
+  onToggleChange(type) {
     this.setState({ page: 1, type }, () => {
       this.props.blocksData.refetch({ page: 1, type })
     })

@@ -78,11 +78,7 @@ class ProfileContainer extends React.Component {
     this.props.data.refetch()
   }
 
-  onToggleChange(value) {
-    const type = {
-      Channels: 'CHANNEL',
-      Blocks: 'BLOCK',
-    }[value]
+  onToggleChange(type) {
     this.setState({ page: 1, type }, () => {
       this.props.userBlocksData.refetch({ page: 1, type })
     })

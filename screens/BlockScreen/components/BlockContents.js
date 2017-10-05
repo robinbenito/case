@@ -203,6 +203,10 @@ const BlockQuery = gql`
       source {
         url
       }
+      counts {
+        channels
+        comments
+      }
       kind {
         __typename
         ... on Block {

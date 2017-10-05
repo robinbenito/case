@@ -6,16 +6,13 @@ import TabToggle from '../../../components/TabToggle'
 import BlockConnections from './BlockConnections'
 import BlockComments from './BlockComments'
 
+import pluralize from '../../../utilities/pluralize'
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
 })
-
-const tabOptions = {
-  Connections: 'connections',
-  Comments: 'comments',
-}
 
 export default class BlockTabs extends React.Component {
   constructor(props) {
@@ -26,8 +23,7 @@ export default class BlockTabs extends React.Component {
     this.onToggleChange = this.onToggleChange.bind(this)
   }
 
-  onToggleChange(value) {
-    const selectedSegment = tabOptions[value]
+  onToggleChange(selectedSegment) {
     this.setState({
       selectedSegment,
     })
@@ -41,6 +37,11 @@ export default class BlockTabs extends React.Component {
     ) : (
       <BlockComments id={block.id} />
     )
+
+    const tabOptions = {
+      [pluralize(block.counts.channels, 'Connection')]: 'connections',
+      [pluralize(block.counts.comments, 'Comment')]: 'comments',
+    }
 
     return (
       <View style={styles.container}>
