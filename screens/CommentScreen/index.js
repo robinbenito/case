@@ -7,14 +7,49 @@ import CommentForm from './components/CommentForm'
 import { Container } from '../../components/UI/Layout'
 
 export default class CommentScreen extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      body: '',
+    }
+  }
+
+  componentDidMount() {
+    this.scrollToEndOfComments()
+  }
+
+  onChangeText = (body) => {
+    this.setState({ body })
+  }
+
+  // TODO: This does not appear to work correctly.
+  scrollToEndOfComments = () => {
+    this.Comments.scrollToEnd()
+  }
+
   render() {
     const { id } = this.props.navigation.state.params
+
     return (
       <Container>
-        <ScrollView>
-          <BlockComments id={id} />
+        <ScrollView
+          ref={ref => this.Comments = ref}
+        >
+          <BlockComments
+            id={id}
+            isTypingComment={this.state.body !== ''}
+            isLeavingComment
+          />
         </ScrollView>
-        <CommentForm id={id} />
+
+        <CommentForm
+          id={id}
+          body={this.state.body}
+          onChangeText={this.onChangeText}
+          scrollToEndOfComments={this.scrollToEndOfComments}
+        />
+
         <KeyboardSpacer />
       </Container>
     )
