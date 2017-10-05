@@ -2,31 +2,26 @@ import React from 'react'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 import PropTypes from 'prop-types'
-
-import {
-  ActivityIndicator,
-  FlatList,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native'
+import styled from 'styled-components/native'
+import { ActivityIndicator, FlatList } from 'react-native'
 
 import ChannelItem from '../../../components/ChannelItem'
+import { CenterColumn } from '../../../components/UI/Layout'
+import { Button, ButtonLabel } from '../../../components/UI/Buttons'
+import { Units } from '../../../constants/Style'
 import Empty from '../../../components/Empty'
 
-import layout from '../../../constants/Layout'
+import NavigatorService from '../../../utilities/navigationService'
 
-const styles = StyleSheet.create({
-  container: {
-    padding: layout.padding / 2,
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: layout.padding,
-  },
-})
+
+const Submit = styled(CenterColumn)`
+  margin-vertical: ${Units.base};
+`
+
+const Connections = styled.View`
+  padding-vertical: ${Units.scale[2]};
+  padding-horizontal: ${Units.scale[2]};
+`
 
 class BlockConnections extends React.Component {
   constructor(props) {
@@ -34,12 +29,23 @@ class BlockConnections extends React.Component {
     this.renderLoader = this.renderLoader.bind(this)
   }
 
+  navigateToConnect = () => {
+    const { block } = this.props.data
+    NavigatorService.navigate('connect', {
+      block_id: block.id,
+      title: block.title,
+    })
+  }
+
   renderLoader() {
     if (!this.props.data.loading) return null
     return (
-      <ActivityIndicator animating size="small" style={styles.footer} />
+      <Submit>
+        <ActivityIndicator animating size="small" />
+      </Submit>
     )
   }
+
 
   render() {
     const { data } = this.props
@@ -48,48 +54,57 @@ class BlockConnections extends React.Component {
 
     if (error) {
       return (
-        <View style={styles.loadingContainer} >
-          <Text>
-            Error loading block connections
-          </Text>
-        </View>
+        <Submit>
+          <Empty text="Error loading comments" />
+        </Submit>
       )
     }
 
     if (loading) {
       return (
-        <View style={styles.loadingContainer} >
+        <Submit>
           <ActivityIndicator />
-        </View>
+        </Submit>
       )
     }
 
     const contentsLoading = data.networkStatus === 2 || data.networkStatus === 1
     const empty = (<Empty text="No connections yet" />)
+    const addConnectionButton = (
+      <Button space={1} onPress={this.navigateToConnect}>
+        <ButtonLabel>Connect &rarr;</ButtonLabel>
+      </Button>
+    )
 
     if (contents.length === 0 && !contentsLoading) {
       return (
-        <View style={{ flex: 1 }}>
+        <Connections>
           {empty}
-        </View>
+          <Submit>
+            {addConnectionButton}
+          </Submit>
+        </Connections>
       )
     }
 
 
     return (
-      <FlatList
-        style={styles.container}
-        contentContainerStyle={styles.container}
-        data={contents}
-        refreshing={data.networkStatus === 4}
-        keyExtractor={item => item.id}
-        onRefresh={this.onRefresh}
-        onEndReachedThreshold={0.9}
-        ListFooterComponent={this.renderLoader}
-        renderItem={({ item }) => (
-          <ChannelItem channel={item} />
-        )}
-      />
+      <Connections>
+        <FlatList
+          data={contents}
+          refreshing={data.networkStatus === 4}
+          keyExtractor={item => item.id}
+          onRefresh={this.onRefresh}
+          onEndReachedThreshold={0.9}
+          ListFooterComponent={this.renderLoader}
+          renderItem={({ item }) => (
+            <ChannelItem channel={item} />
+          )}
+        />
+        <Submit>
+          {addConnectionButton}
+        </Submit>
+      </Connections>
     )
   }
 }

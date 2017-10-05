@@ -13,6 +13,7 @@ import SearchHeader from '../../components/SearchHeader'
 import SearchConnectionsWithData from './components/SearchConnections'
 import RecentConnectionsWithData, { RecentConnectionsQuery } from './components/RecentConnections'
 import { BlockConnectionsQuery } from '../../screens/BlockScreen/components/BlockConnections'
+import { BlockQuery } from '../../screens/BlockScreen/components/BlockContents'
 
 import uploadImage from '../../api/uploadImage'
 
@@ -104,10 +105,16 @@ class SelectConnectionScreen extends React.Component {
     const refetchQueries = [{ query: RecentConnectionsQuery }]
 
     if (blockId) {
-      const blockRefetchQueries = [...refetchQueries, {
-        query: BlockConnectionsQuery,
-        variables: { id: blockId },
-      }]
+      const blockRefetchQueries = [...refetchQueries, 
+        {
+          query: BlockConnectionsQuery,
+          variables: { id: blockId },
+        },
+        {
+          query: BlockQuery,
+          variables: { id: blockId },
+        },
+      ]
       return createConnection({
         variables: {
           connectable_type: 'BLOCK',
