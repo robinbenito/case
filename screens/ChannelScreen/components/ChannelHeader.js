@@ -7,11 +7,6 @@ import FollowButtonWithData from '../../../components/FollowButton'
 import HTML from '../../../components/HTML'
 import { Colors, Units, Typography } from '../../../constants/Style'
 
-const TAB_OPTIONS = {
-  Channels: 'CHANNEL',
-  Blocks: 'BLOCK',
-}
-
 const Container = styled.View`
   margin-bottom: ${Units.base};
 `
@@ -53,43 +48,50 @@ const Follow = styled.View`
   margin-top: ${Units.scale[1]};
 `
 
-const ChannelHeader = ({ channel, type, onToggle }) => (
-  <Container>
-    <Header>
-      <Headline>
-        <Title visibility={channel.visibility}>
-          {channel.title}
-        </Title>
+const ChannelHeader = ({ channel, type, onToggle }) => {
+  const TAB_OPTIONS = {
+    [`${channel.counts.channels} Channels`]: 'CHANNEL',
+    [`${channel.counts.blocks} Blocks`]: 'BLOCK',
+  }
 
-        {channel.can.follow &&
-          <Follow>
-            <FollowButtonWithData id={channel.id} type="CHANNEL" />
-          </Follow>
-        }
-      </Headline>
+  return (
+    <Container>
+      <Header>
+        <Headline>
+          <Title visibility={channel.visibility}>
+            {channel.title}
+          </Title>
 
-      <Description
-        value={channel.description || '<p>—</p>'}
-        stylesheet={{
-          p: {
-            color: Colors.channel[channel.visibility],
-          },
-        }}
+          {channel.can.follow &&
+            <Follow>
+              <FollowButtonWithData id={channel.id} type="CHANNEL" />
+            </Follow>
+          }
+        </Headline>
+
+        <Description
+          value={channel.description || '<p>—</p>'}
+          stylesheet={{
+            p: {
+              color: Colors.channel[channel.visibility],
+            },
+          }}
+        />
+
+        <Metadata visibility={channel.visibility}>
+          by <UserNameText user={channel.user} />
+        </Metadata>
+      </Header>
+
+      <TabToggle
+        selectedSegment={type}
+        onToggleChange={onToggle}
+        options={TAB_OPTIONS}
+        color={Colors.channel[channel.visibility]}
       />
-
-      <Metadata visibility={channel.visibility}>
-        by <UserNameText user={channel.user} />
-      </Metadata>
-    </Header>
-
-    <TabToggle
-      selectedSegment={type}
-      onToggleChange={onToggle}
-      options={TAB_OPTIONS}
-      color={Colors.channel[channel.visibility]}
-    />
-  </Container>
-)
+    </Container>
+  )
+}
 
 ChannelHeader.propTypes = {
   type: PropTypes.oneOf(['CHANNEL', 'BLOCK']).isRequired,

@@ -12,11 +12,6 @@ import { SmallButton } from '../../../components/UI/Buttons'
 import { Section } from '../../../components/UI/Layout'
 import NavigationService from '../../../utilities/navigationService'
 
-const TAB_OPTIONS = {
-  Channels: 'CHANNEL',
-  Blocks: 'BLOCK',
-}
-
 const Container = styled.View`
   margin-bottom: ${Units.base};
 `
@@ -67,30 +62,36 @@ ProfileAction.propTypes = {
   isTheCurrentUser: PropTypes.bool.isRequired,
 }
 
-const ProfileHeader = ({ user, type, onToggle, isTheCurrentUser }) => (
-  <Container>
-    <Header>
-      <Avatar user={user} />
-      <Blurb>
-        <Name>{user.name}</Name>
-        <Section space={2}>
-          <HTML value={user.bio || '—'} />
-        </Section>
-      </Blurb>
+const ProfileHeader = ({ user, type, onToggle, isTheCurrentUser }) => {
+  const TAB_OPTIONS = {
+    [`${user.counts.channels} Channels`]: 'CHANNEL',
+    [`${user.counts.blocks} Blocks`]: 'BLOCK',
+  }
 
-      <ProfileAction
-        user={user}
-        isTheCurrentUser={isTheCurrentUser}
+  return (
+    <Container>
+      <Header>
+        <Avatar user={user} />
+        <Blurb>
+          <Name>{user.name}</Name>
+          <Section space={2}>
+            <HTML value={user.bio || '—'} />
+          </Section>
+        </Blurb>
+
+        <ProfileAction
+          user={user}
+          isTheCurrentUser={isTheCurrentUser}
+        />
+      </Header>
+      <TabToggle
+        selectedSegment={type}
+        onToggleChange={onToggle}
+        options={TAB_OPTIONS}
       />
-    </Header>
-
-    <TabToggle
-      selectedSegment={type}
-      onToggleChange={onToggle}
-      options={TAB_OPTIONS}
-    />
-  </Container>
-)
+    </Container>
+  )
+}
 
 ProfileHeader.propTypes = {
   type: PropTypes.oneOf(['CHANNEL', 'BLOCK']).isRequired,
