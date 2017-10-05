@@ -59,7 +59,8 @@ export default class SelectedChannels extends React.Component {
     const { channels, onRemove } = this.props
     return channels.map((channel) => {
       const channelColor = Colors.channel[channel.visibility]
-      const backgroundColor = `rgba(${Colors.background(channelColor)})`
+      const backgroundColor = Colors.channel.background[channel.visibility]
+
       return (
         <SelectedChannel
           key={`connection-${channel.id}`}
