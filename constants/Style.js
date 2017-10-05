@@ -1,5 +1,4 @@
 import { StyleSheet } from 'react-native'
-import chroma from 'chroma-js'
 
 export const Colors = {
   black: 'black',
@@ -19,6 +18,11 @@ export const Colors = {
     closed: 'rgb(58, 44, 106)',
     public: 'rgb(66, 133, 60)',
     private: 'rgb(165, 0, 0)',
+    background: {
+      closed: 'rgb(245, 245, 248)',
+      public: 'rgb(245, 248, 245)',
+      private: 'rgb(250, 242, 242)',
+    },
   },
 
   semantic: {
@@ -26,8 +30,6 @@ export const Colors = {
     background: '#f7f7f7',
   },
 }
-
-Colors.background = value => chroma(`${value}`).alpha(0.05).rgba()
 
 export const Border = {
   borderWidth: StyleSheet.hairlineWidth,
