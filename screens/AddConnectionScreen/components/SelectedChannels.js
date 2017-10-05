@@ -9,6 +9,7 @@ const Status = styled.View`
   justify-content: center;
   align-items: flex-start;
   margin-bottom: ${Units.scale[3]};
+  padding-horizontal: ${Units.scale[2]};
 `
 
 const Sentence = styled.View`
