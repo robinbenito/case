@@ -10,7 +10,7 @@ import { Colors, Units, Typography } from '../../../constants/Style'
 import pluralize from '../../../utilities/pluralize'
 
 const Container = styled.View`
-  margin-bottom: ${Units.base};
+  margin-bottom: ${Units.scale[2]};
 `
 
 const Header = styled.View`

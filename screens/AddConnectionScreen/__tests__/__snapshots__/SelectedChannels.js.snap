@@ -22,7 +22,7 @@ exports[`renders correctly 1`] = `
       onPress={[Function]}
       style={
         Object {
-          "backgroundColor": "rgba(165,0,0,0.05)",
+          "backgroundColor": "rgb(250, 242, 242)",
           "borderColor": "rgb(165, 0, 0)",
         }
       }
@@ -46,7 +46,7 @@ exports[`renders correctly 1`] = `
       onPress={[Function]}
       style={
         Object {
-          "backgroundColor": "rgba(165,0,0,0.05)",
+          "backgroundColor": "rgb(250, 242, 242)",
           "borderColor": "rgb(165, 0, 0)",
         }
       }
