@@ -25,6 +25,7 @@ const Metadata = styled.Text`
   width: 85%;
   margin-bottom: ${Units.scale[1]};
   font-size: ${Typography.fontSize.small};
+  line-height: ${Typography.lineHeightFor('small', 'compact')};
   color: ${Colors.semantic.text};
 `
 

@@ -2,29 +2,20 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { RefreshControl, ScrollView } from 'react-native'
 
-import { Units } from '../constants/Style'
-
-const ScrollViewWithRefresh = ({ children, refreshing, onRefresh }) => (
+const ScrollViewWithRefresh = ({ children, refreshing, onRefresh, ...rest }) => (
   <ScrollView
-    contentContainerStyle={{
-      backgroundColor: 'white',
-      paddingBottom: Units.scale[4],
-    }}
-    refreshControl={
-      <RefreshControl
-        refreshing={refreshing}
-        onRefresh={onRefresh}
-      />
-    }
+    contentContainerStyle={{ backgroundColor: 'white' }}
+    refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+    {...rest}
   >
     {children}
   </ScrollView>
 )
 
 ScrollViewWithRefresh.propTypes = {
-  children: PropTypes.any.isRequired,
-  refreshing: PropTypes.bool,
+  children: PropTypes.node.isRequired,
   onRefresh: PropTypes.func,
+  refreshing: PropTypes.bool,
 }
 
 ScrollViewWithRefresh.defaultProps = {

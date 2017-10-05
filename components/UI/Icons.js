@@ -11,7 +11,6 @@ const BaseGlyph = styled(Ionicons)`
   bottom: -1;
 `
 
-// eslint-disable-next-line
 export const BaseIcon = ({ name, ...rest }) => (
   <BaseGlyph
     name={name}
