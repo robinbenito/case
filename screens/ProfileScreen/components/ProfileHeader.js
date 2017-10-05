@@ -11,6 +11,7 @@ import { BaseIcon } from '../../../components/UI/Icons'
 import { SmallButton } from '../../../components/UI/Buttons'
 import { Section } from '../../../components/UI/Layout'
 import NavigationService from '../../../utilities/navigationService'
+import pluralize from '../../../utilities/pluralize'
 
 const Container = styled.View`
   margin-bottom: ${Units.base};
@@ -64,8 +65,8 @@ ProfileAction.propTypes = {
 
 const ProfileHeader = ({ user, type, onToggle, isTheCurrentUser }) => {
   const TAB_OPTIONS = {
-    [`${user.counts.channels} Channels`]: 'CHANNEL',
-    [`${user.counts.blocks} Blocks`]: 'BLOCK',
+    [pluralize(user.counts.channels, 'Channel')]: 'CHANNEL',
+    [pluralize(user.counts.blocks, 'Block')]: 'BLOCK',
   }
 
   return (

@@ -6,6 +6,8 @@ import TabToggle from '../../../components/TabToggle'
 import BlockConnections from './BlockConnections'
 import BlockComments from './BlockComments'
 
+import pluralize from '../../../utilities/pluralize'
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -37,8 +39,8 @@ export default class BlockTabs extends React.Component {
     )
 
     const tabOptions = {
-      [`${block.counts.channels} Connections`]: 'connections',
-      [`${block.counts.comments} Comments`]: 'comments',
+      [pluralize(block.counts.channels, 'Connection')]: 'connections',
+      [pluralize(block.counts.comments, 'Comment')]: 'comments',
     }
 
     return (

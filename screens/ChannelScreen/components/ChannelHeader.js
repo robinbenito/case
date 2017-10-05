@@ -7,6 +7,8 @@ import FollowButtonWithData from '../../../components/FollowButton'
 import HTML from '../../../components/HTML'
 import { Colors, Units, Typography } from '../../../constants/Style'
 
+import pluralize from '../../../utilities/pluralize'
+
 const Container = styled.View`
   margin-bottom: ${Units.base};
 `
@@ -50,8 +52,8 @@ const Follow = styled.View`
 
 const ChannelHeader = ({ channel, type, onToggle }) => {
   const TAB_OPTIONS = {
-    [`${channel.counts.channels} Channels`]: 'CHANNEL',
-    [`${channel.counts.blocks} Blocks`]: 'BLOCK',
+    [pluralize(channel.counts.channels, 'Channel')]: 'CHANNEL',
+    [pluralize(channel.counts.blocks, 'Block')]: 'BLOCK',
   }
 
   return (
