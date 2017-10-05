@@ -18,7 +18,7 @@ const TAB_OPTIONS = {
 }
 
 const Container = styled.View`
-  margin-bottom: ${Units.base};
+  margin-bottom: ${Units.scale[2]};
 `
 
 const Header = styled.View`
