@@ -19,7 +19,6 @@ import NavigationService from '../../../utilities/navigationService'
 
 import BlockMetadata from './BlockMetadata'
 import BlockTabs from './BlockTabs'
-import BlockActionTabs from './BlockActionTabs'
 
 import { BaseIcon } from '../../../components/UI/Icons'
 import { CenteringPane } from '../../../components/UI/Layout'
@@ -40,17 +39,12 @@ const TextContainer = styled.View`
   position: relative;
 `
 
-const Container = styled.View`
-  align-items: center;
-  flex: 1;
-`
-
 const BlockContainer = styled.View`
   width: ${contentWidth};
   height: ${contentWidth};
   border-width: 1;
   border-color: ${Colors.gray.light};
-  align-items: center;
+  align-self: center;
 `
 
 const ExpandTextContainer = styled.TouchableHighlight`
@@ -59,8 +53,7 @@ const ExpandTextContainer = styled.TouchableHighlight`
   left: 0;
   right: 0;
   flex: 1;
-  alignItems: center;
-  backgroundColor: white;
+  align-items: center;
 `
 
 const TextIcon = styled(BaseIcon)`
@@ -86,7 +79,7 @@ const ExpandText = ({ block }) => (
     <View>
       <TextIcon name="ios-more" />
     </View>
-  </ExpandTextContainer >
+  </ExpandTextContainer>
 )
 
 class BlockContents extends React.Component {
@@ -178,18 +171,15 @@ class BlockContents extends React.Component {
     const { refetched } = this.state
 
     return (
-      <View>
-        <ScrollWithRefresh refreshing={refreshing} onRefresh={this.refresh}>
-          <Container>
-            <BlockContainer>
-              {blockInner}
-            </BlockContainer>
-            <BlockMetadata block={block} />
-          </Container>
-          <BlockTabs block={block} key={refetched} />
-        </ScrollWithRefresh>
-        <BlockActionTabs block={block} />
-      </View>
+      <ScrollWithRefresh refreshing={refreshing} onRefresh={this.refresh}>
+        <BlockContainer>
+          {blockInner}
+        </BlockContainer>
+
+        <BlockMetadata block={block} />
+
+        <BlockTabs block={block} key={refetched} />
+      </ScrollWithRefresh>
     )
   }
 }

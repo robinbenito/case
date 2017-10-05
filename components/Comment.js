@@ -1,63 +1,110 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { View } from 'react-native'
 import gql from 'graphql-tag'
-
-import {
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native'
-
+import { graphql } from 'react-apollo'
+import styled from 'styled-components/native'
 import UserAvatar from './UserAvatar'
 import UserNameText from './UserNameText'
+import { Typography, Units, Colors } from '../constants/Style'
+import { BaseIcon } from './UI/Icons'
 
-import layout from '../constants/Layout'
-import colors from '../constants/Colors'
-import type from '../constants/Type'
+const Container = styled.View`
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: ${Units.base};
+`
 
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    marginVertical: layout.padding * 2,
-  },
-  avatarContainer: {
-    marginRight: layout.padding,
-  },
-  contentContainer: {
-    flex: 1,
-    flexDirection: 'column',
-  },
-  body: {
-    flexWrap: 'wrap',
-    flexDirection: 'row',
-  },
-  date: {
-    color: colors.gray.text,
-    fontSize: type.sizes.normal,
-    paddingTop: layout.padding,
-  },
-})
+const Avatar = styled.View`
+  flex-basis: 12.5%;
+`
 
-export default class Comment extends React.Component {
+const Content = styled.View`
+  flex-basis: 87.5%;
+`
+
+const Username = styled(UserNameText)`
+  font-size: ${Typography.fontSize.base};
+  line-height: ${Typography.lineHeightFor('base')};
+  font-weight: ${Typography.fontWeight.semiBold};
+  color: ${Colors.semantic.text};
+`
+
+const Body = styled.Text`
+  color: ${Colors.semantic.text};
+  font-size: ${Typography.fontSize.base};
+  line-height: ${Typography.lineHeightFor('base', 'compact')};
+  padding-right: ${Units.base};
+`
+
+const Timestamp = styled.Text`
+  margin-top: ${Units.scale[1]};
+  color: ${Colors.gray.medium};
+  font-size: ${Typography.fontSize.tiny};
+  line-height: ${Typography.lineHeightFor('tiny', 'compact')};
+`
+
+class PendingComment extends Component {
   render() {
-    const { comment } = this.props
+    const { data: { loading, error, user } } = this.props
+
+    if (loading || error) return <View />
 
     return (
-      <View style={styles.container}>
-        <View style={styles.avatarContainer}>
-          <UserAvatar user={comment.user} size={30} />
-        </View>
-        <View style={styles.contentContainer}>
-          <UserNameText user={comment.user} />
-          <Text style={styles.body}>{comment.body}</Text>
-          <Text style={styles.date}>
-            {comment.updated_at.toUpperCase()}
-          </Text>
-        </View>
-      </View>
+      <Container>
+        <Avatar>
+          <UserAvatar user={user} size={30} />
+        </Avatar>
+
+        <Content>
+          <Body>
+            <BaseIcon name="ios-more" />
+          </Body>
+        </Content>
+      </Container>
     )
   }
 }
+
+const UserForPendingComment = gql`
+  query UserForPendingComment {
+    user: me {
+      id
+      initials
+      avatar(size: SMALL)
+    }
+  }
+`
+
+export const PendingCommentWithData = graphql(UserForPendingComment)(PendingComment)
+
+PendingComment.propTypes = {
+  data: PropTypes.shape({
+    loading: PropTypes.bool.isRequired,
+    user: PropTypes.object,
+  }).isRequired,
+}
+
+const Comment = ({ comment: { user, body, updated_at } }) => (
+  <Container>
+    <Avatar>
+      <UserAvatar user={user} size={30} />
+    </Avatar>
+
+    <Content>
+      <Username user={user} />
+
+      <Body>
+        {body}
+      </Body>
+
+      <Timestamp>
+        {updated_at.toUpperCase()}
+      </Timestamp>
+    </Content>
+  </Container>
+)
 
 Comment.fragments = {
   comment: gql`
@@ -78,11 +125,15 @@ Comment.fragments = {
   `,
 }
 
-
 Comment.propTypes = {
-  comment: PropTypes.any,
+  comment: PropTypes.shape({
+    user: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      slug: PropTypes.string.isRequired,
+      initials: PropTypes.string.isRequired,
+      avatar: PropTypes.string.isRequired,
+    }),
+  }).isRequired,
 }
 
-Comment.defaultProps = {
-  comment: {},
-}
+export default Comment
