@@ -6,6 +6,7 @@ import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 import Comment from '../../../components/Comment'
 import { BlockCommentsQuery } from '../../BlockScreen/components/BlockComments'
+import { BlockQuery } from '../../BlockScreen/components/BlockContents'
 import { Units, Border } from '../../../constants/Style'
 
 const Input = styled.TextInput`
@@ -31,6 +32,12 @@ class CommentForm extends React.Component {
       refetchQueries: [
         {
           query: BlockCommentsQuery,
+          variables: {
+            id,
+          },
+        },
+        {
+          query: BlockQuery,
           variables: {
             id,
           },

@@ -184,7 +184,7 @@ class BlockContents extends React.Component {
   }
 }
 
-const BlockQuery = gql`
+export const BlockQuery = gql`
   query BlockQuery($id: ID!){
     block(id: $id) {
       __typename
