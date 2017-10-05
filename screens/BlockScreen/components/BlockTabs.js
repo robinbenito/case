@@ -12,11 +12,6 @@ const styles = StyleSheet.create({
   },
 })
 
-const tabOptions = {
-  Connections: 'connections',
-  Comments: 'comments',
-}
-
 export default class BlockTabs extends React.Component {
   constructor(props) {
     super(props)
@@ -40,6 +35,11 @@ export default class BlockTabs extends React.Component {
     ) : (
       <BlockComments id={block.id} />
     )
+
+    const tabOptions = {
+      [`${block.counts.channels} Connections`]: 'connections',
+      [`${block.counts.comments} Comments`]: 'comments',
+    }
 
     return (
       <View style={styles.container}>
