@@ -18,9 +18,12 @@ const Block = styled(BlockItem)`
 `
 
 const Container = styled.View`
-  flex: 1;
+  flexGrow: 1;
   flex-wrap: wrap;
 `
+
+const WIDTH = Dimensions.get('window').width
+const ITEM_WIDTH = (WIDTH * 0.85) + Units.scale[2]
 
 const renderItem = ({ item }) => {
   let objectItem = null
@@ -50,7 +53,7 @@ const renderItem = ({ item }) => {
               id: item.id,
               title: item.name,
             })}
-            style={{ marginRight: Units.scale[2], marginBottom: Units.scale[2] }}
+            style={{ margin: Units.scale[2] }}
             includeName
           />
         )
@@ -69,16 +72,14 @@ const FeedContents = ({ items, verb }) => {
   const { __typename } = items[0]
   const channelGroup = __typename === 'Channel'
   const userGroup = __typename === 'User'
-  const sliderWidth = Dimensions.get('window').width
-  const itemWidth = (sliderWidth * 0.85) + Units.scale[2]
   const showSlider = verb === 'connected' && items.length > 1 && !channelGroup
 
   if (showSlider) {
     return (
       <Carousel
         ref={(carousel) => { this.Carousel = carousel }}
-        sliderWidth={sliderWidth}
-        itemWidth={itemWidth}
+        sliderWidth={WIDTH}
+        itemWidth={ITEM_WIDTH}
         activeSlideOffset={1}
         inactiveSlideScale={1}
         renderItem={renderItem}
@@ -96,7 +97,7 @@ const FeedContents = ({ items, verb }) => {
   const contentsItems = itemData.map((item, index) => renderItem({ item, index }))
 
   return (
-    <Container style={{ flexDirection, justifyContent }}>
+    <Container style={{ flexDirection, justifyContent, flex: 1 }}>
       {contentsItems}
     </Container>
   )
