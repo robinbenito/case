@@ -144,7 +144,7 @@ class SelectConnectionScreen extends React.Component {
       })
   }
 
-  search(text) {
+  search = (text) => {
     this.setState({
       isSearching: text.length,
       search: text,
@@ -174,7 +174,7 @@ class SelectConnectionScreen extends React.Component {
     return (
       <SelectContainer>
         <SearchHeader
-          onChangeText={t => this.search(t)}
+          onChangeText={this.search}
           cancelOrDone={cancelOrDone}
           onSubmit={this.saveConnections}
           onCancel={this.onCancel}

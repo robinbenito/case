@@ -1,39 +1,33 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native'
+import styled from 'styled-components/native'
 
-import layout from '../constants/Layout'
-import type from '../constants/Type'
-import colors from '../constants/Colors'
+import { Units, Typography, Colors } from '../constants/Style'
 
-const styles = StyleSheet.create({
-  container: {
-    padding: layout.padding,
-    justifyContent: 'center',
-    alignItems: 'center',
-    flex: 1,
-  },
-  text: {
-    fontSize: type.sizes.subheadline,
-    color: colors.gray.text,
-  },
-})
+const EmptyText = styled.Text`
+  font-size: ${Typography.fontSize.medium};
+  color: ${Colors.gray.semiBold}
+`
+
+const Container = styled.View`
+  padding-horizontal: ${Units.base};
+  padding-vertical: ${Units.base};
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+`
 
 export default class Empty extends React.Component {
   render() {
     const { children, text } = this.props
     const content = children || (
-      <Text style={styles.text}>{text}</Text>
+      <EmptyText>{text}</EmptyText>
     )
 
     return (
-      <View style={styles.container}>
+      <Container>
         {content}
-      </View>
+      </Container>
     )
   }
 }

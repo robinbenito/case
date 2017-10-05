@@ -1,14 +1,11 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import {
-  FlatList,
-  View,
-  Text,
-} from 'react-native'
+import { FlatList } from 'react-native'
 import { findIndex } from 'lodash'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 
+import Empty from '../../../components/Empty'
 import ChannelItem from '../../../components/ChannelItem'
 
 class RecentConnections extends Component {
@@ -41,19 +38,13 @@ class RecentConnections extends Component {
 
     if (data && data.error) {
       return (
-        <View>
-          <Text>
-            No connections found
-          </Text>
-        </View>
+        <Empty text="No recent connections" />
       )
     }
 
     if (data && data.loading) {
       return (
-        <View>
-          <Text>Loading</Text>
-        </View>
+        <Empty text="Loading" />
       )
     }
 

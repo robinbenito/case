@@ -13,7 +13,7 @@ const SearchInput = styled(Input)`
   flex: 4;
   border-radius: ${Border.borderRadius};
   background-color: ${Colors.semantic.background};
-  height: ${Units.searchBarHeight};
+  height: ${SEARCH_BAR_HEIGHT};
   padding-horizontal: ${Units.scale[1]};
   padding-vertical: ${Units.scale[1]};
   font-size: ${Typography.fontSize.base};
