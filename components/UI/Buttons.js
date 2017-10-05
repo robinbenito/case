@@ -7,7 +7,7 @@ import { Border, Typography, Units, Colors } from '../../constants/Style'
 export const ButtonOutline = styled.TouchableOpacity`
   border-width: ${Border.borderWidth};
   border-radius: ${Border.borderRadius};
-  border-color: black;
+  border-color: ${Colors.semantic.text};
 `
 
 export const Button = ButtonOutline.extend`
@@ -23,14 +23,15 @@ export const SmallButton = Button.extend`
 `
 
 export const ButtonLabel = styled.Text`
-  fontSize: ${Typography.fontSize.medium};
-  fontWeight: ${Typography.fontWeight.medium};
-  color: black;
+  font-size: ${Typography.fontSize.medium};
+  font-weight: ${Typography.fontWeight.medium};
+  color: ${Colors.semantic.text};
+  text-align: center;
 `
 
 export const SmallButtonLabel = ButtonLabel.extend`
-  fontSize: ${Typography.fontSize.small};
-  fontWeight: ${Typography.fontWeight.medium};
+  font-size: ${Typography.fontSize.small};
+  font-weight: ${Typography.fontWeight.medium};
 `
 
 export const StackedButtonBorder = styled.TouchableHighlight.attrs({
