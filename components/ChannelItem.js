@@ -1,173 +1,106 @@
 import React, { Component } from 'react'
 import gql from 'graphql-tag'
 import PropTypes from 'prop-types'
-
-import {
-  StyleSheet,
-  View,
-  Text,
-  TouchableOpacity,
-} from 'react-native'
-
+import styled from 'styled-components/native'
 import { decode } from 'he'
-
-import layout from '../constants/Layout'
-import colors from '../constants/Colors'
-import type from '../constants/Type'
+import { Border, Colors, Typography, Units } from '../constants/Style'
 import NavigatorService from '../utilities/navigationService'
 
-import { Colors } from '../constants/Style'
+const Background = styled.TouchableOpacity`
+  margin-horizontal: ${Units.scale[2]};
+  margin-bottom: ${Units.scale[2]};
+  padding-vertical: ${Units.base};
+  padding-horizontal: ${Units.scale[2]};
+  background-color: ${c => Colors.channel.background[c.visibility]};
+  border-color: transparent;
+  border-width: ${Border.borderWidth};
+  border-radius: ${Border.borderRadius};
+  opacity: ${c => (c.isSelected ? 0.25 : 1)};
+`
 
-const styles = StyleSheet.create({
-  channelContainer: {
-    borderWidth: 1,
-    backgroundColor: 'rgba(255, 255, 255, 1.0)',
-    paddingVertical: layout.padding * 2,
-    marginVertical: layout.padding / 2,
-    paddingHorizontal: layout.padding,
-    flex: 1,
-    borderRadius: layout.padding / 4,
-  },
-  innerContainer: {
-    flex: 1,
-  },
-  channelContainerPrivate: {
-    backgroundColor: colors.privateBackground,
-    borderColor: colors.privateBackground,
-  },
-  channelContainerClosed: {
-    backgroundColor: colors.closedBackground,
-    borderColor: colors.closedBackground,
-  },
-  channelContainerPublic: {
-    backgroundColor: colors.publicBackground,
-    borderColor: colors.publicBackground,
-  },
-  channelContainerSelectedPrivate: {
-    borderColor: colors.private,
-  },
-  channelContainerSelectedClosed: {
-    borderColor: colors.closed,
-  },
-  channelContainerSelectedPublic: {
-    borderColor: colors.public,
-  },
-  channelTitle: {
-    fontSize: type.sizes.medium,
-    color: '#000',
-    paddingBottom: layout.padding / 2,
-  },
-  channelTitlePrivate: {
-    color: colors.private,
-  },
-  channelTitleClosed: {
-    color: colors.closed,
-  },
-  channelTitlePublic: {
-    color: colors.public,
-  },
-  metaContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  metaLine: {
-    flex: 1,
-    flexDirection: 'row',
-  },
-  meta: {
-    flex: -1,
-    fontSize: type.sizes.small,
-    paddingRight: layout.padding / 2,
-    flexWrap: 'nowrap',
-  },
-})
+const Color = styled.Text`
+  color: ${c => Colors.channel[c.visibility]};
+`
+
+const Title = styled.Text`
+  font-size: ${Typography.fontSize.medium};
+`
+
+const Metadata = styled.View`
+  flex-direction: row;
+  margin-top: ${Units.scale[1]};
+`
+
+const Attribution = styled.Text`
+  align-self: flex-start;
+  flex: 1;
+  font-size: ${Typography.fontSize.tiny};
+`
+
+const Timestamp = styled.Text`
+  font-size: ${Typography.fontSize.tiny};
+`
 
 export default class ChannelItem extends Component {
   constructor(props) {
     super(props)
+
     this.state = {
       isSelected: props.isSelected,
     }
-    this.onPressButton = this.onPressButton.bind(this)
   }
 
-  onPressButton() {
+  onPressButton = () => {
     const { onToggleSelect } = this.props
-    if (onToggleSelect) {
-      this.toggleSelect()
-    } else {
-      NavigatorService.navigate('channel', {
-        id: this.props.channel.id,
-        title: this.props.channel.title,
-        color: Colors.channel[this.props.channel.visibility],
-      })
-    }
+
+    if (onToggleSelect) return this.toggleSelect()
+
+    NavigatorService.navigate('channel', {
+      id: this.props.channel.id,
+      title: this.props.channel.title,
+      color: Colors.channel[this.props.channel.visibility],
+    })
   }
 
   toggleSelect() {
     const { onToggleSelect, channel } = this.props
+
     const isSelected = !this.state.isSelected
+
     this.setState({ isSelected })
+
     onToggleSelect(channel, isSelected)
   }
 
-  renderMeta() {
-    const { channel } = this.props
-    const counts = channel.counts || channel.kind.counts
-    const visibility = channel.visibility || channel.kind.visibility
-    const textColor = colors[visibility]
-
-    const updatedAt = (
-      <View style={styles.metaLine}>
-        <Text numberOfLines={1} style={[styles.meta, { color: textColor, textAlign: 'right', flex: 1 }]}>
-          Updated {channel.updated_at}
-        </Text>
-      </View>
-    )
-
-    return (
-      <View style={styles.metaContainer}>
-        <View style={styles.metaLine}>
-          <Text numberOfLines={1} style={[styles.meta, { color: textColor }]}>
-            {channel.user.name} • {counts.connections} blocks
-          </Text>
-        </View>
-        {updatedAt}
-      </View>
-    )
-  }
-
   render() {
-    const { channel, style } = this.props
+    const { channel } = this.props
     const { isSelected } = this.state
+
     const visibility = channel.visibility || channel.kind.visibility
-
-    const containerStyle = {
-      public: styles.channelContainerPublic,
-      closed: styles.channelContainerClosed,
-      private: styles.channelContainerPrivate,
-    }[visibility]
-
-    const selectedContainerStyle = isSelected ? {
-      public: styles.channelContainerSelectedPublic,
-      closed: styles.channelContainerSelectedClosed,
-      private: styles.channelContainerSelectedPrivate,
-    }[visibility] : null
-
-    const textColor = colors.channel[visibility]
+    const counts = channel.counts || channel.kind.counts
 
     return (
-      <TouchableOpacity onPress={this.onPressButton}>
-        <View style={[styles.channelContainer, containerStyle, selectedContainerStyle, style]}>
-          <View style={styles.innerContainer}>
-            <Text numberOfLines={1} style={[styles.channelTitle, { color: textColor }]}>
-              {decode(channel.title)}
-            </Text>
-            {this.renderMeta()}
-          </View>
-        </View>
-      </TouchableOpacity>
+      <Background visibility={visibility} isSelected={isSelected} onPress={this.onPressButton}>
+        <Title numberOfLines={1}>
+          <Color visibility={visibility}>
+            {decode(channel.title)}
+          </Color>
+        </Title>
+
+        <Metadata>
+          <Attribution numberOfLines={1}>
+            <Color visibility={visibility}>
+              {channel.user.name} • {counts.connections} blocks
+            </Color>
+          </Attribution>
+
+          <Timestamp numberOfLines={1}>
+            <Color visibility={visibility}>
+              {channel.updated_at}
+            </Color>
+          </Timestamp>
+        </Metadata>
+      </Background>
     )
   }
 }
@@ -194,7 +127,6 @@ ChannelItem.fragments = {
 ChannelItem.propTypes = {
   isSelected: PropTypes.bool,
   onToggleSelect: PropTypes.any,
-  style: PropTypes.any,
   channel: PropTypes.shape({
     id: PropTypes.number,
     title: PropTypes.string,
@@ -207,7 +139,6 @@ ChannelItem.propTypes = {
 }
 
 ChannelItem.defaultProps = {
-  style: {},
   onToggleSelect: null,
   isSelected: false,
 }
