@@ -1,9 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import {
-  FlatList,
-  View,
-} from 'react-native'
+import { FlatList } from 'react-native'
 import { findIndex } from 'lodash'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
