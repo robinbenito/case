@@ -44,8 +44,7 @@ export default class SearchScreen extends React.Component {
     return this
   }
 
-  onToggle(value) {
-    const type = tabOptions[value]
+  onToggle(type) {
     this.setState({ type })
   }
 

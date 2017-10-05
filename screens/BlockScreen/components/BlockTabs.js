@@ -26,8 +26,7 @@ export default class BlockTabs extends React.Component {
     this.onToggleChange = this.onToggleChange.bind(this)
   }
 
-  onToggleChange(value) {
-    const selectedSegment = tabOptions[value]
+  onToggleChange(selectedSegment) {
     this.setState({
       selectedSegment,
     })
