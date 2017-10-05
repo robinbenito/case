@@ -28,11 +28,12 @@ const TabToggle = ({ options, selectedSegment, onToggleChange, color }) => (
   <Tabs>
     {
       Object.keys(options).map((label) => {
-        const isSelected = options[label] === selectedSegment
+        const value = options[label]
+        const isSelected = value === selectedSegment
         return (
           <Tab
             key={label}
-            onPress={() => onToggleChange(label)}
+            onPress={() => onToggleChange(value)}
             isSelected={isSelected}
             color={color}
           >
