@@ -7,13 +7,32 @@ import { graphql } from 'react-apollo'
 import Comment from '../../../components/Comment'
 import { BlockCommentsQuery } from '../../BlockScreen/components/BlockComments'
 import { BlockQuery } from '../../BlockScreen/components/BlockContents'
-import { Units, Border } from '../../../constants/Style'
+import { Border, Colors, Typography, Units } from '../../../constants/Style'
 
-const Input = styled.TextInput`
+const Container = styled.View`
+  width: 100%;
+  flex-direction: row;
   border-top-width: ${Border.borderWidth};
   border-top-color: ${Border.borderColor};
+`
+
+const Input = styled.TextInput`
   padding-vertical: ${Units.scale[2]};
   padding-horizontal: ${Units.scale[2]};
+  flex-basis: 80%;
+`
+
+const Submit = styled.TouchableOpacity`
+  flex-basis: 20%;
+  align-items: center;
+  alin-content; center;
+  justify-content: center;
+`
+
+const SubmitLabel = styled.Text`
+  font-size: ${Typography.fontSize.small};
+  font-weight: ${Typography.fontWeight.bold};
+  color: ${Colors.gray.semiBold};
 `
 
 class CommentForm extends React.Component {
@@ -23,6 +42,8 @@ class CommentForm extends React.Component {
 
   addComment = () => {
     const { onChangeText, submitComment, body, id } = this.props
+
+    onChangeText('')
 
     submitComment({
       variables: {
@@ -57,14 +78,18 @@ class CommentForm extends React.Component {
     const { onChangeText, body } = this.props
 
     return (
-      <Input
-        autoFocus
-        returnKeyType="send"
-        onSubmitEditing={this.addComment}
-        onChangeText={onChangeText}
-        value={body}
-        ref={ref => this.Input = ref}
-      />
+      <Container>
+        <Input
+          autoFocus
+          returnKeyType="send"
+          onSubmitEditing={this.addComment}
+          onChangeText={onChangeText}
+          value={body}
+        />
+        <Submit onPress={this.addComment}>
+          <SubmitLabel>Post</SubmitLabel>
+        </Submit>
+      </Container>
     )
   }
 }
