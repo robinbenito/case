@@ -105,7 +105,7 @@ class SelectConnectionScreen extends React.Component {
     const refetchQueries = [{ query: RecentConnectionsQuery }]
 
     if (blockId) {
-      const blockRefetchQueries = [...refetchQueries, 
+      const blockRefetchQueries = [...refetchQueries,
         {
           query: BlockConnectionsQuery,
           variables: { id: blockId },
