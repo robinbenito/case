@@ -1,22 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import {
-  FlatList,
-  View,
-  StyleSheet,
-  Text,
-} from 'react-native'
+import { FlatList, View } from 'react-native'
 import { findIndex } from 'lodash'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 
+import Empty from '../../../components/Empty'
 import ChannelItem from '../../../components/ChannelItem'
-
-const styles = StyleSheet.create({
-  container: {
-    display: 'flex',
-  },
-})
 
 class SearchConnection extends Component {
   constructor(props) {
@@ -53,24 +43,18 @@ class SearchConnection extends Component {
 
     if (data && data.error) {
       return (
-        <View>
-          <Text>
-            No results found
-          </Text>
-        </View>
+        <Empty text="No results found" />
       )
     }
 
     if (data && data.loading) {
       return (
-        <View>
-          <Text>Searching for {q}</Text>
-        </View>
+        <Empty text={`Searching for ${q}`} />
       )
     }
     return (
       <FlatList
-        contentContainerStyle={styles.container}
+        contentContainerStyle={{ display: 'flex' }}
         data={data.me.connection_search}
         keyExtractor={item => item.id}
         keyboardShouldPersistTaps="always"
