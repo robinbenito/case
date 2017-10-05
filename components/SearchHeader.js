@@ -77,7 +77,6 @@ export default class SearchHeader extends React.Component {
           value={search}
           clearButtonMode="while-editing"
           placeholder="Search"
-          autoFocus
         />
         <Button onPress={buttonFunc} disabled={isSubmitting}>
           <ButtonText>
