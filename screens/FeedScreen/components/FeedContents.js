@@ -1,12 +1,8 @@
 import React from 'react'
-import {
-  Easing,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native'
+import { Easing, Dimensions } from 'react-native'
 import PropTypes from 'prop-types'
 import Carousel from 'react-native-snap-carousel'
+import styled from 'styled-components/native'
 
 import NavigationService from '../../../utilities/navigationService'
 
@@ -14,27 +10,17 @@ import BlockItem from '../../../components/BlockItem'
 import ChannelItem from '../../../components/ChannelItem'
 import UserAvatar from '../../../components/UserAvatar'
 
-import layout from '../../../constants/Layout'
-import colors from '../../../constants/Colors'
+import { Units, Border } from '../../../constants/Style'
 
-const styles = StyleSheet.create({
-  blockStyle: {
-    borderWidth: 1,
-    borderColor: colors.gray.border,
-  },
-  carouselContainer: {
-    marginRight: layout.padding,
-    justifyContent: 'flex-start',
-  },
-  carouselItemContainer: {
-    justifyContent: 'flex-start',
-  },
-  container: {
-    flex: 1,
-    paddingHorizontal: layout.padding,
-    flexWrap: 'wrap',
-  },
-})
+const Block = styled(BlockItem)`
+  border-width: ${Border.borderWidth};
+  border-color: ${Border.borderColor};
+`
+
+const Container = styled.View`
+  flex: 1;
+  flex-wrap: wrap;
+`
 
 const renderItem = ({ item }) => {
   let objectItem = null
@@ -43,11 +29,10 @@ const renderItem = ({ item }) => {
     switch (__typename) {
       case 'Connectable':
         objectItem = (
-          <BlockItem
+          <Block
             size="1-up"
             block={item}
             key={item.id}
-            style={styles.blockStyle}
           />
         )
         break
@@ -65,13 +50,12 @@ const renderItem = ({ item }) => {
               id: item.id,
               title: item.name,
             })}
-            style={{ marginRight: layout.padding }}
+            style={{ marginRight: Units.scale[2], marginBottom: Units.scale[2] }}
             includeName
           />
         )
         break
       default:
-        objectItem = <Text key={`klass-${item.id}`} >{item.id}</Text>
         break
     }
     return objectItem
@@ -85,8 +69,8 @@ const FeedContents = ({ items, verb }) => {
   const { __typename } = items[0]
   const channelGroup = __typename === 'Channel'
   const userGroup = __typename === 'User'
-  const sliderWidth = layout.window.width
-  const itemWidth = layout.feedBlock + (layout.padding)
+  const sliderWidth = Dimensions.get('window').width
+  const itemWidth = (sliderWidth * 0.85) + Units.scale[2]
   const showSlider = verb === 'connected' && items.length > 1 && !channelGroup
 
   if (showSlider) {
@@ -100,7 +84,7 @@ const FeedContents = ({ items, verb }) => {
         renderItem={renderItem}
         data={itemData}
         scrollEndDragDebounceValue={50}
-        contentContainerCustomStyle={styles.carouselItemContainer}
+        contentContainerCustomStyle={{ justifyContent: 'flex-start' }}
         animationOptions={{ duration: 100, easing: Easing.sin }}
         slideStyle={{ justifyContent: 'flex-start' }}
       />
@@ -112,9 +96,9 @@ const FeedContents = ({ items, verb }) => {
   const contentsItems = itemData.map((item, index) => renderItem({ item, index }))
 
   return (
-    <View style={[{ flexDirection, justifyContent }, styles.container]}>
+    <Container style={{ flexDirection, justifyContent }}>
       {contentsItems}
-    </View>
+    </Container>
   )
 }
 
