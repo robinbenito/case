@@ -1,64 +1,31 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
-import {
-  Keyboard,
-  StyleSheet,
-  TextInput,
-} from 'react-native'
-
+import { Keyboard } from 'react-native'
+import styled from 'styled-components/native'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
-
 import Comment from '../../../components/Comment'
 import { BlockCommentsQuery } from '../../BlockScreen/components/BlockComments'
+import { Units, Border } from '../../../constants/Style'
 
-import layout from '../../../constants/Layout'
-import colors from '../../../constants/Colors'
-import typesizes from '../../../constants/Type'
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  input: {
-    height: 50,
-    backgroundColor: '#fff',
-    fontSize: typesizes.sizes.medium,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    padding: layout.padding,
-    borderWidth: 1,
-    borderColor: colors.gray.border,
-    marginTop: 4,
-  },
-})
-
+const Input = styled.TextInput`
+  border-top-width: ${Border.borderWidth};
+  border-top-color: ${Border.borderColor};
+  padding-vertical: ${Units.scale[2]};
+  padding-horizontal: ${Units.scale[2]};
+`
 
 class CommentForm extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      body: '',
-    }
-    this.onFieldChange = this.onFieldChange.bind(this)
-    this.addComment = this.addComment.bind(this)
-  }
-
   componentWillUnmount() {
     Keyboard.dismiss()
   }
 
-  onFieldChange(value) {
-    this.setState({ body: value })
-  }
+  addComment = () => {
+    const { onChangeText, submitComment, body, id } = this.props
 
-  addComment() {
-    const { submitComment, id } = this.props
     submitComment({
       variables: {
-        body: this.state.body,
+        body,
         block_id: id,
       },
       refetchQueries: [
@@ -70,22 +37,26 @@ class CommentForm extends React.Component {
         },
       ],
     }).then(() => {
+      onChangeText('')
+
       Keyboard.dismiss()
-      this.setState({
-        body: '',
-      })
+
+      // TODO: Does not appear to work
+      this.props.scrollToEndOfComments()
     })
   }
 
   render() {
+    const { onChangeText, body } = this.props
+
     return (
-      <TextInput
+      <Input
         autoFocus
-        style={styles.input}
         returnKeyType="send"
         onSubmitEditing={this.addComment}
-        onChangeText={this.onFieldChange}
-        value={this.state.body}
+        onChangeText={onChangeText}
+        value={body}
+        ref={ref => this.Input = ref}
       />
     )
   }
@@ -93,7 +64,10 @@ class CommentForm extends React.Component {
 
 CommentForm.propTypes = {
   id: PropTypes.any.isRequired,
+  body: PropTypes.string.isRequired,
   submitComment: PropTypes.func.isRequired,
+  onChangeText: PropTypes.func.isRequired,
+  scrollToEndOfComments: PropTypes.func.isRequired,
 }
 
 const CommentMutation = gql`
