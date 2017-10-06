@@ -117,7 +117,7 @@ export default class BlockItem extends Component {
 
       default:
         blockInner = (
-          <Text >
+          <Text>
             {block.title}
           </Text>
         )
