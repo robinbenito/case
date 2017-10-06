@@ -2,34 +2,34 @@ import React from 'react'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 import PropTypes from 'prop-types'
-
-import {
-  ActivityIndicator,
-  Dimensions,
-  Image,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native'
+import { ActivityIndicator, Image, Text, TouchableOpacity, View } from 'react-native'
 import HTMLView from 'react-native-htmlview'
 import { WebBrowser } from 'expo'
 import styled from 'styled-components/native'
-
-import NavigationService from '../../../utilities/navigationService'
-
+import navigationService from '../../../utilities/navigationService'
 import BlockMetadata from './BlockMetadata'
 import BlockTabs from './BlockTabs'
-
 import { BaseIcon } from '../../../components/UI/Icons'
-import { CenteringPane } from '../../../components/UI/Layout'
+import { RelativeFill, CenteringPane } from '../../../components/UI/Layout'
 import ScrollWithRefresh from '../../../components/ScrollWithRefresh'
-
 import HTMLStyles from '../../../constants/HtmlView'
-
 import { Colors, Units } from '../../../constants/Style'
+import { HEADER_HEIGHT } from '../../../components/Header'
 
-const { width } = Dimensions.get('window')
-const contentWidth = width - Units.base
+const CONTENT_HEIGHT = Units.window.height - HEADER_HEIGHT
+const CONTENT_WIDTH = Units.window.width - Units.base
+
+// TODO: Organize!
+const ArrowDown = styled(BaseIcon).attrs({
+  name: 'ios-arrow-down',
+})`
+  font-size: 30;
+  margin-vertical: ${Units.base};
+`
+
+const BlockFold = styled.View`
+  min-height: ${CONTENT_HEIGHT};
+`
 
 const TextContainer = styled.View`
   flex: 1;
@@ -40,8 +40,8 @@ const TextContainer = styled.View`
 `
 
 const BlockContainer = styled.View`
-  width: ${contentWidth};
-  height: ${contentWidth};
+  width: ${CONTENT_WIDTH};
+  height: ${CONTENT_WIDTH};
   border-width: 1;
   border-color: ${Colors.gray.light};
   align-self: center;
@@ -61,15 +61,14 @@ const TextIcon = styled(BaseIcon)`
 `
 
 const BlockImage = styled(Image)`
-  width: ${contentWidth - 2};
-  height: ${contentWidth - 2};
+  width: ${CONTENT_WIDTH - 2};
+  height: ${CONTENT_WIDTH - 2};
   resize-mode: contain;
 `
 
-// eslint-disable-next-line
 const ExpandText = ({ block }) => (
   <ExpandTextContainer
-    onPress={() => NavigationService.navigate('text', {
+    onPress={() => navigationService.navigate('text', {
       block,
       title: block.title,
     })}
@@ -82,27 +81,36 @@ const ExpandText = ({ block }) => (
   </ExpandTextContainer>
 )
 
+ExpandText.propTypes = {
+  block: PropTypes.any.isRequired,
+}
+
 class BlockContents extends React.Component {
   constructor(props) {
     super(props)
+
     this.state = {
       result: '',
       refetched: null,
     }
-    this.openBrowser = this.openBrowser.bind(this)
-    this.refresh = this.refresh.bind(this)
   }
 
-  async openBrowser(url) {
+  openBrowser = async (url) => {
     if (url) {
       const result = await WebBrowser.openBrowserAsync(url)
       this.setState({ result })
     }
   }
 
-  refresh() {
+  refresh = () => {
     this.props.data.refetch().then(() => {
       this.setState({ refetched: new Date() })
+    })
+  }
+
+  scrollToMetadata = () => {
+    this.BlockContents.ScrollView.scrollTo({
+      y: CONTENT_HEIGHT,
     })
   }
 
@@ -171,14 +179,26 @@ class BlockContents extends React.Component {
     const { refetched } = this.state
 
     return (
-      <ScrollWithRefresh refreshing={refreshing} onRefresh={this.refresh}>
-        <BlockContainer>
-          {blockInner}
-        </BlockContainer>
+      <ScrollWithRefresh
+        refreshing={refreshing}
+        onRefresh={this.refresh}
+        ref={ref => this.BlockContents = ref}
+      >
+        <RelativeFill>
+          <BlockContainer>
+            {blockInner}
+          </BlockContainer>
 
-        <BlockMetadata block={block} />
+          <TouchableOpacity onPress={this.scrollToMetadata}>
+            <ArrowDown />
+          </TouchableOpacity>
+        </RelativeFill>
 
-        <BlockTabs block={block} key={refetched} />
+        <BlockFold ref={ref => this.BlockFold = ref}>
+          <BlockMetadata block={block} />
+
+          <BlockTabs block={block} key={refetched} />
+        </BlockFold>
       </ScrollWithRefresh>
     )
   }

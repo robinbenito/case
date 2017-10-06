@@ -1,8 +1,9 @@
-import { StyleSheet } from 'react-native'
+import { Dimensions, StyleSheet } from 'react-native'
 
 export const Colors = {
   black: 'black',
   white: 'white',
+
   gray: {
     bold: '#333',
     semiBold: '#6d6d6d',
@@ -10,14 +11,17 @@ export const Colors = {
     regular: '#ccc',
     light: '#eee',
   },
+
   state: {
     premium: '#00c5ff',
     alert: 'rgb(255, 100, 0)',
   },
+
   channel: {
     closed: 'rgb(58, 44, 106)',
     public: 'rgb(66, 133, 60)',
     private: 'rgb(165, 0, 0)',
+
     background: {
       closed: 'rgb(245, 245, 248)',
       public: 'rgb(245, 248, 245)',
@@ -44,6 +48,7 @@ export const Typography = {
     semiBold: '600',
     bold: '700',
   },
+
   fontSize: {
     h1: 24,
     h2: 18,
@@ -54,6 +59,7 @@ export const Typography = {
     small: 12,
     tiny: 10,
   },
+
   lineHeight: {
     base: 1.5,
     compact: 1.25,
@@ -72,6 +78,10 @@ const base = Typography.lineHeightFor(Typography.fontSize.base)
 export const Units = {
   statusBarHeight: 20,
   hairlineWidth: StyleSheet.hairlineWidth,
+  window: {
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
+  },
   base,
   scale: [
     0,
