@@ -3,6 +3,23 @@ import styled from 'styled-components/native'
 import { HEADER_HEIGHT } from '../Header'
 import { Units, Border } from '../../constants/Style'
 
+export const AbsoluteFill = styled.View`
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  justify-content: center;
+  align-items: center;
+`
+
+export const RelativeFill = styled.View`
+  width: 100%;
+  height: ${Units.window.height - HEADER_HEIGHT};
+  justify-content: center;
+  align-items: center;
+`
+
 export const Section = styled.View`
   margin-vertical: ${props => Units.scale[props.space || 1]};
 `
