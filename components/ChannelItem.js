@@ -90,7 +90,7 @@ export default class ChannelItem extends Component {
         <Metadata>
           <Attribution numberOfLines={1}>
             <Color visibility={visibility}>
-              {channel.user.name} • {counts.connections} blocks
+              {channel.user.name} • {counts.contents} blocks
             </Color>
           </Attribution>
 

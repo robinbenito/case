@@ -183,7 +183,7 @@ BlockItem.fragments = {
         ... on Channel {
           visibility
           counts {
-            connections
+            contents
           }
         }
       }
