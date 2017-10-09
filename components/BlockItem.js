@@ -1,73 +1,73 @@
 import React, { Component } from 'react'
 import gql from 'graphql-tag'
 import PropTypes from 'prop-types'
-import {
-  Dimensions,
-  Image,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native'
-import HTMLView from 'react-native-htmlview'
+import { Text } from 'react-native'
 import { decode } from 'he'
-
+import styled from 'styled-components/native'
 import BlockItemIcon from './BlockItemIcon'
-
 import NavigatorService from '../utilities/navigationService'
-import layout from '../constants/Layout'
-import colors from '../constants/Colors'
-import type from '../constants/Type'
-import HTMLStyles, { smallStyles } from '../constants/HtmlView'
+import HTML from './HTML'
+import { Border, Colors, Typography, Units } from '../constants/Style'
 
-const { width } = Dimensions.get('window')
+export const BLOCK_METADATA_HEIGHT = Units.scale[4]
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'rgba(255, 255, 255, 1.0)',
-    marginBottom: layout.padding * 2,
-    overflow: 'hidden',
-  },
-  innerContainer: {
-    flex: 1,
-  },
-  blockTitleContainer: {
-    flex: 1,
-    flexGrow: 1,
-    alignItems: 'baseline',
-    paddingVertical: layout.padding * 2,
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-  blockTitle: {
-    color: colors.gray.light,
-    fontSize: type.sizes.small,
-    alignItems: 'center',
-    textAlign: 'center',
-    justifyContent: 'center',
-    flexWrap: 'wrap',
-    overflow: 'hidden',
-  },
-  image: {
-    flex: 1,
-    resizeMode: 'contain',
-    alignSelf: 'center',
-  },
-  text: {
-    padding: layout.padding,
-    borderWidth: 1,
-    borderColor: colors.gray.border,
-    overflow: 'hidden',
-  },
-})
+export const BLOCK_SIZES = {
+  '1-up': (Units.window.width - (Units.scale[4] * 2)),
+  '2-up': ((Units.window.width / 2) - (Units.scale[1] * 3)),
+}
+
+const Container = styled.TouchableOpacity.attrs({
+  activeOpacity: 0.95,
+})`
+  width: ${x => BLOCK_SIZES[x.size]};
+  height: ${x => BLOCK_SIZES[x.size] + BLOCK_METADATA_HEIGHT};
+`
+
+const Outline = styled.View`
+  width: 100%;
+  height: ${x => BLOCK_SIZES[x.size]};
+  border-width: ${x => (x.hasImage && x.size === '2-up' ? 0 : Border.borderWidth)};
+  border-color: ${Border.borderColor};
+  overflow: hidden;
+`
+
+const Thumbnail = styled.Image`
+  width: 100%;
+  height: 100%;
+  resize-mode: contain;
+`
+
+const Metadata = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: ${BLOCK_METADATA_HEIGHT};
+  padding-bottom: ${Units.scale[2]};
+  flex: 1;
+`
+
+const Title = styled.Text`
+  color: ${Colors.gray.semiBold};
+  font-size: ${x => Typography.fontSize[x.size === '1-up' ? 'base' : 'small']};
+  line-height: ${x => Typography.lineHeightFor(x.size === '1-up' ? 'base' : 'small')};
+  max-width: 90%;
+  flex-basis: auto;
+  text-align: center;
+`
+
+const InnerText = styled(HTML)`
+  padding-vertical: ${Units.scale[1]};
+  padding-horizontal: ${Units.scale[2]};
+  height: ${x =>
+    (Typography.lineHeightFor(x.size === '1-up' ? 'base' : 'small') * x.numberOfLines)
+      // Add the top padding, ignore the bottom
+      + Units.scale[1]
+  };
+  overflow: hidden;
+`
 
 export default class BlockItem extends Component {
-  constructor(props) {
-    super(props)
-    this.onPress = this.onPress.bind(this)
-  }
-
-  onPress() {
+  onPress = () => {
     NavigatorService.navigate('block', {
       id: this.props.block.id,
       title: this.props.block.title,
@@ -75,48 +75,37 @@ export default class BlockItem extends Component {
   }
 
   render() {
-    let blockInner
+    const { size, block, block: { kind: { __typename } }, ...rest } = this.props
 
-    const { __typename } = this.props.block.kind
-    const { size, block, style } = this.props
-
-    const blockWidth = size === '1-up' ? layout.feedBlock : (width / 2)
-    const blockPadding = size === '1-up' ? 0 : layout.padding
-    const blockMargin = size === '1-up' ? layout.padding : 0
-
-    const blockSize = {
-      width: blockWidth - blockPadding,
-      height: blockWidth - blockPadding,
-    }
-
-    const htmlStyle = size === '1-up' ? HTMLStyles : smallStyles
+    let inner
 
     switch (__typename) {
       case 'Attachment':
       case 'Embed':
       case 'Link':
       case 'Image':
-        blockInner = (
-          <Image
+        inner = (
+          <Thumbnail
             cache="force-cache"
-            style={[styles.image, { width: blockSize.width - 2, height: blockSize.height - 2 }]}
-            source={{ uri: block.kind.image_url, cache: 'force-cache' }}
+            source={{
+              uri: block.kind.image_url,
+              cache: 'force-cache',
+            }}
           />
         )
         break
       case 'Text':
-        blockInner = (
-          <HTMLView
-            numberOfLines={9}
+        inner = (
+          <InnerText
+            size={size}
             value={block.kind.content}
-            stylesheet={htmlStyle}
-            addLineBreaks={null}
+            numberOfLines={9}
           />
         )
         break
 
       default:
-        blockInner = (
+        inner = (
           <Text>
             {block.title}
           </Text>
@@ -124,25 +113,28 @@ export default class BlockItem extends Component {
         break
     }
 
-    const additionalStyle = __typename === 'Text' ? styles.text : {}
-    const blockTitle = block.title ? decode(block.title) : null
+    const title = block.title ? decode(block.title) : null
 
     return (
-      <TouchableOpacity
-        activeOpacity={0.95}
+      <Container
+        size={size}
         onPress={this.onPress}
-        style={[styles.container, { marginRight: blockMargin }]}
+        {...rest}
       >
-        <View style={[styles.innerContainer, blockSize, additionalStyle, style]}>
-          {blockInner}
-        </View>
-        <View style={styles.blockTitleContainer}>
-          <Text numberOfLines={1} style={styles.blockTitle}>
-            {blockTitle}
-          </Text>
-          <BlockItemIcon block={block} />
-        </View>
-      </TouchableOpacity>
+        <Outline hasImage={!!block.kind.image_url} size={size}>
+          {inner}
+        </Outline>
+
+        <Metadata size={size}>
+          {title &&
+            <Title size={size} numberOfLines={1}>
+              {title}
+            </Title>
+          }
+
+          <BlockItemIcon type={__typename} />
+        </Metadata>
+      </Container>
     )
   }
 }
@@ -192,7 +184,6 @@ BlockItem.fragments = {
 }
 
 BlockItem.propTypes = {
-  style: PropTypes.any,
   size: PropTypes.oneOf(['2-up', '1-up']),
   block: PropTypes.shape({
     id: PropTypes.any,
@@ -205,6 +196,5 @@ BlockItem.propTypes = {
 
 BlockItem.defaultProps = {
   size: '2-up',
-  style: {},
 }
 

@@ -1,49 +1,45 @@
 import React from 'react'
-import { Easing, Dimensions } from 'react-native'
+import { Easing } from 'react-native'
 import PropTypes from 'prop-types'
 import Carousel from 'react-native-snap-carousel'
 import styled from 'styled-components/native'
-
 import NavigationService from '../../../utilities/navigationService'
-
-import BlockItem from '../../../components/BlockItem'
+import BlockItem, { BLOCK_SIZES } from '../../../components/BlockItem'
 import ChannelItem from '../../../components/ChannelItem'
 import UserAvatar from '../../../components/UserAvatar'
-
-import { Units, Border } from '../../../constants/Style'
-
-const Block = styled(BlockItem)`
-  border-width: ${Border.borderWidth};
-  border-color: ${Border.borderColor};
-`
+import { Units } from '../../../constants/Style'
 
 const Container = styled.View`
   flexGrow: 1;
   flex-wrap: wrap;
 `
 
-const WIDTH = Dimensions.get('window').width
-const ITEM_WIDTH = (WIDTH * 0.85) + Units.scale[2]
+const SLIDER_WIDTH = Units.window.width
+const SLIDER_ITEM_WIDTH = BLOCK_SIZES['1-up'] - (Units.scale[1] * 2)
 
 const renderItem = ({ item }) => {
-  let objectItem = null
+  let component = null
+
   if (item) {
     const { __typename } = item
     switch (__typename) {
       case 'Connectable':
-        objectItem = (
-          <Block
+        component = (
+          <BlockItem
             size="1-up"
             block={item}
             key={item.id}
+            style={{
+              marginHorizontal: Units.scale[1],
+            }}
           />
         )
         break
       case 'Channel':
-        objectItem = <ChannelItem channel={item} key={item.id} />
+        component = <ChannelItem channel={item} key={item.id} />
         break
       case 'User':
-        objectItem = (
+        component = (
           <UserAvatar
             user={item}
             key={item.id}
@@ -61,8 +57,10 @@ const renderItem = ({ item }) => {
       default:
         break
     }
-    return objectItem
+
+    return component
   }
+
   return null
 }
 
@@ -77,9 +75,9 @@ const FeedContents = ({ items, verb }) => {
   if (showSlider) {
     return (
       <Carousel
-        ref={(carousel) => { this.Carousel = carousel }}
-        sliderWidth={WIDTH}
-        itemWidth={ITEM_WIDTH}
+        ref={carousel => this.Carousel = carousel}
+        sliderWidth={SLIDER_WIDTH}
+        itemWidth={SLIDER_ITEM_WIDTH + Units.base}
         activeSlideOffset={1}
         inactiveSlideScale={1}
         renderItem={renderItem}

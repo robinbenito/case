@@ -27,26 +27,23 @@ const Submit = styled(CenterColumn)`
 class ChannelContainer extends React.Component {
   constructor(props) {
     super(props)
+
     this.state = {
       page: props.page,
       type: props.type,
     }
-    this.onEndReached = this.onEndReached.bind(this)
-    this.onRefresh = this.onRefresh.bind(this)
-    this.onToggleChange = this.onToggleChange.bind(this)
-    this.renderFooter = this.renderFooter.bind(this)
   }
 
   componentDidMount() {
     scrollHeaderVisibilitySensor.dispatch(false)
   }
 
-  onRefresh() {
+  onRefresh = () => {
     this.setState({ page: 1 })
     this.props.data.refetch({ notifyOnNetworkStatusChange: true })
   }
 
-  onEndReached() {
+  onEndReached = () => {
     const { blocksData } = this.props
     if (!blocksData.channel || !blocksData.channel.blocks) return false
 
@@ -62,7 +59,7 @@ class ChannelContainer extends React.Component {
     return this.props.loadMore(page)
   }
 
-  onToggleChange(type) {
+  onToggleChange = (type) => {
     this.setState({ page: 1, type }, () => {
       if (type !== 'CONNECTION') {
         this.props.blocksData.refetch({ page: 1, type })
@@ -79,8 +76,9 @@ class ChannelContainer extends React.Component {
     })
   }
 
-  renderFooter() {
+  renderFooter = () => {
     if (!this.props.blocksData.loading) return null
+
     return (
       <Submit>
         <ActivityIndicator animating size="small" />
@@ -137,7 +135,7 @@ class ChannelContainer extends React.Component {
 
     if (contents.length === 0 && !contentsLoading && type !== 'CONNECTION') {
       return (
-        <View style={{ flex: 1, backgroundColor: '#fff' }}>
+        <View style={{ flex: 1, backgroundColor: 'white' }}>
           {header}
           {empty}
         </View>
@@ -160,10 +158,24 @@ class ChannelContainer extends React.Component {
           onScroll={scrollHeaderVisibilitySensor}
           ListFooterComponent={this.renderFooter}
           ListHeaderComponent={header}
-          renderItem={({ item }) => {
+          renderItem={({ item, index }) => {
+            const isEven = index % 2 === 0
+            const isLeft = isEven
+            const isRight = !isEven
+
             if (item.klass === 'Block') {
-              return <BlockItem block={item} />
+              return (
+                <BlockItem
+                  block={item}
+                  style={{
+                    // Ensures margins are even
+                    marginLeft: isLeft ? Units.scale[1] : 0,
+                    marginRight: isRight ? Units.scale[1] : 0,
+                  }}
+                />
+              )
             }
+
             return <ChannelItem channel={item} />
           }}
         />
