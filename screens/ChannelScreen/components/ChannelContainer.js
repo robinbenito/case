@@ -2,41 +2,25 @@ import React from 'react'
 import gql from 'graphql-tag'
 import { graphql, compose } from 'react-apollo'
 import PropTypes from 'prop-types'
+import styled from 'styled-components/native'
 import {
   ActivityIndicator,
   FlatList,
-  StyleSheet,
-  Text,
   View,
 } from 'react-native'
 
 import ChannelHeader from './ChannelHeader'
 import ChannelItem from '../../../components/ChannelItem'
 import BlockItem from '../../../components/BlockItem'
+import { CenterColumn, RelativeFill } from '../../../components/UI/Layout'
+import { ButtonLabel, Button } from '../../../components/UI/Buttons'
 import Empty from '../../../components/Empty'
-import layout from '../../../constants/Layout'
+import { Units } from '../../../constants/Style'
 import scrollHeaderVisibilitySensor from '../../../utilities/scrollHeaderVisibilitySensor'
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#fff',
-    minHeight: 700,
-    paddingBottom: layout.topbar * 2,
-  },
-  channelItem: {
-    marginHorizontal: layout.padding,
-  },
-  loadingContainer: {
-    backgroundColor: '#fff',
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: layout.padding,
-  },
-  footer: {
-    paddingVertical: layout.padding * 2,
-  },
-})
+const Submit = styled(CenterColumn)`
+  margin-vertical: ${Units.base};
+`
 
 class ChannelContainer extends React.Component {
   constructor(props) {
@@ -48,7 +32,7 @@ class ChannelContainer extends React.Component {
     this.onEndReached = this.onEndReached.bind(this)
     this.onRefresh = this.onRefresh.bind(this)
     this.onToggleChange = this.onToggleChange.bind(this)
-    this.renderLoader = this.renderLoader.bind(this)
+    this.renderFooter = this.renderFooter.bind(this)
   }
 
   componentDidMount() {
@@ -84,10 +68,12 @@ class ChannelContainer extends React.Component {
     })
   }
 
-  renderLoader() {
+  renderFooter() {
     if (!this.props.blocksData.loading) return null
     return (
-      <ActivityIndicator animating size="small" style={styles.footer} />
+      <Submit>
+        <ActivityIndicator animating size="small" />
+      </Submit>
     )
   }
 
@@ -97,21 +83,18 @@ class ChannelContainer extends React.Component {
     const { type } = this.state
 
     if (error) {
-      console.log('channel', channel, error)
       return (
-        <View style={styles.loadingContainer} >
-          <Text>
-            Channel not found
-          </Text>
-        </View>
+        <RelativeFill>
+          <Empty text="Channel not found" />
+        </RelativeFill>
       )
     }
 
     if (loading) {
       return (
-        <View style={styles.loadingContainer} >
+        <RelativeFill>
           <ActivityIndicator />
-        </View>
+        </RelativeFill>
       )
     }
 
@@ -141,7 +124,7 @@ class ChannelContainer extends React.Component {
 
     const contentsLoading = contentsData.networkStatus === 2 || contentsData.networkStatus === 1
 
-    if (contents.length === 0 && !contentsLoading) {
+    if (contents.length === 0 && !contentsLoading && type !== 'CONNECTION') {
       return (
         <View style={{ flex: 1, backgroundColor: '#fff' }}>
           {header}
@@ -151,29 +134,36 @@ class ChannelContainer extends React.Component {
     }
 
     return (
-      <FlatList
-        style={styles.container}
-        contentContainerStyle={styles.container}
-        data={contents}
-        columnWrapperStyle={columnStyle}
-        refreshing={data.networkStatus === 4}
-        numColumns={columnCount}
-        keyExtractor={(item, index) => `${item.klass}-${item.id}-${index}`}
-        key={type}
-        onRefresh={this.onRefresh}
-        onEndReached={this.onEndReached}
-        onEndReachedThreshold={0.9}
-        scrollEventThrottle={50}
-        onScroll={scrollHeaderVisibilitySensor}
-        ListFooterComponent={this.renderLoader}
-        ListHeaderComponent={header}
-        renderItem={({ item }) => {
-          if (item.klass === 'Block') {
-            return <BlockItem block={item} />
-          }
-          return <ChannelItem channel={item} style={styles.channelItem} />
-        }}
-      />
+      <View>
+        <FlatList
+          data={contents}
+          columnWrapperStyle={columnStyle}
+          refreshing={data.networkStatus === 4}
+          numColumns={columnCount}
+          keyExtractor={(item, index) => `${item.klass}-${item.id}-${index}`}
+          key={type}
+          onRefresh={this.onRefresh}
+          onEndReached={this.onEndReached}
+          onEndReachedThreshold={0.9}
+          scrollEventThrottle={50}
+          onScroll={scrollHeaderVisibilitySensor}
+          ListFooterComponent={this.renderFooter}
+          ListHeaderComponent={header}
+          renderItem={({ item }) => {
+            if (item.klass === 'Block') {
+              return <BlockItem block={item} />
+            }
+            return <ChannelItem channel={item} />
+          }}
+        />
+        {type === 'CONNECTION' &&
+          <Submit>
+            <Button space={1}>
+              <ButtonLabel>Connect &rarr;</ButtonLabel>
+            </Button>
+          </Submit>
+        }
+      </View>
     )
   }
 }
