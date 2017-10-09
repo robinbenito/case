@@ -61,8 +61,8 @@ const TextIcon = styled(BaseIcon)`
 `
 
 const BlockImage = styled(Image)`
-  width: ${CONTENT_WIDTH - 2};
-  height: ${CONTENT_WIDTH - 2};
+  width: 100%;
+  height: 100%;
   resize-mode: contain;
 `
 
