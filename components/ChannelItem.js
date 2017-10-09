@@ -114,7 +114,7 @@ ChannelItem.fragments = {
       visibility
       updated_at(relative: true)
       counts {
-        connections
+        contents
       }
       user {
         id
