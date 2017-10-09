@@ -187,6 +187,7 @@ class SelectConnectionScreen extends React.Component {
         />
         <SelectedContainer>
           <SelectedChannels
+            isSearching={isSearching}
             onRemove={channel => this.onToggleConnection(channel, false)}
             channels={selectedConnections}
             title={title || sourceURL || 'Untitled block'}

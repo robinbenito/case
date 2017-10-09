@@ -82,21 +82,32 @@ export default class SelectedChannels extends React.Component {
   }
 
   render() {
-    const { channels, title } = this.props
+    const { channels, title, isSearching } = this.props
+    if (channels.length > 0 || isSearching) {
+      return (
+        <Status>
+          <Sentence>
+            <StatusText>
+              <StatusText>Connect </StatusText>
+              <BoldStatusText>&#8220;{title}&#8220;</BoldStatusText>
+              <StatusText> to</StatusText>
+            </StatusText>
+          </Sentence>
+          {channels.length > 0 &&
+            <SelectedChannelsContainer>
+              {this.renderChannels()}
+            </SelectedChannelsContainer>
+          }
+        </Status>
+      )
+    }
     return (
       <Status>
         <Sentence>
           <StatusText>
-            <StatusText>Connect </StatusText>
-            <BoldStatusText>&#8220;{title}&#8220;</BoldStatusText>
-            <StatusText> to</StatusText>
+            Recent channels
           </StatusText>
         </Sentence>
-        {channels.length > 0 &&
-          <SelectedChannelsContainer>
-            {this.renderChannels()}
-          </SelectedChannelsContainer>
-        }
       </Status>
     )
   }
@@ -106,9 +117,11 @@ SelectedChannels.propTypes = {
   title: PropTypes.string,
   channels: PropTypes.any.isRequired,
   onRemove: PropTypes.func,
+  isSearching: PropTypes.bool,
 }
 
 SelectedChannels.defaultProps = {
   title: 'Untitled block',
   onRemove: () => null,
+  isSearching: false,
 }
