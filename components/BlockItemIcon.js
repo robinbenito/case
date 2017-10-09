@@ -1,41 +1,53 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Ionicons } from '@expo/vector-icons'
-import {
-  StyleSheet,
-} from 'react-native'
+import { View } from 'react-native'
+import styled from 'styled-components/native'
+import { BaseIcon } from './UI/Icons'
+import { Colors, Units } from '../constants/Style'
 
-import colors from '../constants/Colors'
-import layout from '../constants/Layout'
-
-const styles = StyleSheet.create({
-  icon: {
-    marginLeft: layout.padding,
-  },
-})
+const Icon = styled(BaseIcon)`
+  margin-left: ${Units.scale[2]};
+  bottom: 0;
+`
 
 export default class BlockItemIcon extends React.Component {
   render() {
-    const { block: { kind: { __typename: type } }, size, color } = this.props
-    const iconName = {
+    const { type, size, color, ...rest } = this.props
+
+    const name = {
       Link: 'ios-link',
       Embed: 'ios-play',
       Attachment: 'ios-paper-outline',
     }[type]
-    if (!iconName) { return null }
+
+    if (!name) { return <View /> }
+
     return (
-      <Ionicons name={iconName} size={size} color={color} style={styles.icon} />
+      <Icon
+        name={name}
+        style={{
+          color,
+          fontSize: size,
+        }}
+        {...rest}
+      />
     )
   }
 }
 
 BlockItemIcon.propTypes = {
-  block: PropTypes.any.isRequired,
+  type: PropTypes.oneOf([
+    'Link',
+    'Embed',
+    'Attachment',
+    'Text',
+    'Image',
+  ]).isRequired,
   size: PropTypes.number,
   color: PropTypes.string,
 }
 
 BlockItemIcon.defaultProps = {
   size: 10,
-  color: colors.gray.text,
+  color: Colors.semantic.text,
 }
