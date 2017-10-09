@@ -78,7 +78,9 @@ class ChannelContainer extends React.Component {
 
   onToggleChange(type) {
     this.setState({ page: 1, type }, () => {
-      this.props.blocksData.refetch({ page: 1, type })
+      if (type !== 'CONNECTION') {
+        this.props.blocksData.refetch({ page: 1, type })
+      }
     })
   }
 
@@ -90,10 +92,12 @@ class ChannelContainer extends React.Component {
   }
 
   render() {
-    const { data, blocksData } = this.props
+    const { data, blocksData, connectionsData } = this.props
     const { error, loading, channel } = this.props.data
+    const { type } = this.state
 
     if (error) {
+      console.log('channel', channel, error)
       return (
         <View style={styles.loadingContainer} >
           <Text>
@@ -111,14 +115,17 @@ class ChannelContainer extends React.Component {
       )
     }
 
-    const { type } = this.state
-    const columnCount = type === 'CHANNEL' ? 1 : 2
+    const columnCount = type === 'CHANNEL' || type === 'CONNECTION' ? 1 : 2
     const columnStyle = columnCount > 1 ? { justifyContent: 'space-around' } : false
+
+    const contentsData = type === 'CONNECTION' ? connectionsData : blocksData
+    const contentsKey = type === 'CONNECTION' ? 'connections' : 'blocks'
+
     const contents = (
-      blocksData.networkStatus !== 2 &&
-      blocksData &&
-      blocksData.channel &&
-      blocksData.channel.blocks
+      contentsData.networkStatus !== 2 &&
+      contentsData &&
+      contentsData.channel &&
+      contentsData.channel[contentsKey]
     ) || []
 
     const header = (
@@ -132,7 +139,7 @@ class ChannelContainer extends React.Component {
       <Empty text={`No connected ${type.toLowerCase()}s`} />
     )
 
-    const contentsLoading = blocksData.networkStatus === 2 || blocksData.networkStatus === 1
+    const contentsLoading = contentsData.networkStatus === 2 || contentsData.networkStatus === 1
 
     if (contents.length === 0 && !contentsLoading) {
       return (
@@ -192,6 +199,7 @@ const ChannelQuery = gql`
       counts {
         blocks
         channels
+        connections
       }
     }
   }
@@ -210,9 +218,23 @@ const ChannelBlocksQuery = gql`
   ${BlockItem.fragments.block}
 `
 
+const ChannelConnectionsQuery = gql`
+  query ChannelBlocksQuery($id: ID!){
+    channel(id: $id) {
+      __typename
+      id
+      connections {
+        ...ChannelThumb
+      }
+    }
+  }
+  ${ChannelItem.fragments.channel}
+`
+
 ChannelContainer.propTypes = {
   data: PropTypes.any.isRequired,
   blocksData: PropTypes.any.isRequired,
+  connectionsData: PropTypes.any.isRequired,
   type: PropTypes.oneOf(['CHANNEL', 'BLOCK']).isRequired,
   loadMore: PropTypes.any.isRequired,
   page: PropTypes.number,
@@ -224,6 +246,7 @@ ChannelContainer.defaultProps = {
 
 const ChannelContainerWithData = compose(
   graphql(ChannelQuery),
+  graphql(ChannelConnectionsQuery, { name: 'connectionsData' }),
   graphql(ChannelBlocksQuery, {
     name: 'blocksData',
     options: ({ id, page, type }) => ({

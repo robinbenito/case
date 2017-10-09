@@ -52,6 +52,7 @@ const Follow = styled.View`
 
 const ChannelHeader = ({ channel, type, onToggle }) => {
   const TAB_OPTIONS = {
+    [pluralize(channel.counts.connections, 'Connection')]: 'CONNECTION',
     [pluralize(channel.counts.channels, 'Channel')]: 'CHANNEL',
     [pluralize(channel.counts.blocks, 'Block')]: 'BLOCK',
   }
@@ -96,7 +97,7 @@ const ChannelHeader = ({ channel, type, onToggle }) => {
 }
 
 ChannelHeader.propTypes = {
-  type: PropTypes.oneOf(['CHANNEL', 'BLOCK']).isRequired,
+  type: PropTypes.oneOf(['CHANNEL', 'BLOCK', 'CONNECTION']).isRequired,
   onToggle: PropTypes.func,
   channel: PropTypes.shape({
     id: PropTypes.any,
