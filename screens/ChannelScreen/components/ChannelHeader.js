@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
+import { pickBy } from 'lodash'
+
 import UserNameText from '../../../components/UserNameText'
 import TabToggle from '../../../components/TabToggle'
 import FollowButtonWithData from '../../../components/FollowButton'
@@ -51,9 +53,15 @@ const Follow = styled.View`
 `
 
 const ChannelHeader = ({ channel, type, onToggle }) => {
-  const TAB_OPTIONS = {
+  let TAB_OPTIONS = {
+    [pluralize(channel.counts.connections, 'Connection')]: 'CONNECTION',
     [pluralize(channel.counts.channels, 'Channel')]: 'CHANNEL',
     [pluralize(channel.counts.blocks, 'Block')]: 'BLOCK',
+  }
+
+  // Remove channels tab if there are none
+  if (channel.counts.channels === 0) {
+    TAB_OPTIONS = pickBy(TAB_OPTIONS, value => value !== 'CHANNEL')
   }
 
   return (
@@ -96,7 +104,7 @@ const ChannelHeader = ({ channel, type, onToggle }) => {
 }
 
 ChannelHeader.propTypes = {
-  type: PropTypes.oneOf(['CHANNEL', 'BLOCK']).isRequired,
+  type: PropTypes.oneOf(['CHANNEL', 'BLOCK', 'CONNECTION']).isRequired,
   onToggle: PropTypes.func,
   channel: PropTypes.shape({
     id: PropTypes.any,

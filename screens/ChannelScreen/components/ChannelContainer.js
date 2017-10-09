@@ -2,39 +2,27 @@ import React from 'react'
 import gql from 'graphql-tag'
 import { graphql, compose } from 'react-apollo'
 import PropTypes from 'prop-types'
-import { ActivityIndicator, FlatList, StyleSheet, Text, View } from 'react-native'
+import styled from 'styled-components/native'
+import {
+  ActivityIndicator,
+  FlatList,
+  View,
+} from 'react-native'
+
 import ChannelHeader from './ChannelHeader'
 import ChannelItem from '../../../components/ChannelItem'
 import BlockItem from '../../../components/BlockItem'
+import { CenterColumn, RelativeFill } from '../../../components/UI/Layout'
+import { ButtonLabel, Button } from '../../../components/UI/Buttons'
 import Empty from '../../../components/Empty'
-import scrollHeaderVisibilitySensor from '../../../utilities/scrollHeaderVisibilitySensor'
 import { Units } from '../../../constants/Style'
 
-const styles = StyleSheet.create({
-  container: {
-    paddingBottom: Units.base,
-  },
+import NavigatorService from '../../../utilities/navigationService'
+import scrollHeaderVisibilitySensor from '../../../utilities/scrollHeaderVisibilitySensor'
 
-  contentContainer: {
-    paddingBottom: Units.base,
-  },
-
-  channelItem: {
-    marginHorizontal: 0,
-  },
-
-  loadingContainer: {
-    backgroundColor: 'white',
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: Units.scale[2],
-  },
-
-  footer: {
-    paddingVertical: Units.base,
-  },
-})
+const Submit = styled(CenterColumn)`
+  margin-vertical: ${Units.base};
+`
 
 class ChannelContainer extends React.Component {
   constructor(props) {
@@ -73,48 +61,63 @@ class ChannelContainer extends React.Component {
 
   onToggleChange = (type) => {
     this.setState({ page: 1, type }, () => {
-      this.props.blocksData.refetch({ page: 1, type })
+      if (type !== 'CONNECTION') {
+        this.props.blocksData.refetch({ page: 1, type })
+      }
     })
   }
 
-  renderLoader = () => {
+  navigateToConnect = () => {
+    const { channel } = this.props.data
+    NavigatorService.navigate('connect', {
+      connectable_id: channel.id,
+      connectable_type: 'CHANNEL',
+      title: channel.title,
+    })
+  }
+
+  renderFooter = () => {
     if (!this.props.blocksData.loading) return null
 
     return (
-      <ActivityIndicator animating size="small" style={styles.footer} />
+      <Submit>
+        <ActivityIndicator animating size="small" />
+      </Submit>
     )
   }
 
   render() {
-    const { data, blocksData } = this.props
+    const { data, blocksData, connectionsData } = this.props
     const { error, loading, channel } = this.props.data
+    const { type } = this.state
 
     if (error) {
       return (
-        <View style={styles.loadingContainer} >
-          <Text>
-            Channel not found
-          </Text>
-        </View>
+        <RelativeFill>
+          <Empty text="Channel not found" />
+        </RelativeFill>
       )
     }
 
     if (loading) {
       return (
-        <View style={styles.loadingContainer} >
+        <RelativeFill>
           <ActivityIndicator />
-        </View>
+        </RelativeFill>
       )
     }
 
-    const { type } = this.state
-    const columnCount = type === 'CHANNEL' ? 1 : 2
+    const columnCount = type === 'CHANNEL' || type === 'CONNECTION' ? 1 : 2
     const columnStyle = columnCount > 1 ? { justifyContent: 'space-around' } : false
+
+    const contentsData = type === 'CONNECTION' ? connectionsData : blocksData
+    const contentsKey = type === 'CONNECTION' ? 'connections' : 'blocks'
+
     const contents = (
-      blocksData.networkStatus !== 2 &&
-      blocksData &&
-      blocksData.channel &&
-      blocksData.channel.blocks
+      contentsData.networkStatus !== 2 &&
+      contentsData &&
+      contentsData.channel &&
+      contentsData.channel[contentsKey]
     ) || []
 
     const header = (
@@ -128,9 +131,9 @@ class ChannelContainer extends React.Component {
       <Empty text={`No connected ${type.toLowerCase()}s`} />
     )
 
-    const contentsLoading = blocksData.networkStatus === 2 || blocksData.networkStatus === 1
+    const contentsLoading = contentsData.networkStatus === 2 || contentsData.networkStatus === 1
 
-    if (contents.length === 0 && !contentsLoading) {
+    if (contents.length === 0 && !contentsLoading && type !== 'CONNECTION') {
       return (
         <View style={{ flex: 1, backgroundColor: 'white' }}>
           {header}
@@ -140,43 +143,50 @@ class ChannelContainer extends React.Component {
     }
 
     return (
-      <FlatList
-        style={styles.container}
-        contentContainerStyle={styles.contentContainer}
-        data={contents}
-        columnWrapperStyle={columnStyle}
-        refreshing={data.networkStatus === 4}
-        numColumns={columnCount}
-        keyExtractor={(item, index) => `${item.klass}-${item.id}-${index}`}
-        key={type}
-        onRefresh={this.onRefresh}
-        onEndReached={this.onEndReached}
-        onEndReachedThreshold={0.9}
-        scrollEventThrottle={50}
-        onScroll={scrollHeaderVisibilitySensor}
-        ListFooterComponent={this.renderLoader}
-        ListHeaderComponent={header}
-        renderItem={({ item, index }) => {
-          const isEven = index % 2 === 0
-          const isLeft = isEven
-          const isRight = !isEven
+      <View>
+        <FlatList
+          data={contents}
+          columnWrapperStyle={columnStyle}
+          refreshing={data.networkStatus === 4}
+          numColumns={columnCount}
+          keyExtractor={(item, index) => `${item.klass}-${item.id}-${index}`}
+          key={type}
+          onRefresh={this.onRefresh}
+          onEndReached={this.onEndReached}
+          onEndReachedThreshold={0.9}
+          scrollEventThrottle={50}
+          onScroll={scrollHeaderVisibilitySensor}
+          ListFooterComponent={this.renderFooter}
+          ListHeaderComponent={header}
+          renderItem={({ item, index }) => {
+            const isEven = index % 2 === 0
+            const isLeft = isEven
+            const isRight = !isEven
 
-          if (item.klass === 'Block') {
-            return (
-              <BlockItem
-                block={item}
-                style={{
-                  // Ensures margins are even
-                  marginLeft: isLeft ? Units.scale[1] : 0,
-                  marginRight: isRight ? Units.scale[1] : 0,
-                }}
-              />
-            )
-          }
+            if (item.klass === 'Block') {
+              return (
+                <BlockItem
+                  block={item}
+                  style={{
+                    // Ensures margins are even
+                    marginLeft: isLeft ? Units.scale[1] : 0,
+                    marginRight: isRight ? Units.scale[1] : 0,
+                  }}
+                />
+              )
+            }
 
-          return <ChannelItem channel={item} style={styles.channelItem} />
-        }}
-      />
+            return <ChannelItem channel={item} />
+          }}
+        />
+        {type === 'CONNECTION' &&
+          <Submit>
+            <Button space={1} onPress={this.navigateToConnect}>
+              <ButtonLabel>Connect &rarr;</ButtonLabel>
+            </Button>
+          </Submit>
+        }
+      </View>
     )
   }
 }
@@ -202,6 +212,7 @@ const ChannelQuery = gql`
       counts {
         blocks
         channels
+        connections
       }
     }
   }
@@ -220,9 +231,23 @@ const ChannelBlocksQuery = gql`
   ${BlockItem.fragments.block}
 `
 
+export const ChannelConnectionsQuery = gql`
+  query ChannelBlocksQuery($id: ID!){
+    channel(id: $id) {
+      __typename
+      id
+      connections {
+        ...ChannelThumb
+      }
+    }
+  }
+  ${ChannelItem.fragments.channel}
+`
+
 ChannelContainer.propTypes = {
   data: PropTypes.any.isRequired,
   blocksData: PropTypes.any.isRequired,
+  connectionsData: PropTypes.any.isRequired,
   type: PropTypes.oneOf(['CHANNEL', 'BLOCK']).isRequired,
   loadMore: PropTypes.any.isRequired,
   page: PropTypes.number,
@@ -234,6 +259,7 @@ ChannelContainer.defaultProps = {
 
 const ChannelContainerWithData = compose(
   graphql(ChannelQuery),
+  graphql(ChannelConnectionsQuery, { name: 'connectionsData' }),
   graphql(ChannelBlocksQuery, {
     name: 'blocksData',
     options: ({ id, page, type }) => ({

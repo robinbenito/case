@@ -31,7 +31,8 @@ class BlockConnections extends React.Component {
   navigateToConnect = () => {
     const { block } = this.props.data
     NavigatorService.navigate('connect', {
-      block_id: block.id,
+      connectable_id: block.id,
+      connectable_type: 'BLOCK',
       title: block.title,
     })
   }

@@ -10,6 +10,7 @@ import NavigationService from '../../utilities/navigationService'
 
 import SelectedChannels from './components/SelectedChannels'
 import SearchHeader from '../../components/SearchHeader'
+import { ChannelConnectionsQuery } from '../ChannelScreen/components/ChannelContainer'
 import SearchConnectionsWithData from './components/SearchConnections'
 import RecentConnectionsWithData, { RecentConnectionsQuery } from './components/RecentConnections'
 import { BlockConnectionsQuery } from '../../screens/BlockScreen/components/BlockConnections'
@@ -47,7 +48,8 @@ class SelectConnectionScreen extends React.Component {
       title,
       source_url,
       onCancel,
-      block_id,
+      connectable_id,
+      connectable_type,
     } = props.navigation.state.params
 
     this.state = {
@@ -60,7 +62,8 @@ class SelectConnectionScreen extends React.Component {
       description,
       title,
       source_url,
-      block_id,
+      connectable_id,
+      connectable_type,
     }
 
     this.onToggleConnection = this.onToggleConnection.bind(this)
@@ -86,10 +89,35 @@ class SelectConnectionScreen extends React.Component {
     })
   }
 
-  maybeUploadImage() {
-    const { image } = this.state
-    if (!image) return new Promise(resolve => resolve())
-    return uploadImage(image)
+  getRefetchQueries() {
+    const {
+      connectable_id: connectableId,
+      connectable_type: connectableType,
+    } = this.state
+
+    let refetchQueries = [{ query: RecentConnectionsQuery }]
+
+    if (connectableType === 'BLOCK') {
+      refetchQueries = [...refetchQueries,
+        {
+          query: BlockConnectionsQuery,
+          variables: { id: connectableId },
+        },
+        {
+          query: BlockQuery,
+          variables: { id: connectableId },
+        },
+      ]
+    } else if (connectableType === 'CHANNEL') {
+      refetchQueries = [...refetchQueries,
+        {
+          query: ChannelConnectionsQuery,
+          variables: { id: connectableId },
+        },
+      ]
+    }
+
+    return refetchQueries
   }
 
   navigateToBlock(id, imageLocation) {
@@ -97,30 +125,34 @@ class SelectConnectionScreen extends React.Component {
     NavigationService.navigate('block', { id, imageLocation })
   }
 
+
+  maybeUploadImage() {
+    const { image } = this.state
+    if (!image) return Promise.resolve()
+    return uploadImage(image)
+  }
+
   saveConnections() {
-    const { title, content, description, source_url, block_id: blockId } = this.state
+    const {
+      title,
+      content,
+      description,
+      source_url,
+      connectable_id: connectableId,
+      connectable_type: connectableType,
+    } = this.state
     const { createBlock, createConnection } = this.props
     const channelIds = this.state.selectedConnections.map(channel => channel.id)
-    const refetchQueries = [{ query: RecentConnectionsQuery }]
+    const refetchQueries = this.getRefetchQueries()
 
-    if (blockId) {
-      const blockRefetchQueries = [...refetchQueries,
-        {
-          query: BlockConnectionsQuery,
-          variables: { id: blockId },
-        },
-        {
-          query: BlockQuery,
-          variables: { id: blockId },
-        },
-      ]
+    if (connectableId) {
       return createConnection({
         variables: {
-          connectable_type: 'BLOCK',
-          connectable_id: blockId,
+          connectable_type: connectableType,
+          connectable_id: connectableId,
           channel_ids: channelIds,
         },
-        refetchQueries: blockRefetchQueries,
+        refetchQueries,
       }).then(() => {
         Keyboard.dismiss()
         NavigationService.back()
@@ -152,7 +184,7 @@ class SelectConnectionScreen extends React.Component {
 
   search = (text) => {
     this.setState({
-      isSearching: text.length,
+      isSearching: text.length > 0,
       search: text,
     })
   }
