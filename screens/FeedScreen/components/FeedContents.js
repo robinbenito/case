@@ -59,8 +59,8 @@ const renderItem = ({ item }) => {
     }
 
     return component
-
   }
+
   return null
 }
 
