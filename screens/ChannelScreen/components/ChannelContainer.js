@@ -2,65 +2,60 @@ import React from 'react'
 import gql from 'graphql-tag'
 import { graphql, compose } from 'react-apollo'
 import PropTypes from 'prop-types'
-import {
-  ActivityIndicator,
-  FlatList,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native'
-
+import { ActivityIndicator, FlatList, StyleSheet, Text, View } from 'react-native'
 import ChannelHeader from './ChannelHeader'
 import ChannelItem from '../../../components/ChannelItem'
 import BlockItem from '../../../components/BlockItem'
 import Empty from '../../../components/Empty'
-import layout from '../../../constants/Layout'
 import scrollHeaderVisibilitySensor from '../../../utilities/scrollHeaderVisibilitySensor'
+import { Units } from '../../../constants/Style'
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#fff',
-    minHeight: 700,
-    paddingBottom: layout.topbar * 2,
+    paddingBottom: Units.base,
   },
+
+  contentContainer: {
+    paddingBottom: Units.base,
+  },
+
   channelItem: {
-    marginHorizontal: layout.padding,
+    marginHorizontal: 0,
   },
+
   loadingContainer: {
-    backgroundColor: '#fff',
+    backgroundColor: 'white',
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: layout.padding,
+    padding: Units.scale[2],
   },
+
   footer: {
-    paddingVertical: layout.padding * 2,
+    paddingVertical: Units.base,
   },
 })
 
 class ChannelContainer extends React.Component {
   constructor(props) {
     super(props)
+
     this.state = {
       page: props.page,
       type: props.type,
     }
-    this.onEndReached = this.onEndReached.bind(this)
-    this.onRefresh = this.onRefresh.bind(this)
-    this.onToggleChange = this.onToggleChange.bind(this)
-    this.renderLoader = this.renderLoader.bind(this)
   }
 
   componentDidMount() {
     scrollHeaderVisibilitySensor.dispatch(false)
   }
 
-  onRefresh() {
+  onRefresh = () => {
     this.setState({ page: 1 })
     this.props.data.refetch({ notifyOnNetworkStatusChange: true })
   }
 
-  onEndReached() {
+  onEndReached = () => {
     const { blocksData } = this.props
     if (!blocksData.channel || !blocksData.channel.blocks) return false
 
@@ -76,14 +71,15 @@ class ChannelContainer extends React.Component {
     return this.props.loadMore(page)
   }
 
-  onToggleChange(type) {
+  onToggleChange = (type) => {
     this.setState({ page: 1, type }, () => {
       this.props.blocksData.refetch({ page: 1, type })
     })
   }
 
-  renderLoader() {
+  renderLoader = () => {
     if (!this.props.blocksData.loading) return null
+
     return (
       <ActivityIndicator animating size="small" style={styles.footer} />
     )
@@ -136,7 +132,7 @@ class ChannelContainer extends React.Component {
 
     if (contents.length === 0 && !contentsLoading) {
       return (
-        <View style={{ flex: 1, backgroundColor: '#fff' }}>
+        <View style={{ flex: 1, backgroundColor: 'white' }}>
           {header}
           {empty}
         </View>
@@ -146,7 +142,7 @@ class ChannelContainer extends React.Component {
     return (
       <FlatList
         style={styles.container}
-        contentContainerStyle={styles.container}
+        contentContainerStyle={styles.contentContainer}
         data={contents}
         columnWrapperStyle={columnStyle}
         refreshing={data.networkStatus === 4}
@@ -160,10 +156,24 @@ class ChannelContainer extends React.Component {
         onScroll={scrollHeaderVisibilitySensor}
         ListFooterComponent={this.renderLoader}
         ListHeaderComponent={header}
-        renderItem={({ item }) => {
+        renderItem={({ item, index }) => {
+          const isEven = index % 2 === 0
+          const isLeft = isEven
+          const isRight = !isEven
+
           if (item.klass === 'Block') {
-            return <BlockItem block={item} />
+            return (
+              <BlockItem
+                block={item}
+                style={{
+                  // Ensures margins are even
+                  marginLeft: isLeft ? Units.scale[1] : 0,
+                  marginRight: isRight ? Units.scale[1] : 0,
+                }}
+              />
+            )
           }
+
           return <ChannelItem channel={item} style={styles.channelItem} />
         }}
       />
