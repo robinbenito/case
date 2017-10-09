@@ -16,6 +16,8 @@ import { CenterColumn, RelativeFill } from '../../../components/UI/Layout'
 import { ButtonLabel, Button } from '../../../components/UI/Buttons'
 import Empty from '../../../components/Empty'
 import { Units } from '../../../constants/Style'
+
+import NavigatorService from '../../../utilities/navigationService'
 import scrollHeaderVisibilitySensor from '../../../utilities/scrollHeaderVisibilitySensor'
 
 const Submit = styled(CenterColumn)`
@@ -65,6 +67,15 @@ class ChannelContainer extends React.Component {
       if (type !== 'CONNECTION') {
         this.props.blocksData.refetch({ page: 1, type })
       }
+    })
+  }
+
+  navigateToConnect = () => {
+    const { channel } = this.props.data
+    NavigatorService.navigate('connect', {
+      connectable_id: channel.id,
+      connectable_type: 'CHANNEL',
+      title: channel.title,
     })
   }
 
@@ -158,7 +169,7 @@ class ChannelContainer extends React.Component {
         />
         {type === 'CONNECTION' &&
           <Submit>
-            <Button space={1}>
+            <Button space={1} onPress={this.navigateToConnect}>
               <ButtonLabel>Connect &rarr;</ButtonLabel>
             </Button>
           </Submit>
@@ -208,7 +219,7 @@ const ChannelBlocksQuery = gql`
   ${BlockItem.fragments.block}
 `
 
-const ChannelConnectionsQuery = gql`
+export const ChannelConnectionsQuery = gql`
   query ChannelBlocksQuery($id: ID!){
     channel(id: $id) {
       __typename
