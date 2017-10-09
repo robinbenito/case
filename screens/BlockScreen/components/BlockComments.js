@@ -10,6 +10,7 @@ import { Units } from '../../../constants/Style'
 import { Button, ButtonLabel } from '../../../components/UI/Buttons'
 import { CenterColumn } from '../../../components/UI/Layout'
 import navigationService from '../../../utilities/navigationService'
+import pluralize from '../../../utilities/pluralize'
 
 const Submit = styled(CenterColumn)`
   margin-vertical: ${Units.base};
@@ -24,7 +25,7 @@ class BlockComments extends React.Component {
   leaveComment = (block) => {
     navigationService.navigate('comment', {
       id: block.id,
-      title: block.title,
+      title: pluralize(block.counts.comments, 'Comment'),
     })
   }
 
@@ -128,6 +129,9 @@ export const BlockCommentsQuery = gql`
     block(id: $id) {
       __typename
       id
+      counts {
+        comments
+      }
       comments {
         ...CommentItem
       }
