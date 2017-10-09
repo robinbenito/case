@@ -128,7 +128,7 @@ class SelectConnectionScreen extends React.Component {
 
   maybeUploadImage() {
     const { image } = this.state
-    if (!image) return new Promise(resolve => resolve())
+    if (!image) return Promise.resolve()
     return uploadImage(image)
   }
 
