@@ -1,88 +1,74 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import gql from 'graphql-tag'
-import {
-  Image,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native'
+import styled from 'styled-components/native'
+import { Colors, Typography, Units } from '../constants/Style'
 
-import colors from '../constants/Colors'
-import type from '../constants/Type'
-import layout from '../constants/Layout'
+const HitArea = styled.TouchableOpacity`
+  width: ${x => x.size};
+`
 
-const getStyles = size =>
-  StyleSheet.create({
-    container: {
-      width: size,
-      height: size,
-      borderRadius: size,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      position: 'relative',
-      backgroundColor: colors.gray.background,
-      borderColor: colors.gray.border,
-      borderWidth: 1,
-    },
-    initials: {
-      fontWeight: 'bold',
-      fontSize: size > 50 ? type.sizes.subheadline : type.sizes.normal,
-      color: colors.gray.text,
-    },
-    image: {
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      width: size - 2,
-      height: size - 2,
-      borderRadius: size / 2,
-    },
-    nameContainer: {
-      alignItems: 'center',
-      paddingTop: layout.padding / 2,
-    },
-    name: {
-      fontSize: type.sizes.small,
-      width: size,
-      textAlign: 'center',
-    },
-  })
+const Name = styled.Text.attrs({
+  numberOfLines: 2,
+})`
+  margin-vertical: ${Units.scale[1]};
+  text-align: center;
+  font-size: ${Typography.fontSize.small};
+  line-height: ${Typography.lineHeightFor('small')};
+`
+
+const Initials = styled.Text.attrs({
+  numberOfLines: 1,
+})`
+  font-size: ${x => x.size / 3};
+  color: ${Colors.semantic.text};
+  background-color: transparent;
+`
+
+const AvatarImage = styled.Image`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border-radius: ${x => x.size / 2};
+`
+
+const Avatar = styled.View`
+  width: ${x => x.size};
+  height: ${x => x.size};
+  border-radius: ${x => x.size};
+  background-color: ${Colors.semantic.background};
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`
 
 export default class UserAvatar extends React.Component {
-  constructor(props) {
-    super(props)
-    this.styles = getStyles(props.size)
-  }
-
   render() {
-    const { user, onPress, includeName, style } = this.props
-    const username = includeName ? (
-      <View style={[this.styles.nameContainer, style]}>
-        <Text numberOfLines={1} style={this.styles.name}>
-          {user.first_name}
-        </Text>
-        <Text numberOfLines={1} style={this.styles.name}>
-          {user.last_name}
-        </Text>
-      </View>
-    ) : null
+    const { user, size, onPress, includeName, ...rest } = this.props
 
     return (
-      <View>
-        <TouchableOpacity
-          onPress={onPress}
-          style={[this.styles.container, style]}
-        >
-          <Text style={this.styles.initials} onPress={this.goToProfile}>
+      <HitArea size={size} onPress={onPress} {...rest}>
+        <Avatar size={size}>
+          <Initials size={size}>
             {user.initials}
-          </Text>
-          <Image source={{ uri: decodeURIComponent(user.avatar) }} style={this.styles.image} />
-        </TouchableOpacity>
-        {username}
-      </View>
+          </Initials>
+
+          <AvatarImage
+            size={size}
+            source={{ uri: decodeURIComponent(user.avatar) }}
+          />
+        </Avatar>
+
+        {includeName &&
+          <Name>
+            {user.name || `${user.first_name} ${user.last_name}`}
+          </Name>
+        }
+      </HitArea>
     )
   }
 }
@@ -103,7 +89,6 @@ UserAvatar.fragments = {
 
 UserAvatar.propTypes = {
   size: PropTypes.number,
-  style: PropTypes.any,
   onPress: PropTypes.func,
   includeName: PropTypes.bool,
   user: PropTypes.shape({
@@ -116,8 +101,6 @@ UserAvatar.propTypes = {
 
 UserAvatar.defaultProps = {
   size: 60,
-  style: {},
-  onPress: () => null,
   includeName: false,
+  onPress: () => null,
 }
-
