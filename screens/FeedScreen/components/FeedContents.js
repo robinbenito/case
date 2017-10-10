@@ -41,6 +41,7 @@ const renderItem = ({ item }) => {
       case 'User':
         component = (
           <UserAvatar
+            includeName
             user={item}
             key={item.id}
             size={90}
@@ -49,8 +50,10 @@ const renderItem = ({ item }) => {
               id: item.id,
               title: item.name,
             })}
-            style={{ margin: Units.scale[2] }}
-            includeName
+            style={{
+              marginHorizontal: Units.scale[2],
+              marginBottom: Units.scale[2],
+            }}
           />
         )
         break
