@@ -18,7 +18,9 @@ const Tab = styled.TouchableOpacity`
   padding-horizontal: ${Units.scale[2]};
 `
 
-const TabLabel = styled.Text`
+const TabLabel = styled.Text.attrs({
+  numberOfLines: 1,
+})`
   font-size: ${Typography.fontSize.base};
   font-weight: ${({ isSelected }) => Typography.fontWeight[isSelected ? 'semiBold' : 'normal']};
   color: ${({ color }) => color || Colors.semantic.text};
