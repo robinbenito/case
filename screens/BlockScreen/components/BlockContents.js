@@ -20,11 +20,16 @@ const CONTENT_HEIGHT = Units.window.height - HEADER_HEIGHT
 const CONTENT_WIDTH = Units.window.width - Units.base
 
 // TODO: Organize!
+const ScrollToMetadata = styled.TouchableOpacity`
+  width: 100%;
+  padding-vertical: ${Units.base};
+`
+
 const ArrowDown = styled(BaseIcon).attrs({
   name: 'ios-arrow-down',
 })`
   font-size: 30;
-  margin-vertical: ${Units.base};
+  align-self: center;
 `
 
 const BlockFold = styled.View`
@@ -189,9 +194,9 @@ class BlockContents extends React.Component {
             {blockInner}
           </BlockContainer>
 
-          <TouchableOpacity onPress={this.scrollToMetadata}>
+          <ScrollToMetadata onPress={this.scrollToMetadata}>
             <ArrowDown />
-          </TouchableOpacity>
+          </ScrollToMetadata>
         </RelativeFill>
 
         <BlockFold ref={ref => this.BlockFold = ref}>
