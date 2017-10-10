@@ -55,6 +55,7 @@ export const Typography = {
 
     large: 24, // h1
     medium: 18, // h2
+    smedium: 16,
     base: 14,
     small: 12,
     tiny: 10,

@@ -65,22 +65,23 @@ const Cancel = styled.Text`
 const Item = styled.TouchableOpacity`
   padding-horizontal: ${Units.scale[2]};
   flex-direction: row;
+  align-items: center;
 `
 
-const ITEM_LINE_HEIGHT = 45
+const ITEM_LINE_HEIGHT = 48
 
 const ItemIcon = styled(BaseIcon)`
   font-size: 30;
   width: ${ITEM_LINE_HEIGHT};
-  background-color: transparent;
   line-height: ${ITEM_LINE_HEIGHT};
   margin-right: ${Units.scale[2]};
   text-align: center;
+  bottom: -0.5;
+  background-color: transparent;
 `
 
 const ItemText = styled.Text`
-  font-size: ${Typography.fontSize.base};
-  line-height: ${ITEM_LINE_HEIGHT};
+  font-size: ${Typography.fontSize.smedium};
   font-weight: ${Typography.fontWeight.medium};
   color: ${Colors.semantic.text};
 `
