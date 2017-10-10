@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
-import { ImagePicker, BlurView } from 'expo'
+import { ImagePicker } from 'expo'
 import { CameraRoll, View } from 'react-native'
 import { Border, Typography, Units, Colors } from '../../constants/Style'
-import { AbsoluteFill, HorizontalRule } from '../UI/Layout'
+import { AbsoluteFill, BlurredAbsoluteFill, HorizontalRule } from '../UI/Layout'
 import { BaseIcon } from '../UI/Icons'
 import Store from '../../state/Store'
 import { TOGGLE_ADD_MENU } from '../../state/actions'
@@ -33,20 +33,9 @@ const BackgroundFill = styled(AbsoluteFill)`
   justify-content: flex-end;
 `
 
-const BlurredBackground = styled(BlurView).attrs({
-  tint: 'light',
-  intensity: 85,
-})`
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-`
-
 const Menu = styled.View`
   width: 100%;
-  border-color: ${Colors.semantic.text};
+  border-color: black;
   border-radius: ${Border.borderRadius};
   border-width: 1;
   background-color: white;
@@ -141,7 +130,7 @@ export default class AddMenu extends Component {
 
           {active &&
             <BackgroundFill>
-              <BlurredBackground />
+              <BlurredAbsoluteFill />
 
               <Menu>
                 <Item onPress={this.newChannel}>

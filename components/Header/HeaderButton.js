@@ -25,19 +25,19 @@ export const Caret = props => (
 
 export const HeaderButton = styled.TouchableOpacity`
   border-radius: ${Border.borderRadius};
-  background-color: white;
+  background-color: transparent;
   padding-horizontal: ${Units.base};
   padding-vertical: ${HEADER_BUTTON_V_PADDING};
-  width: 65%;
+  max-width: 65%;
   align-self: center;
 `
 
 export const HeaderButtonLabel = styled.Text.attrs({
   numberOfLines: 1,
 })`
-  color: ${Colors.semantic.text};
+  color: ${x => (x.active ? 'black' : Colors.semantic.text)};
   font-size: ${Typography.fontSize.h2};
   line-height: ${Typography.lineHeightFor(Typography.fontSize.h2)}
-  font-weight: ${({ active }) => Typography.fontWeight[active ? 'medium' : 'normal']};
+  font-weight: ${Typography.fontWeight.medium};
   align-self: center;
 `
