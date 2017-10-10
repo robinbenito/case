@@ -35,7 +35,7 @@ const BackgroundFill = styled(AbsoluteFill)`
 
 const Menu = styled.View`
   width: 100%;
-  border-color: ${Colors.semantic.text};
+  border-color: black;
   border-radius: ${Border.borderRadius};
   border-width: 1;
   background-color: white;

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
 import { Units } from '../../constants/Style'
+import { BlurredAbsoluteFill, AbsoluteFill } from '../UI/Layout'
 import HeaderPullDown from './HeaderPullDown'
 import { HEADER_BUTTON_HEIGHT } from './HeaderButton'
 import BackButton from '../BackButton'
@@ -17,7 +18,6 @@ const HeaderModal = styled.TouchableOpacity`
   padding-top: ${Units.statusBarHeight}
   align-items: center;
   justify-content: center;
-  background-color: ${({ isExpanded }) => (isExpanded ? 'rgba(0,0,0,0.5)' : 'white')};
 `
 
 const HeaderRight = styled.View`
@@ -67,25 +67,31 @@ export default class Header extends Component {
         onPress={this.onModalPress}
         disabled={!isExpanded}
       >
-        <HeaderPullDown
-          primary={primary}
-          secondary={secondary}
-          isExpanded={isExpanded}
-          isHeaderTitleVisible={isHeaderTitleVisible}
-          onPress={this.onPress}
-        />
+        <AbsoluteFill>
+          {isExpanded &&
+            <BlurredAbsoluteFill />
+          }
 
-        {headerLeft &&
-          <HeaderLeft isExpanded={isExpanded}>
-            {headerLeft}
-          </HeaderLeft>
-        }
+          <HeaderPullDown
+            primary={primary}
+            secondary={secondary}
+            isExpanded={isExpanded}
+            isHeaderTitleVisible={isHeaderTitleVisible}
+            onPress={this.onPress}
+          />
 
-        {headerRight &&
-          <HeaderRight isExpanded={isExpanded}>
-            {headerRight}
-          </HeaderRight>
-        }
+          {headerLeft &&
+            <HeaderLeft isExpanded={isExpanded}>
+              {headerLeft}
+            </HeaderLeft>
+          }
+
+          {headerRight &&
+            <HeaderRight isExpanded={isExpanded}>
+              {headerRight}
+            </HeaderRight>
+          }
+        </AbsoluteFill>
       </HeaderModal>
     )
   }

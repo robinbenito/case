@@ -16,14 +16,12 @@ const HeaderDrawer = styled.View`
   width: 100%;
 `
 
+const SelectDrawer = styled.View`
+  margin-horizontal: ${Units.base};
+`
+
 const HeaderPullDown = (props) => {
-  const {
-    primary,
-    secondary,
-    onPress,
-    isExpanded,
-    isHeaderTitleVisible,
-  } = props
+  const { primary, secondary, onPress, isExpanded, isHeaderTitleVisible } = props
 
   return (
     <HeaderDrawer>
@@ -37,31 +35,33 @@ const HeaderPullDown = (props) => {
       }
 
       {isExpanded &&
-        <ToggleSelect>
-          <ToggleSelectOption>
-            <HeaderButtonLabel active>
-              {(primary.title && decode(primary.title)) || '—'}
-            </HeaderButtonLabel>
-            <ToggleCheck />
-          </ToggleSelectOption>
+        <SelectDrawer>
+          <ToggleSelect>
+            <ToggleSelectOption>
+              <HeaderButtonLabel active>
+                {(primary.title && decode(primary.title)) || '—'}
+              </HeaderButtonLabel>
+              <ToggleCheck />
+            </ToggleSelectOption>
 
-          {secondary.map(option => (
-            <View key={option.key}>
-              <HorizontalRule />
-              <ToggleSelectOption
-                onPress={() => {
-                  onPress()
-                  if (option.onPress) return option.onPress()
-                  return navigationService.reset(option.key)
-                }}
-              >
-                <HeaderButtonLabel>
-                  {option.title && decode(option.title)}
-                </HeaderButtonLabel>
-              </ToggleSelectOption>
-            </View>
-          ))}
-        </ToggleSelect>
+            {secondary.map(option => (
+              <View key={option.key}>
+                <HorizontalRule />
+                <ToggleSelectOption
+                  onPress={() => {
+                    onPress()
+                    if (option.onPress) return option.onPress()
+                    return navigationService.reset(option.key)
+                  }}
+                >
+                  <HeaderButtonLabel>
+                    {option.title && decode(option.title)}
+                  </HeaderButtonLabel>
+                </ToggleSelectOption>
+              </View>
+            ))}
+          </ToggleSelect>
+        </SelectDrawer>
       }
     </HeaderDrawer>
   )

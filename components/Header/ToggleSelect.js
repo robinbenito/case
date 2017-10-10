@@ -2,10 +2,14 @@ import styled from 'styled-components/native'
 import { Border, Units } from '../../constants/Style'
 
 export const ToggleSelect = styled.View`
-  border-radius: ${Border.borderRadius};
+  width: 100%;
   background-color: white;
-  width: 65%;
   align-self: center;
+  width: 100%;
+  border-color: black;
+  border-radius: ${Border.borderRadius};
+  border-width: 1;
+  background-color: white;
 `
 
 export const ToggleSelectOption = styled.TouchableOpacity`
