@@ -6,7 +6,7 @@ import { decode } from 'he'
 import styled from 'styled-components/native'
 import BlockItemIcon from './BlockItemIcon'
 import NavigatorService from '../utilities/navigationService'
-import HTML from './HTML'
+import TruncatedHTML from './TruncatedHTML'
 import { Border, Colors, Typography, Units } from '../constants/Style'
 
 export const BLOCK_METADATA_HEIGHT = Units.scale[4]
@@ -55,17 +55,6 @@ const Title = styled.Text`
   text-align: center;
 `
 
-const InnerText = styled(HTML)`
-  padding-vertical: ${Units.scale[1]};
-  padding-horizontal: ${Units.scale[2]};
-  height: ${x =>
-    (Typography.lineHeightFor(x.size === '1-up' ? 'base' : 'small') * x.numberOfLines)
-      // Add the top padding, ignore the bottom
-      + Units.scale[1]
-  };
-  overflow: hidden;
-`
-
 export default class BlockItem extends Component {
   onPress = () => {
     NavigatorService.navigate('block', {
@@ -96,10 +85,10 @@ export default class BlockItem extends Component {
         break
       case 'Text':
         inner = (
-          <InnerText
+          <TruncatedHTML
             size={size}
             value={block.kind.content}
-            numberOfLines={9}
+            numberOfFadedLines={1}
           />
         )
         break
