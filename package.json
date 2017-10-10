@@ -48,7 +48,7 @@
     "react-redux": "^5.0.6",
     "react-test-renderer": "16.0.0-alpha.12",
     "redux": "^3.7.2",
-    "styled-components": "^2.1.2",
+    "styled-components": "^2.2.1",
     "tcomb-form-native": "^0.6.4",
     "validator": "^8.0.0"
   },
