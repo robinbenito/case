@@ -44,7 +44,7 @@ const PlusStrokeB = styled.View`
   background-color: ${PLUS_COLOR};
 `
 
-export default class AddIcon extends React.Component {
+export default class AddButton extends React.Component {
   render() {
     return (
       <HitArea onPress={this.props.onPress}>
@@ -57,10 +57,6 @@ export default class AddIcon extends React.Component {
   }
 }
 
-AddIcon.propTypes = {
-  onPress: PropTypes.func,
-}
-
-AddIcon.defaultProps = {
-  onPress: () => null,
+AddButton.propTypes = {
+  onPress: PropTypes.func.isRequired,
 }

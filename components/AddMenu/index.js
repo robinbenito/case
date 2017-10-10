@@ -1,15 +1,15 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
-import { ImagePicker } from 'expo'
+import { ImagePicker, BlurView } from 'expo'
 import { CameraRoll, View } from 'react-native'
-
 import { Border, Typography, Units, Colors } from '../../constants/Style'
-import { HorizontalRule } from '../UI/Layout'
+import { AbsoluteFill, HorizontalRule } from '../UI/Layout'
+import { BaseIcon } from '../UI/Icons'
 import Store from '../../state/Store'
 import { TOGGLE_ADD_MENU } from '../../state/actions'
 import NavigationService from '../../utilities/navigationService'
-import AddIcon from './AddIcon'
+import AddButton from './AddButton'
 
 const ADD_MENU_ROUTE_WHITELIST = [
   'main',
@@ -22,98 +22,158 @@ const AddModal = styled.TouchableOpacity`
   position: absolute;
   bottom: 0;
   right: 0;
-  background-color: ${({ active }) => (active ? 'rgba(0,0,0,0.5)' : 'transparent')};
   width: ${({ active }) => (active ? '100%' : 100)};
   height: ${({ active }) => (active ? '100%' : 100)};
   align-items: center;
   justify-content: center;
 `
 
+const BackgroundFill = styled(AbsoluteFill)`
+  padding-horizontal: ${Units.base};
+  justify-content: flex-end;
+`
+
+const BlurredBackground = styled(BlurView).attrs({
+  tint: 'light',
+  intensity: 85,
+})`
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+`
+
 const Menu = styled.View`
-  border-width: ${Border.borderWidth};
-  border-color: ${Border.borderColor};
+  width: 100%;
+  border-color: ${Colors.semantic.text};
   border-radius: ${Border.borderRadius};
-  width: 66.6%;
+  border-width: 1;
   background-color: white;
+`
+
+const Cancel = styled.Text`
+  align-self: center;
+  padding-vertical: ${Units.base};
+  margin-vertical: ${Units.scale[2]};
+  font-size: ${Typography.fontSize.medium};
+  font-weight: ${Typography.fontWeight.normal};
+  color: ${Colors.state.alert};
+  background-color: transparent;
 `
 
 const Item = styled.TouchableOpacity`
   padding-horizontal: ${Units.scale[2]};
-  padding-vertical: ${Units.scale[2]};
-  align-items: center;
-  justify-content: center;
+  flex-direction: row;
+`
+
+const ITEM_LINE_HEIGHT = 45
+
+const ItemIcon = styled(BaseIcon)`
+  font-size: 30;
+  width: ${ITEM_LINE_HEIGHT};
+  background-color: transparent;
+  line-height: ${ITEM_LINE_HEIGHT};
+  margin-right: ${Units.scale[2]};
+  text-align: center;
 `
 
 const ItemText = styled.Text`
+  font-size: ${Typography.fontSize.base};
+  line-height: ${ITEM_LINE_HEIGHT};
   font-weight: ${Typography.fontWeight.medium};
-  font-size: ${Typography.fontSize.medium};
-  color: ${Colors.gray.semiBold};
+  color: ${Colors.semantic.text};
 `
 
-export default class AddMenu extends React.Component {
-  constructor(props) {
-    super(props)
-
-    this.showPhotos = this.showPhotos.bind(this)
-    this.takePhoto = this.takePhoto.bind(this)
+export default class AddMenu extends Component {
+  newChannel = () => {
+    NavigationService.navigate('newChannel')
   }
 
-  async showPhotos() {
+  enterText = () => {
+    NavigationService.navigate('newText')
+  }
+
+  pasteLink = () => {
+    NavigationService.navigate('newLink')
+  }
+
+  uploadImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({})
-    if (!result.cancelled) {
-      this.setState({ image: result.uri })
-      NavigationService.navigate('newImage', { image: result.uri })
-    }
+
+    if (result.cancelled) return
+
+    this.setState({ image: result.uri })
+    NavigationService.navigate('newImage', { image: result.uri })
   }
 
-  async takePhoto() {
+  takePhoto = async () => {
     const result = await ImagePicker.launchCameraAsync({})
-    if (!result.cancelled) {
-      CameraRoll.saveToCameraRoll(result.uri)
-      this.setState({ image: result.uri })
-      NavigationService.navigate('newImage', { image: result.uri })
-    }
+
+    if (result.cancelled) return
+
+    CameraRoll.saveToCameraRoll(result.uri)
+    this.setState({ image: result.uri })
+    NavigationService.navigate('newImage', { image: result.uri })
   }
 
-  renderMenu() {
-    return (
-      <Menu>
-        <Item onPress={() => NavigationService.navigate('newChannel')} >
-          <ItemText>New Channel</ItemText>
-        </Item>
-        <HorizontalRule />
-        <Item onPress={() => NavigationService.navigate('newText')}>
-          <ItemText>Enter text</ItemText>
-        </Item>
-        <HorizontalRule />
-        <Item onPress={() => NavigationService.navigate('newLink')}>
-          <ItemText>Paste link</ItemText>
-        </Item>
-        <HorizontalRule />
-        <Item onPress={() => this.showPhotos()}>
-          <ItemText>Upload image</ItemText>
-        </Item>
-        <HorizontalRule />
-        <Item onPress={() => this.takePhoto()}>
-          <ItemText>Take photo</ItemText>
-        </Item>
-      </Menu>
-    )
+  toggleAddMenu = () => {
+    Store.dispatch({ type: TOGGLE_ADD_MENU })
   }
 
   render() {
-    const { active } = this.props
-    const menu = active ? this.renderMenu() : null
+    const { active, routes: { current } } = this.props
 
-    if (ADD_MENU_ROUTE_WHITELIST.includes(this.props.routes.current)) {
+    if (ADD_MENU_ROUTE_WHITELIST.includes(current)) {
       return (
         <AddModal
           activeOpacity={1}
           active={active}
-          onPress={() => Store.dispatch({ type: TOGGLE_ADD_MENU })}
+          onPress={this.toggleAddMenu}
         >
-          <AddIcon active={active} onPress={() => Store.dispatch({ type: TOGGLE_ADD_MENU })} />
-          {menu}
+          {!active &&
+            <AddButton
+              active={active}
+              onPress={this.toggleAddMenu}
+            />
+          }
+
+          {active &&
+            <BackgroundFill>
+              <BlurredBackground />
+
+              <Menu>
+                <Item onPress={this.newChannel}>
+                  <ItemIcon name="ios-add" />
+                  <ItemText>New channel</ItemText>
+                </Item>
+
+                <HorizontalRule />
+
+                <Item onPress={this.enterText}>
+                  <ItemIcon name="ios-create-outline" />
+                  <ItemText>Enter text</ItemText>
+                </Item>
+
+                <Item onPress={this.pasteLink}>
+                  <ItemIcon name="ios-link-outline" />
+                  <ItemText>Paste link</ItemText>
+                </Item>
+
+                <Item onPress={this.uploadImage}>
+                  <ItemIcon name="ios-image-outline" />
+                  <ItemText>Upload image</ItemText>
+                </Item>
+
+                <Item onPress={this.takePhoto}>
+                  <ItemIcon name="ios-camera-outline" />
+                  <ItemText>Take photo</ItemText>
+                </Item>
+              </Menu>
+
+              <Cancel>Cancel</Cancel>
+            </BackgroundFill>
+          }
         </AddModal>
       )
     }
@@ -130,7 +190,5 @@ AddMenu.propTypes = {
 }
 
 AddMenu.defaultProps = {
-  routes: {
-    current: null,
-  },
+  routes: {},
 }
