@@ -15,8 +15,7 @@ export const AbsoluteFill = styled.View`
 `
 
 export const BlurredAbsoluteFill = styled(BlurView).attrs({
-  tint: 'light',
-  intensity: 85,
+  intensity: 100,
 })`
   position: absolute;
   top: 0;
