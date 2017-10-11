@@ -9,7 +9,7 @@ const STYLESHEET = {
   p: {
     fontFamily: 'System',
     fontSize: Typography.fontSize.small,
-    lineHeight: Typography.lineHeightFor('small'),
+    lineHeight: Typography.lineHeightFor('small', 'compact'),
     marginBottom: Units.scale[1],
     color: Colors.semantic.text,
   },

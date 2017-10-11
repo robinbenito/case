@@ -9,7 +9,6 @@ import HTML from '../../../components/HTML'
 import FollowButtonWithData from '../../../components/FollowButton'
 import { BaseIcon } from '../../../components/UI/Icons'
 import { SmallButton } from '../../../components/UI/Buttons'
-import { Section } from '../../../components/UI/Layout'
 import NavigationService from '../../../utilities/navigationService'
 import pluralize from '../../../utilities/pluralize'
 
@@ -25,14 +24,16 @@ const Header = styled.View`
 `
 
 const Name = styled.Text`
-  margin-right: ${Units.scale[2]};
-  margin-bottom: ${Units.scale[3]};
+  margin-bottom: ${Units.scale[1]};
   font-size: ${Typography.fontSize.h1};
   font-weight: ${Typography.fontWeight.medium};
 `
 
 const Avatar = styled(UserAvatar)`
-  align-self: center;
+  align-self: flex-start;
+`
+
+const Bio = styled(HTML)`
 `
 
 const Blurb = styled.View`
@@ -75,9 +76,7 @@ const ProfileHeader = ({ user, type, onToggle, isTheCurrentUser }) => {
         <Avatar user={user} />
         <Blurb>
           <Name>{user.name}</Name>
-          <Section space={2}>
-            <HTML value={user.bio || '—'} />
-          </Section>
+          <Bio value={user.bio || '<p>—</p>'} />
         </Blurb>
 
         <ProfileAction
