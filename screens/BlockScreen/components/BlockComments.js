@@ -69,7 +69,7 @@ class BlockComments extends React.Component {
 
     const leaveCommentButton = (!isLeavingComment &&
       <Button space={1} onPress={() => this.leaveComment(block)}>
-        <ButtonLabel>Leave&nbsp;comment</ButtonLabel>
+        <ButtonLabel>Leave comment</ButtonLabel>
       </Button>
     )
 
