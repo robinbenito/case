@@ -46,7 +46,7 @@ export default class SearchResultItem extends Component {
         NavigatorService.navigate('block', { id: item.id })
         break
       case 'User':
-        NavigatorService.navigate('searchProfile', { id: item.id })
+        NavigatorService.navigate('profile', { id: item.id })
         break
       default:
         break

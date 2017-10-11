@@ -15,6 +15,7 @@ import { Colors } from '../../constants/Style'
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: 'white',
   },
   innerContainer: {
     flex: 1,

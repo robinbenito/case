@@ -8,7 +8,6 @@ import LoginScreen from '../screens/LoginScreen'
 import SignUpScreen from '../screens/SignUpScreen'
 import MainStack from './MainStack'
 import NotificationsScreen from '../screens/NotificationsScreen'
-import SearchStack from './SearchStack'
 import NewChannelStack from './NewChannelStack'
 import AddTextScreen from '../screens/AddTextScreen'
 import AddImageScreen from '../screens/AddImageScreen'
@@ -60,15 +59,6 @@ export default initialRouteName => StackModalNavigator({
   },
   main: {
     screen: MainStackWithDrawer,
-    navigationOptions: {
-      header: null,
-      cardStyle: {
-        backgroundColor: 'white',
-      },
-    },
-  },
-  search: {
-    screen: SearchStack,
     navigationOptions: {
       header: null,
       cardStyle: {

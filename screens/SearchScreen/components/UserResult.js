@@ -8,6 +8,7 @@ import {
 
 import UserResultMeta from './UserResultMeta'
 import UserAvatar from '../../../components/UserAvatar'
+import NavigationService from '../../../utilities/navigationService'
 
 import { Units, Typography, Colors } from '../../../constants/Style'
 
@@ -32,6 +33,11 @@ const styles = StyleSheet.create({
 })
 
 export default class SearchResultUserItem extends React.Component {
+  onPress = () => {
+    const { user } = this.props
+    NavigationService.navigate('profile', { id: user.id })
+  }
+
   render() {
     const { user } = this.props
     return (
@@ -43,7 +49,7 @@ export default class SearchResultUserItem extends React.Component {
           <UserResultMeta id={user.id} />
         </View>
         <View style={styles.right}>
-          <UserAvatar user={user} size={40} />
+          <UserAvatar user={user} size={40} onPress={this.onPress} />
         </View>
       </View>
     )

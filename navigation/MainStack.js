@@ -6,6 +6,7 @@ import BlockScreen from '../screens/BlockScreen'
 import BlockTextScreen from '../screens/BlockScreen/components/BlockText' // TODO: Move this to screens
 import ChannelScreen from '../screens/ChannelScreen'
 import CommentScreen from '../screens/CommentScreen'
+import SearchScreen from '../screens/SearchScreen'
 import FeedScreen from '../screens/FeedScreen'
 import ProfileScreen from '../screens/ProfileScreen'
 import UserSettingsScreen from '../screens/UserSettingsScreen'
@@ -101,6 +102,15 @@ export default StackNavigator({
           isHeaderTitleVisible={false}
         />,
       }
+    },
+  },
+  search: {
+    screen: SearchScreen,
+    navigationOptions: {
+      header: null,
+      cardStyle: {
+        backgroundColor: 'white',
+      },
     },
   },
   userSettings: {
