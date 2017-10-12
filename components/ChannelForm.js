@@ -34,7 +34,7 @@ class ChannelForm extends React.Component {
     if (this.state.title) {
       this.setNavOptions({
         headerRight: (
-          <HeaderRightButton onPress={this.onSubmit} text="Save" />
+          <HeaderRightButton onPress={this.onSubmit} text={this.props.submitText} />
         ),
       })
     } else {
@@ -113,6 +113,7 @@ class ChannelForm extends React.Component {
 
 ChannelForm.propTypes = {
   onSubmit: PropTypes.func,
+  submitText: PropTypes.string,
   navigation: PropTypes.any,
   navigationOptions: PropTypes.any.isRequired,
   channel: PropTypes.shape({
@@ -125,6 +126,7 @@ ChannelForm.propTypes = {
 ChannelForm.defaultProps = {
   onSubmit: () => null,
   navigation: {},
+  submitText: 'Done',
   channel: {
     title: '',
     description: '',
