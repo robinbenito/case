@@ -63,7 +63,7 @@ export default class AddLinkScreen extends React.Component {
     if (this.state.source_url && isURL(this.state.source_url)) {
       this.setNavOptions({
         headerRight: (
-          <HeaderRightButton onPress={this.onSubmit} text="Done" />
+          <HeaderRightButton onPress={this.onSubmit} text="Next" />
         ),
       })
     } else {

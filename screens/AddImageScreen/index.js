@@ -54,7 +54,7 @@ export default class AddImageScreen extends React.Component {
 
   componentDidMount() {
     this.setNavOptions({
-      headerRight: <HeaderRightButton onPress={this.onSubmit} text="Done" />,
+      headerRight: <HeaderRightButton onPress={this.onSubmit} text="Next" />,
     })
   }
 
