@@ -9,8 +9,6 @@ import { ChannelQuery } from '../../ChannelScreen/components/ChannelContainer'
 
 import NavigatorService from '../../../utilities/navigationService'
 
-import { Colors } from '../../../constants/Style'
-
 const navigationOptions = {
   title: 'Edit Channel',
   headerLeft: (<BackButton />),
