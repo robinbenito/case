@@ -50,7 +50,7 @@ export default class AddTextScreen extends React.Component {
     if (this.state.content) {
       this.setNavOptions({
         headerRight: (
-          <HeaderRightButton onPress={this.onSubmit} text="Done" />
+          <HeaderRightButton onPress={this.onSubmit} text="Next" />
         ),
       })
     } else {
