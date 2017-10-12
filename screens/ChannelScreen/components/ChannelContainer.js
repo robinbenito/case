@@ -191,17 +191,19 @@ class ChannelContainer extends React.Component {
   }
 }
 
-const ChannelQuery = gql`
+export const ChannelQuery = gql`
   query ChannelQuery($id: ID!){
     channel(id: $id) {
       __typename
       id
       slug
       title
-      description(format: HTML)
+      displayDescription: description(format: HTML)
+      description(format: MARKDOWN)
       visibility
       can {
         follow
+        manage
       }
       user {
         id
