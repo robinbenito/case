@@ -1,22 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { StyleSheet, Text, TouchableOpacity } from 'react-native'
+import styled from 'styled-components/native'
+import { Colors, Units, Typography } from '../constants/Style'
 
-import colors from '../constants/Colors'
-import layout from '../constants/Layout'
-import type from '../constants/Type'
+const Button = styled.TouchableOpacity`
+  padding-horizontal: ${Units.scale[2]};
+`
 
-const styles = StyleSheet.create({
-  button: {
-    paddingRight: layout.padding,
-    paddingHorizontal: layout.padding,
-  },
-  text: {
-    color: colors.gray.text,
-    fontSize: type.sizes.normal,
-    fontWeight: 'bold',
-  },
-})
+const ButtonText = styled.Text`
+  font-size: ${Typography.fontSize.medium};
+  line-height: ${Typography.lineHeightFor('medium')};
+  color: ${Colors.gray.semiBold};
+`
 
 export default class HeaderRightButton extends React.Component {
   constructor(props) {
@@ -37,9 +32,9 @@ export default class HeaderRightButton extends React.Component {
     const { text } = this.props
 
     return (
-      <TouchableOpacity onPress={this.onPress} style={styles.button}>
-        <Text style={styles.text}>{text}</Text>
-      </TouchableOpacity>
+      <Button onPress={this.onPress}>
+        <ButtonText>{text}</ButtonText>
+      </Button>
     )
   }
 }
