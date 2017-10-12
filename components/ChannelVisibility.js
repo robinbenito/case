@@ -9,12 +9,11 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import SettingsList from 'react-native-settings-list'
 import { Ionicons } from '@expo/vector-icons'
 
-import BackButton from '../../../components/BackButton'
-import HeaderRightButton from '../../../components/HeaderRightButton'
+import BackButton from './BackButton'
 
-import layout from '../../../constants/Layout'
-import type from '../../../constants/Type'
-import colors from '../../../constants/Colors'
+import layout from '../constants/Layout'
+import type from '../constants/Type'
+import colors from '../constants/Colors'
 
 const styles = StyleSheet.create({
   container: {
@@ -59,31 +58,11 @@ export default class ChannelVisibilityScreen extends React.Component {
     this.onVisibilityChangeUpdate = onVisibilityChangeUpdate
   }
 
-  componentDidUpdate() {
-    // Hide or show the done button depending on if content is present
-    if (this.state.title) {
-      this.setNavOptions({
-        headerRight: (
-          <HeaderRightButton onPress={this.onSubmit} text="Save" />
-        ),
-      })
-    } else {
-      this.setNavOptions({
-        headerRight: null,
-      })
-    }
-  }
-
   onVisibilityChange(value) {
     this.setState({
       visibility: value,
     })
     this.onVisibilityChangeUpdate(value)
-  }
-
-  setNavOptions(options) {
-    const newOptions = Object.assign({}, navigationOptions, options)
-    this.props.navigation.setOptions(newOptions)
   }
 
   renderRightContent(visibility) {
