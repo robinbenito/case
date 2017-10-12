@@ -27,9 +27,6 @@ class ChannelForm extends React.Component {
       description: props.channel.description,
       visibility: props.channel.visibility,
     }
-    this.onFieldChange = this.onFieldChange.bind(this)
-    this.goToChannelVisibilityScreen = this.goToChannelVisibilityScreen.bind(this)
-    this.onVisibilityChange = this.onVisibilityChange.bind(this)
   }
 
   componentDidUpdate() {
@@ -51,13 +48,13 @@ class ChannelForm extends React.Component {
     this.props.onSubmit(this.state)
   }
 
-  onFieldChange(key, value) {
+  onFieldChange = (key, value) => {
     this.setState({
       [key]: value,
     })
   }
 
-  onVisibilityChange(value) {
+  onVisibilityChange = (value) => {
     this.setState({ visibility: value.toUpperCase() })
   }
 
@@ -66,7 +63,7 @@ class ChannelForm extends React.Component {
     this.props.navigation.setOptions(newOptions)
   }
 
-  goToChannelVisibilityScreen() {
+  goToChannelVisibilityScreen = () => {
     const { visibility } = this.state
 
     NavigatorService.navigate('channelVisibility', {
