@@ -1,5 +1,6 @@
 import React from 'react'
 import { StackNavigator } from 'react-navigation'
+import { enhance } from 'react-navigation-addons'
 import { connect } from 'react-redux'
 
 import BlockScreen from '../screens/BlockScreen'
@@ -9,16 +10,19 @@ import CommentScreen from '../screens/CommentScreen'
 import FeedScreen from '../screens/FeedScreen'
 import ProfileScreen from '../screens/ProfileScreen'
 import UserSettingsScreen from '../screens/UserSettingsScreen'
+import EditChannelScreen from '../screens/EditChannelScreen'
 
 import Header from '../components/Header'
 import HeaderIcon from '../screens/FeedScreen/components/HeaderIcons'
 import BackButton from '../components/BackButton'
 
+import headerStyle from '../constants/Header'
+
 const HeaderWithState = connect(({ ui: { isHeaderTitleVisible } }) => ({
   isHeaderTitleVisible,
 }))(Header)
 
-export default StackNavigator({
+export default enhance(StackNavigator)({
   feed: {
     screen: FeedScreen,
     navigationOptions: ({ navigation }) => ({
@@ -115,6 +119,13 @@ export default StackNavigator({
         ]}
       />,
     }),
+  },
+  editChannel: {
+    screen: EditChannelScreen,
+    navigationOptions: {
+      title: 'Edit Channel',
+      headerStyle,
+    },
   },
 }, {
   cardStyle: {
