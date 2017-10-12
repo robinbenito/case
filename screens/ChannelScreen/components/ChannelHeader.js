@@ -8,7 +8,9 @@ import TabToggle from '../../../components/TabToggle'
 import FollowButtonWithData from '../../../components/FollowButton'
 import HTML from '../../../components/HTML'
 import { Colors, Units, Typography } from '../../../constants/Style'
+import { SmallButton, SmallButtonLabel } from '../../../components/UI/Buttons'
 
+import NavigationService from '../../../utilities/navigationService'
 import pluralize from '../../../utilities/pluralize'
 
 const Container = styled.View`
@@ -48,9 +50,13 @@ const Description = styled(HTML)`
   margin-vertical: ${Units.scale[1]};
 `
 
-const Follow = styled.View`
+const Actions = styled.View`
   margin-top: ${Units.scale[1]};
 `
+
+const editChannel = (channel) => {
+  NavigationService.navigate('editChannel', { channel })
+}
 
 const ChannelHeader = ({ channel, type, onToggle }) => {
   let TAB_OPTIONS = {
@@ -73,14 +79,23 @@ const ChannelHeader = ({ channel, type, onToggle }) => {
           </Title>
 
           {channel.can.follow &&
-            <Follow>
+            <Actions>
               <FollowButtonWithData id={channel.id} type="CHANNEL" />
-            </Follow>
+            </Actions>
+          }
+          {channel.can.manage &&
+            <Actions>
+              <SmallButton onPress={() => editChannel(channel)}>
+                <SmallButtonLabel accessibilityLabel="Edit">
+                  Edit
+                </SmallButtonLabel>
+              </SmallButton>
+            </Actions>
           }
         </Headline>
 
         <Description
-          value={channel.description || '<p>—</p>'}
+          value={channel.displayDescription || '<p>—</p>'}
           stylesheet={{
             p: {
               color: Colors.channel[channel.visibility],
