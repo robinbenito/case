@@ -4,29 +4,13 @@ import {
   Alert,
   Clipboard,
   Keyboard,
-  StyleSheet,
-  View,
 } from 'react-native'
-import { NavigationActions } from 'react-navigation'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { isURL } from 'validator'
 
-import FieldSet from '../../components/FieldSet'
 import BackButton from '../../components/BackButton'
-import HeaderRightButton from '../../components/HeaderRightButton'
+import LinkForm from '../../components/LinkForm'
 
-import layout from '../../constants/Layout'
-import colors from '../../constants/Colors'
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.gray.background,
-  },
-  fieldset: {
-    marginTop: layout.padding * 2,
-  },
-})
+import NavigatorService from '../../utilities/navigationService'
 
 const navigationOptions = {
   title: 'New Link',
@@ -43,9 +27,6 @@ export default class AddLinkScreen extends React.Component {
     this.state = {
       source_url: '',
     }
-    this.onFieldChange = this.onFieldChange.bind(this)
-    this.onSubmit = this.onSubmit.bind(this)
-    this.clipboardPrompt = this.clipboardPrompt.bind(this)
   }
 
   componentDidMount() {
@@ -58,41 +39,9 @@ export default class AddLinkScreen extends React.Component {
     })
   }
 
-  componentDidUpdate() {
-    // Hide or show the done button depending on if content is present
-    if (this.state.source_url && isURL(this.state.source_url)) {
-      this.setNavOptions({
-        headerRight: (
-          <HeaderRightButton onPress={this.onSubmit} text="Next" />
-        ),
-      })
-    } else {
-      this.setNavOptions({
-        headerRight: null,
-      })
-    }
-  }
-
-  onFieldChange(key, value) {
-    this.setState({
-      [key]: value,
-    })
-  }
-
-  onSubmit() {
+  onSubmit = () => {
     const { source_url } = this.state
-
-    const navigateAction = NavigationActions.navigate({
-      routeName: 'connect',
-      params: { source_url },
-    })
-
-    this.props.navigation.dispatch(navigateAction)
-  }
-
-  setNavOptions(options) {
-    const newOptions = Object.assign({}, navigationOptions, options)
-    this.props.navigation.setOptions(newOptions)
+    NavigatorService.navigate('connect', { source_url })
   }
 
   setUrl(url) {
@@ -101,7 +50,7 @@ export default class AddLinkScreen extends React.Component {
     })
   }
 
-  clipboardPrompt(url) {
+  clipboardPrompt = (url) => {
     Alert.alert(
       'Would you like to paste the URL on your clipboard here?',
       `Add ${url} to the source area?`,
@@ -114,33 +63,22 @@ export default class AddLinkScreen extends React.Component {
   }
 
   render() {
+    const { navigation } = this.props
     return (
-      <KeyboardAwareScrollView style={styles.container}>
-        <View style={styles.container}>
-          <FieldSet
-            isFirst
-            style={styles.fieldset}
-            label="Link"
-            onChange={this.onFieldChange}
-            fields={[
-              {
-                key: 'source_url',
-                placeholder: 'URL',
-                type: 'url',
-                value: this.state.source_url,
-              },
-            ]}
-          />
-        </View>
-      </KeyboardAwareScrollView>
+      <LinkForm
+        onSubmit={this.onSubmit}
+        navigation={navigation}
+        navigationOptions={navigationOptions}
+        block={{ source_url: this.state.source_url }}
+      />
     )
   }
 }
 
 AddLinkScreen.propTypes = {
-  navigation: PropTypes.any,
+  navigation: PropTypes.any.isRequired,
 }
 
 AddLinkScreen.defaultProps = {
-  navigation: () => null,
+  navigation: {},
 }
