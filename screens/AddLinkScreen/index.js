@@ -39,8 +39,8 @@ export default class AddLinkScreen extends React.Component {
     })
   }
 
-  onSubmit = () => {
-    const { source_url } = this.state
+  onSubmit = (variables) => {
+    const { source_url } = variables
     NavigatorService.navigate('connect', { source_url })
   }
 

@@ -17,8 +17,8 @@ export default class AddTextScreen extends React.Component {
     return navigationOptions
   }
 
-  onSubmit() {
-    const { title, description, content } = this.state
+  onSubmit = (variables) => {
+    const { title, description, content } = variables
     NavigatorService.navigate('connect', { title, description, content })
   }
 
