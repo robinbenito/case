@@ -4,10 +4,10 @@ import styled from 'styled-components/native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { isURL } from 'validator'
 
-import FieldSet from './FieldSet'
-import HeaderRightButton from './HeaderRightButton'
+import FieldSet from '../FieldSet'
+import HeaderRightButton from '../HeaderRightButton'
 
-import { Units } from '../constants/Style'
+import { Units } from '../../constants/Style'
 
 const Container = styled(KeyboardAwareScrollView)`
   flex: 1;
@@ -18,17 +18,13 @@ const Field = styled(FieldSet)`
   margin-top: ${Units.scale[4]};
 `
 
-export default class LinkForm extends React.Component {
+export default class TextForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      source_url: props.block.source_url,
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.block) {
-      this.setState({ source_url: nextProps.block.source_url })
+      title: props.block.title,
+      description: props.block.description,
+      content: props.block.content,
     }
   }
 
@@ -65,16 +61,31 @@ export default class LinkForm extends React.Component {
   render() {
     return (
       <Container>
-        <Field
-          isFirst
-          label="Link"
+        <FieldSet
+          label="Text"
           onChange={this.onFieldChange}
           fields={[
             {
-              key: 'source_url',
-              placeholder: 'URL',
-              type: 'url',
-              value: this.state.source_url,
+              key: 'content',
+              placeholder: 'Text',
+              type: 'textarea',
+              value: this.state.content,
+            },
+          ]}
+        />
+        <Field
+          label="Title / Description"
+          onChange={this.onFieldChange}
+          fields={[
+            {
+              key: 'title',
+              placeholder: 'Title',
+              value: this.state.title,
+            },
+            {
+              key: 'description',
+              placeholder: 'Description',
+              value: this.state.description,
             },
           ]}
         />
@@ -83,21 +94,25 @@ export default class LinkForm extends React.Component {
   }
 }
 
-LinkForm.propTypes = {
+TextForm.propTypes = {
   onSubmit: PropTypes.func,
   submitText: PropTypes.string,
   navigation: PropTypes.any,
   navigationOptions: PropTypes.any.isRequired,
   block: PropTypes.shape({
-    source_url: PropTypes.string,
+    title: PropTypes.string,
+    description: PropTypes.string,
+    content: PropTypes.string,
   }),
 }
 
-LinkForm.defaultProps = {
+TextForm.defaultProps = {
   onSubmit: () => null,
   navigation: () => null,
   submitText: 'Done',
   block: {
-    source_url: '',
+    title: '',
+    description: '',
+    content: '',
   },
 }

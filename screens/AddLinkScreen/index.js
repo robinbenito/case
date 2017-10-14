@@ -8,7 +8,7 @@ import {
 import { isURL } from 'validator'
 
 import BackButton from '../../components/BackButton'
-import LinkForm from '../../components/LinkForm'
+import LinkForm from '../../components/Form/LinkForm'
 
 import NavigatorService from '../../utilities/navigationService'
 

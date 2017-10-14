@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import BackButton from '../../components/BackButton'
-import TextForm from '../../components/TextForm'
+import TextForm from '../../components/Form/TextForm'
 
 import NavigatorService from '../../utilities/navigationService'
 
