@@ -4,7 +4,7 @@ import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 
 import BackButton from '../../../components/BackButton'
-import ChannelForm from '../../../components/ChannelForm'
+import ChannelForm from '../../../components/Form/ChannelForm'
 import { ChannelQuery } from '../../ChannelScreen/components/ChannelContainer'
 
 import NavigatorService from '../../../utilities/navigationService'

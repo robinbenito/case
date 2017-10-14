@@ -4,11 +4,11 @@ import styled from 'styled-components/native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import SettingsList from 'react-native-settings-list'
 
-import FieldSet from './FieldSet'
-import HeaderRightButton from './HeaderRightButton'
+import FieldSet from '../FieldSet'
+import HeaderRightButton from '../HeaderRightButton'
 
-import NavigatorService from '../utilities/navigationService'
-import { Units, Colors, Border } from '../constants/Style'
+import NavigatorService from '../../utilities/navigationService'
+import { Units, Colors, Border } from '../../constants/Style'
 
 const Container = styled(KeyboardAwareScrollView)`
   flex: 1;

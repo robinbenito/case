@@ -6,7 +6,7 @@ import Store from '../../state/Store'
 import { TOGGLE_ADD_MENU } from '../../state/actions'
 
 import BackButton from '../../components/BackButton'
-import ChannelForm from '../../components/ChannelForm'
+import ChannelForm from '../../components/Form/ChannelForm'
 
 import NavigatorService from '../../utilities/navigationService'
 
