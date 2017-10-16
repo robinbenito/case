@@ -16,16 +16,6 @@ export default class AddImageScreen extends React.Component {
     return navigationOptions
   }
 
-  constructor(props) {
-    super(props)
-    const { image } = props.navigation.state.params
-    this.state = {
-      image,
-      title: image.split('/').pop(),
-      description: '',
-    }
-  }
-
   onSubmit = (variables) => {
     const { title, description, image } = variables
     NavigatorService.navigate('connect', { title, description, image })
@@ -33,13 +23,13 @@ export default class AddImageScreen extends React.Component {
 
   render() {
     const { navigation } = this.props
-    const { image, title, description } = this.state
+    const { block } = navigation.state.params
     return (
       <ImageForm
         onSubmit={this.onSubmit}
         navigation={navigation}
         navigationOptions={navigationOptions}
-        block={{ image, title, description }}
+        block={block}
       />
     )
   }

@@ -22,13 +22,15 @@ export default class LinkForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      source_url: props.block.source_url,
+      source_url: props.block.source.url,
+      title: props.block.title,
+      description: props.block.description,
     }
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.block) {
-      this.setState({ source_url: nextProps.block.source_url })
+      this.setState({ source_url: nextProps.block.source.url })
     }
   }
 
@@ -63,6 +65,8 @@ export default class LinkForm extends React.Component {
   }
 
   render() {
+    const { source_url, title, description } = this.state
+    const hasProcessed = (title || description)
     return (
       <Container>
         <Field
@@ -74,10 +78,28 @@ export default class LinkForm extends React.Component {
               key: 'source_url',
               placeholder: 'URL',
               type: 'url',
-              value: this.state.source_url,
+              value: source_url,
+              editable: !hasProcessed,
             },
           ]}
         />
+        {hasProcessed && <Field
+          label="Title / Description"
+          onChange={this.onFieldChange}
+          fields={[
+            {
+              key: 'title',
+              placeholder: 'Title',
+              value: this.state.title,
+            },
+            {
+              key: 'description',
+              placeholder: 'Description',
+              value: this.state.description,
+              type: 'textarea',
+            },
+          ]}
+        />}
       </Container>
     )
   }
@@ -89,7 +111,11 @@ LinkForm.propTypes = {
   navigation: PropTypes.any,
   navigationOptions: PropTypes.any.isRequired,
   block: PropTypes.shape({
-    source_url: PropTypes.string,
+    title: PropTypes.any,
+    description: PropTypes.any,
+    source: PropTypes.shape({
+      url: PropTypes.string,
+    }),
   }),
 }
 
@@ -98,6 +124,10 @@ LinkForm.defaultProps = {
   navigation: () => null,
   submitText: 'Done',
   block: {
-    source_url: '',
+    title: null,
+    description: null,
+    source: {
+      url: '',
+    },
   },
 }

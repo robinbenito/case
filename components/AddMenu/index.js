@@ -94,7 +94,8 @@ export default class AddMenu extends Component {
     if (result.cancelled) return
 
     this.setState({ image: result.uri })
-    NavigationService.navigate('newImage', { image: result.uri })
+    const block = { kind: { image_url: result.uri }, title: result.uri.split('/').pop() }
+    NavigationService.navigate('newImage', { block })
   }
 
   takePhoto = async () => {
@@ -104,7 +105,8 @@ export default class AddMenu extends Component {
 
     CameraRoll.saveToCameraRoll(result.uri)
     this.setState({ image: result.uri })
-    NavigationService.navigate('newImage', { image: result.uri })
+    const block = { kind: { image_url: result.uri }, title: result.uri.split('/').pop() }
+    NavigationService.navigate('newImage', { block })
   }
 
   toggleAddMenu = () => {

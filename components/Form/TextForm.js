@@ -23,7 +23,7 @@ export default class TextForm extends React.Component {
     this.state = {
       title: props.block.title,
       description: props.block.description,
-      content: props.block.content,
+      content: props.block.kind.content,
     }
   }
 
@@ -101,7 +101,9 @@ TextForm.propTypes = {
   block: PropTypes.shape({
     title: PropTypes.string,
     description: PropTypes.string,
-    content: PropTypes.string,
+    kind: PropTypes.shape({
+      content: PropTypes.string,
+    }),
   }),
 }
 
@@ -112,6 +114,8 @@ TextForm.defaultProps = {
   block: {
     title: '',
     description: '',
-    content: '',
+    kind: {
+      content: '',
+    },
   },
 }

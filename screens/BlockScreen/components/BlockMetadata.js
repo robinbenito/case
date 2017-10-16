@@ -67,7 +67,7 @@ const BlockMetadata = ({ block }) => {
       </Metadata>
 
       <Description
-        value={block.description || '<p>—</p>'}
+        value={block.displayDescription || '<p>—</p>'}
         stylesheet={{
           p: {
             fontSize: Typography.fontSize.small,
