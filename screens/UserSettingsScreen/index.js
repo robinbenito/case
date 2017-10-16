@@ -2,7 +2,7 @@ import React from 'react'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 import PropTypes from 'prop-types'
-import { Text } from 'react-native'
+import { Text, View } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import Client from '../../state/Apollo'
 import CurrentUser from '../../utilities/currentUserService'
@@ -16,13 +16,23 @@ import openExternalArenaPath from '../../utilities/openExternalArenaPath'
 
 class UserSettingsScreen extends React.Component {
   render() {
-    const { me } = this.props
+    const { data: { loading, error, me } } = this.props
+
+    // TODO
+    if (loading) {
+      return <View />
+    }
+
+    // TODO
+    if (error) {
+      return <View />
+    }
 
     return (
       <Container>
         <KeyboardAwareScrollView>
           <Section>
-            <UserAvatar user={me} />
+            <UserAvatar user={me} style={{ alignSelf: 'center' }} />
           </Section>
 
           <Section space={3}>
@@ -41,18 +51,6 @@ class UserSettingsScreen extends React.Component {
               <StackedButton onPress={() => openExternalArenaPath('privacy')}>
                 Privacy Policy
               </StackedButton>
-
-              <StackedButton
-                onPress={() => {
-                  CurrentUser.clear()
-                  Client.resetStore()
-                  NavigatorService.navigate('loggedOut')
-                }}
-              >
-                <Text style={{ color: Colors.state.alert }}>
-                  Log Out
-                </Text>
-              </StackedButton>
             </Fieldset>
           </Section>
 
@@ -64,6 +62,7 @@ class UserSettingsScreen extends React.Component {
                   Client.resetStore()
                   NavigatorService.navigate('loggedOut')
                 }}
+                style={{ marginTop: -Units.hairlineWidth }}
               >
                 <Text style={{ color: Colors.state.alert }}>
                   Log Out
@@ -77,14 +76,18 @@ class UserSettingsScreen extends React.Component {
   }
 }
 
+UserSettingsScreen.propTypes = {
+  data: PropTypes.any.isRequired,
+}
+
 const UserSettingsQuery = gql`
   query UserSettingsQuery {
     me {
       id
       ... Avatar
     }
-    ${UserAvatar.fragments.avatar}
   }
+  ${UserAvatar.fragments.avatar}
 `
 
 const UserSettingsScreenWithData = graphql(UserSettingsQuery)(UserSettingsScreen)
