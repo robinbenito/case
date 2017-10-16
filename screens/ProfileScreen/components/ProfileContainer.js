@@ -2,37 +2,26 @@ import React from 'react'
 import gql from 'graphql-tag'
 import { graphql, compose, withApollo } from 'react-apollo'
 import PropTypes from 'prop-types'
-import {
-  ActivityIndicator,
-  FlatList,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native'
-
+import { ActivityIndicator, FlatList, StyleSheet } from 'react-native'
+import formatErrors from '../../../utilities/formatErrors'
 import ProfileHeader from './ProfileHeader'
 import ChannelItem from '../../../components/ChannelItem'
 import BlockItem from '../../../components/BlockItem'
-import Empty from '../../../components/Empty'
+import UserAvatar from '../../../components/UserAvatar'
 import CurrentUser from '../../../utilities/currentUserService'
 import layout from '../../../constants/Layout'
+import { CenteringPane } from '../../../components/UI/Layout'
+import { ErrorMessage, StatusMessage } from '../../../components/UI/Alerts'
 import scrollHeaderVisibilitySensor from '../../../utilities/scrollHeaderVisibilitySensor'
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#fff',
+    backgroundColor: 'white',
     minHeight: 700,
     paddingBottom: layout.topbar * 2,
   },
   channelItem: {
     marginHorizontal: layout.padding,
-  },
-  loadingContainer: {
-    backgroundColor: '#fff',
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: layout.padding,
   },
   footer: {
     paddingVertical: layout.padding * 2,
@@ -42,21 +31,18 @@ const styles = StyleSheet.create({
 class ProfileContainer extends React.Component {
   constructor(props) {
     super(props)
+
     this.state = {
       page: props.page,
       type: props.type,
     }
-    this.onEndReached = this.onEndReached.bind(this)
-    this.onRefresh = this.onRefresh.bind(this)
-    this.onToggleChange = this.onToggleChange.bind(this)
-    this.renderLoader = this.renderLoader.bind(this)
   }
 
   componentDidMount() {
     scrollHeaderVisibilitySensor.dispatch(false)
   }
 
-  onEndReached() {
+  onEndReached = () => {
     const { userBlocksData } = this.props
     if (!userBlocksData.user || !userBlocksData.user.contents) return false
 
@@ -73,19 +59,20 @@ class ProfileContainer extends React.Component {
     return this.props.loadMore(page)
   }
 
-  onRefresh() {
+  onRefresh = () => {
     this.setState({ page: 1 })
     this.props.data.refetch()
   }
 
-  onToggleChange(type) {
+  onToggleChange = (type) => {
     this.setState({ page: 1, type }, () => {
       this.props.userBlocksData.refetch({ page: 1, type })
     })
   }
 
-  renderLoader() {
+  renderLoader = () => {
     if (!this.props.userBlocksData.loading) return null
+
     return (
       <ActivityIndicator animating size="small" style={styles.footer} />
     )
@@ -97,19 +84,23 @@ class ProfileContainer extends React.Component {
 
     if (error) {
       return (
-        <View style={styles.loadingContainer} >
-          <Text>
-            Profile not found
-          </Text>
-        </View>
+        <CenteringPane>
+          <StatusMessage>
+            Error fetching profile
+          </StatusMessage>
+
+          <ErrorMessage>
+            {formatErrors(error)}
+          </ErrorMessage>
+        </CenteringPane>
       )
     }
 
     if (loading) {
       return (
-        <View style={styles.loadingContainer} >
+        <CenteringPane>
           <ActivityIndicator />
-        </View>
+        </CenteringPane>
       )
     }
 
@@ -136,18 +127,16 @@ class ProfileContainer extends React.Component {
       />
     )
 
-    const empty = (
-      <Empty text={`No public ${type.toLowerCase()}s`} />
-    )
-
     const contentsLoading = userBlocksData.networkStatus === 2 || userBlocksData.networkStatus === 1
 
     if (contents.length === 0 && !contentsLoading) {
       return (
-        <View style={{ flex: 1 }}>
+        <CenteringPane>
           {header}
-          {empty}
-        </View>
+          <StatusMessage>
+            `No public ${type.toLowerCase()}s`
+          </StatusMessage>
+        </CenteringPane>
       )
     }
 
@@ -186,8 +175,6 @@ const ProfileQuery = gql`
       id
       slug
       name
-      initials
-      avatar(size: LARGE)
       bio
       can {
         follow
@@ -196,8 +183,10 @@ const ProfileQuery = gql`
         blocks
         channels
       }
+      ... Avatar
     }
   }
+  ${UserAvatar.fragments.avatar}
 `
 
 const ProfileContentsQuery = gql`

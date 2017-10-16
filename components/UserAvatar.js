@@ -65,7 +65,7 @@ export default class UserAvatar extends React.Component {
 
         {includeName &&
           <Name>
-            {user.name || `${user.first_name} ${user.last_name}`}
+            {user.name}
           </Name>
         }
       </HitArea>
@@ -75,14 +75,11 @@ export default class UserAvatar extends React.Component {
 
 UserAvatar.fragments = {
   avatar: gql`
-    fragment Avatar on User {
-      id
+    fragment Avatar on UserInterface {
       name
-      first_name
-      last_name
       slug
       initials
-      avatar(size: SMALL)
+      avatar(size: LARGE)
     }
   `,
 }
