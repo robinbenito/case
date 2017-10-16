@@ -11,9 +11,11 @@ import FeedScreen from '../screens/FeedScreen'
 import ProfileScreen from '../screens/ProfileScreen'
 import UserSettingsScreen from '../screens/UserSettingsScreen'
 import EditChannelScreen from '../screens/EditChannelScreen'
+import EditBlockScreen from '../screens/EditBlockScreen'
 
 import Header from '../components/Header'
 import HeaderIcon from '../screens/FeedScreen/components/HeaderIcons'
+import BlockEditButton from '../components/BlockEditButton'
 import BackButton from '../components/BackButton'
 
 import headerStyle from '../constants/Header'
@@ -47,6 +49,7 @@ export default enhance(StackNavigator)({
           { title: 'Your profile', key: 'profile' },
           { title: 'Feed', key: 'feed' },
         ]}
+        headerRight={<BlockEditButton id={navigation.state.params.id} />}
       />,
     }),
   },
@@ -124,6 +127,13 @@ export default enhance(StackNavigator)({
     screen: EditChannelScreen,
     navigationOptions: {
       title: 'Edit Channel',
+      headerStyle,
+    },
+  },
+  editBlock: {
+    screen: EditBlockScreen,
+    navigationOptions: {
+      title: 'Edit Block',
       headerStyle,
     },
   },
