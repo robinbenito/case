@@ -165,7 +165,7 @@ class BlockContents extends React.Component {
         blockInner = (
           <TextContainer>
             <HTMLView
-              value={block.kind.content}
+              value={block.kind.displayContent}
               stylesheet={HTMLStyles}
             />
             <ExpandText block={block} />
@@ -217,7 +217,8 @@ export const BlockQuery = gql`
       title
       updated_at(relative: true)
       created_at(relative: true)
-      description(format: HTML)
+      displayDescription: description(format: HTML)
+      description(format: MARKDOWN)
       user {
         __typename
         id
@@ -244,7 +245,8 @@ export const BlockQuery = gql`
           image_url(size: ORIGINAL)
         }
         ... on Text {
-          content(format: HTML)
+          displayContent: content(format: HTML)
+          content(format: MARKDOWN)
         }
         ... on Image {
           image_url(size: ORIGINAL)
