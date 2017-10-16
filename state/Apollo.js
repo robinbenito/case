@@ -6,29 +6,11 @@
 import ApolloClient, { createNetworkInterface } from 'apollo-client'
 import { IntrospectionFragmentMatcher } from 'react-apollo'
 import Config from '../config'
-
 import CurrentUser from '../utilities/currentUserService'
+import fragmentSchema from './fragmentSchema'
 
 const fragmentMatcher = new IntrospectionFragmentMatcher({
-  introspectionQueryResultData: {
-    __schema: {
-      types: [
-        {
-          kind: 'UNION',
-          name: 'Kind',
-          possibleTypes: [
-            { name: 'Text' },
-            { name: 'Image' },
-            { name: 'Link' },
-            { name: 'Channel' },
-            { name: 'Attachment' },
-            { name: 'Embed' },
-            { name: 'Block' },
-          ],
-        },
-      ],
-    },
-  },
+  introspectionQueryResultData: fragmentSchema.data,
 })
 
 const networkInterface = createNetworkInterface({
