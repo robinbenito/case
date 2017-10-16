@@ -4,17 +4,17 @@ import { graphql } from 'react-apollo'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
 import { ActivityIndicator, FlatList } from 'react-native'
-
+import { Units } from '../../../constants/Style'
+import formatErrors from '../../../utilities/formatErrors'
 import FeedContents from './FeedContents'
-import { CenterColumn } from '../../../components/UI/Layout'
+import { CenterColumn, CenteringPane } from '../../../components/UI/Layout'
 import FeedWordLink from '../../../components/FeedWordLink'
 import FeedGroupSentence from '../../../components/FeedGroupSentence'
 import BlockItem from '../../../components/BlockItem'
 import ChannelItem from '../../../components/ChannelItem'
 import Empty from '../../../components/Empty'
 import UserAvatar from '../../../components/UserAvatar'
-
-import { Units } from '../../../constants/Style'
+import { GenericMessage, ErrorMessage, StatusMessage } from '../../../components/UI/Alerts'
 
 const ItemContainer = styled.View`
   margin-bottom: ${Units.scale[4]};
@@ -28,30 +28,29 @@ class FeedContainer extends React.Component {
 
   constructor(props) {
     super(props)
+
     this.state = {
       offset: 0,
     }
-    this.onEndReached = this.onEndReached.bind(this)
-    this.renderLoader = this.renderLoader.bind(this)
-    this.onRefresh = this.onRefresh.bind(this)
   }
 
-  onEndReached() {
+  onEndReached = () => {
     if (this.props.data.loading) return false
+
     const offset = this.state.offset + this.props.limit
     this.setState({ offset })
+
     return this.props.loadMore(offset)
   }
 
-  onRefresh() {
-    this.setState({
-      offset: 0,
-    })
+  onRefresh = () => {
+    this.setState({ offset: 0 })
     this.props.data.refetch({ notifyOnNetworkStatusChange: true })
   }
 
-  renderLoader() {
+  renderLoader = () => {
     if (!this.props.data.loading) return <Footer />
+
     return (
       <Footer>
         <ActivityIndicator animating size="small" />
@@ -60,13 +59,23 @@ class FeedContainer extends React.Component {
   }
 
   render() {
-    if (this.props.data.error) {
+    const { data: { error, loading, me } } = this.props
+
+    if (error) {
       return (
-        <Empty text="Error fetching feed" />
+        <CenteringPane>
+          <StatusMessage>
+            Error fetching feed
+          </StatusMessage>
+
+          <ErrorMessage>
+            {formatErrors(error)}
+          </ErrorMessage>
+        </CenteringPane>
       )
     }
 
-    if (this.props.data.loading && !this.props.data.me) {
+    if (loading && !me) {
       return (
         <Empty>
           <ActivityIndicator />
@@ -74,19 +83,24 @@ class FeedContainer extends React.Component {
       )
     }
 
-    const { data } = this.props
-    const emptyComponent = (<Empty text="This is your feed" />)
+    const emptyComponent = (
+      <CenteringPane>
+        <GenericMessage>
+          You aren’t following anything yet.
+        </GenericMessage>
+      </CenteringPane>
+    )
 
-    if (data.me.feed.groups.length === 0) {
+    if (me.feed.groups.length === 0) {
       return emptyComponent
     }
 
     return (
       <FlatList
-        style={{ flexGrow: 1, backgroundColor: '#fff' }}
-        contentContainerStyle={{ flexGrow: 1, backgroundColor: '#fff' }}
-        data={data.me.feed.groups}
-        refreshing={data.loading}
+        style={{ flexGrow: 1, backgroundColor: 'white' }}
+        contentContainerStyle={{ flexGrow: 1, backgroundColor: 'white' }}
+        data={me.feed.groups}
+        refreshing={loading}
         initialNumToRender={4}
         keyExtractor={(group, index) => `${group.key}-${index}`}
         onRefresh={this.onRefresh}

@@ -1,7 +1,9 @@
 import React from 'react'
+import gql from 'graphql-tag'
+import { graphql } from 'react-apollo'
+import PropTypes from 'prop-types'
 import { Text } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-
 import Client from '../../state/Apollo'
 import CurrentUser from '../../utilities/currentUserService'
 import NavigatorService from '../../utilities/navigationService'
@@ -9,14 +11,21 @@ import { Colors, Units } from '../../constants/Style'
 import { Fieldset } from '../../components/UI/Inputs'
 import { StackedButton } from '../../components/UI/Buttons'
 import { Container, Section } from '../../components/UI/Layout'
+import UserAvatar from '../../components/UserAvatar'
 import openExternalArenaPath from '../../utilities/openExternalArenaPath'
 
-export default class UserSettingsScreen extends React.Component {
+class UserSettingsScreen extends React.Component {
   render() {
+    const { me } = this.props
+
     return (
       <Container>
-        <KeyboardAwareScrollView backgroundColor={Colors.semantic.background}>
+        <KeyboardAwareScrollView>
           <Section>
+            <UserAvatar user={me} />
+          </Section>
+
+          <Section space={3}>
             <Fieldset>
               <StackedButton
                 style={{ marginTop: -Units.hairlineWidth }}
@@ -24,12 +33,15 @@ export default class UserSettingsScreen extends React.Component {
               >
                 About Are.na
               </StackedButton>
+
               <StackedButton onPress={() => openExternalArenaPath('terms')}>
                 Terms of Service
               </StackedButton>
+
               <StackedButton onPress={() => openExternalArenaPath('privacy')}>
                 Privacy Policy
               </StackedButton>
+
               <StackedButton
                 onPress={() => {
                   CurrentUser.clear()
@@ -37,7 +49,25 @@ export default class UserSettingsScreen extends React.Component {
                   NavigatorService.navigate('loggedOut')
                 }}
               >
-                <Text style={{ color: Colors.state.alert }}>Log Out</Text>
+                <Text style={{ color: Colors.state.alert }}>
+                  Log Out
+                </Text>
+              </StackedButton>
+            </Fieldset>
+          </Section>
+
+          <Section space={3}>
+            <Fieldset>
+              <StackedButton
+                onPress={() => {
+                  CurrentUser.clear()
+                  Client.resetStore()
+                  NavigatorService.navigate('loggedOut')
+                }}
+              >
+                <Text style={{ color: Colors.state.alert }}>
+                  Log Out
+                </Text>
               </StackedButton>
             </Fieldset>
           </Section>
@@ -46,3 +76,17 @@ export default class UserSettingsScreen extends React.Component {
     )
   }
 }
+
+const UserSettingsQuery = gql`
+  query UserSettingsQuery {
+    me {
+      id
+      ... Avatar
+    }
+    ${UserAvatar.fragments.avatar}
+  }
+`
+
+const UserSettingsScreenWithData = graphql(UserSettingsQuery)(UserSettingsScreen)
+
+export default UserSettingsScreenWithData
