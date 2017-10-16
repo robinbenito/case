@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
 import { pickBy } from 'lodash'
+import { Share } from 'react-native'
 
 import UserNameText from '../../../components/UserNameText'
 import TabToggle from '../../../components/TabToggle'
@@ -52,6 +53,14 @@ const Description = styled(HTML)`
 
 const Actions = styled.View`
   margin-top: ${Units.scale[1]};
+`
+
+const Action = styled.Text`
+  margin-vertical: ${Units.scale[1] / 2};
+  font-size: ${Typography.fontSize.small};
+  line-height: ${Typography.lineHeightFor('base')};
+  font-weight: ${Typography.fontWeight.bold};
+  color: ${({ visibility }) => Colors.channel[visibility]};
 `
 
 const editChannel = (channel) => {
@@ -106,6 +115,13 @@ const ChannelHeader = ({ channel, type, onToggle }) => {
         <Metadata visibility={channel.visibility}>
           by <UserNameText user={channel.user} />
         </Metadata>
+
+        {channel.visibility !== 'private' &&
+          <Action visibility={channel.visibility} onPress={() => Share.share({ url: `https://www.are.na/${channel.user.slug}/${channel.id}` })}>
+            Share
+          </Action>
+        }
+
       </Header>
 
       <TabToggle
