@@ -33,7 +33,7 @@ export default class ImageForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      image: props.block.image,
+      image: props.block.kind.image_url,
       title: props.block.title,
       description: props.block.description,
     }
@@ -78,6 +78,7 @@ export default class ImageForm extends React.Component {
             {
               key: 'description',
               placeholder: 'Description',
+              type: 'textarea',
               value: description,
             },
           ]}
@@ -93,7 +94,9 @@ ImageForm.propTypes = {
   navigation: PropTypes.any,
   navigationOptions: PropTypes.any.isRequired,
   block: PropTypes.shape({
-    image: PropTypes.string,
+    kind: PropTypes.shape({
+      image_url: PropTypes.string,
+    }),
     title: PropTypes.string,
     description: PropTypes.string,
   }),
@@ -104,7 +107,9 @@ ImageForm.defaultProps = {
   navigation: () => null,
   submitText: 'Done',
   block: {
-    image: '',
+    kind: {
+      image_url: '',
+    },
     title: '',
     description: '',
   },
