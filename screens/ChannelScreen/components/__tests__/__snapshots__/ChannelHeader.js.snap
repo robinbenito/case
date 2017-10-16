@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<Styled(View)>
+  <Styled(View)>
+    <Styled(View)>
+      <Styled(Text)
+        visibility="private"
+      >
+        My Teddy Bears
+      </Styled(Text)>
+      <Styled(View)>
+        <Apollo(Apollo(Apollo(FollowButton)))
+          id={666}
+          type="CHANNEL"
+        />
+      </Styled(View)>
+    </Styled(View)>
+    <Styled(HTML)
+      stylesheet={
+        Object {
+          "p": Object {
+            "color": "rgb(165, 0, 0)",
+          },
+        }
+      }
+      value="<p>—</p>"
+    />
+    <Styled(Text)
+      visibility="private"
+    >
+      by 
+      <UserNameText
+        onPress={[Function]}
+        user={
+          Object {
+            "name": "Damon Zucconi",
+            "slug": "damon-zucconi",
+          }
+        }
+      />
+    </Styled(Text)>
+  </Styled(View)>
+  <TabToggle
+    color="rgb(165, 0, 0)"
+    onToggleChange={[Function]}
+    options={
+      Object {
+        "24 Channels": "CHANNEL",
+        "420 Connections": "CONNECTION",
+        "7 Blocks": "BLOCK",
+      }
+    }
+    selectedSegment="BLOCK"
+  />
+</Styled(View)>
+`;
