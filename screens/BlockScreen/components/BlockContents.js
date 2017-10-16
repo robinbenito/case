@@ -6,6 +6,9 @@ import { ActivityIndicator, Image, Text, TouchableOpacity, View } from 'react-na
 import HTMLView from 'react-native-htmlview'
 import { WebBrowser } from 'expo'
 import styled from 'styled-components/native'
+
+import Client from '../../../state/Apollo'
+import BlockItem from '../../../components/BlockItem'
 import navigationService from '../../../utilities/navigationService'
 import BlockMetadata from './BlockMetadata'
 import BlockTabs from './BlockTabs'
@@ -94,9 +97,15 @@ class BlockContents extends React.Component {
   constructor(props) {
     super(props)
 
+    const block = Client.readFragment({
+      id: `Connectable:${props.id}`,
+      fragment: BlockItem.fragments.block,
+    })
+
     this.state = {
       result: '',
       refetched: null,
+      block,
     }
   }
 
@@ -120,8 +129,10 @@ class BlockContents extends React.Component {
   }
 
   render() {
-    const { block, error, loading } = this.props.data
+    const { error, loading } = this.props.data
     const { imageLocation } = this.props
+
+    const block = this.props.data.block || this.state.block
 
     if (error) {
       return (
@@ -133,7 +144,7 @@ class BlockContents extends React.Component {
       )
     }
 
-    if (loading) {
+    if (loading && !block) {
       return (
         <CenteringPane>
           <ActivityIndicator />
@@ -180,7 +191,7 @@ class BlockContents extends React.Component {
         break
     }
 
-    const refreshing = this.props.data.networkStatus === 2 || this.props.data.networkStatus === 1
+    const refreshing = this.props.data.networkStatus === 2
     const { refetched } = this.state
 
     return (
@@ -199,11 +210,13 @@ class BlockContents extends React.Component {
           </ScrollToMetadata>
         </RelativeFill>
 
-        <BlockFold ref={ref => this.BlockFold = ref}>
-          <BlockMetadata block={block} />
+        {block.counts &&
+          <BlockFold ref={ref => this.BlockFold = ref}>
+            <BlockMetadata block={block} />
 
-          <BlockTabs block={block} key={refetched} />
-        </BlockFold>
+            <BlockTabs block={block} key={refetched} />
+          </BlockFold>
+        }
       </ScrollWithRefresh>
     )
   }
@@ -260,6 +273,7 @@ export const BlockQuery = gql`
 `
 
 BlockContents.propTypes = {
+  id: PropTypes.any.isRequired,
   data: PropTypes.any.isRequired,
   imageLocation: PropTypes.any,
 }
