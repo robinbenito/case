@@ -46,7 +46,7 @@ export default class FieldSet extends React.Component {
     const { label, fields, isFirst, onChange, style } = this.props
 
     const fieldComponents = fields.map((field, index) => {
-      const { type, placeholder, key, value } = field
+      const { type, placeholder, key, value, editable } = field
       const multiline = type === 'textarea'
       const inputStyle = type === 'textarea' ? styles.textArea : styles.input
       const wrapperStyle = index === fields.length - 1 ? {} : styles.separator
@@ -58,6 +58,7 @@ export default class FieldSet extends React.Component {
         <View style={wrapperStyle} key={key}>
           <TextInput
             autoFocus={focus}
+            editable={editable}
             multiline={multiline}
             onChangeText={text => onChange(key, text)}
             placeholder={placeholder}
