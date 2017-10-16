@@ -140,6 +140,9 @@ BlockItem.fragments = {
         name
       }
       klass
+      source {
+        url
+      }
       kind {
         __typename
         ... on Block {
