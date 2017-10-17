@@ -97,10 +97,10 @@ class BlockContents extends React.Component {
   constructor(props) {
     super(props)
 
-    const block = Client.readFragment({
+    const block = props.imageLocation ? Client.readFragment({
       id: `Connectable:${props.id}`,
       fragment: BlockItem.fragments.block,
-    })
+    }) : false
 
     this.state = {
       result: '',
