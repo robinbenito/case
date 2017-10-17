@@ -18,7 +18,7 @@ import HeaderIcon from '../screens/FeedScreen/components/HeaderIcons'
 import BlockEditButton from '../components/BlockEditButton'
 import BackButton from '../components/BackButton'
 
-import headerStyle from '../constants/Header'
+import headerNavigationOptions from '../constants/Header'
 
 const HeaderWithState = connect(({ ui: { isHeaderTitleVisible } }) => ({
   isHeaderTitleVisible,
@@ -127,14 +127,14 @@ export default enhance(StackNavigator)({
     screen: EditChannelScreen,
     navigationOptions: {
       title: 'Edit Channel',
-      headerStyle,
+      ...headerNavigationOptions,
     },
   },
   editBlock: {
     screen: EditBlockScreen,
     navigationOptions: {
       title: 'Edit Block',
-      headerStyle,
+      ...headerNavigationOptions,
     },
   },
 }, {
