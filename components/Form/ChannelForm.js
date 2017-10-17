@@ -2,53 +2,47 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import SettingsList from 'react-native-settings-list'
-
-import FieldSet from '../FieldSet'
 import HeaderRightButton from '../HeaderRightButton'
-
 import NavigatorService from '../../utilities/navigationService'
-import { Units, Colors, Border } from '../../constants/Style'
-
-const Container = styled(KeyboardAwareScrollView)`
-  flex: 1;
-  background-color: white;
-`
-
-const Field = styled(FieldSet)`
-  margin-top: ${Units.scale[4]};
-`
+import { Section } from '../../components/UI/Layout'
+import { StackedJumpButton } from '../../components/UI/Buttons'
+import { FieldsetLabel, Fieldset, StackedInput, StackedTextArea } from '../../components/UI/Inputs'
+import { capitalize } from '../../utilities/inflections'
 
 class ChannelForm extends React.Component {
   constructor(props) {
     super(props)
+
+    const { title, description, visibility } = props.channel
+
     this.state = {
-      title: props.channel.title,
-      description: props.channel.description,
-      visibility: props.channel.visibility,
+      title,
+      description,
+      visibility,
     }
   }
 
   componentDidUpdate() {
     // Hide or show the done button depending on if content is present
     if (this.state.title) {
-      this.setNavOptions({
+      return this.setNavOptions({
         headerRight: (
-          <HeaderRightButton onPress={this.onSubmit} text={this.props.submitText} />
+          <HeaderRightButton
+            onPress={this.onSubmit}
+            text={this.props.submitText}
+          />
         ),
       })
-    } else {
-      this.setNavOptions({
-        headerRight: null,
-      })
     }
+
+    this.setNavOptions({ headerRight: null })
   }
 
   onSubmit = () => {
     this.props.onSubmit(this.state)
   }
 
-  onFieldChange = (key, value) => {
+  onChangeText = key => (value) => {
     this.setState({
       [key]: value,
     })
@@ -59,8 +53,10 @@ class ChannelForm extends React.Component {
   }
 
   setNavOptions(options) {
-    const newOptions = Object.assign({}, this.props.navigationOptions, options)
-    this.props.navigation.setOptions(newOptions)
+    this.props.navigation.setOptions({
+      ...this.props.navigationOptions,
+      ...options,
+    })
   }
 
   goToChannelVisibilityScreen = () => {
@@ -74,38 +70,38 @@ class ChannelForm extends React.Component {
 
   render() {
     const { visibility } = this.state
-    const { channel } = this.props
+    const { channel: { title, description } } = this.props
+
     return (
       <KeyboardAwareScrollView>
-        <Container>
-          <Field
-            isFirst
-            label="Title / Description"
-            onChange={this.onFieldChange}
-            fields={[
-              {
-                key: 'title',
-                placeholder: 'Title',
-                value: channel.title,
-              },
-              {
-                key: 'description',
-                placeholder: 'Description',
-                value: channel.description,
-                type: 'textarea',
-              },
-            ]}
-          />
-          <SettingsList borderColor={Border.borderColor}>
-            <SettingsList.Header headerText="" />
-            <SettingsList.Item
-              title="Privacy"
-              titleInfo={visibility.charAt(0).toUpperCase() + visibility.substr(1).toLowerCase()}
-              titleInfoStyle={{ color: Colors.channel[visibility.toLowerCase()] }}
-              onPress={this.goToChannelVisibilityScreen}
+        <Section space={4}>
+          <FieldsetLabel>
+            Title / Description
+          </FieldsetLabel>
+
+          <Fieldset>
+            <StackedInput
+              placeholder="Title"
+              onChangeText={this.onChangeText('title')}
+              autofocus
             />
-          </SettingsList>
-        </Container>
+
+            <StackedTextArea
+              name="description"
+              placeholder="Description (optional)"
+              value={description}
+              onChangeText={this.onChangeText('description')}
+            />
+          </Fieldset>
+        </Section>
+
+        <Section>
+          <Fieldset>
+            <StackedJumpButton label="Privacy" onPress={this.goToChannelVisibilityScreen}>
+              {capitalize(visibility.toLowerCase())}
+            </StackedJumpButton>
+          </Fieldset>
+        </Section>
       </KeyboardAwareScrollView>
     )
   }
@@ -128,11 +124,10 @@ ChannelForm.defaultProps = {
   navigation: {},
   submitText: 'Done',
   channel: {
-    title: '',
-    description: '',
+    title: null,
+    description: null,
     visibility: 'CLOSED',
   },
 }
-
 
 export default ChannelForm
