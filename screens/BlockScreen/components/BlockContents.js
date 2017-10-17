@@ -7,8 +7,6 @@ import HTMLView from 'react-native-htmlview'
 import { WebBrowser } from 'expo'
 import styled from 'styled-components/native'
 
-import Client from '../../../state/Apollo'
-import BlockItem from '../../../components/BlockItem'
 import navigationService from '../../../utilities/navigationService'
 import BlockMetadata from './BlockMetadata'
 import BlockTabs from './BlockTabs'
@@ -97,15 +95,9 @@ class BlockContents extends React.Component {
   constructor(props) {
     super(props)
 
-    const block = Client.readFragment({
-      id: `Connectable:${props.id}`,
-      fragment: BlockItem.fragments.block,
-    })
-
     this.state = {
       result: '',
       refetched: null,
-      block,
     }
   }
 
@@ -132,7 +124,7 @@ class BlockContents extends React.Component {
     const { error, loading } = this.props.data
     const { imageLocation } = this.props
 
-    const block = this.props.data.block || this.state.block
+    const block = this.props.data.block
 
     if (error) {
       return (
@@ -273,7 +265,6 @@ export const BlockQuery = gql`
 `
 
 BlockContents.propTypes = {
-  id: PropTypes.any.isRequired,
   data: PropTypes.any.isRequired,
   imageLocation: PropTypes.any,
 }

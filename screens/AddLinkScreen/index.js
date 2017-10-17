@@ -69,7 +69,7 @@ export default class AddLinkScreen extends React.Component {
         onSubmit={this.onSubmit}
         navigation={navigation}
         navigationOptions={navigationOptions}
-        block={{ source_url: this.state.source_url }}
+        block={{ source: { url: this.state.source_url } }}
       />
     )
   }
