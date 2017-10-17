@@ -5,16 +5,15 @@ import { Units, Typography, Colors, Border } from '../../constants/Style'
 
 export const Fieldset = styled.View`
   background-color: white;
-  border-top-width: ${Units.hairlineWidth};
   border-bottom-width: ${Units.hairlineWidth};
-  border-color: ${Colors.gray.medium};
+  border-bottom-color: ${Border.borderColor};
 `
 
 export const Label = styled.Text`
   font-size: ${Typography.fontSize.small};
   color: ${Colors.gray.semiBold};
-  margin-bottom: ${Units.scale[1] / 2};
-  margin-horizontal: ${Units.scale[1]};
+  margin-bottom: ${Units.scale[1]};
+  margin-horizontal: ${Units.scale[2]};
 `
 
 export const FieldsetLabel = ({ children }) => (
@@ -38,9 +37,21 @@ export const StackedInputBorder = styled.View`
   border-color: ${Border.borderColor};
 `
 
+const INPUT_HEIGHT = Typography.fontSize.base * 3
+
+export const StackedTextInput = Input.extend`
+  height: ${INPUT_HEIGHT};
+  padding-horizontal: ${Units.scale[2]};
+  background-color: green;
+`
+
+export const StackedTextArea = StackedTextInput.extend`
+  height: ${x => INPUT_HEIGHT * (x.rows || 1)};
+`
+
 export const StackedInput = props => (
   <StackedInputBorder>
-    <Input {...props} />
+    <StackedTextInput {...props} />
   </StackedInputBorder>
 )
 
