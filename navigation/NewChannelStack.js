@@ -1,8 +1,6 @@
 import { StackNavigator } from 'react-navigation'
 import { enhance } from 'react-navigation-addons'
-
-import headerStyle from '../constants/Header'
-
+import headerNavigationOptions from '../constants/Header'
 import NewChannelScreen from '../screens/NewChannelScreen'
 import ChannelVisibility from '../components/ChannelVisibility'
 
@@ -11,19 +9,19 @@ const NewChannelStack = enhance(StackNavigator)({
     screen: NewChannelScreen,
     navigationOptions: {
       title: 'New Channel',
-      headerStyle,
+      ...headerNavigationOptions,
     },
   },
   channelVisibility: {
     screen: ChannelVisibility,
-    navigationOptions: () => ({
+    navigationOptions: {
       title: 'Channel Privacy',
-      headerStyle,
-    }),
+      ...headerNavigationOptions,
+    },
   },
 }, {
   cardStyle: {
-    backgroundColor: '#fff',
+    backgroundColor: 'white',
   },
 })
 
