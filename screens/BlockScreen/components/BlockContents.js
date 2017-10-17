@@ -97,15 +97,9 @@ class BlockContents extends React.Component {
   constructor(props) {
     super(props)
 
-    const block = props.imageLocation ? Client.readFragment({
-      id: `Connectable:${props.id}`,
-      fragment: BlockItem.fragments.block,
-    }) : false
-
     this.state = {
       result: '',
       refetched: null,
-      block,
     }
   }
 
@@ -132,7 +126,7 @@ class BlockContents extends React.Component {
     const { error, loading } = this.props.data
     const { imageLocation } = this.props
 
-    const block = this.props.data.block || this.state.block
+    const block = this.props.data.block
 
     if (error) {
       return (
