@@ -26,34 +26,28 @@ FieldsetLabel.propTypes = {
 
 export const Input = styled.TextInput`
   font-size: ${Typography.fontSize.base};
-  height: ${Typography.fontSize.base + (Units.scale[1])};
+  height: ${Typography.fontSize.base + Units.scale[1]};
   padding-horizontal: ${Units.scale[1]};
   color: ${Colors.semantic.text};
   background-color: white;
 `
 
-export const StackedInputBorder = styled.View`
-  border-top-width: ${Units.hairlineWidth};
-  border-color: ${Border.borderColor};
-`
-
 const INPUT_HEIGHT = Typography.fontSize.base * 3
 
-export const StackedTextInput = Input.extend`
+export const StackedInput = Input.extend`
   height: ${INPUT_HEIGHT};
   padding-horizontal: ${Units.scale[2]};
-  background-color: green;
+  border-top-width: ${Units.hairlineWidth};
+  border-color: ${Border.borderColor};
+  font-size: ${Typography.fontSize.smedium};
 `
 
-export const StackedTextArea = StackedTextInput.extend`
-  height: ${x => INPUT_HEIGHT * (x.rows || 1)};
+export const StackedTextArea = StackedInput.extend.attrs({
+  multiline: true,
+})`
+  padding-top: ${Units.scale[2]};
+  height: ${x => INPUT_HEIGHT * (x.rows || 2)};
 `
-
-export const StackedInput = props => (
-  <StackedInputBorder>
-    <StackedTextInput {...props} />
-  </StackedInputBorder>
-)
 
 export const Underline = styled.View`
   width: 75%;
@@ -75,3 +69,12 @@ export const UnderlineInput = props => (
     <ShortTextInput {...props} />
   </Underline>
 )
+
+export const InputDescription = styled.Text`
+  margin-vertical: ${Units.scale[2]};
+  margin-left: ${Units.scale[2]};
+  margin-right: ${Units.scale[3]};
+  color: ${Colors.gray.semiBold};
+  font-size: ${Typography.fontSize.small};
+  line-height: ${Typography.lineHeightFor('small', 'compact')};
+`
