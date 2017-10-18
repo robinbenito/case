@@ -12,6 +12,8 @@ import ProfileScreen from '../screens/ProfileScreen'
 import UserSettingsScreen from '../screens/UserSettingsScreen'
 import EditChannelScreen from '../screens/EditChannelScreen'
 import EditBlockScreen from '../screens/EditBlockScreen'
+import NewChannelScreen from '../screens/NewChannelScreen'
+import ChannelVisibility from '../components/ChannelVisibility'
 
 import Header from '../components/Header'
 import HeaderIcon from '../screens/FeedScreen/components/HeaderIcons'
@@ -39,6 +41,7 @@ export default enhance(StackNavigator)({
       />,
     }),
   },
+
   block: {
     screen: BlockScreen,
     navigationOptions: ({ navigation }) => ({
@@ -53,6 +56,7 @@ export default enhance(StackNavigator)({
       />,
     }),
   },
+
   text: { // TODO: Rename to `blockText` or like 'blockExpandedText'...
     screen: BlockTextScreen,
     navigationOptions: ({ navigation }) => ({
@@ -66,6 +70,7 @@ export default enhance(StackNavigator)({
       />,
     }),
   },
+
   comment: {
     screen: CommentScreen,
     navigationOptions: ({ navigation }) => ({
@@ -79,6 +84,7 @@ export default enhance(StackNavigator)({
       />,
     }),
   },
+
   channel: {
     screen: ChannelScreen,
     navigationOptions: ({ navigation }) => ({
@@ -93,6 +99,7 @@ export default enhance(StackNavigator)({
       />,
     }),
   },
+
   profile: {
     screen: ProfileScreen,
     navigationOptions: ({ navigation }) => {
@@ -110,6 +117,7 @@ export default enhance(StackNavigator)({
       }
     },
   },
+
   userSettings: {
     screen: UserSettingsScreen,
     navigationOptions: ({ navigation }) => ({
@@ -123,6 +131,7 @@ export default enhance(StackNavigator)({
       />,
     }),
   },
+
   editChannel: {
     screen: EditChannelScreen,
     navigationOptions: {
@@ -130,10 +139,27 @@ export default enhance(StackNavigator)({
       ...headerNavigationOptions,
     },
   },
+
   editBlock: {
     screen: EditBlockScreen,
     navigationOptions: {
       title: 'Edit Block',
+      ...headerNavigationOptions,
+    },
+  },
+
+  newChannel: {
+    screen: NewChannelScreen,
+    navigationOptions: {
+      title: 'New Channel',
+      ...headerNavigationOptions,
+    },
+  },
+
+  channelVisibility: {
+    screen: ChannelVisibility,
+    navigationOptions: {
+      title: 'Channel Privacy',
       ...headerNavigationOptions,
     },
   },
