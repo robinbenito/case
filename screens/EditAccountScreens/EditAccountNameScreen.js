@@ -3,13 +3,12 @@ import gql from 'graphql-tag'
 import { pickBy } from 'lodash'
 import { compose, graphql } from 'react-apollo'
 import PropTypes from 'prop-types'
-import { View } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import navigationService from '../../utilities/navigationService'
 import HeaderRightButton from '../../components/HeaderRightButton'
 import { Fieldset, StackedInput } from '../../components/UI/Inputs'
 import { Container, Section } from '../../components/UI/Layout'
-import ErrorScreen from '../../components/ErrorScreen'
+import withLoadingAndErrors from '../../components/WithLoadingAndErrors'
 
 const refetchAccountNameQuery = gql`
   query refetchAccountNameQuery($id: ID!) {
@@ -84,22 +83,8 @@ class EditAccountNameScreen extends React.Component {
   }
 
   render() {
-    const { data: { loading, error, me } } = this.props
+    const { data: { me } } = this.props
     const { first_name, last_name } = this.state
-
-    // TODO: Extract a HOC for these
-    if (loading) {
-      return <View />
-    }
-
-    if (error) {
-      return (
-        <ErrorScreen
-          message="Error getting your settings"
-          error={error}
-        />
-      )
-    }
 
     return (
       <Container>
@@ -159,9 +144,13 @@ const updateAccountNameMutation = gql`
   }
 `
 
+const DecoratedEditAccountNameScreen = withLoadingAndErrors(EditAccountNameScreen, {
+  errorMessage: 'Error getting your settings',
+})
+
 const EditAccountNameScreenWithData = compose(
   graphql(editAccountNameQuery),
   graphql(updateAccountNameMutation),
-)(EditAccountNameScreen)
+)(DecoratedEditAccountNameScreen)
 
 export default EditAccountNameScreenWithData

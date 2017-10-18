@@ -2,7 +2,7 @@ import React from 'react'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 import PropTypes from 'prop-types'
-import { Text, View } from 'react-native'
+import { Text } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import Client from '../../state/Apollo'
 import CurrentUser from '../../utilities/currentUserService'
@@ -12,8 +12,8 @@ import { Fieldset, FieldsetLabel } from '../../components/UI/Inputs'
 import { StackedButton, StackedJumpButton } from '../../components/UI/Buttons'
 import { Container, Section } from '../../components/UI/Layout'
 import UserAvatar from '../../components/UserAvatar'
-import ErrorScreen from '../../components/ErrorScreen'
 import openExternalArenaPath from '../../utilities/openExternalArenaPath'
+import withLoadingAndErrors from '../../components/WithLoadingAndErrors'
 
 class UserSettingsScreen extends React.Component {
   logOut = () => {
@@ -23,21 +23,7 @@ class UserSettingsScreen extends React.Component {
   }
 
   render() {
-    const { data: { loading, error, me } } = this.props
-
-    // TODO
-    if (loading) {
-      return <View />
-    }
-
-    if (error) {
-      return (
-        <ErrorScreen
-          message="Error getting your settings"
-          error={error}
-        />
-      )
-    }
+    const { data: { me } } = this.props
 
     return (
       <Container>
@@ -117,6 +103,10 @@ const UserSettingsQuery = gql`
   ${UserAvatar.fragments.avatar}
 `
 
-const UserSettingsScreenWithData = graphql(UserSettingsQuery)(UserSettingsScreen)
+const DecoratedUserSettingsScreen = withLoadingAndErrors(UserSettingsScreen, {
+  errorMessage: 'Error getting your settings',
+})
+
+const UserSettingsScreenWithData = graphql(UserSettingsQuery)(DecoratedUserSettingsScreen)
 
 export default UserSettingsScreenWithData
