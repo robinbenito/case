@@ -156,6 +156,9 @@ const FeedQuery = gql`
           created_at(relative: true)
           items {
             __typename
+            ... on User {
+              id
+            }
             ...Avatar
             ...ChannelThumb
             ...BlockThumb
