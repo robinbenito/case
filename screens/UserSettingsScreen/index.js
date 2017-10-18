@@ -6,17 +6,22 @@ import { Text, View } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import Client from '../../state/Apollo'
 import CurrentUser from '../../utilities/currentUserService'
-import NavigatorService from '../../utilities/navigationService'
-import { Colors, Units } from '../../constants/Style'
-import { Fieldset } from '../../components/UI/Inputs'
-import { StackedButton } from '../../components/UI/Buttons'
-import { Container, Section, CenteringPane } from '../../components/UI/Layout'
+import navigationService from '../../utilities/navigationService'
+import { Colors } from '../../constants/Style'
+import { Fieldset, FieldsetLabel } from '../../components/UI/Inputs'
+import { StackedButton, StackedJumpButton } from '../../components/UI/Buttons'
+import { Container, Section } from '../../components/UI/Layout'
 import UserAvatar from '../../components/UserAvatar'
+import ErrorScreen from '../../components/ErrorScreen'
 import openExternalArenaPath from '../../utilities/openExternalArenaPath'
-import formatErrors from '../../utilities/formatErrors'
-import { ErrorMessage, StatusMessage } from '../../components/UI/Alerts'
 
 class UserSettingsScreen extends React.Component {
+  logOut = () => {
+    CurrentUser.clear()
+    Client.resetStore()
+    navigationService.navigate('loggedOut')
+  }
+
   render() {
     const { data: { loading, error, me } } = this.props
 
@@ -25,18 +30,12 @@ class UserSettingsScreen extends React.Component {
       return <View />
     }
 
-    // TODO
     if (error) {
       return (
-        <CenteringPane>
-          <StatusMessage>
-            Error getting settings
-          </StatusMessage>
-
-          <ErrorMessage>
-            {formatErrors(error)}
-          </ErrorMessage>
-        </CenteringPane>
+        <ErrorScreen
+          message="Error getting your settings"
+          error={error}
+        />
       )
     }
 
@@ -48,11 +47,32 @@ class UserSettingsScreen extends React.Component {
           </Section>
 
           <Section space={3}>
+            <FieldsetLabel>
+              Profile
+            </FieldsetLabel>
             <Fieldset>
-              <StackedButton
-                style={{ marginTop: -Units.hairlineWidth }}
-                onPress={() => openExternalArenaPath('about')}
+              <StackedJumpButton
+                label="Name"
+                onPress={() => navigationService.navigate('editAccountName')}
               >
+                {me.name}
+              </StackedJumpButton>
+
+              {/* TODO:
+                <StackedJumpButton label="Email">
+                  {me.email}
+                </StackedJumpButton>
+
+                <StackedJumpButton>
+                  Bio
+                </StackedJumpButton>
+              */}
+            </Fieldset>
+          </Section>
+
+          <Section space={3}>
+            <Fieldset>
+              <StackedButton onPress={() => openExternalArenaPath('about')}>
                 About Are.na
               </StackedButton>
 
@@ -68,14 +88,7 @@ class UserSettingsScreen extends React.Component {
 
           <Section space={3}>
             <Fieldset>
-              <StackedButton
-                onPress={() => {
-                  CurrentUser.clear()
-                  Client.resetStore()
-                  NavigatorService.navigate('loggedOut')
-                }}
-                style={{ marginTop: -Units.hairlineWidth }}
-              >
+              <StackedButton onPress={this.logOut}>
                 <Text style={{ color: Colors.state.alert }}>
                   Log Out
                 </Text>
@@ -96,8 +109,7 @@ const UserSettingsQuery = gql`
   query UserSettingsQuery {
     me {
       id
-      first_name
-      last_name
+      name
       email
       ... Avatar
     }

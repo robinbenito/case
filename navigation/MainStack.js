@@ -13,7 +13,8 @@ import UserSettingsScreen from '../screens/UserSettingsScreen'
 import EditChannelScreen from '../screens/EditChannelScreen'
 import EditBlockScreen from '../screens/EditBlockScreen'
 import NewChannelScreen from '../screens/NewChannelScreen'
-import ChannelVisibility from '../components/ChannelVisibility'
+import ChannelVisibility from '../components/ChannelVisibility' // TODO: Move this to screens
+import EditAccountNameScreen from '../screens/EditAccountScreens/EditAccountNameScreen'
 
 import Header from '../components/Header'
 import HeaderIcon from '../screens/FeedScreen/components/HeaderIcons'
@@ -130,6 +131,14 @@ export default enhance(StackNavigator)({
         ]}
       />,
     }),
+  },
+
+  editAccountName: {
+    screen: EditAccountNameScreen,
+    navigationOptions: {
+      title: 'Name',
+      ...headerNavigationOptions,
+    },
   },
 
   editChannel: {
