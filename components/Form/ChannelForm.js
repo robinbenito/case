@@ -82,7 +82,7 @@ class ChannelForm extends React.Component {
               placeholder="Title"
               onChangeText={this.onChangeText('title')}
               value={title}
-              autofocus
+              autoFocus
             />
 
             <StackedTextArea

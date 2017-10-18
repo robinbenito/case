@@ -44,7 +44,11 @@ export const StackedButtonHitArea = styled.TouchableOpacity`
   padding-vertical: ${Units.scale[2]};
 `
 
-export const StackedButtonLabel = styled.Text`
+export const StackedButtonLabel = styled.Text.attrs({
+  numberOfLines: 1,
+})`
+  max-width: 90%;
+  text-align: ${x => (x.secondary ? 'right' : 'left')};
   font-size: ${Typography.fontSize.smedium};
   color: ${x => (x.secondary ? Colors.gray.medium : Colors.semantic.text)};
 `
