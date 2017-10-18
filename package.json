@@ -22,6 +22,7 @@
     "apollo-client": "^1.9.0-0",
     "eslint-config-airbnb": "^15.0.2",
     "expo": "^20.0.0",
+    "expo-analytics": "^1.0.6",
     "graphql-anywhere": "^1.0.0",
     "graphql-tag": "^1.1.2",
     "he": "^1.1.1",
