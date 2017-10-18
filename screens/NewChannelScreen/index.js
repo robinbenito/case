@@ -4,42 +4,49 @@ import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import Store from '../../state/Store'
 import { TOGGLE_ADD_MENU } from '../../state/actions'
-
 import BackButton from '../../components/BackButton'
 import ChannelForm from '../../components/Form/ChannelForm'
-
 import NavigatorService from '../../utilities/navigationService'
-
 import { Colors } from '../../constants/Style'
 
-const navigationOptions = {
+const NAVIGATION_OPTIONS = {
   title: 'New Channel',
-  headerLeft: (<BackButton />),
+  headerLeft: <BackButton />,
 }
 
 class NewChannelScreen extends React.Component {
   static navigationOptions() {
-    return navigationOptions
+    return NAVIGATION_OPTIONS
   }
 
   onSubmit = (variables) => {
-    this.props.mutate({ variables }).then((response) => {
-      const { data } = response
-      if (!data.error) {
+    this.props
+      .mutate({ variables })
+      .then((response) => {
+        const { data, data: { error } } = response
+
+        if (error) Promise.reject(error)
+
         const { create_channel: { channel: { id, title, visibility } } } = data
+
         Store.dispatch({ type: TOGGLE_ADD_MENU })
-        NavigatorService.navigate('channel', { id, title, color: Colors.channel[visibility] })
-      }
-    })
+
+        NavigatorService.navigate('channel', {
+          id,
+          title,
+          color: Colors.channel[visibility],
+        })
+      })
   }
 
   render() {
     const { navigation } = this.props
+
     return (
       <ChannelForm
         onSubmit={this.onSubmit}
         navigation={navigation}
-        navigationOptions={navigationOptions}
+        navigationOptions={NAVIGATION_OPTIONS}
       />
     )
   }
@@ -51,7 +58,7 @@ NewChannelScreen.propTypes = {
 }
 
 NewChannelScreen.defaultProps = {
-  navigation: () => null,
+  navigation: {},
 }
 
 const createChannelMutation = gql`

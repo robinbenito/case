@@ -71,10 +71,10 @@ const UserForPendingComment = gql`
   query UserForPendingComment {
     user: me {
       id
-      initials
-      avatar(size: SMALL)
+      ...Avatar
     }
   }
+  ${UserAvatar.fragments.avatar}
 `
 
 export const PendingCommentWithData = graphql(UserForPendingComment)(PendingComment)
@@ -118,10 +118,10 @@ Comment.fragments = {
         id
         name
         slug
-        initials
-        avatar(size: SMALL)
+        ...Avatar
       }
     }
+    ${UserAvatar.fragments.avatar}
   `,
 }
 

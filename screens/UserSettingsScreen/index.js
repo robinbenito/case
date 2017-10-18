@@ -10,9 +10,11 @@ import NavigatorService from '../../utilities/navigationService'
 import { Colors, Units } from '../../constants/Style'
 import { Fieldset } from '../../components/UI/Inputs'
 import { StackedButton } from '../../components/UI/Buttons'
-import { Container, Section } from '../../components/UI/Layout'
+import { Container, Section, CenteringPane } from '../../components/UI/Layout'
 import UserAvatar from '../../components/UserAvatar'
 import openExternalArenaPath from '../../utilities/openExternalArenaPath'
+import formatErrors from '../../utilities/formatErrors'
+import { ErrorMessage, StatusMessage } from '../../components/UI/Alerts'
 
 class UserSettingsScreen extends React.Component {
   render() {
@@ -25,7 +27,17 @@ class UserSettingsScreen extends React.Component {
 
     // TODO
     if (error) {
-      return <View />
+      return (
+        <CenteringPane>
+          <StatusMessage>
+            Error getting settings
+          </StatusMessage>
+
+          <ErrorMessage>
+            {formatErrors(error)}
+          </ErrorMessage>
+        </CenteringPane>
+      )
     }
 
     return (
@@ -84,6 +96,9 @@ const UserSettingsQuery = gql`
   query UserSettingsQuery {
     me {
       id
+      first_name
+      last_name
+      email
       ... Avatar
     }
   }

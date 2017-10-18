@@ -2,7 +2,6 @@ import Expo from 'expo'
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { ApolloProvider } from 'react-apollo'
-import { updateFocus } from 'react-navigation-is-focused-hoc'
 import gql from 'graphql-tag'
 import { connect } from 'react-redux'
 
@@ -14,6 +13,7 @@ import Client from './state/Apollo'
 import NavigatorService from './utilities/navigationService'
 import cacheAssetsAsync from './utilities/cacheAssetsAsync'
 import CurrentUser from './utilities/currentUserService'
+import { trackPage } from './utilities/analytics'
 
 const logo = require('./assets/images/logo.png')
 
@@ -95,11 +95,17 @@ class AppContainer extends React.Component {
           <View style={StyleSheet.absoluteFill}>
             <Navigation
               onNavigationStateChange={(prevState, currentState) => {
+                const currentScreen = getCurrentRouteName(currentState)
+                const prevScreen = getCurrentRouteName(prevState)
+
                 Store.dispatch({
                   type: SET_CURRENT_ROUTE,
-                  current: getCurrentRouteName(currentState),
+                  current: currentScreen,
                 })
-                updateFocus(currentState)
+
+                if (prevScreen !== currentScreen) {
+                  trackPage({ page: currentScreen })
+                }
               }}
               ref={(navigatorRef) => {
                 NavigatorService.setContainer(navigatorRef)

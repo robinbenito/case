@@ -12,7 +12,7 @@ import { Colors, Units, Typography } from '../../../constants/Style'
 import { SmallButton, SmallButtonLabel } from '../../../components/UI/Buttons'
 
 import NavigationService from '../../../utilities/navigationService'
-import pluralize from '../../../utilities/pluralize'
+import { pluralize } from '../../../utilities/inflections'
 
 const Container = styled.View`
   margin-bottom: ${Units.scale[2]};

@@ -10,7 +10,7 @@ import FollowButtonWithData from '../../../components/FollowButton'
 import { BaseIcon } from '../../../components/UI/Icons'
 import { SmallButton } from '../../../components/UI/Buttons'
 import NavigationService from '../../../utilities/navigationService'
-import pluralize from '../../../utilities/pluralize'
+import { pluralize } from '../../../utilities/inflections'
 
 const Container = styled.View`
   margin-bottom: ${Units.scale[2]};

@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import gql from 'graphql-tag'
+import { propType } from 'graphql-anywhere'
 import styled from 'styled-components/native'
 import { Colors, Typography, Units } from '../constants/Style'
 
@@ -89,12 +90,7 @@ UserAvatar.propTypes = {
   size: PropTypes.number,
   onPress: PropTypes.func,
   includeName: PropTypes.bool,
-  user: PropTypes.shape({
-    name: PropTypes.string,
-    slug: PropTypes.string,
-    initials: PropTypes.string,
-    avatar: PropTypes.string,
-  }).isRequired,
+  user: propType(UserAvatar.fragments.avatar).isRequired,
 }
 
 UserAvatar.defaultProps = {
