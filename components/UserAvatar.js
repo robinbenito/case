@@ -75,7 +75,8 @@ export default class UserAvatar extends React.Component {
 
 UserAvatar.fragments = {
   avatar: gql`
-    fragment Avatar on UserInterface {
+    fragment Avatar on User {
+      id
       name
       slug
       initials
