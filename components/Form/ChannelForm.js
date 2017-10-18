@@ -69,8 +69,7 @@ class ChannelForm extends React.Component {
   }
 
   render() {
-    const { visibility } = this.state
-    const { channel: { title, description } } = this.props
+    const { title, description, visibility } = this.state
 
     return (
       <KeyboardAwareScrollView>
@@ -83,6 +82,7 @@ class ChannelForm extends React.Component {
             <StackedInput
               placeholder="Title"
               onChangeText={this.onChangeText('title')}
+              value={title}
               autofocus
             />
 
