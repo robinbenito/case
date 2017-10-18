@@ -2,55 +2,53 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
-
 import BackButton from '../../../components/BackButton'
 import ChannelForm from '../../../components/Form/ChannelForm'
 import { ChannelQuery } from '../../ChannelScreen/components/ChannelContainer'
+import navigationService from '../../../utilities/navigationService'
 
-import NavigatorService from '../../../utilities/navigationService'
-
-const navigationOptions = {
+const NAVIGATION_OPTIONS = {
   title: 'Edit Channel',
-  headerLeft: (<BackButton />),
+  headerLeft: <BackButton />,
 }
 
 class EditChannelScreen extends React.Component {
   static navigationOptions() {
-    return navigationOptions
+    return NAVIGATION_OPTIONS
   }
 
-  onSubmit = (variables) => {
-    const { channel, editChannel } = this.props
+  onSubmit = ({ visibility, ...rest }) => {
+    const { channel: { id }, editChannel } = this.props
     editChannel({
       variables: {
-        ...variables,
-        id: channel.id,
-        visibility: variables.visibility.toUpperCase(),
+        id,
+        visibility: visibility.toUpperCase(),
+        ...rest,
       },
       refetchQueries: [
         {
           query: ChannelQuery,
           variables: {
-            id: channel.id,
+            id,
           },
         },
       ],
-    }).then((response) => {
-      const { data } = response
-      if (!data.error) {
-        NavigatorService.back()
-      }
+    }).then(({ data: { error } }) => {
+      if (!error) navigationService.back()
+
+      // TODO: Render error...
     })
   }
 
   render() {
     const { navigation, channel } = this.props
+
     return (
       <ChannelForm
         channel={channel}
         onSubmit={this.onSubmit}
         navigation={navigation}
-        navigationOptions={navigationOptions}
+        navigationOptions={NAVIGATION_OPTIONS}
         submitText="Save"
       />
     )
@@ -64,7 +62,7 @@ EditChannelScreen.propTypes = {
 }
 
 EditChannelScreen.defaultProps = {
-  navigation: () => null,
+  navigation: {},
 }
 
 const updateChannelMutation = gql`

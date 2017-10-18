@@ -9,7 +9,6 @@ import SignUpScreen from '../screens/SignUpScreen'
 import MainStack from './MainStack'
 import NotificationsScreen from '../screens/NotificationsScreen'
 import SearchStack from './SearchStack'
-import NewChannelStack from './NewChannelStack'
 import AddTextScreen from '../screens/AddTextScreen'
 import AddImageScreen from '../screens/AddImageScreen'
 import AddLinkScreen from '../screens/AddLinkScreen'
@@ -49,6 +48,7 @@ export default initialRouteName => StackModalNavigator({
       },
     },
   },
+
   signUp: {
     screen: SignUpScreen,
     navigationOptions: {
@@ -58,6 +58,7 @@ export default initialRouteName => StackModalNavigator({
       },
     },
   },
+
   main: {
     screen: MainStackWithDrawer,
     navigationOptions: {
@@ -67,6 +68,7 @@ export default initialRouteName => StackModalNavigator({
       },
     },
   },
+
   search: {
     screen: SearchStack,
     navigationOptions: {
@@ -76,15 +78,8 @@ export default initialRouteName => StackModalNavigator({
       },
     },
   },
-  newChannel: {
-    screen: NewChannelStack,
-    navigationOptions: {
-      header: null,
-      cardStyle: {
-        backgroundColor: 'white',
-      },
-    },
-  },
+
+  // TODO: Pull these onto the main stack
   newText: {
     screen: enhance(StackNavigator)({
       newText: { screen: AddTextScreen },
@@ -96,6 +91,7 @@ export default initialRouteName => StackModalNavigator({
       },
     },
   },
+
   newImage: {
     screen: enhance(StackNavigator)({
       newText: { screen: AddImageScreen },
@@ -107,6 +103,7 @@ export default initialRouteName => StackModalNavigator({
       },
     },
   },
+
   newLink: {
     screen: enhance(StackNavigator)({
       newLink: { screen: AddLinkScreen },
@@ -118,6 +115,7 @@ export default initialRouteName => StackModalNavigator({
       },
     },
   },
+
   connect: {
     screen: enhance(StackNavigator)({
       connect: {

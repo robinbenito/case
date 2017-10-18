@@ -4715,10 +4715,6 @@ react-native-safe-module@^1.1.0:
   dependencies:
     dedent "^0.6.0"
 
-react-native-settings-list@^1.6.1:
-  version "1.6.1"
-  resolved "https://registry.yarnpkg.com/react-native-settings-list/-/react-native-settings-list-1.6.1.tgz#296228079e5000fc037b072ac3039eba397de432"
-
 react-native-snap-carousel@^3.2.1:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/react-native-snap-carousel/-/react-native-snap-carousel-3.2.1.tgz#9b949e01b75ce617ef19dfd9c449f37738c38ee7"

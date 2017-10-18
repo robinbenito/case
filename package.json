@@ -40,7 +40,6 @@
     "react-native-keyboard-aware-scroll-view": "^0.3.0",
     "react-native-keyboard-spacer": "^0.3.1",
     "react-native-mime-types": "^2.2.0",
-    "react-native-settings-list": "^1.6.1",
     "react-native-snap-carousel": "^3.2.1",
     "react-navigation": "https://github.com/react-community/react-navigation.git",
     "react-navigation-addons": "https://github.com/satya164/react-navigation-addons",
