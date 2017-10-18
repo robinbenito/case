@@ -34,19 +34,56 @@ export const Input = styled.TextInput`
 
 const INPUT_HEIGHT = Typography.fontSize.base * 3
 
-export const StackedInput = Input.extend`
+export const StackedInputField = Input.extend`
   height: ${INPUT_HEIGHT};
   padding-horizontal: ${Units.scale[2]};
-  border-top-width: ${Units.hairlineWidth};
-  border-color: ${Border.borderColor};
   font-size: ${Typography.fontSize.smedium};
+  flex: 1;
 `
 
-export const StackedTextArea = StackedInput.extend.attrs({
+const StackedInputOutline = styled.View`
+  border-top-width: ${Units.hairlineWidth};
+  border-color: ${Border.borderColor};
+  flex-direction: row;
+  align-items: center;
+`
+// Baselines in `Text` are `1` off from from `Input`... apparently
+// Hence the `top: -1`
+const StackedInputLabel = styled.Text`
+  top: -1;
+  font-size: ${Typography.fontSize.smedium};
+  color: ${Colors.semantic.text};
+  padding-left: ${Units.scale[2]};
+  padding-right: ${Units.scale[3]};
+`
+
+export const StackedInput = ({ label, ...props }) => (
+  <StackedInputOutline>
+    {label &&
+      <StackedInputLabel>
+        {label}
+      </StackedInputLabel>
+    }
+
+    <StackedInputField {...props} />
+  </StackedInputOutline>
+)
+
+StackedInput.propTypes = {
+  label: PropTypes.string,
+}
+
+StackedInput.defaultProps = {
+  label: null,
+}
+
+export const StackedTextArea = StackedInputField.extend.attrs({
   multiline: true,
 })`
-  padding-top: ${Units.scale[2]};
   height: ${x => INPUT_HEIGHT * (x.rows || 2)};
+  padding-top: ${Units.scale[2]};
+  border-top-width: ${Units.hairlineWidth};
+  border-color: ${Border.borderColor};
 `
 
 export const Underline = styled.View`
