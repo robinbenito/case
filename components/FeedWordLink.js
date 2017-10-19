@@ -21,7 +21,7 @@ const FeedWordLink = ({ object, phrase, ...rest }) => {
         link = <UserNameText user={object} {...rest} />
         break
       case 'Connectable':
-        link = <BlockLink block={object} {...rest} />
+        link = <BlockLink block={object} phrase={phrase} {...rest} />
         break
       default:
         link = <Text {...rest}>{phrase || object.title}</Text>
