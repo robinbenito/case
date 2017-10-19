@@ -104,7 +104,8 @@ export default enhance(StackNavigator)({
   profile: {
     screen: ProfileScreen,
     navigationOptions: ({ navigation }) => {
-      const headerLeft = navigation.state.params ? <BackButton /> : null
+      const notMyProfile = navigation.state.params && navigation.state.params.id
+      const headerLeft = notMyProfile ? <BackButton /> : null
       return {
         header: <HeaderWithState
           navigation={navigation}
