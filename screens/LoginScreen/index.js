@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { pick } from 'lodash'
 import { gql, graphql } from 'react-apollo'
 import { TouchableOpacity, View } from 'react-native'
 
-import currentUser from '../../utilities/currentUserService'
+import currentUserService from '../../utilities/currentUserService'
 import formatErrors from '../../utilities/formatErrors'
 import navigationService from '../../utilities/navigationService'
 import wait from '../../utilities/wait'
@@ -15,7 +15,11 @@ import { UnderlineInput } from '../../components/UI/Inputs'
 import { Section, CenteringPane, CenterColumn } from '../../components/UI/Layout'
 import { SmallLogo } from '../../components/UI/Logos'
 
-class LoginScreen extends React.Component {
+class LoginScreen extends Component {
+  static propTypes = {
+    mutate: PropTypes.func.isRequired,
+  }
+
   constructor(props) {
     super(props)
 
@@ -27,11 +31,15 @@ class LoginScreen extends React.Component {
       error: null,
       loggingIn: false,
     }
-
-    this.onSubmit = this.onSubmit.bind(this)
   }
 
-  async onSubmit() {
+  onChangeText = key => (value) => {
+    this.setState({
+      [key]: value,
+    })
+  }
+
+  onSubmit = async () => {
     const variables = pick(this.state, ['email', 'password'])
 
     this.setState({ loggingIn: true })
@@ -42,7 +50,7 @@ class LoginScreen extends React.Component {
       .mutate({ variables })
 
       .then(({ data: { login: { me } } }) => {
-        currentUser.set(me)
+        currentUserService.set(me)
       })
 
       .then(() => {
@@ -64,9 +72,11 @@ class LoginScreen extends React.Component {
   }
 
   render() {
+    const { loggingIn, email, error } = this.state
+
     return (
       <CenteringPane>
-        {this.state.loggingIn &&
+        {loggingIn &&
           <View>
             <SmallLogo alignSelf="center" />
             <StatusMessage>
@@ -75,7 +85,7 @@ class LoginScreen extends React.Component {
           </View>
         }
 
-        {!this.state.loggingIn &&
+        {!loggingIn &&
           <View width="100%">
             <Section space={3}>
               <TouchableOpacity onPress={() => navigationService.reset('loggedOut')}>
@@ -87,22 +97,24 @@ class LoginScreen extends React.Component {
               autoCapitalize="none"
               placeholder="Email address"
               keyboardType="email-address"
-              onChangeText={email => this.setState({ email })}
+              onChangeText={this.onChangeText('email')}
               autoCorrect={false}
-              autoFocus
+              autoFocus={!email}
+              value={email}
             />
 
             <UnderlineInput
               secureTextEntry
               placeholder="Password"
               autoCapitalize="none"
-              onChangeText={password => this.setState({ password })}
+              onChangeText={this.onChangeText('password')}
               onSubmitEditing={this.onSubmit}
               autoCorrect={false}
+              autoFocus={!!email}
             />
 
             <ErrorMessage>
-              {this.state.error}
+              {error}
             </ErrorMessage>
 
             <CenterColumn>
@@ -115,10 +127,6 @@ class LoginScreen extends React.Component {
       </CenteringPane>
     )
   }
-}
-
-LoginScreen.propTypes = {
-  mutate: PropTypes.func.isRequired,
 }
 
 const login = gql`
