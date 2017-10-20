@@ -7,6 +7,7 @@ const store = createStore(
     apollo: client.reducer(),
     routes: reducers.routes,
     ui: reducers.ui,
+    info: reducers.info,
   }),
   compose(
     applyMiddleware(client.middleware()),
