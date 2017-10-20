@@ -33,6 +33,25 @@ export const Colors = {
     text: '#333',
     background: '#f7f7f7',
   },
+
+  alert: {
+    alert: {
+      background: 'rgb(255, 100, 0)',
+      foreground: 'white',
+    },
+    premium: {
+      background: 'rgb(55, 145, 230)',
+      foreground: 'white',
+    },
+    confirmation: {
+      background: 'rgb(210, 255, 205)',
+      foreground: 'black',
+    },
+    tip: {
+      background: 'rgb(109, 109, 109)',
+      foreground: 'white',
+    },
+  },
 }
 
 export const Border = {

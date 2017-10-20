@@ -1,5 +1,3 @@
-/* eslint-disable camelcase */
-
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { pick } from 'lodash'
@@ -9,11 +7,11 @@ import { View } from 'react-native'
 import currentUser from '../../utilities/currentUserService'
 import formatErrors from '../../utilities/formatErrors'
 import navigationService from '../../utilities/navigationService'
-import wait from '../../utilities/wait'
 
-import { StatusMessage, ErrorMessage } from '../../components/UI/Alerts'
+import Alerts, { sendAlert, dismissAllAlerts } from '../../components/Alerts'
+import { StatusMessage } from '../../components/UI/Alerts'
 import { Button, ButtonLabel, SecondaryButton } from '../../components/UI/Buttons'
-import { CenteringPane, CenterColumn, Section } from '../../components/UI/Layout'
+import { CenteringPane, CenterColumn, Spacer } from '../../components/UI/Layout'
 import { SmallLogo } from '../../components/UI/Logos'
 import { UnderlineInput } from '../../components/UI/Inputs'
 
@@ -22,21 +20,24 @@ class SignUpScreen extends Component {
     super(props)
 
     this.state = {
-      // Model
-      first_name: null,
-      last_name: null,
-      email: null,
-      password: null,
-      password_confirmation: null,
-      // UI
-      error: null,
-      signingUp: false,
+      first_name: '',
+      last_name: '',
+      email: '',
+      password: '',
+      password_confirmation: '',
+      isSigningUp: false,
     }
-
-    this.onSubmit = this.onSubmit.bind(this)
   }
 
-  onSubmit() {
+  onChangeText = key => (value) => {
+    this.setState({
+      [key]: value,
+    })
+  }
+
+  onSubmit = () => {
+    dismissAllAlerts()
+
     const variables = pick(this.state, [
       'first_name',
       'last_name',
@@ -45,33 +46,41 @@ class SignUpScreen extends Component {
       'password_confirmation',
     ])
 
-    this.setState({ signingUp: true })
+    this.setState({ isSigningUp: true })
 
     this.props
       .mutate({ variables })
+
       .then(({ data: { registration: { me } } }) => {
         currentUser.set(me)
       })
+
       .then(() => {
         navigationService.reset('main')
       })
-      .catch(async (err) => {
+
+      .catch((err) => {
         const error = formatErrors(err)
-        this.setState({
-          error,
-          signingUp: false,
-        })
 
-        await wait(5000)
+        sendAlert({ children: error })
 
-        this.setState({ error: null })
+        this.setState({ isSigningUp: false })
       })
   }
 
   render() {
+    const {
+      first_name,
+      last_name,
+      email,
+      password,
+      password_confirmation,
+      isSigningUp,
+    } = this.state
+
     return (
       <CenteringPane>
-        {this.state.signingUp &&
+        {isSigningUp &&
           <View>
             <SmallLogo alignSelf="center" />
             <StatusMessage>
@@ -80,61 +89,71 @@ class SignUpScreen extends Component {
           </View>
         }
 
-        {!this.state.signingUp &&
+        {!isSigningUp &&
           <View width="100%">
             <UnderlineInput
+              value={first_name}
               placeholder="First name"
-              onChangeText={first_name => this.setState({ first_name })}
+              onChangeText={this.onChangeText('first_name')}
+              autoCorrect={false}
               autoFocus
             />
 
             <UnderlineInput
+              value={last_name}
               placeholder="Last name"
-              onChangeText={last_name => this.setState({ last_name })}
+              onChangeText={this.onChangeText('last_name')}
+              autoCorrect={false}
             />
 
             <UnderlineInput
+              value={email}
               autoCapitalize="none"
               placeholder="Email address"
               keyboardType="email-address"
-              onChangeText={email => this.setState({ email })}
+              onChangeText={this.onChangeText('email')}
               autoCorrect={false}
             />
 
             <UnderlineInput
+              value={password}
               secureTextEntry
               placeholder="Password"
               autoCapitalize="none"
-              onChangeText={password => this.setState({ password })}
+              onChangeText={this.onChangeText('password')}
               autoCorrect={false}
             />
 
             <UnderlineInput
+              value={password_confirmation}
               secureTextEntry
               placeholder="Confirm password"
               autoCapitalize="none"
-              onChangeText={password_confirmation => this.setState({ password_confirmation })}
+              onChangeText={this.onChangeText('password_confirmation')}
               onSubmitEditing={this.onSubmit}
               autoCorrect={false}
             />
 
-            <ErrorMessage>
-              {this.state.error}
-            </ErrorMessage>
+            <Spacer space={4} />
 
             <CenterColumn>
               <Button onPress={this.onSubmit}>
                 <ButtonLabel>Create account</ButtonLabel>
               </Button>
 
-              <Section space={3} alignSelf="center">
-                <SecondaryButton onPress={() => navigationService.reset('loggedOut')}>
-                  cancel
-                </SecondaryButton>
-              </Section>
+              <Spacer space={2} />
+
+              <SecondaryButton
+                style={{ alignSelf: 'center' }}
+                onPress={() => navigationService.reset('loggedOut')}
+              >
+                cancel
+              </SecondaryButton>
             </CenterColumn>
           </View>
         }
+
+        <Alerts />
       </CenteringPane>
     )
   }

@@ -34,7 +34,7 @@ export const RelativeFill = styled.View`
 `
 
 export const Section = styled.View`
-  margin-vertical: ${props => Units.scale[props.space || 1]};
+  margin-vertical: ${x => Units.scale[x.space || 1]};
 `
 
 export const Container = styled.View`
@@ -50,7 +50,7 @@ export const CenteringPane = styled(KeyboardAvoidingView)`
 `
 
 export const CenterColumn = styled.View`
-  width: 50%;
+  width: 55%;
   align-self: center;
   flex-direction: column;
   justify-content: center;
@@ -60,4 +60,8 @@ export const HorizontalRule = styled.View`
   width: 100%;
   height: ${Units.hairlineWidth};
   background-color: ${({ color }) => color || Border.borderColor};
+`
+
+export const Spacer = styled.View`
+  height: ${x => Units.scale[x.space || 1]}
 `
