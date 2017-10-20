@@ -9,11 +9,13 @@ import formatErrors from '../../utilities/formatErrors'
 import navigationService from '../../utilities/navigationService'
 import wait from '../../utilities/wait'
 
-import { StatusMessage, ErrorMessage } from '../../components/UI/Alerts'
+import Alerts, { sendAlert, dismissAllAlerts } from '../../components/Alerts'
+import { StatusMessage } from '../../components/UI/Alerts'
 import { Button, ButtonLabel } from '../../components/UI/Buttons'
 import { UnderlineInput } from '../../components/UI/Inputs'
 import { Section, CenteringPane, CenterColumn } from '../../components/UI/Layout'
 import { SmallLogo } from '../../components/UI/Logos'
+
 
 class LoginScreen extends Component {
   static propTypes = {
@@ -24,12 +26,9 @@ class LoginScreen extends Component {
     super(props)
 
     this.state = {
-      // Model
       email: '',
       password: '',
-      // UI
-      error: null,
-      loggingIn: false,
+      isLoggingIn: false,
     }
   }
 
@@ -40,9 +39,11 @@ class LoginScreen extends Component {
   }
 
   onSubmit = async () => {
+    dismissAllAlerts()
+
     const variables = pick(this.state, ['email', 'password'])
 
-    this.setState({ loggingIn: true })
+    this.setState({ isLoggingIn: true })
 
     await wait(500)
 
@@ -60,23 +61,20 @@ class LoginScreen extends Component {
       .catch(async (err) => {
         const error = formatErrors(err)
 
+        sendAlert({ children: error })
+
         this.setState({
-          error,
-          loggingIn: false,
+          isLoggingIn: false,
         })
-
-        await wait(5000)
-
-        this.setState({ error: null })
       })
   }
 
   render() {
-    const { loggingIn, email, error } = this.state
+    const { isLoggingIn, email } = this.state
 
     return (
       <CenteringPane>
-        {loggingIn &&
+        {isLoggingIn &&
           <View>
             <SmallLogo alignSelf="center" />
             <StatusMessage>
@@ -85,7 +83,7 @@ class LoginScreen extends Component {
           </View>
         }
 
-        {!loggingIn &&
+        {!isLoggingIn &&
           <View width="100%">
             <Section space={3}>
               <TouchableOpacity onPress={() => navigationService.reset('loggedOut')}>
@@ -113,17 +111,17 @@ class LoginScreen extends Component {
               autoFocus={!!email}
             />
 
-            <ErrorMessage>
-              {error}
-            </ErrorMessage>
-
-            <CenterColumn>
-              <Button onPress={this.onSubmit}>
-                <ButtonLabel>Log In</ButtonLabel>
-              </Button>
-            </CenterColumn>
+            <Section space={4}>
+              <CenterColumn>
+                <Button onPress={this.onSubmit}>
+                  <ButtonLabel>Log In</ButtonLabel>
+                </Button>
+              </CenterColumn>
+            </Section>
           </View>
         }
+
+        <Alerts />
       </CenteringPane>
     )
   }
