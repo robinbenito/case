@@ -2,6 +2,7 @@
 
 exports[`renders correctly 1`] = `
 <Styled(TouchableOpacity)
+  disabled={false}
   onPress={[Function]}
 >
   <Styled(Text)>
