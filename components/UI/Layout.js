@@ -50,7 +50,7 @@ export const CenteringPane = styled(KeyboardAvoidingView)`
 `
 
 export const CenterColumn = styled.View`
-  width: 50%;
+  width: 55%;
   align-self: center;
   flex-direction: column;
   justify-content: center;
