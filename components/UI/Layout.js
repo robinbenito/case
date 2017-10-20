@@ -45,10 +45,11 @@ export const Container = styled.View`
 export const CenteringPane = styled(KeyboardAwareScrollView).attrs({
   contentContainerStyle: {
     flex: 1,
-    alignItems: 'center',
     justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
   },
-})
+})``
 
 export const CenterColumn = styled.View`
   width: 55%;
