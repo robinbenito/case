@@ -14,6 +14,8 @@ import AddImageScreen from '../screens/AddImageScreen'
 import AddLinkScreen from '../screens/AddLinkScreen'
 import AddConnectionsScreen from '../screens/AddConnectionScreen'
 
+import headerNavigationOptions from '../constants/Header'
+
 const MainStackWithDrawer = DrawerNavigator({
   feed: {
     screen: MainStack,
@@ -85,10 +87,7 @@ export default initialRouteName => StackModalNavigator({
       newText: { screen: AddTextScreen },
     }),
     navigationOptions: {
-      header: null,
-      cardStyle: {
-        backgroundColor: 'white',
-      },
+      ...headerNavigationOptions,
     },
   },
 
@@ -97,10 +96,7 @@ export default initialRouteName => StackModalNavigator({
       newText: { screen: AddImageScreen },
     }),
     navigationOptions: {
-      header: null,
-      cardStyle: {
-        backgroundColor: 'white',
-      },
+      ...headerNavigationOptions,
     },
   },
 
@@ -109,10 +105,7 @@ export default initialRouteName => StackModalNavigator({
       newLink: { screen: AddLinkScreen },
     }),
     navigationOptions: {
-      header: null,
-      cardStyle: {
-        backgroundColor: 'white',
-      },
+      ...headerNavigationOptions,
     },
   },
 
@@ -121,10 +114,7 @@ export default initialRouteName => StackModalNavigator({
       connect: {
         screen: AddConnectionsScreen,
         navigationOptions: {
-          header: null,
-          cardStyle: {
-            backgroundColor: 'white',
-          },
+          ...headerNavigationOptions,
         },
       },
     }),
