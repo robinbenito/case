@@ -23,8 +23,6 @@ const SelectDrawer = styled.View`
 const HeaderPullDown = (props) => {
   const { primary, secondary, onPress, isExpanded, isHeaderTitleVisible } = props
 
-  console.log('HeaderPullDown, primary', primary)
-
   return (
     <HeaderDrawer>
       {!isExpanded &&
