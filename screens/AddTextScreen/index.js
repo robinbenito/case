@@ -8,7 +8,7 @@ import NavigatorService from '../../utilities/navigationService'
 
 
 const navigationOptions = {
-  title: 'New Text',
+  title: 'Enter Text',
   headerLeft: (<BackButton />),
 }
 
