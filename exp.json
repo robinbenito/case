@@ -20,6 +20,10 @@
     "assetExts": ["ttf"]
   },
   "ios": {
-    "supportsTablet": true
+    "supportsTablet": true,
+    "bundleIdentifier": "na.are.arenaapp"
+  },
+  "android": {
+    "package": "na.are.arenaapp"
   }
 }
