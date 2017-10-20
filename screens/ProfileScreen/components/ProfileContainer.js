@@ -2,17 +2,18 @@ import React from 'react'
 import gql from 'graphql-tag'
 import { graphql, compose, withApollo } from 'react-apollo'
 import PropTypes from 'prop-types'
-import { ActivityIndicator, FlatList, StyleSheet } from 'react-native'
-import formatErrors from '../../../utilities/formatErrors'
+import { ActivityIndicator, FlatList, StyleSheet, View } from 'react-native'
+
 import ProfileHeader from './ProfileHeader'
 import ChannelItem from '../../../components/ChannelItem'
 import BlockItem from '../../../components/BlockItem'
 import UserAvatar from '../../../components/UserAvatar'
+import { StatusMessage } from '../../../components/UI/Alerts'
+import withLoadingAndErrors from '../../../components/WithLoadingAndErrors'
+
 import CurrentUser from '../../../utilities/currentUserService'
-import layout from '../../../constants/Layout'
-import { CenteringPane } from '../../../components/UI/Layout'
-import { ErrorMessage, StatusMessage } from '../../../components/UI/Alerts'
 import scrollHeaderVisibilitySensor from '../../../utilities/scrollHeaderVisibilitySensor'
+import layout from '../../../constants/Layout'
 
 const styles = StyleSheet.create({
   container: {
@@ -29,6 +30,19 @@ const styles = StyleSheet.create({
 })
 
 class ProfileContainer extends React.Component {
+  static propTypes = {
+    data: PropTypes.any.isRequired,
+    userBlocksData: PropTypes.any.isRequired,
+    type: PropTypes.oneOf(['CHANNEL', 'BLOCK']).isRequired,
+    loadMore: PropTypes.func,
+    page: PropTypes.number,
+  }
+
+  static defaultProps = {
+    page: 1,
+    loadMore: () => null,
+  }
+
   constructor(props) {
     super(props)
 
@@ -80,29 +94,6 @@ class ProfileContainer extends React.Component {
 
   render() {
     const { userBlocksData, data } = this.props
-    const { error, loading } = this.props.data
-
-    if (error) {
-      return (
-        <CenteringPane>
-          <StatusMessage>
-            Error fetching profile
-          </StatusMessage>
-
-          <ErrorMessage>
-            {formatErrors(error)}
-          </ErrorMessage>
-        </CenteringPane>
-      )
-    }
-
-    if (loading) {
-      return (
-        <CenteringPane>
-          <ActivityIndicator />
-        </CenteringPane>
-      )
-    }
 
     const { type } = this.state
     const contents = (
@@ -131,12 +122,12 @@ class ProfileContainer extends React.Component {
 
     if (contents.length === 0 && !contentsLoading) {
       return (
-        <CenteringPane>
+        <View>
           {header}
           <StatusMessage>
-            `No public ${type.toLowerCase()}s`
+            {`No public ${type.toLowerCase()}s`}
           </StatusMessage>
-        </CenteringPane>
+        </View>
       )
     }
 
@@ -202,18 +193,9 @@ const ProfileContentsQuery = gql`
   ${BlockItem.fragments.block}
 `
 
-ProfileContainer.propTypes = {
-  data: PropTypes.any.isRequired,
-  userBlocksData: PropTypes.any.isRequired,
-  type: PropTypes.oneOf(['CHANNEL', 'BLOCK']).isRequired,
-  loadMore: PropTypes.any,
-  page: PropTypes.number,
-}
-
-ProfileContainer.defaultProps = {
-  page: 1,
-  loadMore: () => null,
-}
+const DecoratedProfileContainer = withLoadingAndErrors(ProfileContainer, {
+  errorMessage: 'Error getting profile',
+})
 
 const ProfileContainerWithData = compose(
   graphql(ProfileQuery),
@@ -254,6 +236,6 @@ const ProfileContainerWithData = compose(
       }
     },
   }),
-)(ProfileContainer)
+)(DecoratedProfileContainer)
 
 export default withApollo(ProfileContainerWithData)
