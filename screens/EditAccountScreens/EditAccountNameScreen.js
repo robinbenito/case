@@ -1,6 +1,5 @@
 import React from 'react'
 import gql from 'graphql-tag'
-import { pickBy } from 'lodash'
 import { compose, graphql } from 'react-apollo'
 import PropTypes from 'prop-types'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
@@ -11,7 +10,7 @@ import formatErrors from '../../utilities/formatErrors'
 
 import HeaderRightButton from '../../components/HeaderRightButton'
 import { Fieldset, StackedInput } from '../../components/UI/Inputs'
-import { Container, Section } from '../../components/UI/Layout'
+import { Section } from '../../components/UI/Layout'
 import Alerts, { sendAlert, dismissAllAlerts } from '../../components/Alerts'
 import withLoadingAndErrors from '../../components/WithLoadingAndErrors'
 
