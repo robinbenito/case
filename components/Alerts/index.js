@@ -38,12 +38,12 @@ class Alerts extends Component {
   }
 
   render() {
-    const { alerts } = this.props
+    const { alerts, ...rest } = this.props
 
     if (alerts.length === 0) return <View />
 
     return (
-      <Container>
+      <Container {...rest}>
         {Object.keys(alerts).map((id) => {
           const props = alerts[id]
           return <Alert key={id} {...props} />

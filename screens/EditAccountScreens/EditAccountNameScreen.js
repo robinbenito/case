@@ -1,13 +1,17 @@
 import React from 'react'
 import gql from 'graphql-tag'
-import { pickBy } from 'lodash'
 import { compose, graphql } from 'react-apollo'
 import PropTypes from 'prop-types'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+
 import navigationService from '../../utilities/navigationService'
+import injectButtonWhenDiff from '../../utilities/injectButtonWhenDiff'
+import formatErrors from '../../utilities/formatErrors'
+
 import HeaderRightButton from '../../components/HeaderRightButton'
 import { Fieldset, StackedInput } from '../../components/UI/Inputs'
-import { Container, Section } from '../../components/UI/Layout'
+import { Section } from '../../components/UI/Layout'
+import Alerts, { sendAlert, dismissAllAlerts } from '../../components/Alerts'
 import withLoadingAndErrors from '../../components/WithLoadingAndErrors'
 
 const refetchAccountNameQuery = gql`
@@ -25,44 +29,49 @@ const refetchAccountNameQuery = gql`
 `
 
 class EditAccountNameScreen extends React.Component {
+  static isAbleToListen = false
+
   constructor(props) {
     super(props)
 
     this.state = {
-      first_name: null,
-      last_name: null,
+      first_name: '',
+      last_name: '',
     }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.data.loading) return
+
+    this.setState({ ...nextProps.data.me })
+
+    this.isAbleToListen = true
   }
 
   componentDidUpdate() {
-    const { navigation } = this.props
-    const { first_name, last_name } = this.state
+    if (!this.isAbleToListen) return
 
-    // TODO: Extract into a function
-    if (first_name || last_name) {
-      return navigation.setOptions({
-        headerRight: (
-          <HeaderRightButton
-            onPress={this.onSubmit}
-            text="Done"
-          />
-        ),
-      })
-    }
-
-    navigation.setOptions({ headerRight: null })
+    injectButtonWhenDiff({
+      navigation: this.props.navigation,
+      state: this.state,
+      fields: this.props.data.me,
+      headerRight: <HeaderRightButton
+        onPress={this.onSubmit}
+        text="Done"
+      />,
+    })
   }
 
   onSubmit = () => {
-    const { data: { me: { id } } } = this.props
-    const { first_name, last_name } = this.state
+    dismissAllAlerts()
+
+    const { id, first_name, last_name } = this.state
+    const variables = { first_name, last_name }
 
     this.props
       .mutate({
-        variables: pickBy({
-          first_name,
-          last_name,
-        }),
+        variables,
+
         // We update the `first_name` and `last_name` here
         // but elsewhere reference `name`
         refetchQueries: [{
@@ -70,11 +79,15 @@ class EditAccountNameScreen extends React.Component {
           query: refetchAccountNameQuery,
         }],
       })
-      .then(({ error }) => {
-        // TODO: Display error (Implement generic error alert dispatch)
-        if (error) console.log(error)
 
-        if (!error) navigationService.back()
+      .then(() => {
+        navigationService.back()
+      })
+
+      .catch((err) => {
+        const error = formatErrors(err)
+
+        sendAlert({ children: error })
       })
   }
 
@@ -83,34 +96,33 @@ class EditAccountNameScreen extends React.Component {
   }
 
   render() {
-    const { data: { me } } = this.props
     const { first_name, last_name } = this.state
 
     return (
-      <Container>
-        <KeyboardAwareScrollView>
-          <Section>
-            <Fieldset>
-              <StackedInput
-                label="First"
-                placeholder="First Name"
-                value={first_name || me.first_name}
-                onChangeText={this.onChangeText('first_name')}
-                autoCorrect={false}
-                autoFocus
-              />
+      <KeyboardAwareScrollView>
+        <Alerts style={{ top: 0 }} />
 
-              <StackedInput
-                label="Last"
-                placeholder="Last Name"
-                value={last_name || me.last_name}
-                onChangeText={this.onChangeText('last_name')}
-                autoCorrect={false}
-              />
-            </Fieldset>
-          </Section>
-        </KeyboardAwareScrollView>
-      </Container>
+        <Section space={5}>
+          <Fieldset>
+            <StackedInput
+              label="First"
+              placeholder="First Name"
+              value={first_name}
+              onChangeText={this.onChangeText('first_name')}
+              autoCorrect={false}
+              autoFocus
+            />
+
+            <StackedInput
+              label="Last"
+              placeholder="Last Name"
+              value={last_name}
+              onChangeText={this.onChangeText('last_name')}
+              autoCorrect={false}
+            />
+          </Fieldset>
+        </Section>
+      </KeyboardAwareScrollView>
     )
   }
 }

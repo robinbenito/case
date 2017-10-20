@@ -1,45 +1,53 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
+
 import { Colors, Units, Typography } from '../constants/Style'
 
 const Button = styled.TouchableOpacity`
   padding-horizontal: ${Units.scale[2]};
 `
 
-const ButtonText = styled.Text`
+const Label = styled.Text`
   font-size: ${Typography.fontSize.medium};
   line-height: ${Typography.lineHeightFor('medium')};
   color: ${Colors.gray.semiBold};
+  opacity: ${x => (x.disabled ? 0.5 : 1)};
 `
 
 export default class HeaderRightButton extends React.Component {
   constructor(props) {
     super(props)
+
     this.state = {
-      isSaving: false,
+      disabled: false,
     }
-    this.onPress = this.onPress.bind(this)
   }
 
-  onPress() {
-    if (this.state.isSaving) return false
-    this.setState({ isSaving: true })
-    return this.props.onPress()
+  onPress = async () => {
+    this.setState({ disabled: true })
+
+    try {
+      await this.props.onPress()
+    } finally {
+      this.setState({ disabled: false })
+    }
   }
 
   render() {
-    const { text } = this.props
+    const { text, onPress, ...rest } = this.props
+    const { disabled } = this.state
 
     return (
-      <Button onPress={this.onPress}>
-        <ButtonText>{text}</ButtonText>
+      <Button onPress={this.onPress} disabled={disabled} {...rest}>
+        <Label disabled={disabled}>{text}</Label>
       </Button>
     )
   }
 }
 
 HeaderRightButton.propTypes = {
+  // TODO: Accept children instead
   text: PropTypes.string.isRequired,
   onPress: PropTypes.func,
 }

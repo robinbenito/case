@@ -25,7 +25,7 @@ const Message = styled.Text`
 export default class Alert extends Component {
   static propTypes = {
     id: PropTypes.string.isRequired,
-    type: PropTypes.string,
+    type: PropTypes.oneOf(['alert', 'premium', 'confirmation', 'tip']),
     children: PropTypes.node.isRequired,
   }
 
