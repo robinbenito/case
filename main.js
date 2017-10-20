@@ -18,6 +18,8 @@ import cacheAssetsAsync from './utilities/cacheAssetsAsync'
 import CurrentUser from './utilities/currentUserService'
 import { trackPage } from './utilities/analytics'
 
+import { dismissAllAlerts } from './components/Alerts'
+
 const logo = require('./assets/images/logo.png')
 
 const getCurrentRouteName = (navigationState) => {
@@ -63,6 +65,8 @@ class AppContainer extends Component {
     if (prevScreen !== currentScreen) {
       trackPage({ page: currentScreen })
     }
+
+    dismissAllAlerts()
   }
 
   async loadAssetsAsync() {
