@@ -7,7 +7,7 @@ import ImageForm from '../../components/Form/ImageForm'
 import NavigatorService from '../../utilities/navigationService'
 
 const navigationOptions = {
-  title: 'New Image',
+  title: 'Upload Image',
   headerLeft: (<BackButton />),
 }
 

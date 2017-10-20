@@ -13,7 +13,7 @@ import LinkForm from '../../components/Form/LinkForm'
 import NavigatorService from '../../utilities/navigationService'
 
 const navigationOptions = {
-  title: 'New Link',
+  title: 'Paste Link',
   headerLeft: (<BackButton />),
 }
 
