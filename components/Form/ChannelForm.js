@@ -1,9 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import HeaderRightButton from '../HeaderRightButton'
 import NavigatorService from '../../utilities/navigationService'
-import { Section } from '../../components/UI/Layout'
+import { Section, Container } from '../../components/UI/Layout'
 import { StackedJumpButton } from '../../components/UI/Buttons'
 import { FieldsetLabel, Fieldset, StackedInput, StackedTextArea } from '../../components/UI/Inputs'
 import { capitalize } from '../../utilities/inflections'
@@ -71,7 +70,7 @@ class ChannelForm extends React.Component {
     const { title, description, visibility } = this.state
 
     return (
-      <KeyboardAwareScrollView>
+      <Container>
         <Section space={4}>
           <FieldsetLabel>
             Title / Description
@@ -101,7 +100,7 @@ class ChannelForm extends React.Component {
             </StackedJumpButton>
           </Fieldset>
         </Section>
-      </KeyboardAwareScrollView>
+      </Container>
     )
   }
 }
