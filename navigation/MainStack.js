@@ -75,14 +75,8 @@ export default enhance(StackNavigator)({
   comment: {
     screen: CommentScreen,
     navigationOptions: ({ navigation }) => ({
-      header: <Header
-        navigation={navigation}
-        primary={{ title: 'Comment' }}
-        secondary={[
-          { title: 'Your profile', key: 'profile' },
-          { title: 'Feed', key: 'feed' },
-        ]}
-      />,
+      title: navigation.state.params.title,
+      ...headerNavigationOptions,
     }),
   },
 
