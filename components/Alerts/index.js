@@ -12,8 +12,8 @@ import { Units } from '../../constants/Style'
 import Alert from './Alert'
 
 export const sendAlert = ({ id, ...rest }) => {
-  id = id || `${new Date().getTime()}`
-  Store.dispatch({ alert: { id, ...rest }, type: SEND_ALERT })
+  const alertId = id || `${new Date().getTime()}`
+  Store.dispatch({ alert: { id: alertId, ...rest }, type: SEND_ALERT })
 }
 
 export const dismissAlert = id =>
