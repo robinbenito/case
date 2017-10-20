@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
+import { View } from 'react-native'
 import { Units } from '../../constants/Style'
 import { BlurredAbsoluteFill, AbsoluteFill } from '../UI/Layout'
 import HeaderPullDown from './HeaderPullDown'
@@ -44,7 +45,6 @@ export default class Header extends Component {
 
     this.state = {
       isExpanded: false,
-      headerRight: props.headerRight,
     }
   }
 
@@ -57,9 +57,9 @@ export default class Header extends Component {
   }
 
   render() {
-    const { isExpanded, headerRight } = this.state
+    const { isExpanded } = this.state
     const primary = { ...this.props.primary, ...this.props.navigation.state.params }
-    const { secondary, headerLeft, isHeaderTitleVisible } = this.props
+    const { secondary, headerLeft, isHeaderTitleVisible, headerRight } = this.props
 
     return (
       <HeaderModal
