@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
-import { View } from 'react-native'
 import { Units } from '../../constants/Style'
 import { BlurredAbsoluteFill, AbsoluteFill } from '../UI/Layout'
 import HeaderPullDown from './HeaderPullDown'
