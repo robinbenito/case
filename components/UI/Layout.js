@@ -1,4 +1,4 @@
-import { KeyboardAvoidingView } from 'react-native'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { BlurView } from 'expo'
 import styled from 'styled-components/native'
 import { HEADER_HEIGHT } from '../Header'
@@ -42,12 +42,13 @@ export const Container = styled.View`
   margin-top: ${HEADER_HEIGHT};
 `
 
-export const CenteringPane = styled(KeyboardAvoidingView)`
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-  background-color: white;
-`
+export const CenteringPane = styled(KeyboardAwareScrollView).attrs({
+  contentContainerStyle: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+})
 
 export const CenterColumn = styled.View`
   width: 55%;
