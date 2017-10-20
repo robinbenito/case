@@ -8,7 +8,7 @@ import HeaderRightButton from '../HeaderRightButton'
 
 import { Units, Border } from '../../constants/Style'
 
-const contentWidth = Units.window.width - Units.base
+const contentWidth = (Units.window.width - (Units.scale[4] * 2))
 
 const Container = styled(KeyboardAwareScrollView)`
   flex: 1;
