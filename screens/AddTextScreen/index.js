@@ -29,6 +29,7 @@ export default class AddTextScreen extends React.Component {
         onSubmit={this.onSubmit}
         navigation={navigation}
         navigationOptions={navigationOptions}
+        submitText="Next"
       />
     )
   }
