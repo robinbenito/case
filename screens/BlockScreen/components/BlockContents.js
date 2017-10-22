@@ -144,7 +144,7 @@ class BlockContents extends React.Component {
       )
     }
 
-    const { __typename } = block.kind
+    const __typename = block.kind && block.kind.__typename
     const imageUrl = block.kind.image_url || imageLocation || 'https://s3.amazonaws.com/arena_assets/assets/brand/arena-app-icon.png'
 
     let blockInner
