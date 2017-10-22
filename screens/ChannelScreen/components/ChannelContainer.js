@@ -39,8 +39,8 @@ class ChannelContainer extends React.Component {
   }
 
   onRefresh = () => {
-    this.setState({ page: 1 })
-    this.props.data.refetch({ notifyOnNetworkStatusChange: true })
+    this.setState({ page: 1, type: this.props.type })
+    this.props.blocksData.refetch({ notifyOnNetworkStatusChange: true })
   }
 
   onEndReached = () => {
@@ -131,7 +131,8 @@ class ChannelContainer extends React.Component {
       <Empty text={`No connected ${type.toLowerCase()}s`} />
     )
 
-    const contentsLoading = contentsData.networkStatus === 2 || contentsData.networkStatus === 1
+    const { networkStatus } = contentsData
+    const contentsLoading = networkStatus === 2 || networkStatus === 1 || networkStatus === 4
 
     if (contents.length === 0 && !contentsLoading && type !== 'CONNECTION') {
       return (
