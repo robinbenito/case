@@ -62,7 +62,8 @@ export default class BlockItem extends Component {
   }
 
   render() {
-    const { size, block, block: { kind: { __typename } }, ...rest } = this.props
+    const { size, block, ...rest } = this.props
+    const __typename = block.kind && block.kind.__typename
 
     let inner
 
