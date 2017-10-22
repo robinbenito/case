@@ -30,6 +30,7 @@ export default class AddImageScreen extends React.Component {
         navigation={navigation}
         navigationOptions={navigationOptions}
         block={block}
+        submitText="Next"
       />
     )
   }

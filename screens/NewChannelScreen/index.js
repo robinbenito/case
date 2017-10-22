@@ -47,6 +47,7 @@ class NewChannelScreen extends React.Component {
         onSubmit={this.onSubmit}
         navigation={navigation}
         navigationOptions={NAVIGATION_OPTIONS}
+        submitText="Next"
       />
     )
   }
