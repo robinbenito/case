@@ -2,7 +2,6 @@ import React from 'react'
 import gql from 'graphql-tag'
 import { compose, graphql } from 'react-apollo'
 import PropTypes from 'prop-types'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 import navigationService from '../../utilities/navigationService'
 import injectButtonWhenDiff from '../../utilities/injectButtonWhenDiff'
@@ -10,7 +9,7 @@ import formatErrors from '../../utilities/formatErrors'
 
 import HeaderRightButton from '../../components/HeaderRightButton'
 import { Fieldset, StackedInput } from '../../components/UI/Inputs'
-import { Section } from '../../components/UI/Layout'
+import { Container, Section } from '../../components/UI/Layout'
 import Alerts, { sendAlert, dismissAllAlerts } from '../../components/Alerts'
 import withLoadingAndErrors from '../../components/WithLoadingAndErrors'
 
@@ -99,9 +98,7 @@ class EditAccountNameScreen extends React.Component {
     const { first_name, last_name } = this.state
 
     return (
-      <KeyboardAwareScrollView>
-        <Alerts style={{ top: 0 }} />
-
+      <Container>
         <Section space={5}>
           <Fieldset>
             <StackedInput
@@ -122,7 +119,9 @@ class EditAccountNameScreen extends React.Component {
             />
           </Fieldset>
         </Section>
-      </KeyboardAwareScrollView>
+
+        <Alerts style={{ top: 0 }} />
+      </Container>
     )
   }
 }
