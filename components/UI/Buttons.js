@@ -48,6 +48,7 @@ export const StackedButtonLabel = styled.Text.attrs({
   numberOfLines: 1,
 })`
   max-width: 90%;
+  padding-left: ${x => (x.secondary ? Units.scale[2] : 0)};
   text-align: ${x => (x.secondary ? 'right' : 'left')};
   font-size: ${Typography.fontSize.smedium};
   color: ${x => (x.secondary ? Colors.gray.medium : Colors.semantic.text)};
@@ -76,9 +77,11 @@ const ArrowForward = styled(BaseIcon).attrs({
 const RightIcon = styled.View`
   position: absolute;
   top: 0;
-  right: ${Units.scale[2]};
+  right: 0;
   bottom: 0;
   justify-content: center;
+  padding-horizontal: ${Units.scale[2]};
+  background-color: white;
 `
 
 const StackedJumpLabel = styled.View`
