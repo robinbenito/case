@@ -31,7 +31,7 @@ class NewChannelScreen extends React.Component {
 
         Store.dispatch({ type: TOGGLE_ADD_MENU })
 
-        NavigatorService.navigate('channel', {
+        NavigatorService.reset('channel', {
           id,
           title,
           color: Colors.channel[visibility],
