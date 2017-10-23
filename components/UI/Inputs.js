@@ -35,10 +35,10 @@ export const Input = styled.TextInput`
 const INPUT_HEIGHT = Typography.fontSize.base * 3
 
 export const StackedInputField = Input.extend`
+  width: 100%;
   height: ${INPUT_HEIGHT};
   padding-horizontal: ${Units.scale[2]};
   font-size: ${Typography.fontSize.smedium};
-  flex: 1;
 `
 
 const StackedInputOutline = styled.View`
