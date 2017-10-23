@@ -1,20 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styled from 'styled-components/native'
 
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 
-import { Units, Typography, Colors } from '../../../constants/Style'
-
-const UserMeta = styled.View`
-  padding-top: ${Units.scale[1]};
-`
-
-const MetaText = styled.Text`
-  font-size: ${Typography.fontSize.small};
-  color: ${Colors.gray.semiBold};
-`
+import { Meta, MetaText } from './Meta'
 
 class UserResultMeta extends React.Component {
   render() {
@@ -22,18 +12,18 @@ class UserResultMeta extends React.Component {
 
     if (loading || error) {
       return (
-        <UserMeta>
+        <Meta>
           <MetaText>•</MetaText>
-        </UserMeta>
+        </Meta>
       )
     }
 
     return (
-      <UserMeta>
+      <Meta>
         <MetaText onPress={this.goToChannel}>
           {user.counts.channels} channels • {user.counts.blocks} blocks
         </MetaText>
-      </UserMeta>
+      </Meta>
     )
   }
 }
