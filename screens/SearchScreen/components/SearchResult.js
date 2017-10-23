@@ -80,7 +80,7 @@ SearchResultItem.fragments = {
     fragment ChannelItem on Channel {
       __typename
       id
-      title
+      title(truncate: 30)
       visibility
       updated_at(relative: true)
       user {
