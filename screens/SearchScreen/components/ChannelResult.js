@@ -1,48 +1,41 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native'
+import styled from 'styled-components/native'
 
 import { Units, Typography, Colors } from '../../../constants/Style'
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingLeft: Units.base,
-  },
-  text: {
-    fontSize: Typography.fontSize.base,
-    fontWeight: Typography.fontWeight.medium,
-  },
-  meta: {
-    paddingTop: Units.base / 2,
-  },
-  metaText: {
-    fontSize: Typography.fontSize.small,
-    color: Colors.gray.semiBold,
-  },
-})
+const ChannelResult = styled.View`
+  justify-content: center;
+`
+
+const Title = styled.Text`
+  font-size: ${Typography.fontSize.smedium};
+  font-weight: ${Typography.fontWeight.medium};
+`
+
+const ChannelMeta = styled.View`
+  padding-top: ${Units.scale[1]};
+`
+
+const MetaText = styled.Text`
+  font-size: ${Typography.fontSize.small};
+  color: ${Colors.gray.semiBold};
+`
 
 export default class SearchResultChannelItem extends React.Component {
   render() {
     const { channel } = this.props
-    const titleStyle = [styles.text, { color: Colors.channel[channel.visibility] }]
     return (
-      <View>
-        <Text style={titleStyle}>
+      <ChannelResult>
+        <Title style={{ color: Colors.channel[channel.visibility] }}>
           {channel.title}
-        </Text>
-        <View style={styles.meta}>
-          <Text style={styles.metaText} onPress={this.goToChannel}>
+        </Title>
+        <ChannelMeta >
+          <MetaText>
             {channel.user.name} • {channel.updated_at}
-          </Text>
-        </View>
-      </View>
+          </MetaText>
+        </ChannelMeta >
+      </ChannelResult>
     )
   }
 }
