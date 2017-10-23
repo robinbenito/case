@@ -36,6 +36,7 @@ class UserSettingsScreen extends React.Component {
             <FieldsetLabel>
               Profile
             </FieldsetLabel>
+
             <Fieldset>
               <StackedJumpButton
                 label="Name"
@@ -53,6 +54,25 @@ class UserSettingsScreen extends React.Component {
                   Bio
                 </StackedJumpButton>
               */}
+            </Fieldset>
+          </Section>
+
+          <Section space={3}>
+            <FieldsetLabel>
+              Notifications
+            </FieldsetLabel>
+
+            <Fieldset>
+              <StackedJumpButton
+                label="Email Notifications"
+                onPress={() => navigationService.navigate('editEmailNotifications')}
+              >
+                {{
+                  digest: 'Periodic Digest',
+                  notifications: 'Every Notification',
+                  none: 'None',
+                }[me.settings.receive_email]}
+              </StackedJumpButton>
             </Fieldset>
           </Section>
 
@@ -98,6 +118,9 @@ const UserSettingsQuery = gql`
       name
       email
       ... Avatar
+      settings {
+        receive_email
+      }
     }
   }
   ${UserAvatar.fragments.avatar}
