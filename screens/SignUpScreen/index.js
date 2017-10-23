@@ -15,6 +15,8 @@ import { CenteringPane, CenterColumn, Spacer } from '../../components/UI/Layout'
 import { SmallLogo } from '../../components/UI/Logos'
 import { UnderlineInput } from '../../components/UI/Inputs'
 
+import { Units } from '../../constants/Style'
+
 class SignUpScreen extends Component {
   constructor(props) {
     super(props)
@@ -153,7 +155,7 @@ class SignUpScreen extends Component {
           </View>
         }
 
-        <Alerts />
+        <Alerts style={{ top: Units.statusBarHeight }} />
       </CenteringPane>
     )
   }

@@ -9,7 +9,7 @@ import formatErrors from '../../utilities/formatErrors'
 import { Fieldset } from '../../components/UI/Inputs'
 import { StackedToggle } from '../../components/UI/Buttons'
 import { Container, Section } from '../../components/UI/Layout'
-import Alerts, { sendAlert, dismissAllAlerts } from '../../components/Alerts'
+import { sendAlert, dismissAllAlerts } from '../../components/Alerts'
 import withLoadingAndErrors from '../../components/WithLoadingAndErrors'
 
 class EditEmailNotificationsScreen extends React.Component {
@@ -86,8 +86,6 @@ class EditEmailNotificationsScreen extends React.Component {
             </StackedToggle>
           </Fieldset>
         </Section>
-
-        <Alerts style={{ top: 0 }} />
       </Container>
     )
   }

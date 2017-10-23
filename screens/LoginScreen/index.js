@@ -4,7 +4,7 @@ import { pick } from 'lodash'
 import { gql, graphql } from 'react-apollo'
 import { TouchableOpacity, View } from 'react-native'
 
-import currentUserService from '../../utilities/currentUserService'
+import currentUserService, { SERIALIZED_ATTRIBUTES } from '../../utilities/currentUserService'
 import formatErrors from '../../utilities/formatErrors'
 import navigationService from '../../utilities/navigationService'
 import wait from '../../utilities/wait'
@@ -16,6 +16,7 @@ import { UnderlineInput } from '../../components/UI/Inputs'
 import { Section, CenteringPane, CenterColumn } from '../../components/UI/Layout'
 import { SmallLogo } from '../../components/UI/Logos'
 
+import { Units } from '../../constants/Style'
 
 class LoginScreen extends Component {
   static propTypes = {
@@ -121,7 +122,7 @@ class LoginScreen extends Component {
           </View>
         }
 
-        <Alerts />
+        <Alerts style={{ top: Units.statusBarHeight }} />
       </CenteringPane>
     )
   }
@@ -132,10 +133,8 @@ const login = gql`
     login(input: { email: $email, password: $password }) {
       clientMutationId
       me {
-        id
-        slug
-        name
-        authentication_token
+        ${SERIALIZED_ATTRIBUTES.reduce((q, attr) => `${q}
+          ${attr}`, '')}
       }
     }
   }
