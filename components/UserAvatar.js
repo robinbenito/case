@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import gql from 'graphql-tag'
+import { propType } from 'graphql-anywhere'
 import styled from 'styled-components/native'
 import { Colors, Typography, Units } from '../constants/Style'
 
@@ -65,7 +66,7 @@ export default class UserAvatar extends React.Component {
 
         {includeName &&
           <Name>
-            {user.name || `${user.first_name} ${user.last_name}`}
+            {user.name}
           </Name>
         }
       </HitArea>
@@ -75,14 +76,11 @@ export default class UserAvatar extends React.Component {
 
 UserAvatar.fragments = {
   avatar: gql`
-    fragment Avatar on User {
-      id
+    fragment Avatar on UserInterface {
       name
-      first_name
-      last_name
       slug
       initials
-      avatar(size: SMALL)
+      avatar(size: LARGE)
     }
   `,
 }
@@ -91,12 +89,7 @@ UserAvatar.propTypes = {
   size: PropTypes.number,
   onPress: PropTypes.func,
   includeName: PropTypes.bool,
-  user: PropTypes.shape({
-    name: PropTypes.string,
-    slug: PropTypes.string,
-    initials: PropTypes.string,
-    avatar: PropTypes.string,
-  }).isRequired,
+  user: propType(UserAvatar.fragments.avatar).isRequired,
 }
 
 UserAvatar.defaultProps = {

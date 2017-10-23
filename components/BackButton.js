@@ -25,7 +25,6 @@ export default class BackButton extends React.Component {
           name="ios-arrow-back"
           size={24}
           color="black"
-          onPress={this.back}
           style={{ paddingHorizontal: Units.scale[1] }}
         />
       </Container>

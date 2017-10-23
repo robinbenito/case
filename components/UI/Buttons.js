@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components/native'
 import PropTypes from 'prop-types'
-import { TouchableOpacity } from 'react-native'
+import { BaseIcon } from './Icons'
 import { Border, Typography, Units, Colors } from '../../constants/Style'
 
 export const ButtonOutline = styled.TouchableOpacity`
@@ -34,28 +34,123 @@ export const SmallButtonLabel = ButtonLabel.extend`
   font-weight: ${Typography.fontWeight.medium};
 `
 
-export const StackedButtonBorder = styled.TouchableHighlight.attrs({
-  underlayColor: Colors.gray.medium,
-})`
-  border-color: ${Colors.gray.medium};
+export const StackedButtonBorder = styled.View`
+  border-color: ${Border.borderColor};
   border-top-width: ${Units.hairlineWidth};
+`
+
+export const StackedButtonHitArea = styled.TouchableOpacity`
   padding-left: ${Units.scale[2]};
   padding-vertical: ${Units.scale[2]};
 `
 
-export const StackedButtonLabel = styled.Text`
-  font-size: ${Typography.fontSize.base};
-  color: black;
+export const StackedButtonLabel = styled.Text.attrs({
+  numberOfLines: 1,
+})`
+  max-width: 90%;
+  padding-left: ${x => (x.secondary ? Units.scale[2] : 0)};
+  text-align: ${x => (x.secondary ? 'right' : 'left')};
+  font-size: ${Typography.fontSize.smedium};
+  color: ${x => (x.secondary ? Colors.gray.medium : Colors.semantic.text)};
 `
 
 export const StackedButton = ({ children, ...rest }) => (
-  <StackedButtonBorder {...rest}>
-    <StackedButtonLabel>{children}</StackedButtonLabel>
+  <StackedButtonBorder>
+    <StackedButtonHitArea {...rest}>
+      <StackedButtonLabel>{children}</StackedButtonLabel>
+    </StackedButtonHitArea>
   </StackedButtonBorder>
 )
 
 StackedButton.propTypes = {
   children: PropTypes.node.isRequired,
+}
+
+const ArrowForward = styled(BaseIcon).attrs({
+  name: 'ios-arrow-forward',
+})`
+  font-size: 24;
+  color: ${Colors.gray.regular};
+  background-color: transparent;
+`
+
+const RightIcon = styled.View`
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  justify-content: center;
+  padding-horizontal: ${Units.scale[2]};
+  background-color: white;
+`
+
+const StackedJumpLabel = styled.View`
+  justify-content: space-between;
+  flex-direction: row;
+  padding-right: ${Units.scale[4]};
+`
+
+export const StackedJumpButton = ({ label, children, ...rest }) => (
+  <StackedButtonBorder>
+    <StackedButtonHitArea {...rest}>
+      <StackedJumpLabel>
+        {label &&
+          <StackedButtonLabel>
+            {label}
+          </StackedButtonLabel>
+        }
+
+        <StackedButtonLabel secondary={!!label}>
+          {children}
+        </StackedButtonLabel>
+      </StackedJumpLabel>
+
+      <RightIcon>
+        <ArrowForward />
+      </RightIcon>
+    </StackedButtonHitArea>
+  </StackedButtonBorder>
+)
+
+StackedJumpButton.propTypes = {
+  label: PropTypes.string,
+  children: PropTypes.node.isRequired,
+}
+
+StackedJumpButton.defaultProps = {
+  label: null,
+}
+
+const Checkmark = ArrowForward.extend.attrs({
+  name: 'ios-checkmark',
+})`
+  font-size: 40;
+  color: ${Colors.semantic.text};
+`
+
+export const StackedToggle = ({ active, children, ...rest }) => (
+  <StackedButtonBorder>
+    <StackedButtonHitArea {...rest}>
+      <StackedButtonLabel>
+        {children}
+      </StackedButtonLabel>
+
+      {active &&
+        <RightIcon>
+          <Checkmark />
+        </RightIcon>
+      }
+    </StackedButtonHitArea>
+  </StackedButtonBorder>
+)
+
+StackedToggle.propTypes = {
+  active: PropTypes.bool.isRequired,
+  children: PropTypes.node.isRequired,
+}
+
+StackedToggle.defaultProps = {
+  active: false,
 }
 
 export const SecondaryButtonLabel = styled.Text`
@@ -64,9 +159,9 @@ export const SecondaryButtonLabel = styled.Text`
 `
 
 export const SecondaryButton = ({ children, ...rest }) => (
-  <TouchableOpacity {...rest}>
+  <StackedButtonHitArea {...rest}>
     <SecondaryButtonLabel>{children}</SecondaryButtonLabel>
-  </TouchableOpacity>
+  </StackedButtonHitArea>
 )
 
 SecondaryButton.propTypes = {

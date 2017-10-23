@@ -2,14 +2,17 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
 import { pickBy } from 'lodash'
+import { Share } from 'react-native'
 
 import UserNameText from '../../../components/UserNameText'
 import TabToggle from '../../../components/TabToggle'
 import FollowButtonWithData from '../../../components/FollowButton'
 import HTML from '../../../components/HTML'
 import { Colors, Units, Typography } from '../../../constants/Style'
+import { SmallButton, SmallButtonLabel } from '../../../components/UI/Buttons'
 
-import pluralize from '../../../utilities/pluralize'
+import NavigationService from '../../../utilities/navigationService'
+import { pluralize } from '../../../utilities/inflections'
 
 const Container = styled.View`
   margin-bottom: ${Units.scale[2]};
@@ -48,9 +51,21 @@ const Description = styled(HTML)`
   margin-vertical: ${Units.scale[1]};
 `
 
-const Follow = styled.View`
+const Actions = styled.View`
   margin-top: ${Units.scale[1]};
 `
+
+const Action = styled.Text`
+  margin-vertical: ${Units.scale[1] / 2};
+  font-size: ${Typography.fontSize.small};
+  line-height: ${Typography.lineHeightFor('base')};
+  font-weight: ${Typography.fontWeight.bold};
+  color: ${({ visibility }) => Colors.channel[visibility]};
+`
+
+const editChannel = (channel) => {
+  NavigationService.navigate('editChannel', { channel })
+}
 
 const ChannelHeader = ({ channel, type, onToggle }) => {
   let TAB_OPTIONS = {
@@ -73,14 +88,23 @@ const ChannelHeader = ({ channel, type, onToggle }) => {
           </Title>
 
           {channel.can.follow &&
-            <Follow>
+            <Actions>
               <FollowButtonWithData id={channel.id} type="CHANNEL" />
-            </Follow>
+            </Actions>
+          }
+          {channel.can.manage &&
+            <Actions>
+              <SmallButton onPress={() => editChannel(channel)}>
+                <SmallButtonLabel accessibilityLabel="Edit">
+                  Edit
+                </SmallButtonLabel>
+              </SmallButton>
+            </Actions>
           }
         </Headline>
 
         <Description
-          value={channel.description || '<p>—</p>'}
+          value={channel.displayDescription || '<p>—</p>'}
           stylesheet={{
             p: {
               color: Colors.channel[channel.visibility],
@@ -91,6 +115,13 @@ const ChannelHeader = ({ channel, type, onToggle }) => {
         <Metadata visibility={channel.visibility}>
           by <UserNameText user={channel.user} />
         </Metadata>
+
+        {channel.visibility !== 'private' &&
+          <Action visibility={channel.visibility} onPress={() => Share.share({ url: `https://www.are.na/${channel.user.slug}/${channel.id}` })}>
+            Share
+          </Action>
+        }
+
       </Header>
 
       <TabToggle

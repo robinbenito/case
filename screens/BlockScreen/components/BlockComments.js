@@ -10,7 +10,7 @@ import { Units } from '../../../constants/Style'
 import { Button, ButtonLabel } from '../../../components/UI/Buttons'
 import { CenterColumn } from '../../../components/UI/Layout'
 import navigationService from '../../../utilities/navigationService'
-import pluralize from '../../../utilities/pluralize'
+import { pluralize } from '../../../utilities/inflections'
 
 const Submit = styled(CenterColumn)`
   margin-vertical: ${Units.base};
@@ -69,7 +69,7 @@ class BlockComments extends React.Component {
 
     const leaveCommentButton = (!isLeavingComment &&
       <Button space={1} onPress={() => this.leaveComment(block)}>
-        <ButtonLabel>Leave&nbsp;comment</ButtonLabel>
+        <ButtonLabel>Leave comment</ButtonLabel>
       </Button>
     )
 

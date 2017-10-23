@@ -14,17 +14,17 @@ export default class BlockText extends React.Component {
   }
 
   render() {
-    const { block: { title, kind: { __typename } }, ...rest } = this.props
-
+    const { phrase, block: { title, kind: { __typename } }, ...rest } = this.props
     return (
       <Text onPress={this.goToBlock} {...rest}>
-        {title || `${__typename.match(/^[AEIOU]/) ? 'an' : 'a'} ${__typename.toLowerCase()}`}
+        {phrase || title || `${__typename.match(/^[AEIOU]/) ? 'an' : 'a'} ${__typename.toLowerCase()}`}
       </Text>
     )
   }
 }
 
 BlockText.propTypes = {
+  phrase: PropTypes.string,
   block: PropTypes.shape({
     id: PropTypes.any.isRequired,
     title: PropTypes.string,
@@ -33,5 +33,6 @@ BlockText.propTypes = {
 }
 
 BlockText.defaultProps = {
+  phrase: '',
   onPress: () => null,
 }

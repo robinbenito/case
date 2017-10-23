@@ -16,9 +16,7 @@ export const BLOCK_SIZES = {
   '2-up': ((Units.window.width / 2) - (Units.scale[1] * 3)),
 }
 
-const Container = styled.TouchableOpacity.attrs({
-  activeOpacity: 0.95,
-})`
+const Container = styled.TouchableOpacity`
   width: ${x => BLOCK_SIZES[x.size]};
   height: ${x => BLOCK_SIZES[x.size] + BLOCK_METADATA_HEIGHT};
 `
@@ -64,7 +62,8 @@ export default class BlockItem extends Component {
   }
 
   render() {
-    const { size, block, block: { kind: { __typename } }, ...rest } = this.props
+    const { size, block, ...rest } = this.props
+    const __typename = block.kind && block.kind.__typename
 
     let inner
 
@@ -140,6 +139,9 @@ BlockItem.fragments = {
         name
       }
       klass
+      source {
+        url
+      }
       kind {
         __typename
         ... on Block {

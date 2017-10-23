@@ -122,7 +122,7 @@ class SelectConnectionScreen extends React.Component {
 
   navigateToBlock(id, imageLocation) {
     this.setState({ selectedConnections: [] })
-    NavigationService.navigate('block', { id, imageLocation })
+    NavigationService.reset('block', { id, imageLocation })
   }
 
 

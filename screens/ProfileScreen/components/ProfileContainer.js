@@ -2,37 +2,27 @@ import React from 'react'
 import gql from 'graphql-tag'
 import { graphql, compose, withApollo } from 'react-apollo'
 import PropTypes from 'prop-types'
-import {
-  ActivityIndicator,
-  FlatList,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native'
+import { ActivityIndicator, FlatList, StyleSheet, View } from 'react-native'
 
 import ProfileHeader from './ProfileHeader'
 import ChannelItem from '../../../components/ChannelItem'
 import BlockItem from '../../../components/BlockItem'
-import Empty from '../../../components/Empty'
+import UserAvatar from '../../../components/UserAvatar'
+import { StatusMessage } from '../../../components/UI/Alerts'
+import withLoadingAndErrors from '../../../components/WithLoadingAndErrors'
+
 import CurrentUser from '../../../utilities/currentUserService'
-import layout from '../../../constants/Layout'
 import scrollHeaderVisibilitySensor from '../../../utilities/scrollHeaderVisibilitySensor'
+import layout from '../../../constants/Layout'
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#fff',
+    backgroundColor: 'white',
     minHeight: 700,
     paddingBottom: layout.topbar * 2,
   },
   channelItem: {
     marginHorizontal: layout.padding,
-  },
-  loadingContainer: {
-    backgroundColor: '#fff',
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: layout.padding,
   },
   footer: {
     paddingVertical: layout.padding * 2,
@@ -40,23 +30,33 @@ const styles = StyleSheet.create({
 })
 
 class ProfileContainer extends React.Component {
+  static propTypes = {
+    data: PropTypes.any.isRequired,
+    userBlocksData: PropTypes.any.isRequired,
+    type: PropTypes.oneOf(['CHANNEL', 'BLOCK']).isRequired,
+    loadMore: PropTypes.func,
+    page: PropTypes.number,
+  }
+
+  static defaultProps = {
+    page: 1,
+    loadMore: () => null,
+  }
+
   constructor(props) {
     super(props)
+
     this.state = {
       page: props.page,
       type: props.type,
     }
-    this.onEndReached = this.onEndReached.bind(this)
-    this.onRefresh = this.onRefresh.bind(this)
-    this.onToggleChange = this.onToggleChange.bind(this)
-    this.renderLoader = this.renderLoader.bind(this)
   }
 
   componentDidMount() {
     scrollHeaderVisibilitySensor.dispatch(false)
   }
 
-  onEndReached() {
+  onEndReached = () => {
     const { userBlocksData } = this.props
     if (!userBlocksData.user || !userBlocksData.user.contents) return false
 
@@ -73,19 +73,20 @@ class ProfileContainer extends React.Component {
     return this.props.loadMore(page)
   }
 
-  onRefresh() {
+  onRefresh = () => {
     this.setState({ page: 1 })
     this.props.data.refetch()
   }
 
-  onToggleChange(type) {
+  onToggleChange = (type) => {
     this.setState({ page: 1, type }, () => {
       this.props.userBlocksData.refetch({ page: 1, type })
     })
   }
 
-  renderLoader() {
+  renderLoader = () => {
     if (!this.props.userBlocksData.loading) return null
+
     return (
       <ActivityIndicator animating size="small" style={styles.footer} />
     )
@@ -93,25 +94,6 @@ class ProfileContainer extends React.Component {
 
   render() {
     const { userBlocksData, data } = this.props
-    const { error, loading } = this.props.data
-
-    if (error) {
-      return (
-        <View style={styles.loadingContainer} >
-          <Text>
-            Profile not found
-          </Text>
-        </View>
-      )
-    }
-
-    if (loading) {
-      return (
-        <View style={styles.loadingContainer} >
-          <ActivityIndicator />
-        </View>
-      )
-    }
 
     const { type } = this.state
     const contents = (
@@ -136,17 +118,15 @@ class ProfileContainer extends React.Component {
       />
     )
 
-    const empty = (
-      <Empty text={`No public ${type.toLowerCase()}s`} />
-    )
-
     const contentsLoading = userBlocksData.networkStatus === 2 || userBlocksData.networkStatus === 1
 
     if (contents.length === 0 && !contentsLoading) {
       return (
-        <View style={{ flex: 1 }}>
+        <View>
           {header}
-          {empty}
+          <StatusMessage>
+            {`No public ${type.toLowerCase()}s`}
+          </StatusMessage>
         </View>
       )
     }
@@ -186,8 +166,6 @@ const ProfileQuery = gql`
       id
       slug
       name
-      initials
-      avatar(size: LARGE)
       bio
       can {
         follow
@@ -196,8 +174,10 @@ const ProfileQuery = gql`
         blocks
         channels
       }
+      ... Avatar
     }
   }
+  ${UserAvatar.fragments.avatar}
 `
 
 const ProfileContentsQuery = gql`
@@ -213,18 +193,9 @@ const ProfileContentsQuery = gql`
   ${BlockItem.fragments.block}
 `
 
-ProfileContainer.propTypes = {
-  data: PropTypes.any.isRequired,
-  userBlocksData: PropTypes.any.isRequired,
-  type: PropTypes.oneOf(['CHANNEL', 'BLOCK']).isRequired,
-  loadMore: PropTypes.any,
-  page: PropTypes.number,
-}
-
-ProfileContainer.defaultProps = {
-  page: 1,
-  loadMore: () => null,
-}
+const DecoratedProfileContainer = withLoadingAndErrors(ProfileContainer, {
+  errorMessage: 'Error getting profile',
+})
 
 const ProfileContainerWithData = compose(
   graphql(ProfileQuery),
@@ -265,6 +236,6 @@ const ProfileContainerWithData = compose(
       }
     },
   }),
-)(ProfileContainer)
+)(DecoratedProfileContainer)
 
 export default withApollo(ProfileContainerWithData)

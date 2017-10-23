@@ -1,7 +1,11 @@
-import { KeyboardAvoidingView } from 'react-native'
+import React from 'react'
+import PropTypes from 'prop-types'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { BlurView } from 'expo'
 import styled from 'styled-components/native'
+
 import { HEADER_HEIGHT } from '../Header'
+import Alerts from '../Alerts'
 import { Units, Border } from '../../constants/Style'
 
 export const AbsoluteFill = styled.View`
@@ -15,8 +19,7 @@ export const AbsoluteFill = styled.View`
 `
 
 export const BlurredAbsoluteFill = styled(BlurView).attrs({
-  tint: 'light',
-  intensity: 85,
+  intensity: 100,
 })`
   position: absolute;
   top: 0;
@@ -35,23 +38,36 @@ export const RelativeFill = styled.View`
 `
 
 export const Section = styled.View`
-  margin-vertical: ${props => Units.scale[props.space || 1]};
+  margin-vertical: ${x => Units.scale[x.space || 1]};
 `
 
-export const Container = styled.View`
+export const HeaderAwareContainer = styled.View`
   flex: 1;
   margin-top: ${HEADER_HEIGHT};
 `
 
-export const CenteringPane = styled(KeyboardAvoidingView)`
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-  background-color: white;
-`
+export const Container = ({ children, ...rest }) => (
+  <HeaderAwareContainer {...rest}>
+    {children}
+    <Alerts />
+  </HeaderAwareContainer>
+)
+
+Container.propTypes = {
+  children: PropTypes.node.isRequired,
+}
+
+export const CenteringPane = styled(KeyboardAwareScrollView).attrs({
+  contentContainerStyle: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
+  },
+})``
 
 export const CenterColumn = styled.View`
-  width: 50%;
+  width: 55%;
   align-self: center;
   flex-direction: column;
   justify-content: center;
@@ -61,4 +77,8 @@ export const HorizontalRule = styled.View`
   width: 100%;
   height: ${Units.hairlineWidth};
   background-color: ${({ color }) => color || Border.borderColor};
+`
+
+export const Spacer = styled.View`
+  height: ${x => Units.scale[x.space || 1]}
 `

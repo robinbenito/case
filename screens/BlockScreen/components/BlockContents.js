@@ -6,6 +6,7 @@ import { ActivityIndicator, Image, Text, TouchableOpacity, View } from 'react-na
 import HTMLView from 'react-native-htmlview'
 import { WebBrowser } from 'expo'
 import styled from 'styled-components/native'
+
 import navigationService from '../../../utilities/navigationService'
 import BlockMetadata from './BlockMetadata'
 import BlockTabs from './BlockTabs'
@@ -120,8 +121,10 @@ class BlockContents extends React.Component {
   }
 
   render() {
-    const { block, error, loading } = this.props.data
+    const { error, loading } = this.props.data
     const { imageLocation } = this.props
+
+    const block = this.props.data.block
 
     if (error) {
       return (
@@ -133,7 +136,7 @@ class BlockContents extends React.Component {
       )
     }
 
-    if (loading) {
+    if (loading && !block) {
       return (
         <CenteringPane>
           <ActivityIndicator />
@@ -141,7 +144,7 @@ class BlockContents extends React.Component {
       )
     }
 
-    const { __typename } = block.kind
+    const __typename = block.kind && block.kind.__typename
     const imageUrl = block.kind.image_url || imageLocation || 'https://s3.amazonaws.com/arena_assets/assets/brand/arena-app-icon.png'
 
     let blockInner
@@ -165,7 +168,7 @@ class BlockContents extends React.Component {
         blockInner = (
           <TextContainer>
             <HTMLView
-              value={block.kind.content}
+              value={block.kind.displayContent}
               stylesheet={HTMLStyles}
             />
             <ExpandText block={block} />
@@ -180,7 +183,7 @@ class BlockContents extends React.Component {
         break
     }
 
-    const refreshing = this.props.data.networkStatus === 2 || this.props.data.networkStatus === 1
+    const refreshing = this.props.data.networkStatus === 2
     const { refetched } = this.state
 
     return (
@@ -199,11 +202,13 @@ class BlockContents extends React.Component {
           </ScrollToMetadata>
         </RelativeFill>
 
-        <BlockFold ref={ref => this.BlockFold = ref}>
-          <BlockMetadata block={block} />
+        {block.counts &&
+          <BlockFold ref={ref => this.BlockFold = ref}>
+            <BlockMetadata block={block} />
 
-          <BlockTabs block={block} key={refetched} />
-        </BlockFold>
+            <BlockTabs block={block} key={refetched} />
+          </BlockFold>
+        }
       </ScrollWithRefresh>
     )
   }
@@ -217,7 +222,8 @@ export const BlockQuery = gql`
       title
       updated_at(relative: true)
       created_at(relative: true)
-      description(format: HTML)
+      displayDescription: description(format: HTML)
+      description(format: MARKDOWN)
       user {
         __typename
         id
@@ -244,7 +250,8 @@ export const BlockQuery = gql`
           image_url(size: ORIGINAL)
         }
         ... on Text {
-          content(format: HTML)
+          displayContent: content(format: HTML)
+          content(format: MARKDOWN)
         }
         ... on Image {
           image_url(size: ORIGINAL)

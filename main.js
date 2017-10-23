@@ -1,19 +1,24 @@
 import Expo from 'expo'
-import React from 'react'
+import React, { Component } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { ApolloProvider } from 'react-apollo'
-import { updateFocus } from 'react-navigation-is-focused-hoc'
 import gql from 'graphql-tag'
 import { connect } from 'react-redux'
 
 import AddMenu from './components/AddMenu'
+
 import createRootNavigator from './navigation/Routes'
+
 import Store from './state/Store'
 import { SET_CURRENT_ROUTE } from './state/actions'
 import Client from './state/Apollo'
+
 import NavigatorService from './utilities/navigationService'
 import cacheAssetsAsync from './utilities/cacheAssetsAsync'
 import CurrentUser from './utilities/currentUserService'
+import { trackPage } from './utilities/analytics'
+
+import { dismissAllAlerts } from './components/Alerts'
 
 const logo = require('./assets/images/logo.png')
 
@@ -33,18 +38,35 @@ const AddMenuWithState = connect(({ routes, ui }) => ({
   active: ui.isAddMenuActive,
 }))(AddMenu)
 
-class AppContainer extends React.Component {
+class AppContainer extends Component {
   constructor(props) {
     super(props)
+
     this.state = {
-      assetsLoaded: false,
-      storageChecked: false,
+      isAssetsLoaded: false,
+      isStorageChecked: false,
     }
   }
 
   componentWillMount() {
     this.loadAssetsAsync()
     this.checkLoginStateAsync()
+  }
+
+  onNavigationStateChange = (prevState, currentState) => {
+    const currentScreen = getCurrentRouteName(currentState)
+    const prevScreen = getCurrentRouteName(prevState)
+
+    Store.dispatch({
+      type: SET_CURRENT_ROUTE,
+      current: currentScreen,
+    })
+
+    if (prevScreen !== currentScreen) {
+      trackPage({ page: currentScreen })
+    }
+
+    dismissAllAlerts()
   }
 
   async loadAssetsAsync() {
@@ -55,7 +77,7 @@ class AppContainer extends React.Component {
         ],
       })
     } finally {
-      this.setState({ assetsLoaded: true })
+      this.setState({ isAssetsLoaded: true })
     }
   }
 
@@ -67,22 +89,24 @@ class AppContainer extends React.Component {
       ])
 
       this.setState({
-        loggedIn: true,
-        storageChecked: true,
+        isLoggedIn: true,
+        isStorageChecked: true,
       })
     } catch (err) {
       CurrentUser.clear()
 
       this.setState({
-        loggedIn: false,
-        storageChecked: true,
+        isLoggedIn: false,
+        isStorageChecked: true,
       })
     }
   }
 
   render() {
-    if (this.state.assetsLoaded && this.state.storageChecked) {
-      const initialRouteName = this.state.loggedIn ? 'main' : 'loggedOut'
+    const { isAssetsLoaded, isStorageChecked, isLoggedIn } = this.state
+
+    if (isAssetsLoaded && isStorageChecked) {
+      const initialRouteName = isLoggedIn ? 'main' : 'loggedOut'
       const Navigation = createRootNavigator(initialRouteName)
 
       Store.dispatch({
@@ -94,25 +118,16 @@ class AppContainer extends React.Component {
         <ApolloProvider store={Store} client={Client}>
           <View style={StyleSheet.absoluteFill}>
             <Navigation
-              onNavigationStateChange={(prevState, currentState) => {
-                Store.dispatch({
-                  type: SET_CURRENT_ROUTE,
-                  current: getCurrentRouteName(currentState),
-                })
-                updateFocus(currentState)
-              }}
-              ref={(navigatorRef) => {
-                NavigatorService.setContainer(navigatorRef)
-              }}
+              onNavigationStateChange={this.onNavigationStateChange}
+              ref={NavigatorService.setContainer}
             />
             <AddMenuWithState />
           </View>
         </ApolloProvider>
       )
     }
-    return (
-      <Expo.AppLoading />
-    )
+
+    return <Expo.AppLoading />
   }
 }
 

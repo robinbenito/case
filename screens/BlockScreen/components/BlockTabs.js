@@ -6,7 +6,7 @@ import TabToggle from '../../../components/TabToggle'
 import BlockConnections from './BlockConnections'
 import BlockComments from './BlockComments'
 
-import pluralize from '../../../utilities/pluralize'
+import { pluralize } from '../../../utilities/inflections'
 
 const styles = StyleSheet.create({
   container: {

@@ -18,8 +18,7 @@ const HitArea = styled.TouchableOpacity`
 `
 
 const VisibleArea = styled(BlurView).attrs({
-  tint: 'light',
-  intensity: 85,
+  intensity: 100,
 })`
   border-radius: ${BUTTON_SIZE / 2};
   width: ${BUTTON_SIZE};

@@ -1,50 +1,53 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { StyleSheet, Text, TouchableOpacity } from 'react-native'
+import styled from 'styled-components/native'
 
-import colors from '../constants/Colors'
-import layout from '../constants/Layout'
-import type from '../constants/Type'
+import { Colors, Units, Typography } from '../constants/Style'
 
-const styles = StyleSheet.create({
-  button: {
-    paddingRight: layout.padding,
-    paddingHorizontal: layout.padding,
-  },
-  text: {
-    color: colors.gray.text,
-    fontSize: type.sizes.normal,
-    fontWeight: 'bold',
-  },
-})
+const Button = styled.TouchableOpacity`
+  padding-horizontal: ${Units.scale[2]};
+`
+
+const Label = styled.Text`
+  font-size: ${Typography.fontSize.medium};
+  line-height: ${Typography.lineHeightFor('medium')};
+  color: ${Colors.gray.semiBold};
+  opacity: ${x => (x.disabled ? 0.5 : 1)};
+`
 
 export default class HeaderRightButton extends React.Component {
   constructor(props) {
     super(props)
+
     this.state = {
-      isSaving: false,
+      disabled: false,
     }
-    this.onPress = this.onPress.bind(this)
   }
 
-  onPress() {
-    if (this.state.isSaving) return false
-    this.setState({ isSaving: true })
-    return this.props.onPress()
+  onPress = async () => {
+    this.setState({ disabled: true })
+
+    try {
+      await this.props.onPress()
+    } finally {
+      this.setState({ disabled: false })
+    }
   }
 
   render() {
-    const { text } = this.props
+    const { text, onPress, ...rest } = this.props
+    const { disabled } = this.state
 
     return (
-      <TouchableOpacity onPress={this.onPress} style={styles.button}>
-        <Text style={styles.text}>{text}</Text>
-      </TouchableOpacity>
+      <Button onPress={this.onPress} disabled={disabled} {...rest}>
+        <Label disabled={disabled}>{text}</Label>
+      </Button>
     )
   }
 }
 
 HeaderRightButton.propTypes = {
+  // TODO: Accept children instead
   text: PropTypes.string.isRequired,
   onPress: PropTypes.func,
 }

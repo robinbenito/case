@@ -55,10 +55,13 @@ export default class ChannelItem extends Component {
 
     if (onToggleSelect) return this.toggleSelect()
 
+    const { channel } = this.props
+    const visibility = channel.visibility || channel.kind.visibility
+
     NavigatorService.navigate('channel', {
-      id: this.props.channel.id,
-      title: this.props.channel.title,
-      color: Colors.channel[this.props.channel.visibility],
+      id: channel.id,
+      title: channel.title,
+      color: Colors.channel[visibility],
     })
   }
 

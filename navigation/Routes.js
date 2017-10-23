@@ -8,11 +8,13 @@ import LoginScreen from '../screens/LoginScreen'
 import SignUpScreen from '../screens/SignUpScreen'
 import MainStack from './MainStack'
 import NotificationsScreen from '../screens/NotificationsScreen'
-import NewChannelStack from './NewChannelStack'
+import SearchScreen from '../screens/SearchScreen'
 import AddTextScreen from '../screens/AddTextScreen'
 import AddImageScreen from '../screens/AddImageScreen'
 import AddLinkScreen from '../screens/AddLinkScreen'
 import AddConnectionsScreen from '../screens/AddConnectionScreen'
+
+import headerNavigationOptions from '../constants/Header'
 
 const MainStackWithDrawer = DrawerNavigator({
   feed: {
@@ -48,6 +50,7 @@ export default initialRouteName => StackModalNavigator({
       },
     },
   },
+
   signUp: {
     screen: SignUpScreen,
     navigationOptions: {
@@ -57,6 +60,7 @@ export default initialRouteName => StackModalNavigator({
       },
     },
   },
+
   main: {
     screen: MainStackWithDrawer,
     navigationOptions: {
@@ -66,8 +70,9 @@ export default initialRouteName => StackModalNavigator({
       },
     },
   },
-  newChannel: {
-    screen: NewChannelStack,
+
+  search: {
+    screen: SearchScreen,
     navigationOptions: {
       header: null,
       cardStyle: {
@@ -75,48 +80,41 @@ export default initialRouteName => StackModalNavigator({
       },
     },
   },
+
+  // TODO: Pull these onto the main stack
   newText: {
     screen: enhance(StackNavigator)({
       newText: { screen: AddTextScreen },
     }),
     navigationOptions: {
-      header: null,
-      cardStyle: {
-        backgroundColor: 'white',
-      },
+      ...headerNavigationOptions,
     },
   },
+
   newImage: {
     screen: enhance(StackNavigator)({
       newText: { screen: AddImageScreen },
     }),
     navigationOptions: {
-      header: null,
-      cardStyle: {
-        backgroundColor: 'white',
-      },
+      ...headerNavigationOptions,
     },
   },
+
   newLink: {
     screen: enhance(StackNavigator)({
       newLink: { screen: AddLinkScreen },
     }),
     navigationOptions: {
-      header: null,
-      cardStyle: {
-        backgroundColor: 'white',
-      },
+      ...headerNavigationOptions,
     },
   },
+
   connect: {
     screen: enhance(StackNavigator)({
       connect: {
         screen: AddConnectionsScreen,
         navigationOptions: {
-          header: null,
-          cardStyle: {
-            backgroundColor: 'white',
-          },
+          ...headerNavigationOptions,
         },
       },
     }),
