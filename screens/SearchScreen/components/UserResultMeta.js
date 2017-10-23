@@ -1,25 +1,20 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native'
+import styled from 'styled-components/native'
 
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 
 import { Units, Typography, Colors } from '../../../constants/Style'
 
-const styles = StyleSheet.create({
-  meta: {
-    paddingTop: Units.base / 2,
-  },
-  metaText: {
-    fontSize: Typography.fontSize.small,
-    color: Colors.gray.semiBold,
-  },
-})
+const UserMeta = styled.View`
+  padding-top: ${Units.scale[1]};
+`
+
+const MetaText = styled.Text`
+  font-size: ${Typography.fontSize.small};
+  color: ${Colors.gray.semiBold};
+`
 
 class UserResultMeta extends React.Component {
   render() {
@@ -27,18 +22,18 @@ class UserResultMeta extends React.Component {
 
     if (loading || error) {
       return (
-        <View style={styles.meta}>
-          <Text style={styles.metaText}>•</Text>
-        </View>
+        <UserMeta>
+          <MetaText>•</MetaText>
+        </UserMeta>
       )
     }
 
     return (
-      <View style={styles.meta}>
-        <Text style={styles.metaText} onPress={this.goToChannel}>
+      <UserMeta>
+        <MetaText onPress={this.goToChannel}>
           {user.counts.channels} channels • {user.counts.blocks} blocks
-        </Text>
-      </View>
+        </MetaText>
+      </UserMeta>
     )
   }
 }
