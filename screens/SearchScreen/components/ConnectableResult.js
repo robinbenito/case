@@ -1,69 +1,58 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  Image,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native'
+import styled from 'styled-components/native'
+import { decode } from 'he'
 
-import { Units, Typography, Colors } from '../../../constants/Style'
+import { Meta, MetaText, Section } from './Meta'
+import { Typography, Colors } from '../../../constants/Style'
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  text: {
-    fontSize: Typography.fontSize.base,
-    fontWeight: Typography.fontWeight.medium,
-    color: Colors.black,
-  },
-  image: {
-    resizeMode: 'contain',
-    width: 40,
-    height: 40,
-  },
-  meta: {
-    paddingTop: Units.base / 2,
-  },
-  metaText: {
-    fontSize: Typography.fontSize.small,
-    color: Colors.gray.semiBold,
-  },
-})
+const ConnectableResult = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+`
+
+const Title = styled.Text`
+  font-size: ${Typography.fontSize.smedium}
+  color: ${Colors.gray.semiBold};
+`
+
+const ImageThumb = styled.Image`
+  resize-mode: contain;
+  width: 40;
+  height: 40;
+`
 
 export default class SearchResultConnectableItem extends React.Component {
   render() {
     const { connectable } = this.props
     const { kind: { __typename: kindType } } = connectable
-    const titleStyle = styles.text
 
     const ConnectableImage = connectable.kind.image_url ? (
-      <View>
-        <Image
+      <Section>
+        <ImageThumb
           cache="force-cache"
-          style={styles.image}
           source={{ uri: connectable.kind.image_url, cache: 'force-cache' }}
         />
-      </View>
+      </Section>
     ) : null
 
+    const title = connectable.title ? decode(connectable.title) : null
+
     return (
-      <View style={styles.container}>
-        <View>
-          <Text style={titleStyle}>
-            {connectable.title}
-          </Text>
-          <View style={styles.meta}>
-            <Text style={styles.metaText} onPress={this.goToChannel}>
+      <ConnectableResult>
+        <Section>
+          <Title>
+            {title}
+          </Title>
+          <Meta>
+            <MetaText onPress={this.goToChannel}>
               {kindType} • {connectable.user.name}
-            </Text>
-          </View>
-        </View>
+            </MetaText>
+          </Meta>
+        </Section>
         {ConnectableImage}
-      </View>
+      </ConnectableResult>
     )
   }
 }
