@@ -1,7 +1,11 @@
+import React from 'react'
+import PropTypes from 'prop-types'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { BlurView } from 'expo'
 import styled from 'styled-components/native'
+
 import { HEADER_HEIGHT } from '../Header'
+import Alerts from '../Alerts'
 import { Units, Border } from '../../constants/Style'
 
 export const AbsoluteFill = styled.View`
@@ -37,10 +41,21 @@ export const Section = styled.View`
   margin-vertical: ${x => Units.scale[x.space || 1]};
 `
 
-export const Container = styled.View`
+export const HeaderAwareContainer = styled.View`
   flex: 1;
   margin-top: ${HEADER_HEIGHT};
 `
+
+export const Container = ({ children, ...rest }) => (
+  <HeaderAwareContainer {...rest}>
+    {children}
+    <Alerts />
+  </HeaderAwareContainer>
+)
+
+Container.propTypes = {
+  children: PropTypes.node.isRequired,
+}
 
 export const CenteringPane = styled(KeyboardAwareScrollView).attrs({
   contentContainerStyle: {

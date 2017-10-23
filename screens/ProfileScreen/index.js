@@ -8,7 +8,7 @@ export default class ProfileScreen extends React.Component {
   render() {
     const { navigation } = this.props
     const profileParam = navigation.state.params && navigation.state.params.id
-    const id = profileParam || currentUserService.sync.get().id
+    const id = profileParam || currentUserService.sync.get('id')
 
     return (
       <Container>

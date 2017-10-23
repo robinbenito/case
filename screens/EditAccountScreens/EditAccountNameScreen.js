@@ -10,7 +10,7 @@ import formatErrors from '../../utilities/formatErrors'
 import HeaderRightButton from '../../components/HeaderRightButton'
 import { Fieldset, StackedInput } from '../../components/UI/Inputs'
 import { Container, Section } from '../../components/UI/Layout'
-import Alerts, { sendAlert, dismissAllAlerts } from '../../components/Alerts'
+import { sendAlert, dismissAllAlerts } from '../../components/Alerts'
 import withLoadingAndErrors from '../../components/WithLoadingAndErrors'
 
 const refetchAccountNameQuery = gql`
@@ -119,8 +119,6 @@ class EditAccountNameScreen extends React.Component {
             />
           </Fieldset>
         </Section>
-
-        <Alerts style={{ top: 0 }} />
       </Container>
     )
   }

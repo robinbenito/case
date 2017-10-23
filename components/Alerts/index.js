@@ -7,8 +7,6 @@ import styled from 'styled-components/native'
 import Store from '../../state/Store'
 import { SEND_ALERT, DISMISS_ALERT, DISMISS_ALL_ALERTS } from '../../state/actions'
 
-import { Units } from '../../constants/Style'
-
 import Alert from './Alert'
 
 export const sendAlert = ({ id, ...rest }) => {
@@ -25,7 +23,7 @@ export const dismissAllAlerts = () =>
 const Container = styled.View`
   width: 100%;
   position: absolute;
-  top: ${Units.statusBarHeight};
+  top: 0;
 `
 
 class Alerts extends Component {

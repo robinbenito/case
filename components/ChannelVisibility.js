@@ -1,11 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Text } from 'react-native'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+
 import { Fieldset, InputDescription } from './UI/Inputs'
 import { StackedToggle } from './UI/Buttons'
-import { Section } from './UI/Layout'
+import { Container, Section } from './UI/Layout'
+
 import { Colors } from '../constants/Style'
+
 import navigationService from '../utilities/navigationService'
 
 export default class ChannelVisibilityScreen extends React.Component {
@@ -32,7 +34,7 @@ export default class ChannelVisibilityScreen extends React.Component {
 
   render() {
     return (
-      <KeyboardAwareScrollView>
+      <Container>
         <Section space={2}>
           <Fieldset>
             <StackedToggle
@@ -83,7 +85,7 @@ export default class ChannelVisibilityScreen extends React.Component {
             Only you and collaborators can view and add to the channel.
           </InputDescription>
         </Section>
-      </KeyboardAwareScrollView>
+      </Container>
     )
   }
 }
