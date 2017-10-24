@@ -5,7 +5,7 @@ import { BaseIcon } from './Icons'
 import { Border, Typography, Units, Colors } from '../../constants/Style'
 
 export const ButtonOutline = styled.TouchableOpacity`
-  border-width: ${Border.borderWidth};
+  border-width: ${Border.borderWidthMedium};
   border-radius: ${Border.borderRadius};
   border-color: ${Colors.semantic.text};
 `
