@@ -3,6 +3,7 @@ import {
   StyleSheet,
   View,
 } from 'react-native'
+import KeyboardSpacer from 'react-native-keyboard-spacer'
 
 import SearchHeader from '../../components/SearchHeader'
 import TabToggle from '../../components/TabToggle'
@@ -61,6 +62,7 @@ export default class SearchScreen extends React.Component {
         <SearchHeader
           onCancel={this.onCancel}
           onChangeText={q => this.search(q)}
+          autoFocus
         />
         <View style={styles.innerContainer}>
           <TabToggle
@@ -71,6 +73,7 @@ export default class SearchScreen extends React.Component {
           />
           <SearchContents q={this.state.q} type={type} />
         </View>
+        <KeyboardSpacer />
       </View>
     )
   }

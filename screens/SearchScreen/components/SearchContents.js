@@ -4,6 +4,7 @@ import {
   FlatList,
 } from 'react-native'
 import PropTypes from 'prop-types'
+import styled from 'styled-components/native'
 
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
@@ -11,7 +12,12 @@ import { graphql } from 'react-apollo'
 import SearchResult from './SearchResult'
 
 import Empty from '../../../components/Empty'
-import { RelativeFill } from '../../../components/UI/Layout'
+import { Units } from '../../../constants/Style'
+
+const Container = styled.View`
+  flex: 1;
+  background-color: white;
+`
 
 class SearchContents extends React.Component {
   render() {
@@ -20,23 +26,33 @@ class SearchContents extends React.Component {
 
     if (error) {
       return (
-        <RelativeFill>
-          <Empty text="No results" />
-        </RelativeFill>
+        <Container>
+          <Empty text="Start typing" />
+        </Container>
       )
     }
 
     if (loading) {
       return (
-        <RelativeFill>
-          <ActivityIndicator />
-        </RelativeFill>
+        <Container>
+          <Empty>
+            <ActivityIndicator />
+          </Empty>
+        </Container>
       )
     }
 
+    const empty = (
+      <Container>
+        <Empty text="No results found" />
+      </Container>
+    )
+
+    if (search.length === 0) return empty
+
     return (
       <FlatList
-        contentContainerStyle={{ backgroundColor: '#fff' }}
+        contentContainerStyle={{ backgroundColor: '#fff', paddingHorizontal: Units.scale[3] }}
         data={search}
         refreshing={data.networkStatus === 4}
         onRefresh={this.onRefresh}
@@ -52,6 +68,10 @@ class SearchContents extends React.Component {
 
 SearchContents.propTypes = {
   data: PropTypes.any.isRequired,
+}
+
+SearchContents.defaultProps = {
+  q: '',
 }
 
 const SearchQuery = gql`

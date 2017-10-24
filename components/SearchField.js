@@ -38,7 +38,7 @@ export default class SearchField extends React.Component {
   }
 
   render() {
-    const { style } = this.props
+    const { style, autoFocus } = this.props
     const { search } = this.state
 
     return (
@@ -49,6 +49,7 @@ export default class SearchField extends React.Component {
           autoCapitalize="none"
           value={search}
           clearButtonMode="while-editing"
+          autoFocus={autoFocus}
         />
       </View>
     )
@@ -58,9 +59,11 @@ export default class SearchField extends React.Component {
 SearchField.propTypes = {
   onChangeText: PropTypes.func,
   style: PropTypes.any,
+  autoFocus: PropTypes.bool,
 }
 
 SearchField.defaultProps = {
   onChangeText: () => null,
   style: {},
+  autoFocus: false,
 }
