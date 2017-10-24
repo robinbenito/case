@@ -4,7 +4,7 @@ import { pick } from 'lodash'
 import { gql, graphql } from 'react-apollo'
 import { TouchableOpacity, View } from 'react-native'
 
-import currentUserService, { SERIALIZED_ATTRIBUTES } from '../../utilities/currentUserService'
+import currentUserService, { LoginFragment } from '../../utilities/currentUserService'
 import formatErrors from '../../utilities/formatErrors'
 import navigationService from '../../utilities/navigationService'
 import wait from '../../utilities/wait'
@@ -133,11 +133,11 @@ const login = gql`
     login(input: { email: $email, password: $password }) {
       clientMutationId
       me {
-        ${SERIALIZED_ATTRIBUTES.reduce((q, attr) => `${q}
-          ${attr}`, '')}
+        ...Login
       }
     }
   }
+  ${LoginFragment}
 `
 
 const LoginScreenWithData = graphql(login)(LoginScreen)
