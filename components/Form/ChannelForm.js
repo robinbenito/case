@@ -1,5 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+
 import HeaderRightButton from '../HeaderRightButton'
 import NavigatorService from '../../utilities/navigationService'
 import { Section, Container } from '../../components/UI/Layout'
@@ -71,35 +73,37 @@ class ChannelForm extends React.Component {
 
     return (
       <Container>
-        <Section space={4}>
-          <FieldsetLabel>
-            Title / Description
-          </FieldsetLabel>
+        <KeyboardAwareScrollView>
+          <Section space={4}>
+            <FieldsetLabel>
+              Title / Description
+            </FieldsetLabel>
 
-          <Fieldset>
-            <StackedInput
-              placeholder="Title"
-              onChangeText={this.onChangeText('title')}
-              value={title}
-              autoFocus
-            />
+            <Fieldset>
+              <StackedInput
+                placeholder="Title"
+                onChangeText={this.onChangeText('title')}
+                value={title}
+                autoFocus
+              />
 
-            <StackedTextArea
-              name="description"
-              placeholder="Description (optional)"
-              value={description}
-              onChangeText={this.onChangeText('description')}
-            />
-          </Fieldset>
-        </Section>
+              <StackedTextArea
+                name="description"
+                placeholder="Description (optional)"
+                value={description}
+                onChangeText={this.onChangeText('description')}
+              />
+            </Fieldset>
+          </Section>
 
-        <Section>
-          <Fieldset>
-            <StackedJumpButton label="Privacy" onPress={this.goToChannelVisibilityScreen}>
-              {capitalize(visibility.toLowerCase())}
-            </StackedJumpButton>
-          </Fieldset>
-        </Section>
+          <Section>
+            <Fieldset>
+              <StackedJumpButton label="Privacy" onPress={this.goToChannelVisibilityScreen}>
+                {capitalize(visibility.toLowerCase())}
+              </StackedJumpButton>
+            </Fieldset>
+          </Section>
+        </KeyboardAwareScrollView>
       </Container>
     )
   }

@@ -5,13 +5,9 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 
 import FieldSet from '../FieldSet'
 import HeaderRightButton from '../HeaderRightButton'
+import { Container } from '../../components/UI/Layout'
 
 import { Units } from '../../constants/Style'
-
-const Container = styled(KeyboardAwareScrollView)`
-  flex: 1;
-  background-color: white;
-`
 
 const Field = styled(FieldSet)`
   margin-top: ${Units.scale[4]};
@@ -60,34 +56,36 @@ export default class TextForm extends React.Component {
   render() {
     return (
       <Container>
-        <FieldSet
-          label="Text"
-          onChange={this.onFieldChange}
-          fields={[
-            {
-              key: 'content',
-              placeholder: 'Text',
-              type: 'textarea',
-              value: this.state.content,
-            },
-          ]}
-        />
-        <Field
-          label="Title / Description"
-          onChange={this.onFieldChange}
-          fields={[
-            {
-              key: 'title',
-              placeholder: 'Title',
-              value: this.state.title,
-            },
-            {
-              key: 'description',
-              placeholder: 'Description',
-              value: this.state.description,
-            },
-          ]}
-        />
+        <KeyboardAwareScrollView>
+          <FieldSet
+            label="Text"
+            onChange={this.onFieldChange}
+            fields={[
+              {
+                key: 'content',
+                placeholder: 'Text',
+                type: 'textarea',
+                value: this.state.content,
+              },
+            ]}
+          />
+          <Field
+            label="Title / Description"
+            onChange={this.onFieldChange}
+            fields={[
+              {
+                key: 'title',
+                placeholder: 'Title',
+                value: this.state.title,
+              },
+              {
+                key: 'description',
+                placeholder: 'Description',
+                value: this.state.description,
+              },
+            ]}
+          />
+        </KeyboardAwareScrollView>
       </Container>
     )
   }
