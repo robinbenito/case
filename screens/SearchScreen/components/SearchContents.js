@@ -2,9 +2,9 @@ import React from 'react'
 import {
   ActivityIndicator,
   FlatList,
-  View,
 } from 'react-native'
 import PropTypes from 'prop-types'
+import styled from 'styled-components/native'
 
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
@@ -12,7 +12,11 @@ import { graphql } from 'react-apollo'
 import SearchResult from './SearchResult'
 
 import Empty from '../../../components/Empty'
-import { RelativeFill } from '../../../components/UI/Layout'
+
+const Container = styled.View`
+  flex: 1;
+  background-color: white;
+`
 
 class SearchContents extends React.Component {
   render() {
@@ -21,25 +25,29 @@ class SearchContents extends React.Component {
 
     if (error) {
       return (
-        <RelativeFill>
+        <Container>
           <Empty text="Start typing" />
-        </RelativeFill>
+        </Container>
       )
     }
 
     if (loading) {
       return (
-        <RelativeFill>
-          <ActivityIndicator />
-        </RelativeFill>
+        <Container>
+          <Empty>
+            <ActivityIndicator />
+          </Empty>
+        </Container>
       )
     }
 
     const empty = (
-      <View style={{ flex: 1, backgroundColor: 'white' }}>
+      <Container>
         <Empty text="No results found" />
-      </View>
+      </Container>
     )
+
+    console.log('q', q)
 
     if (search.length === 0) return empty
 
