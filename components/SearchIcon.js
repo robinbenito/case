@@ -3,8 +3,9 @@ import styled from 'styled-components/native'
 
 import NavigationService from '../utilities/navigationService'
 
-import { BaseIcon } from '../components/UI/Icons'
-import { Colors, Units, Typography } from '../constants/Style'
+import { Units } from '../constants/Style'
+
+const searchIcon = require('../assets/images/searchIcon.png')
 
 const Container = styled.View`
   margin-horizontal: ${Units.scale[2]};
@@ -14,12 +15,13 @@ const Button = styled.TouchableWithoutFeedback`
   background-color: white;
 `
 
-const Icon = styled(BaseIcon).attrs({
-  name: 'ios-search',
+const Icon = styled.Image.attrs({
+  source: searchIcon,
 })`
-  font-size: ${Typography.fontSize.h1};
-  background-color: white;
-  color: ${Colors.gray.medium};
+  margin-top: 1;
+  width: 20;
+  height: 20;
+  align-self: center;
 `
 
 export default () => (

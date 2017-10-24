@@ -21,6 +21,7 @@ import { trackPage } from './utilities/analytics'
 import { dismissAlertsOnCurrentRoute } from './components/Alerts'
 
 const logo = require('./assets/images/logo.png')
+const searchIcon = require('./assets/images/searchIcon.png')
 
 const getCurrentRouteName = (navigationState) => {
   if (!navigationState) return null
@@ -74,6 +75,7 @@ class AppContainer extends Component {
       await cacheAssetsAsync({
         images: [
           logo,
+          searchIcon,
         ],
       })
     } finally {
