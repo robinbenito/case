@@ -56,6 +56,7 @@ export const Colors = {
 
 export const Border = {
   borderWidth: StyleSheet.hairlineWidth,
+  borderWidthMedium: 1,
   borderColor: Colors.gray.regular,
   borderRadius: 3,
 }
