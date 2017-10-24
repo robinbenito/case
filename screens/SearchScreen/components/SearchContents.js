@@ -12,6 +12,7 @@ import { graphql } from 'react-apollo'
 import SearchResult from './SearchResult'
 
 import Empty from '../../../components/Empty'
+import { Units } from '../../../constants/Style'
 
 const Container = styled.View`
   flex: 1;
@@ -53,7 +54,7 @@ class SearchContents extends React.Component {
 
     return (
       <FlatList
-        contentContainerStyle={{ backgroundColor: '#fff' }}
+        contentContainerStyle={{ backgroundColor: '#fff', paddingHorizontal: Units.scale[3] }}
         data={search}
         refreshing={data.networkStatus === 4}
         onRefresh={this.onRefresh}

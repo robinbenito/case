@@ -15,7 +15,6 @@ const Result = styled.TouchableOpacity`
   border-bottom-color: ${Border.borderColor};
   border-bottom-width: ${Border.borderWidth};
   justify-content: center;
-  padding-horizontal: ${Units.base};
   padding-vertical: ${Units.scale[2]};
 `
 
