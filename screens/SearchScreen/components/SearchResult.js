@@ -3,7 +3,7 @@ import gql from 'graphql-tag'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
 
-import { Units, Border } from '../../../constants/Style'
+import { Units, Border, Colors } from '../../../constants/Style'
 import NavigatorService from '../../../utilities/navigationService'
 
 import ChannelResult from './ChannelResult'
@@ -29,13 +29,23 @@ export default class SearchResultItem extends Component {
     const { __typename: typeName } = item
     switch (typeName) {
       case 'Channel':
-        NavigatorService.navigate('channel', { id: item.id })
+        NavigatorService.navigate('channel', {
+          id: item.id,
+          title: item.title,
+          color: Colors.channel[item.visibility],
+        })
         break
       case 'Connectable':
-        NavigatorService.navigate('block', { id: item.id })
+        NavigatorService.navigate('block', {
+          id: item.id,
+          title: item.title,
+        })
         break
       case 'User':
-        NavigatorService.navigate('profile', { id: item.id })
+        NavigatorService.navigate('profile', {
+          id: item.id,
+          title: item.name,
+        })
         break
       default:
         break
