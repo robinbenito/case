@@ -21,7 +21,7 @@ const Container = styled.View`
 
 class SearchContents extends React.Component {
   render() {
-    const { data, q } = this.props
+    const { data } = this.props
     const { error, loading, search } = data
 
     if (error) {
@@ -48,8 +48,6 @@ class SearchContents extends React.Component {
       </Container>
     )
 
-    console.log('q', q)
-
     if (search.length === 0) return empty
 
     return (
@@ -70,7 +68,6 @@ class SearchContents extends React.Component {
 
 SearchContents.propTypes = {
   data: PropTypes.any.isRequired,
-  q: PropTypes.string,
 }
 
 SearchContents.defaultProps = {
