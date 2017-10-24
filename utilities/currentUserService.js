@@ -2,7 +2,7 @@ import { pick, isEmpty } from 'lodash'
 import { AsyncStorage } from 'react-native'
 import { gql } from 'react-apollo'
 
-let CURRENT_USER = {}
+let CURRENT_USER
 
 const ASYNC_STORAGE_KEY = '@arena:CurrentUser'
 
