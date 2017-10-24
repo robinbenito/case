@@ -1,6 +1,5 @@
 import React from 'react'
-import { DrawerNavigator, StackNavigator } from 'react-navigation'
-import { enhance } from 'react-navigation-addons'
+import { DrawerNavigator } from 'react-navigation'
 
 import StackModalNavigator from '../utilities/stackModalNavigator'
 import LoggedOutScreen from '../screens/LoggedOutScreen'
@@ -8,13 +7,6 @@ import LoginScreen from '../screens/LoginScreen'
 import SignUpScreen from '../screens/SignUpScreen'
 import MainStack from './MainStack'
 import NotificationsScreen from '../screens/NotificationsScreen'
-import SearchScreen from '../screens/SearchScreen'
-import AddTextScreen from '../screens/AddTextScreen'
-import AddImageScreen from '../screens/AddImageScreen'
-import AddLinkScreen from '../screens/AddLinkScreen'
-import AddConnectionsScreen from '../screens/AddConnectionScreen'
-
-import headerNavigationOptions from '../constants/Header'
 
 const MainStackWithDrawer = DrawerNavigator({
   feed: {
@@ -69,55 +61,6 @@ export default initialRouteName => StackModalNavigator({
         backgroundColor: 'white',
       },
     },
-  },
-
-  search: {
-    screen: SearchScreen,
-    navigationOptions: {
-      header: null,
-      cardStyle: {
-        backgroundColor: 'white',
-      },
-    },
-  },
-
-  // TODO: Pull these onto the main stack
-  newText: {
-    screen: enhance(StackNavigator)({
-      newText: { screen: AddTextScreen },
-    }),
-    navigationOptions: {
-      ...headerNavigationOptions,
-    },
-  },
-
-  newImage: {
-    screen: enhance(StackNavigator)({
-      newText: { screen: AddImageScreen },
-    }),
-    navigationOptions: {
-      ...headerNavigationOptions,
-    },
-  },
-
-  newLink: {
-    screen: enhance(StackNavigator)({
-      newLink: { screen: AddLinkScreen },
-    }),
-    navigationOptions: {
-      ...headerNavigationOptions,
-    },
-  },
-
-  connect: {
-    screen: enhance(StackNavigator)({
-      connect: {
-        screen: AddConnectionsScreen,
-        navigationOptions: {
-          ...headerNavigationOptions,
-        },
-      },
-    }),
   },
 }, {
   headerMode: 'screen',

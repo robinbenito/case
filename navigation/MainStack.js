@@ -8,6 +8,7 @@ import BlockTextScreen from '../screens/BlockScreen/components/BlockText' // TOD
 import ChannelScreen from '../screens/ChannelScreen'
 import CommentScreen from '../screens/CommentScreen'
 import FeedScreen from '../screens/FeedScreen'
+import SearchScreen from '../screens/SearchScreen'
 import ProfileScreen from '../screens/ProfileScreen'
 import UserSettingsScreen from '../screens/UserSettingsScreen'
 import EditChannelScreen from '../screens/EditChannelScreen'
@@ -16,6 +17,11 @@ import NewChannelScreen from '../screens/NewChannelScreen'
 import ChannelVisibility from '../components/ChannelVisibility' // TODO: Move this to screens
 import EditAccountNameScreen from '../screens/EditAccountScreens/EditAccountNameScreen'
 import EditEmailNotificationsScreen from '../screens/EditAccountScreens/EditEmailNotificationsScreen'
+
+import AddTextScreen from '../screens/AddTextScreen'
+import AddImageScreen from '../screens/AddImageScreen'
+import AddLinkScreen from '../screens/AddLinkScreen'
+import AddConnectionsScreen from '../screens/AddConnectionScreen'
 
 import Header from '../components/Header'
 import HeaderIcon from '../screens/FeedScreen/components/HeaderIcons'
@@ -127,6 +133,44 @@ export default enhance(StackNavigator)({
         ]}
       />,
     }),
+  },
+
+  search: {
+    screen: SearchScreen,
+    navigationOptions: {
+      header: null,
+      cardStyle: {
+        backgroundColor: 'white',
+      },
+    },
+  },
+
+  newText: {
+    screen: AddTextScreen,
+    navigationOptions: {
+      ...headerNavigationOptions,
+    },
+  },
+
+  newImage: {
+    screen: AddImageScreen,
+    navigationOptions: {
+      ...headerNavigationOptions,
+    },
+  },
+
+  newLink: {
+    screen: AddLinkScreen,
+    navigationOptions: {
+      ...headerNavigationOptions,
+    },
+  },
+
+  connect: {
+    screen: AddConnectionsScreen,
+    navigationOptions: {
+      ...headerNavigationOptions,
+    },
   },
 
   editAccountName: {

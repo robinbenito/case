@@ -1,17 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 import FieldSet from '../FieldSet'
 import HeaderRightButton from '../HeaderRightButton'
+import { Container } from '../../components/UI/Layout'
 
 import { Units } from '../../constants/Style'
-
-const Container = styled(KeyboardAwareScrollView)`
-  flex: 1;
-  background-color: white;
-`
 
 const Field = styled(FieldSet)`
   margin-top: ${Units.scale[4]};
