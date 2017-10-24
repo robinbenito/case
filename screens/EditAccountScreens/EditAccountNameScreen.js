@@ -5,12 +5,12 @@ import PropTypes from 'prop-types'
 
 import navigationService from '../../utilities/navigationService'
 import injectButtonWhenDiff from '../../utilities/injectButtonWhenDiff'
-import formatErrors from '../../utilities/formatErrors'
+import alertErrors from '../../utilities/alertErrors'
 
 import HeaderRightButton from '../../components/HeaderRightButton'
 import { Fieldset, StackedInput } from '../../components/UI/Inputs'
 import { Container, Section } from '../../components/UI/Layout'
-import { sendAlert, dismissAllAlerts } from '../../components/Alerts'
+import { dismissAllAlerts } from '../../components/Alerts'
 import withLoadingAndErrors from '../../components/WithLoadingAndErrors'
 
 const refetchAccountNameQuery = gql`
@@ -18,11 +18,13 @@ const refetchAccountNameQuery = gql`
     me {
       id
       name
+      initials
     }
 
     user(id: $id) {
       id
       name
+      initials
     }
   }
 `
@@ -83,11 +85,7 @@ class EditAccountNameScreen extends React.Component {
         navigationService.back()
       })
 
-      .catch((err) => {
-        const error = formatErrors(err)
-
-        sendAlert({ children: error })
-      })
+      .catch(alertErrors)
   }
 
   onChangeText = key => (value) => {

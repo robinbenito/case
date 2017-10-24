@@ -4,9 +4,10 @@ import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import { concat, reject } from 'lodash'
 import styled from 'styled-components/native'
-
 import { Keyboard } from 'react-native'
-import NavigationService from '../../utilities/navigationService'
+
+import navigationService from '../../utilities/navigationService'
+import alertErrors from '../../utilities/alertErrors'
 
 import SelectedChannels from './components/SelectedChannels'
 import SearchHeader from '../../components/SearchHeader'
@@ -122,7 +123,7 @@ class SelectConnectionScreen extends React.Component {
 
   navigateToBlock(id, imageLocation) {
     this.setState({ selectedConnections: [] })
-    NavigationService.reset('block', { id, imageLocation })
+    navigationService.reset('block', { id, imageLocation })
   }
 
 
@@ -153,10 +154,14 @@ class SelectConnectionScreen extends React.Component {
           channel_ids: channelIds,
         },
         refetchQueries,
-      }).then(() => {
+      })
+
+      .then(() => {
         Keyboard.dismiss()
-        NavigationService.back()
-      }).catch(error => console.log('error', error))
+        navigationService.back()
+      })
+
+      .catch(alertErrors)
     }
 
     return this.maybeUploadImage()
