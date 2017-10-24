@@ -4854,19 +4854,7 @@ react-navigation-is-focused-hoc@^1.0.0:
   dependencies:
     react-navigation "^1.0.0-beta.11"
 
-react-navigation@^1.0.0-beta.11:
-  version "1.0.0-beta.12"
-  resolved "https://github.com/react-community/react-navigation.git#23da6aebffcb5677fd3441b4043755350cbee3ed"
-  dependencies:
-    babel-plugin-transform-define "^1.3.0"
-    clamp "^1.0.1"
-    hoist-non-react-statics "^2.2.0"
-    path-to-regexp "^1.7.0"
-    prop-types "^15.5.10"
-    react-native-drawer-layout-polyfill "^1.3.2"
-    react-native-tab-view "^0.0.69"
-
-"react-navigation@https://github.com/react-community/react-navigation.git":
+react-navigation@^1.0.0-beta.11, "react-navigation@https://github.com/react-community/react-navigation.git":
   version "1.0.0-beta.15"
   resolved "https://github.com/react-community/react-navigation.git#5e26ced280a5c231094d1fd98ce0120989b844d0"
   dependencies:
