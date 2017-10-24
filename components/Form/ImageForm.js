@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 import { Container } from '../../components/UI/Layout'
 import FieldSet from '../FieldSet'
@@ -59,25 +60,27 @@ export default class ImageForm extends React.Component {
     const { image, title, description } = this.state
     return (
       <Container>
-        <ImagePreview source={{ uri: image }} />
-        <Field
-          isFirst
-          label="Title / Description"
-          onChange={this.onFieldChange}
-          fields={[
-            {
-              key: 'title',
-              placeholder: 'Title',
-              value: title,
-            },
-            {
-              key: 'description',
-              placeholder: 'Description',
-              type: 'textarea',
-              value: description,
-            },
-          ]}
-        />
+        <KeyboardAwareScrollView>
+          <ImagePreview source={{ uri: image }} />
+          <Field
+            isFirst
+            label="Title / Description"
+            onChange={this.onFieldChange}
+            fields={[
+              {
+                key: 'title',
+                placeholder: 'Title',
+                value: title,
+              },
+              {
+                key: 'description',
+                placeholder: 'Description',
+                type: 'textarea',
+                value: description,
+              },
+            ]}
+          />
+        </KeyboardAwareScrollView>
       </Container>
     )
   }

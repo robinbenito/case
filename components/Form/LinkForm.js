@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
 import { isURL } from 'validator'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 import FieldSet from '../FieldSet'
 import HeaderRightButton from '../HeaderRightButton'
@@ -64,37 +65,39 @@ export default class LinkForm extends React.Component {
     const hasProcessed = (title || description)
     return (
       <Container>
-        <Field
-          isFirst
-          label="Link"
-          onChange={this.onFieldChange}
-          fields={[
-            {
-              key: 'source_url',
-              placeholder: 'URL',
-              type: 'url',
-              value: source_url,
-              editable: !hasProcessed,
-            },
-          ]}
-        />
-        {hasProcessed && <Field
-          label="Title / Description"
-          onChange={this.onFieldChange}
-          fields={[
-            {
-              key: 'title',
-              placeholder: 'Title',
-              value: this.state.title,
-            },
-            {
-              key: 'description',
-              placeholder: 'Description',
-              value: this.state.description,
-              type: 'textarea',
-            },
-          ]}
-        />}
+        <KeyboardAwareScrollView>
+          <Field
+            isFirst
+            label="Link"
+            onChange={this.onFieldChange}
+            fields={[
+              {
+                key: 'source_url',
+                placeholder: 'URL',
+                type: 'url',
+                value: source_url,
+                editable: !hasProcessed,
+              },
+            ]}
+          />
+          {hasProcessed && <Field
+            label="Title / Description"
+            onChange={this.onFieldChange}
+            fields={[
+              {
+                key: 'title',
+                placeholder: 'Title',
+                value: this.state.title,
+              },
+              {
+                key: 'description',
+                placeholder: 'Description',
+                value: this.state.description,
+                type: 'textarea',
+              },
+            ]}
+          />}
+        </KeyboardAwareScrollView>
       </Container>
     )
   }

@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 import FieldSet from '../FieldSet'
 import HeaderRightButton from '../HeaderRightButton'
@@ -55,34 +56,36 @@ export default class TextForm extends React.Component {
   render() {
     return (
       <Container>
-        <FieldSet
-          label="Text"
-          onChange={this.onFieldChange}
-          fields={[
-            {
-              key: 'content',
-              placeholder: 'Text',
-              type: 'textarea',
-              value: this.state.content,
-            },
-          ]}
-        />
-        <Field
-          label="Title / Description"
-          onChange={this.onFieldChange}
-          fields={[
-            {
-              key: 'title',
-              placeholder: 'Title',
-              value: this.state.title,
-            },
-            {
-              key: 'description',
-              placeholder: 'Description',
-              value: this.state.description,
-            },
-          ]}
-        />
+        <KeyboardAwareScrollView>
+          <FieldSet
+            label="Text"
+            onChange={this.onFieldChange}
+            fields={[
+              {
+                key: 'content',
+                placeholder: 'Text',
+                type: 'textarea',
+                value: this.state.content,
+              },
+            ]}
+          />
+          <Field
+            label="Title / Description"
+            onChange={this.onFieldChange}
+            fields={[
+              {
+                key: 'title',
+                placeholder: 'Title',
+                value: this.state.title,
+              },
+              {
+                key: 'description',
+                placeholder: 'Description',
+                value: this.state.description,
+              },
+            ]}
+          />
+        </KeyboardAwareScrollView>
       </Container>
     )
   }
