@@ -12,7 +12,7 @@ const Tab = styled.TouchableOpacity`
   flex: 1;
   align-items: center;
   justify-content: center;
-  border-bottom-width: ${Border.borderWidth};
+  border-bottom-width: ${Border.borderWidthMedium};
   border-bottom-color: ${({ color, isSelected }) => (isSelected && (color || Colors.semantic.text)) || Border.borderColor};
   padding-vertical: ${Units.scale[2]};
   padding-horizontal: ${Units.scale[2]};
