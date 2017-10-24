@@ -2,6 +2,7 @@ import React from 'react'
 import {
   ActivityIndicator,
   FlatList,
+  View,
 } from 'react-native'
 import PropTypes from 'prop-types'
 
@@ -15,13 +16,13 @@ import { RelativeFill } from '../../../components/UI/Layout'
 
 class SearchContents extends React.Component {
   render() {
-    const { data } = this.props
+    const { data, q } = this.props
     const { error, loading, search } = data
 
     if (error) {
       return (
         <RelativeFill>
-          <Empty text="No results" />
+          <Empty text="Start typing" />
         </RelativeFill>
       )
     }
@@ -33,6 +34,14 @@ class SearchContents extends React.Component {
         </RelativeFill>
       )
     }
+
+    const empty = (
+      <View style={{ flex: 1, backgroundColor: 'white' }}>
+        <Empty text="No results found" />
+      </View>
+    )
+
+    if (search.length === 0) return empty
 
     return (
       <FlatList
@@ -52,6 +61,11 @@ class SearchContents extends React.Component {
 
 SearchContents.propTypes = {
   data: PropTypes.any.isRequired,
+  q: PropTypes.string,
+}
+
+SearchContents.defaultProps = {
+  q: '',
 }
 
 const SearchQuery = gql`
