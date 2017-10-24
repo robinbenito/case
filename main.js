@@ -13,12 +13,12 @@ import Store from './state/Store'
 import { SET_CURRENT_ROUTE } from './state/actions'
 import Client from './state/Apollo'
 
-import NavigatorService from './utilities/navigationService'
+import navigationService from './utilities/navigationService'
 import cacheAssetsAsync from './utilities/cacheAssetsAsync'
-import CurrentUser from './utilities/currentUserService'
+import currentUserService from './utilities/currentUserService'
 import { trackPage } from './utilities/analytics'
 
-import { dismissAllAlerts } from './components/Alerts'
+import { dismissAlertsOnCurrentRoute } from './components/Alerts'
 
 const logo = require('./assets/images/logo.png')
 
@@ -64,9 +64,9 @@ class AppContainer extends Component {
 
     if (prevScreen !== currentScreen) {
       trackPage({ page: currentScreen })
-    }
 
-    dismissAllAlerts()
+      dismissAlertsOnCurrentRoute()
+    }
   }
 
   async loadAssetsAsync() {
@@ -84,7 +84,7 @@ class AppContainer extends Component {
   async checkLoginStateAsync() {
     try {
       await Promise.all([
-        CurrentUser.get(),
+        currentUserService.get(),
         Client.query({ query: gql`{ me { id } }` }), // Ping user to check to see if actually logged in
       ])
 
@@ -93,7 +93,7 @@ class AppContainer extends Component {
         isStorageChecked: true,
       })
     } catch (err) {
-      CurrentUser.clear()
+      currentUserService.clear()
 
       this.setState({
         isLoggedIn: false,
@@ -119,7 +119,7 @@ class AppContainer extends Component {
           <View style={StyleSheet.absoluteFill}>
             <Navigation
               onNavigationStateChange={this.onNavigationStateChange}
-              ref={NavigatorService.setContainer}
+              ref={navigationService.setContainer}
             />
             <AddMenuWithState />
           </View>

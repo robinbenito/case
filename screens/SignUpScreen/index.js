@@ -5,10 +5,10 @@ import { gql, graphql } from 'react-apollo'
 import { View } from 'react-native'
 
 import currentUser from '../../utilities/currentUserService'
-import formatErrors from '../../utilities/formatErrors'
+import alertErrors from '../../utilities/alertErrors'
 import navigationService from '../../utilities/navigationService'
 
-import Alerts, { sendAlert, dismissAllAlerts } from '../../components/Alerts'
+import Alerts, { dismissAllAlerts } from '../../components/Alerts'
 import { StatusMessage } from '../../components/UI/Alerts'
 import { Button, ButtonLabel, SecondaryButton } from '../../components/UI/Buttons'
 import { CenteringPane, CenterColumn, Spacer } from '../../components/UI/Layout'
@@ -62,9 +62,7 @@ class SignUpScreen extends Component {
       })
 
       .catch((err) => {
-        const error = formatErrors(err)
-
-        sendAlert({ children: error })
+        alertErrors(err)
 
         this.setState({ isSigningUp: false })
       })

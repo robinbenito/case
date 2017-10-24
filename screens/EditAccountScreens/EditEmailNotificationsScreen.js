@@ -4,12 +4,12 @@ import { compose, graphql } from 'react-apollo'
 import PropTypes from 'prop-types'
 
 import navigationService from '../../utilities/navigationService'
-import formatErrors from '../../utilities/formatErrors'
+import alertErrors from '../../utilities/alertErrors'
 
 import { Fieldset } from '../../components/UI/Inputs'
 import { StackedToggle } from '../../components/UI/Buttons'
 import { Container, Section } from '../../components/UI/Layout'
-import { sendAlert, dismissAllAlerts } from '../../components/Alerts'
+import { dismissAllAlerts } from '../../components/Alerts'
 import withLoadingAndErrors from '../../components/WithLoadingAndErrors'
 
 class EditEmailNotificationsScreen extends React.Component {
@@ -48,11 +48,7 @@ class EditEmailNotificationsScreen extends React.Component {
         navigationService.back()
       })
 
-      .catch((err) => {
-        const error = formatErrors(err)
-
-        sendAlert({ children: error })
-      })
+      .catch(alertErrors)
   }
 
   isActive = setting =>
