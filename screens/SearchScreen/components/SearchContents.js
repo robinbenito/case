@@ -2,9 +2,6 @@ import React from 'react'
 import {
   ActivityIndicator,
   FlatList,
-  StyleSheet,
-  Text,
-  View,
 } from 'react-native'
 import PropTypes from 'prop-types'
 
@@ -13,26 +10,8 @@ import { graphql } from 'react-apollo'
 
 import SearchResult from './SearchResult'
 
-import { Units } from '../../../constants/Style'
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#fff',
-  },
-  channelItem: {
-    marginHorizontal: Units.base,
-  },
-  loadingContainer: {
-    backgroundColor: '#fff',
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: Units.base,
-  },
-  footer: {
-    paddingVertical: Units.base * 2,
-  },
-})
+import Empty from '../../../components/Empty'
+import { RelativeFill } from '../../../components/UI/Layout'
 
 class SearchContents extends React.Component {
   render() {
@@ -40,28 +19,24 @@ class SearchContents extends React.Component {
     const { error, loading, search } = data
 
     if (error) {
-      console.log('error', error)
       return (
-        <View style={styles.loadingContainer} >
-          <Text>
-            Nothing found
-          </Text>
-        </View>
+        <RelativeFill>
+          <Empty text="No results" />
+        </RelativeFill>
       )
     }
 
     if (loading) {
       return (
-        <View style={styles.loadingContainer} >
+        <RelativeFill>
           <ActivityIndicator />
-        </View>
+        </RelativeFill>
       )
     }
 
     return (
       <FlatList
-        style={styles.container}
-        contentContainerStyle={styles.container}
+        contentContainerStyle={{ backgroundColor: '#fff' }}
         data={search}
         refreshing={data.networkStatus === 4}
         onRefresh={this.onRefresh}
@@ -80,7 +55,7 @@ SearchContents.propTypes = {
 }
 
 const SearchQuery = gql`
-  query SearchQuery($q: String, $type: SearchType) {
+  query SearchQuery($q: String!, $type: SearchType) {
     search(q: $q, per: 15, type: $type) {
       ... on User {
         ...UserItem

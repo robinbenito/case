@@ -1,33 +1,23 @@
 import React, { Component } from 'react'
 import gql from 'graphql-tag'
 import PropTypes from 'prop-types'
-import {
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from 'react-native'
+import styled from 'styled-components/native'
 
-import { Colors, Units } from '../../../constants/Style'
+import { Units, Border } from '../../../constants/Style'
 import NavigatorService from '../../../utilities/navigationService'
 
 import ChannelResult from './ChannelResult'
 import ConnectableResult from './ConnectableResult'
 import UserResult from './UserResult'
 
-const styles = StyleSheet.create({
-  container: {
-    overflow: 'hidden',
-    borderBottomColor: Colors.gray.regular,
-    borderBottomWidth: 1,
-    justifyContent: 'center',
-    flex: 1,
-    paddingHorizontal: Units.base * 2,
-    paddingVertical: Units.base,
-  },
-  innerContainer: {
-    flex: 1,
-  },
-})
+const Result = styled.TouchableOpacity`
+  overflow: hidden;
+  border-bottom-color: ${Border.borderColor};
+  border-bottom-width: ${Border.borderWidth};
+  justify-content: center;
+  padding-horizontal: ${Units.base};
+  padding-vertical: ${Units.scale[2]};
+`
 
 export default class SearchResultItem extends Component {
   constructor(props) {
@@ -46,7 +36,7 @@ export default class SearchResultItem extends Component {
         NavigatorService.navigate('block', { id: item.id })
         break
       case 'User':
-        NavigatorService.navigate('searchProfile', { id: item.id })
+        NavigatorService.navigate('profile', { id: item.id })
         break
       default:
         break
@@ -75,15 +65,12 @@ export default class SearchResultItem extends Component {
     }
 
     return (
-      <TouchableOpacity
+      <Result
         activeOpacity={0.95}
-        style={styles.container}
         onPress={this.onPress}
       >
-        <View style={styles.innerContainer}>
-          {resultInner}
-        </View>
-      </TouchableOpacity>
+        {resultInner}
+      </Result>
     )
   }
 }
@@ -93,7 +80,7 @@ SearchResultItem.fragments = {
     fragment ChannelItem on Channel {
       __typename
       id
-      title
+      title(truncate: 30)
       visibility
       updated_at(relative: true)
       user {

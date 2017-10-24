@@ -8,7 +8,7 @@ import LoginScreen from '../screens/LoginScreen'
 import SignUpScreen from '../screens/SignUpScreen'
 import MainStack from './MainStack'
 import NotificationsScreen from '../screens/NotificationsScreen'
-import SearchStack from './SearchStack'
+import SearchScreen from '../screens/SearchScreen'
 import AddTextScreen from '../screens/AddTextScreen'
 import AddImageScreen from '../screens/AddImageScreen'
 import AddLinkScreen from '../screens/AddLinkScreen'
@@ -72,7 +72,7 @@ export default initialRouteName => StackModalNavigator({
   },
 
   search: {
-    screen: SearchStack,
+    screen: SearchScreen,
     navigationOptions: {
       header: null,
       cardStyle: {

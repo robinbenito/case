@@ -1,51 +1,44 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native'
+import styled from 'styled-components/native'
 
 import UserResultMeta from './UserResultMeta'
 import UserAvatar from '../../../components/UserAvatar'
+import NavigationService from '../../../utilities/navigationService'
 
-import { Units, Typography, Colors } from '../../../constants/Style'
+import { Typography } from '../../../constants/Style'
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  text: {
-    fontSize: Typography.fontSize.base,
-    fontWeight: Typography.fontWeight.medium,
-    color: Colors.black,
-  },
-  meta: {
-    paddingTop: Units.base / 2,
-  },
-  metaText: {
-    fontSize: Typography.fontSize.small,
-    color: Colors.gray.semiBold,
-  },
-})
+const UserResult = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+`
+
+const Section = styled.View`
+  justify-content: center;
+`
+
+const UserName = styled.Text`
+  font-size: ${Typography.fontSize.smedium}
+`
 
 export default class SearchResultUserItem extends React.Component {
+  onPress = () => {
+    const { user } = this.props
+    NavigationService.navigate('profile', { id: user.id })
+  }
+
   render() {
     const { user } = this.props
     return (
-      <View style={styles.container}>
-        <View>
-          <Text style={styles.text}>
-            {user.name}
-          </Text>
+      <UserResult>
+        <Section>
+          <UserName>{user.name}</UserName>
           <UserResultMeta id={user.id} />
-        </View>
-        <View style={styles.right}>
-          <UserAvatar user={user} size={40} />
-        </View>
-      </View>
+        </Section>
+        <Section>
+          <UserAvatar user={user} size={35} onPress={this.onPress} />
+        </Section>
+      </UserResult>
     )
   }
 }
