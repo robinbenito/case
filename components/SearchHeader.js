@@ -60,7 +60,7 @@ export default class SearchHeader extends React.Component {
   }
 
   render() {
-    const { cancelOrDone, onCancel } = this.props
+    const { cancelOrDone, onCancel, autoFocus } = this.props
     const { search, isSubmitting } = this.state
     const buttonFunc = cancelOrDone === 'Cancel' ? onCancel : this.onSubmit
 
@@ -72,6 +72,7 @@ export default class SearchHeader extends React.Component {
           value={search}
           clearButtonMode="while-editing"
           placeholder="Search"
+          autoFocus={autoFocus}
         />
 
         <Button onPress={buttonFunc} disabled={isSubmitting}>
@@ -89,6 +90,7 @@ SearchHeader.propTypes = {
   cancelOrDone: PropTypes.oneOf(['Cancel', 'Done']),
   onSubmit: PropTypes.func,
   onCancel: PropTypes.func,
+  autoFocus: PropTypes.bool,
 }
 
 SearchHeader.defaultProps = {
@@ -96,4 +98,5 @@ SearchHeader.defaultProps = {
   onSubmit: () => null,
   onCancel: () => navigationService.back(),
   cancelOrDone: 'Cancel',
+  autoFocus: false,
 }

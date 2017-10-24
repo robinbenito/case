@@ -61,6 +61,7 @@ export default class SearchScreen extends React.Component {
         <SearchHeader
           onCancel={this.onCancel}
           onChangeText={q => this.search(q)}
+          autoFocus
         />
         <View style={styles.innerContainer}>
           <TabToggle

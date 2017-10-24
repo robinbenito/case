@@ -58,9 +58,11 @@ export default class SearchField extends React.Component {
 SearchField.propTypes = {
   onChangeText: PropTypes.func,
   style: PropTypes.any,
+  autoFocus: PropTypes.bool,
 }
 
 SearchField.defaultProps = {
   onChangeText: () => null,
   style: {},
+  autoFocus: false,
 }
