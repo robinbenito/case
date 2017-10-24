@@ -77,7 +77,16 @@ class ChannelContainer extends React.Component {
   }
 
   renderFooter = () => {
-    if (!this.props.blocksData.loading) return null
+    const { type } = this.state
+    const element = type === 'CONNECTION' ? (
+      <Submit>
+        <Button space={1} onPress={this.navigateToConnect}>
+          <ButtonLabel>Connect &rarr;</ButtonLabel>
+        </Button>
+      </Submit>
+    ) : null
+
+    if (!this.props.blocksData.loading) return element
 
     return (
       <Submit>
@@ -180,13 +189,6 @@ class ChannelContainer extends React.Component {
             return <ChannelItem channel={item} />
           }}
         />
-        {type === 'CONNECTION' &&
-          <Submit>
-            <Button space={1} onPress={this.navigateToConnect}>
-              <ButtonLabel>Connect &rarr;</ButtonLabel>
-            </Button>
-          </Submit>
-        }
       </View>
     )
   }
