@@ -5,13 +5,27 @@ import { connect } from 'react-redux'
 import styled from 'styled-components/native'
 
 import Store from '../../state/Store'
-import { SEND_ALERT, DISMISS_ALERT, DISMISS_ALL_ALERTS } from '../../state/actions'
+import {
+  SEND_ALERT,
+  DISMISS_ALERT,
+  DISMISS_ALL_ALERTS,
+  DISMISS_ROUTE_ALERTS,
+} from '../../state/actions'
 
 import Alert from './Alert'
 
 export const sendAlert = ({ id, ...rest }) => {
+  const { routes: { current: currentRoute } } = Store.getState()
+
   const alertId = id || `${new Date().getTime()}`
-  Store.dispatch({ alert: { id: alertId, ...rest }, type: SEND_ALERT })
+  Store.dispatch({
+    type: SEND_ALERT,
+    alert: {
+      id: alertId,
+      route: currentRoute,
+      ...rest,
+    },
+  })
 }
 
 export const dismissAlert = id =>
@@ -19,6 +33,11 @@ export const dismissAlert = id =>
 
 export const dismissAllAlerts = () =>
   Store.dispatch({ type: DISMISS_ALL_ALERTS })
+
+export const dismissAlertsOnCurrentRoute = () => {
+  const { routes: { current: currentRoute } } = Store.getState()
+  Store.dispatch({ type: DISMISS_ROUTE_ALERTS, route: currentRoute })
+}
 
 const Container = styled.View`
   width: 100%;

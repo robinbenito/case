@@ -1,3 +1,5 @@
+import { reduce } from 'lodash'
+
 import {
   SET_CURRENT_ROUTE,
   SET_HEADER_TITLE_VISIBILITY,
@@ -5,6 +7,7 @@ import {
   SEND_ALERT,
   DISMISS_ALERT,
   DISMISS_ALL_ALERTS,
+  DISMISS_ROUTE_ALERTS,
  } from './actions'
 
 const INITIAL_STATES = {
@@ -19,6 +22,7 @@ const INITIAL_STATES = {
 
   info: {
     alerts: {},
+    dismissedAlertIds: [],
   },
 }
 
@@ -45,22 +49,50 @@ export const ui = (state = INITIAL_STATES.ui, { type, isHeaderTitleVisible }) =>
   }
 }
 
-export const info = (state = INITIAL_STATES.info, { type, alert, id }) => {
-  switch (type) {
+export const info = (state = INITIAL_STATES.info, action) => {
+  switch (action.type) {
     case SEND_ALERT: {
+      if (state.dismissedAlertIds.includes(action.alert.id)) {
+        return { ...state }
+      }
+
       return {
         ...state,
-        alerts: { ...state.alerts, [alert.id]: alert },
+        alerts: { ...state.alerts, [action.alert.id]: action.alert },
       }
     }
 
     case DISMISS_ALERT: {
-      const { [id]: deleted, ...rest } = state.alerts
-      return { ...state, alerts: rest }
+      const { [action.id]: deleted, ...remainingAlerts } = state.alerts
+      return {
+        ...state,
+        alerts: remainingAlerts,
+        dismissedAlertIds: [
+          action.id,
+          ...state.dismissedAlertIds,
+        ],
+      }
     }
 
+    // NOTE: Intentionally does not add to `dismissedAlertIds`
     case DISMISS_ALL_ALERTS:
       return { ...state, alerts: INITIAL_STATES.info.alerts }
+
+    // NOTE: Intentionally does not add to `dismissedAlertIds`
+    /* eslint-disable no-param-reassign */
+    case DISMISS_ROUTE_ALERTS: {
+      const remainingAlerts = reduce(state.alerts, (memo, alert, key) => {
+        if (alert.route === action.route) {
+          memo[key] = alert
+          return memo
+        }
+
+        return memo
+      }, {})
+
+      return { ...state, alerts: remainingAlerts }
+    }
+    /* eslint-enable no-param-reassign */
 
     default:
       return state
