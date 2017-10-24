@@ -25,6 +25,7 @@ import AddConnectionsScreen from '../screens/AddConnectionScreen'
 
 import Header from '../components/Header'
 import HeaderIcon from '../screens/FeedScreen/components/HeaderIcons'
+import SearchIcon from '../components/SearchIcon'
 import BlockEditButton from '../components/BlockEditButton'
 import BackButton from '../components/BackButton'
 
@@ -98,6 +99,7 @@ export default enhance(StackNavigator)({
           { title: 'Feed', key: 'feed' },
         ]}
         isHeaderTitleVisible={false}
+        headerRight={<SearchIcon />}
       />,
     }),
   },
@@ -116,6 +118,7 @@ export default enhance(StackNavigator)({
             { title: 'Feed', key: 'feed' },
           ]}
           isHeaderTitleVisible={false}
+          headerRight={<SearchIcon />}
         />,
       }
     },
