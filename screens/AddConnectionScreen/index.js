@@ -183,8 +183,8 @@ class SelectConnectionScreen extends React.Component {
           Keyboard.dismiss()
           const { data: { create_block: { block } } } = response
           this.navigateToBlock(block.id, image && image.location)
-        })
-      })
+        }).catch(alertErrors)
+      }).catch(alertErrors)
   }
 
   search = (text) => {
