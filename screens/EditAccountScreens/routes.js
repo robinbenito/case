@@ -3,6 +3,7 @@ import headerNavigationOptions from '../../constants/Header'
 import EditAccountNameScreen from './EditAccountNameScreen'
 import EditAccountBioScreen from './EditAccountBioScreen'
 import EditEmailNotificationsScreen from './EditEmailNotificationsScreen'
+import EditAccountReceiveNewsletter from './EditAccountReceiveNewsletter'
 
 export default {
   editAccountName: {
@@ -25,6 +26,14 @@ export default {
     screen: EditEmailNotificationsScreen,
     navigationOptions: {
       title: 'Email Preferences',
+      ...headerNavigationOptions,
+    },
+  },
+
+  editAccountReceiveNewsletter: {
+    screen: EditAccountReceiveNewsletter,
+    navigationOptions: {
+      title: 'Newsletter',
       ...headerNavigationOptions,
     },
   },
