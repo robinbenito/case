@@ -14,7 +14,7 @@ const Tab = styled.TouchableOpacity`
   justify-content: center;
   border-bottom-width: ${Border.borderWidthMedium};
   border-bottom-color: ${({ color, isSelected }) => (isSelected && (color || Colors.semantic.text)) || Border.borderColor};
-  padding-vertical: ${Units.scale[2]};
+  padding-vertical: ${Units.scale[3]};
   padding-horizontal: ${Units.scale[2]};
 `
 
