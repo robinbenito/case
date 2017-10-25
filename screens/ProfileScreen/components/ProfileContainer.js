@@ -166,7 +166,7 @@ const ProfileQuery = gql`
       id
       slug
       name
-      bio
+      bio(format: HTML)
       can {
         follow
       }
