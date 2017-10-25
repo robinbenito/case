@@ -49,11 +49,24 @@ class EditAccountBioScreen extends React.Component {
   onSubmit = () => {
     dismissAllAlerts()
 
-    const { bio } = this.state
+    const { id, bio } = this.state
     const variables = { bio }
 
     this.props
-      .mutate({ variables })
+      .mutate({
+        variables,
+        refetchQueries: [{
+          variables: { id },
+          query: gql`
+            {
+              user(id: ${id}) {
+                id
+                bio(format: HTML)
+              }
+            }
+          `,
+        }],
+      })
 
       .then(() => {
         navigationService.back()
