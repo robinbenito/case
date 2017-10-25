@@ -9,6 +9,7 @@ export const Colors = {
     semiBold: '#6d6d6d',
     medium: '#999',
     regular: '#ccc',
+    semiLight: '#e8e8e8',
     light: '#eee',
   },
 
