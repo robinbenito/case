@@ -96,11 +96,7 @@ class UserSettingsScreen extends React.Component {
               <StackedButton onPress={() => openExternalArenaPath('privacy')}>
                 Privacy Policy
               </StackedButton>
-            </Fieldset>
-          </Section>
 
-          <Section space={3}>
-            <Fieldset>
               <StackedButton onPress={this.logOut}>
                 <Text style={{ color: Colors.state.alert }}>
                   Log Out
