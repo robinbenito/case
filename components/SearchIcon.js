@@ -15,7 +15,7 @@ const Button = styled.TouchableWithoutFeedback`
   background-color: white;
 `
 
-const Icon = styled.Image.attrs({
+export const Icon = styled.Image.attrs({
   source: searchIcon,
 })`
   margin-top: 1;

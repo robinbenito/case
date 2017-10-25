@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
+
+import { Icon } from './SearchIcon'
 import { Colors, Border, Units, Typography } from '../constants/Style'
 import { Input } from '../components/UI/Inputs'
 import navigationService from '../utilities/navigationService'
@@ -9,13 +11,27 @@ export const SEARCH_BAR_HEIGHT = 28
 
 const SearchInput = styled(Input)`
   flex: 1;
-  border-radius: ${Border.borderRadius};
-  background-color: ${Colors.semantic.background};
-  height: ${SEARCH_BAR_HEIGHT};
-  margin-left: ${Units.scale[2]};
-  padding-horizontal: ${Units.scale[1]};
-  padding-vertical: ${Units.scale[1]};
   font-size: ${Typography.fontSize.base};
+  height: ${SEARCH_BAR_HEIGHT};
+  background-color: ${Colors.gray.semiLight};
+  padding-vertical: ${Units.scale[1]};
+  border-radius: ${Border.borderRadius};
+`
+
+const InputContainer = styled.View`
+  flex: 1;
+  flex-direction: row;
+  border-radius: ${Border.borderRadius};
+  background-color: ${Colors.gray.semiLight};
+  margin-left: ${Units.scale[2]};
+  padding-left: ${Units.scale[2]};
+  justify-content: center;
+  align-items: center;
+`
+
+const SearchIcon = styled(Icon)`
+  width: 15;
+  height: 15;
 `
 
 const Button = styled.TouchableOpacity`
@@ -66,14 +82,17 @@ export default class SearchHeader extends React.Component {
 
     return (
       <Container>
-        <SearchInput
-          onChangeText={this.onChangeText}
-          autoCapitalize="none"
-          value={search}
-          clearButtonMode="while-editing"
-          placeholder="Search"
-          autoFocus={autoFocus}
-        />
+        <InputContainer>
+          <SearchIcon />
+          <SearchInput
+            onChangeText={this.onChangeText}
+            autoCapitalize="none"
+            value={search}
+            clearButtonMode="while-editing"
+            placeholder="Search"
+            autoFocus={autoFocus}
+          />
+        </InputContainer>
 
         <Button onPress={buttonFunc} disabled={isSubmitting}>
           <ButtonText>
