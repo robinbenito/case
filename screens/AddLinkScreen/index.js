@@ -10,6 +10,7 @@ import { isURL } from 'validator'
 import BackButton from '../../components/BackButton'
 import LinkForm from '../../components/Form/LinkForm'
 
+import wait from '../../utilities/wait'
 import NavigatorService from '../../utilities/navigationService'
 
 const navigationOptions = {
@@ -32,7 +33,7 @@ export default class AddLinkScreen extends React.Component {
   componentDidMount() {
     Clipboard.getString().then((string) => {
       if (isURL(string)) {
-        Keyboard.dismiss()
+        wait(100).then(() => Keyboard.dismiss())
         this.clipboardPrompt(string)
         Clipboard.setString('')
       }
