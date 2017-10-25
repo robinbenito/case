@@ -80,6 +80,16 @@ class UserSettingsScreen extends React.Component {
                   none: 'None',
                 }[me.settings.receive_email]}
               </StackedJumpButton>
+
+              <StackedJumpButton
+                label="Newsletter"
+                onPress={() => navigationService.navigate('editAccountReceiveNewsletter')}
+              >
+                {{
+                  true: 'Subscribed',
+                  false: 'Unsubscribed',
+                }[me.settings.receive_newsletter]}
+              </StackedJumpButton>
             </Fieldset>
           </Section>
 
@@ -123,6 +133,7 @@ const UserSettingsQuery = gql`
       ... Avatar
       settings {
         receive_email
+        receive_newsletter
       }
     }
   }
