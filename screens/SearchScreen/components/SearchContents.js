@@ -71,7 +71,7 @@ SearchContents.propTypes = {
 }
 
 SearchContents.defaultProps = {
-  q: '',
+  q: null,
 }
 
 const SearchQuery = gql`

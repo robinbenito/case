@@ -50,7 +50,8 @@ export default class SearchScreen extends React.Component {
     this.setState({ type })
   }
 
-  search(q) {
+  search(query) {
+    const q = query === '' ? null : query
     this.setState({ q })
   }
 
