@@ -15,8 +15,7 @@ import EditChannelScreen from '../screens/EditChannelScreen'
 import EditBlockScreen from '../screens/EditBlockScreen'
 import NewChannelScreen from '../screens/NewChannelScreen'
 import ChannelVisibility from '../components/ChannelVisibility' // TODO: Move this to screens
-import EditAccountNameScreen from '../screens/EditAccountScreens/EditAccountNameScreen'
-import EditEmailNotificationsScreen from '../screens/EditAccountScreens/EditEmailNotificationsScreen'
+import routesForEditAccountScreens from '../screens/EditAccountScreens/routes'
 
 import AddTextScreen from '../screens/AddTextScreen'
 import AddImageScreen from '../screens/AddImageScreen'
@@ -176,22 +175,6 @@ export default enhance(StackNavigator)({
     },
   },
 
-  editAccountName: {
-    screen: EditAccountNameScreen,
-    navigationOptions: {
-      title: 'Name',
-      ...headerNavigationOptions,
-    },
-  },
-
-  editEmailNotifications: {
-    screen: EditEmailNotificationsScreen,
-    navigationOptions: {
-      title: 'Name',
-      ...headerNavigationOptions,
-    },
-  },
-
   editChannel: {
     screen: EditChannelScreen,
     navigationOptions: {
@@ -223,6 +206,8 @@ export default enhance(StackNavigator)({
       ...headerNavigationOptions,
     },
   },
+
+  ...routesForEditAccountScreens,
 }, {
   cardStyle: {
     backgroundColor: 'white',
