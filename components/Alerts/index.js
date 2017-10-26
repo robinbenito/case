@@ -1,3 +1,4 @@
+import { defer } from 'lodash'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { View } from 'react-native'
@@ -15,16 +16,19 @@ import {
 import Alert from './Alert'
 
 export const sendAlert = ({ id, ...rest }) => {
-  const { routes: { current: currentRoute } } = Store.getState()
+  // Deferred so as to be sent with the correct route
+  defer(() => {
+    const { routes: { current: currentRoute } } = Store.getState()
+    const alertId = id || `${new Date().getTime()}`
 
-  const alertId = id || `${new Date().getTime()}`
-  Store.dispatch({
-    type: SEND_ALERT,
-    alert: {
-      id: alertId,
-      route: currentRoute,
-      ...rest,
-    },
+    Store.dispatch({
+      type: SEND_ALERT,
+      alert: {
+        id: alertId,
+        route: currentRoute,
+        ...rest,
+      },
+    })
   })
 }
 

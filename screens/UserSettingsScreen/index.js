@@ -56,11 +56,12 @@ class UserSettingsScreen extends React.Component {
                 Bio
               </StackedJumpButton>
 
-              {/* TODO:
-                <StackedJumpButton label="Email">
-                  {me.email}
-                </StackedJumpButton>
-              */}
+              <StackedJumpButton
+                label="Email"
+                onPress={() => navigationService.navigate('editAccountEmail')}
+              >
+                {me.email}
+              </StackedJumpButton>
             </Fieldset>
           </Section>
 

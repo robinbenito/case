@@ -28,7 +28,7 @@ export const Input = styled.TextInput`
   font-size: ${Typography.fontSize.base};
   height: ${Typography.fontSize.base + Units.scale[1]};
   padding-horizontal: ${Units.scale[1]};
-  color: ${Colors.semantic.text};
+  color: ${x => (x.disabled ? Colors.gray.regular : Colors.semantic.text)};
   background-color: white;
 `
 

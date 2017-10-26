@@ -6,12 +6,10 @@ let CURRENT_USER
 
 const ASYNC_STORAGE_KEY = '@arena:CurrentUser'
 
+// NOTE: Do not add anything to this list
 export const SERIALIZABLE_ATTRIBUTES = [
   'id',
-  'slug',
-  'name',
   'authentication_token',
-  'is_pending_confirmation',
 ]
 
 export const LoginFragment = gql`
