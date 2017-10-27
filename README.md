@@ -12,4 +12,4 @@ The future is already here, its just not evenly distributed yet.
 
 ## Config setup
 
-* You can get your logged in access token by running `window.__sharifyData.CURRENT_USER.access_token` in a logged in page.
+At the moment there we are unable to grant an individual `X_APP_TOKEN` to complete the configuration.
