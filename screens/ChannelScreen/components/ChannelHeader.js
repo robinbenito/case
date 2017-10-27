@@ -129,8 +129,8 @@ class ChannelHeader extends Component {
               <Text>
                 {' with '}
                 {channel.collaborators.map((collaborator, i) => (
-                  <Text>
-                    <Author key={collaborator.id} user={collaborator} />
+                  <Text key={collaborator.id}>
+                    <Author user={collaborator} />
                     {channel.collaborators.length - 1 === i ? '' : ', '}
                   </Text>
                 ))}
