@@ -12,13 +12,19 @@ import openExternalArenaPath from '../../utilities/openExternalArenaPath'
 
 import { Colors } from '../../constants/Style'
 
-import { Fieldset, FieldsetLabel } from '../../components/UI/Inputs'
+import { Fieldset, FieldsetLabel, InputDescription } from '../../components/UI/Inputs'
 import { StackedButton, StackedJumpButton } from '../../components/UI/Buttons'
 import { Container, Section } from '../../components/UI/Layout'
 import UserAvatar from '../../components/UserAvatar'
 import withLoadingAndErrors from '../../components/WithLoadingAndErrors'
 
 class UserSettingsScreen extends React.Component {
+  static propTypes = {
+    data: PropTypes.shape({
+      me: PropTypes.object.isRequired,
+    }).isRequired,
+  }
+
   logOut = () => {
     currentUserService.clear()
 
@@ -95,6 +101,29 @@ class UserSettingsScreen extends React.Component {
           </Section>
 
           <Section space={3}>
+            <FieldsetLabel>
+              Plan
+            </FieldsetLabel>
+
+            <Fieldset>
+              <StackedJumpButton
+                label="Current Plan"
+                onPress={() => openExternalArenaPath('settings/billing')}
+              >
+                {me.plan}
+              </StackedJumpButton>
+            </Fieldset>
+
+            {me.plan === 'Free' &&
+              <InputDescription>
+                You are currently using {`${me.counts.private_connections} `}
+                out of {`${me.counts.private_connections_limit} `} available
+                private blocks for free account
+              </InputDescription>
+            }
+          </Section>
+
+          <Section space={3}>
             <Fieldset>
               <StackedButton onPress={() => openExternalArenaPath('about')}>
                 About Are.na
@@ -121,10 +150,6 @@ class UserSettingsScreen extends React.Component {
   }
 }
 
-UserSettingsScreen.propTypes = {
-  data: PropTypes.any.isRequired,
-}
-
 const UserSettingsQuery = gql`
   query UserSettingsQuery {
     me {
@@ -135,6 +160,11 @@ const UserSettingsQuery = gql`
       settings {
         receive_email
         receive_newsletter
+      }
+      plan
+      counts {
+        private_connections
+        private_connections_limit
       }
     }
   }

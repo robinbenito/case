@@ -8,7 +8,7 @@ import injectButtonWhenDiff from '../../utilities/injectButtonWhenDiff'
 import alertErrors from '../../utilities/alertErrors'
 
 import HeaderRightButton from '../../components/HeaderRightButton'
-import { Fieldset, StackedTextArea } from '../../components/UI/Inputs'
+import { Fieldset, StackedTextArea, InputDescription } from '../../components/UI/Inputs'
 import { Container, Section } from '../../components/UI/Layout'
 import { dismissAllAlerts } from '../../components/Alerts'
 import withLoadingAndErrors from '../../components/WithLoadingAndErrors'
@@ -94,6 +94,10 @@ class EditAccountBioScreen extends React.Component {
               autoFocus
             />
           </Fieldset>
+
+          <InputDescription>
+             Markdown is OK
+          </InputDescription>
         </Section>
       </Container>
     )
