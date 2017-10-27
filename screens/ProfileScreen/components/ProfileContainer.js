@@ -2,32 +2,30 @@ import React from 'react'
 import gql from 'graphql-tag'
 import { graphql, compose, withApollo } from 'react-apollo'
 import PropTypes from 'prop-types'
-import { ActivityIndicator, FlatList, StyleSheet, View } from 'react-native'
+import styled from 'styled-components/native'
+import { ActivityIndicator, FlatList, View } from 'react-native'
 
 import ProfileHeader from './ProfileHeader'
 import ChannelItem from '../../../components/ChannelItem'
 import BlockItem from '../../../components/BlockItem'
 import UserAvatar from '../../../components/UserAvatar'
-import { StatusMessage } from '../../../components/UI/Alerts'
+import Empty from '../../../components/Empty'
+import { CenterColumn } from '../../../components/UI/Layout'
+import { ButtonLabel, Button } from '../../../components/UI/Buttons'
 import withLoadingAndErrors from '../../../components/WithLoadingAndErrors'
 
 import CurrentUser from '../../../utilities/currentUserService'
+import navigationService from '../../../utilities/navigationService'
 import scrollHeaderVisibilitySensor from '../../../utilities/scrollHeaderVisibilitySensor'
-import layout from '../../../constants/Layout'
+import { Units } from '../../../constants/Style'
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'white',
-    minHeight: 700,
-    paddingBottom: layout.topbar * 2,
-  },
-  channelItem: {
-    marginHorizontal: layout.padding,
-  },
-  footer: {
-    paddingVertical: layout.padding * 2,
-  },
-})
+const Submit = styled(CenterColumn)`
+  margin-vertical: ${Units.base};
+`
+
+const StyledChannelItem = styled(ChannelItem)`
+  margin-horizontal: ${Units.base};
+`
 
 class ProfileContainer extends React.Component {
   static propTypes = {
@@ -88,7 +86,9 @@ class ProfileContainer extends React.Component {
     if (!this.props.userBlocksData.loading) return null
 
     return (
-      <ActivityIndicator animating size="small" style={styles.footer} />
+      <Submit>
+        <ActivityIndicator animating size="small" />
+      </Submit>
     )
   }
 
@@ -106,55 +106,63 @@ class ProfileContainer extends React.Component {
     const shouldShowChannel = type === 'CHANNEL'
     const columnCount = shouldShowChannel ? 1 : 2
     const columnStyle = columnCount > 1 ? { justifyContent: 'space-around' } : false
-
     const currentUser = CurrentUser.sync.get()
+    const isTheCurrentUser = currentUser && currentUser.id === data.user.id
 
     const header = (
       <ProfileHeader
         user={data.user}
         onToggle={this.onToggleChange}
         type={type}
-        isTheCurrentUser={currentUser && currentUser.id === data.user.id}
+        isTheCurrentUser={isTheCurrentUser}
       />
     )
 
     const contentsLoading = userBlocksData.networkStatus === 2 || userBlocksData.networkStatus === 1
 
     if (contents.length === 0 && !contentsLoading) {
+      const emptyComponent = isTheCurrentUser ? (
+        <Empty>
+          <Submit>
+            <Button space={1} onPress={() => navigationService.navigate('newChannel')}>
+              <ButtonLabel>New Channel</ButtonLabel>
+            </Button>
+          </Submit>
+        </Empty>
+      ) : (<Empty text="Nothing here yet" />)
+
       return (
-        <View>
+        <View style={{ flex: 1 }}>
           {header}
-          <StatusMessage>
-            {`No public ${type.toLowerCase()}s`}
-          </StatusMessage>
+          {emptyComponent}
         </View>
       )
     }
 
     return (
-      <FlatList
-        style={styles.container}
-        contentContainerStyle={styles.container}
-        data={contents}
-        columnWrapperStyle={columnStyle}
-        refreshing={userBlocksData.networkStatus === 4}
-        onRefresh={this.onRefresh}
-        numColumns={columnCount}
-        keyExtractor={(item, index) => `${item.klass}-${item.id}-${index}`}
-        key={type}
-        onEndReached={this.onEndReached}
-        onEndReachedThreshold={0.9}
-        scrollEventThrottle={50}
-        onScroll={scrollHeaderVisibilitySensor}
-        ListFooterComponent={this.renderLoader}
-        ListHeaderComponent={header}
-        renderItem={({ item }) => {
-          if (item.klass === 'Block') {
-            return <BlockItem block={item} size="2-up" />
-          }
-          return <ChannelItem channel={item} style={styles.channelItem} />
-        }}
-      />
+      <View>
+        <FlatList
+          data={contents}
+          columnWrapperStyle={columnStyle}
+          refreshing={userBlocksData.networkStatus === 4}
+          onRefresh={this.onRefresh}
+          numColumns={columnCount}
+          keyExtractor={(item, index) => `${item.klass}-${item.id}-${index}`}
+          key={type}
+          onEndReached={this.onEndReached}
+          onEndReachedThreshold={0.9}
+          scrollEventThrottle={50}
+          onScroll={scrollHeaderVisibilitySensor}
+          ListFooterComponent={this.renderLoader}
+          ListHeaderComponent={header}
+          renderItem={({ item }) => {
+            if (item.klass === 'Block') {
+              return <BlockItem block={item} size="2-up" />
+            }
+            return <StyledChannelItem channel={item} />
+          }}
+        />
+      </View>
     )
   }
 }

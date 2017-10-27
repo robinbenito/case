@@ -70,7 +70,7 @@ const renderItem = ({ item }) => {
 const FeedContents = ({ items, verb }) => {
   const itemData = items.slice().reverse()
 
-  const { __typename } = items[0]
+  const __typename = items[0] && items[0].__typename
   const channelGroup = __typename === 'Channel'
   const userGroup = __typename === 'User'
   const showSlider = verb === 'connected' && items.length > 1 && !channelGroup
