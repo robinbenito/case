@@ -3,21 +3,19 @@ import gql from 'graphql-tag'
 import { graphql, compose } from 'react-apollo'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
-import {
-  ActivityIndicator,
-  FlatList,
-  View,
-} from 'react-native'
+import { ActivityIndicator, FlatList, View } from 'react-native'
 
 import ChannelHeader from './ChannelHeader'
 import ChannelItem from '../../../components/ChannelItem'
 import BlockItem from '../../../components/BlockItem'
-import { CenterColumn, RelativeFill } from '../../../components/UI/Layout'
+import { CenterColumn } from '../../../components/UI/Layout'
 import { ButtonLabel, Button } from '../../../components/UI/Buttons'
 import Empty from '../../../components/Empty'
+import withLoadingAndErrors from '../../../components/WithLoadingAndErrors'
+
 import { Units } from '../../../constants/Style'
 
-import NavigatorService from '../../../utilities/navigationService'
+import navigationService from '../../../utilities/navigationService'
 import scrollHeaderVisibilitySensor from '../../../utilities/scrollHeaderVisibilitySensor'
 
 const Submit = styled(CenterColumn)`
@@ -69,7 +67,7 @@ class ChannelContainer extends React.Component {
 
   navigateToConnect = () => {
     const { channel } = this.props.data
-    NavigatorService.navigate('connect', {
+    navigationService.navigate('connect', {
       connectable_id: channel.id,
       connectable_type: 'CHANNEL',
       title: channel.title,
@@ -96,26 +94,10 @@ class ChannelContainer extends React.Component {
   }
 
   render() {
-    const { data, blocksData, connectionsData } = this.props
-    const { error, loading, channel } = this.props.data
+    const { data, data: { channel }, blocksData, connectionsData } = this.props
     const { type } = this.state
 
-    if (error) {
-      return (
-        <RelativeFill>
-          <Empty text="Channel not found" />
-        </RelativeFill>
-      )
-    }
-
-    if (loading) {
-      return (
-        <RelativeFill>
-          <ActivityIndicator />
-        </RelativeFill>
-      )
-    }
-
+    // TODO: This...
     const columnCount = type === 'CHANNEL' || type === 'CONNECTION' ? 1 : 2
     const columnStyle = columnCount > 1 ? { justifyContent: 'space-around' } : false
 
@@ -199,21 +181,9 @@ export const ChannelQuery = gql`
     channel(id: $id) {
       __typename
       id
-      slug
       title
-      displayDescription: description(format: HTML)
       description(format: MARKDOWN)
-      visibility
-      can {
-        follow
-        manage
-      }
-      user {
-        id
-        name
-        slug
-      }
-      visibility
+      ...ChannelHeader
       counts {
         blocks
         channels
@@ -221,6 +191,7 @@ export const ChannelQuery = gql`
       }
     }
   }
+  ${ChannelHeader.fragments.channelHeader}
 `
 
 const ChannelBlocksQuery = gql`
@@ -262,6 +233,10 @@ ChannelContainer.defaultProps = {
   page: 1,
 }
 
+const DecoratedChannelContainer = withLoadingAndErrors(ChannelContainer, {
+  errorMessage: 'Error getting this channel',
+})
+
 const ChannelContainerWithData = compose(
   graphql(ChannelQuery),
   graphql(ChannelConnectionsQuery, { name: 'connectionsData' }),
@@ -300,6 +275,6 @@ const ChannelContainerWithData = compose(
       }
     },
   }),
-)(ChannelContainer)
+)(DecoratedChannelContainer)
 
 export default ChannelContainerWithData

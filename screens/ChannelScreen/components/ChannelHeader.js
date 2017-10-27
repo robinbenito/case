@@ -1,17 +1,20 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
 import { pickBy } from 'lodash'
-import { Share } from 'react-native'
+import { Share, Text } from 'react-native'
+import { gql } from 'react-apollo'
+import { propType } from 'graphql-anywhere'
 
 import UserNameText from '../../../components/UserNameText'
 import TabToggle from '../../../components/TabToggle'
 import FollowButtonWithData from '../../../components/FollowButton'
 import HTML from '../../../components/HTML'
-import { Colors, Units, Typography } from '../../../constants/Style'
 import { SmallButton, SmallButtonLabel } from '../../../components/UI/Buttons'
 
-import NavigationService from '../../../utilities/navigationService'
+import { Colors, Units, Typography } from '../../../constants/Style'
+
+import navigationService from '../../../utilities/navigationService'
 import { pluralize } from '../../../utilities/inflections'
 
 const Container = styled.View`
@@ -44,6 +47,11 @@ const Metadata = styled.Text`
   margin-vertical: ${Units.scale[1]};
   color: ${({ visibility }) => Colors.channel[visibility]};
   font-size: ${Typography.fontSize.small};
+  line-height: ${Typography.lineHeightFor('small', 'compact')};
+`
+
+const Author = styled(UserNameText)`
+  font-weight: ${Typography.fontWeight.semiBold};
 `
 
 const Description = styled(HTML)`
@@ -63,87 +71,132 @@ const Action = styled.Text`
   color: ${({ visibility }) => Colors.channel[visibility]};
 `
 
-const editChannel = (channel) => {
-  NavigationService.navigate('editChannel', { channel })
+class ChannelHeader extends Component {
+  render() {
+    const { channel, type, onToggle } = this.props
+
+    let TAB_OPTIONS = {
+      [pluralize(channel.counts.connections, 'Connection')]: 'CONNECTION',
+      [pluralize(channel.counts.channels, 'Channel')]: 'CHANNEL',
+      [pluralize(channel.counts.blocks, 'Block')]: 'BLOCK',
+    }
+
+    // Remove channels tab if there are none
+    if (channel.counts.channels === 0) {
+      TAB_OPTIONS = pickBy(TAB_OPTIONS, value => value !== 'CHANNEL')
+    }
+
+    return (
+      <Container>
+        <Header>
+          <Headline>
+            <Title visibility={channel.visibility}>
+              {channel.title}
+            </Title>
+
+            {channel.can.follow &&
+              <Actions>
+                <FollowButtonWithData id={channel.id} type="CHANNEL" />
+              </Actions>
+            }
+
+            {channel.can.manage &&
+              <Actions>
+                <SmallButton
+                  onPress={() => navigationService.navigate('editChannel', { channel })}
+                >
+                  <SmallButtonLabel accessibilityLabel="Edit">
+                    Edit
+                  </SmallButtonLabel>
+                </SmallButton>
+              </Actions>
+            }
+          </Headline>
+
+          <Description
+            value={channel.displayDescription || '<p>—</p>'}
+            stylesheet={{
+              p: {
+                color: Colors.channel[channel.visibility],
+              },
+            }}
+          />
+
+          <Metadata visibility={channel.visibility}>
+            by <Author user={channel.user} />
+
+            {channel.collaborators.length > 0 &&
+              <Text>
+                {' with '}
+                {channel.collaborators.map((collaborator, i) => (
+                  <Text>
+                    <Author key={collaborator.id} user={collaborator} />
+                    {channel.collaborators.length - 1 === i ? '' : ', '}
+                  </Text>
+                ))}
+              </Text>
+            }
+          </Metadata>
+
+          {/* TODO: `can { share }` */}
+          {channel.visibility !== 'private' &&
+            <Action
+              visibility={channel.visibility}
+              onPress={() =>
+                Share.share({ url: `https://www.are.na/${channel.user.slug}/${channel.id}` })
+              }
+            >
+              Share
+            </Action>
+          }
+
+        </Header>
+
+        <TabToggle
+          selectedSegment={type}
+          onToggleChange={onToggle}
+          options={TAB_OPTIONS}
+          color={Colors.channel[channel.visibility]}
+        />
+      </Container>
+    )
+  }
 }
 
-const ChannelHeader = ({ channel, type, onToggle }) => {
-  let TAB_OPTIONS = {
-    [pluralize(channel.counts.connections, 'Connection')]: 'CONNECTION',
-    [pluralize(channel.counts.channels, 'Channel')]: 'CHANNEL',
-    [pluralize(channel.counts.blocks, 'Block')]: 'BLOCK',
-  }
-
-  // Remove channels tab if there are none
-  if (channel.counts.channels === 0) {
-    TAB_OPTIONS = pickBy(TAB_OPTIONS, value => value !== 'CHANNEL')
-  }
-
-  return (
-    <Container>
-      <Header>
-        <Headline>
-          <Title visibility={channel.visibility}>
-            {channel.title}
-          </Title>
-
-          {channel.can.follow &&
-            <Actions>
-              <FollowButtonWithData id={channel.id} type="CHANNEL" />
-            </Actions>
-          }
-          {channel.can.manage &&
-            <Actions>
-              <SmallButton onPress={() => editChannel(channel)}>
-                <SmallButtonLabel accessibilityLabel="Edit">
-                  Edit
-                </SmallButtonLabel>
-              </SmallButton>
-            </Actions>
-          }
-        </Headline>
-
-        <Description
-          value={channel.displayDescription || '<p>—</p>'}
-          stylesheet={{
-            p: {
-              color: Colors.channel[channel.visibility],
-            },
-          }}
-        />
-
-        <Metadata visibility={channel.visibility}>
-          by <UserNameText user={channel.user} />
-        </Metadata>
-
-        {channel.visibility !== 'private' &&
-          <Action visibility={channel.visibility} onPress={() => Share.share({ url: `https://www.are.na/${channel.user.slug}/${channel.id}` })}>
-            Share
-          </Action>
-        }
-
-      </Header>
-
-      <TabToggle
-        selectedSegment={type}
-        onToggleChange={onToggle}
-        options={TAB_OPTIONS}
-        color={Colors.channel[channel.visibility]}
-      />
-    </Container>
-  )
+ChannelHeader.fragments = {
+  channelHeader: gql`
+    fragment ChannelHeader on Channel {
+      id
+      visibility
+      title
+      displayDescription: description(format: HTML)
+      user {
+        id
+        name
+        slug
+      }
+      can {
+        follow
+        manage
+      }
+      counts {
+        connections
+        channels
+        blocks
+      }
+      collaborators {
+        id
+        slug
+        name
+      }
+    }
+  `,
 }
 
 ChannelHeader.propTypes = {
   type: PropTypes.oneOf(['CHANNEL', 'BLOCK', 'CONNECTION']).isRequired,
   onToggle: PropTypes.func,
-  channel: PropTypes.shape({
-    id: PropTypes.any,
-    visibility: PropTypes.string,
-    title: PropTypes.string,
-    user: PropTypes.any,
-    can: PropTypes.any,
-  }).isRequired,
+  channel: propType(ChannelHeader.fragments.channelHeader).isRequired,
 }
 
 ChannelHeader.defaultProps = {
