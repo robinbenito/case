@@ -44,7 +44,7 @@ const Title = styled.Text`
 
 const Metadata = styled.Text`
   width: 85%;
-  margin-vertical: ${Units.scale[1]};
+  margin-vertical: ${Units.scale[2]};
   color: ${({ visibility }) => Colors.channel[visibility]};
   font-size: ${Typography.fontSize.small};
   line-height: ${Typography.lineHeightFor('small', 'compact')};
