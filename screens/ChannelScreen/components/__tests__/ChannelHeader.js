@@ -19,9 +19,12 @@ const channel = {
     manage: false,
   },
   user: {
+    id: 99,
     slug: 'damon-zucconi',
     name: 'Damon Zucconi',
   },
+  displayDescription: null,
+  collaborators: [],
 }
 
 test('renders correctly', () => {
