@@ -1,7 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { View } from 'react-native'
+import { pickBy } from 'lodash'
 import styled from 'styled-components/native'
+
 import { Units, Typography } from '../../../constants/Style'
 import TabToggle from '../../../components/TabToggle'
 import UserAvatar from '../../../components/UserAvatar'
@@ -65,9 +67,14 @@ ProfileAction.propTypes = {
 }
 
 const ProfileHeader = ({ user, type, onToggle, isTheCurrentUser }) => {
-  const TAB_OPTIONS = {
+  let TAB_OPTIONS = {
     [pluralize(user.counts.channels, 'Channel')]: 'CHANNEL',
     [pluralize(user.counts.blocks, 'Block')]: 'BLOCK',
+  }
+
+  // Remove blocks tab if there are none
+  if (user.counts.blocks === 0) {
+    TAB_OPTIONS = pickBy(TAB_OPTIONS, value => value !== 'BLOCK')
   }
 
   return (
