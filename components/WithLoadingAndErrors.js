@@ -20,6 +20,7 @@ export default (WrappedComponent, { errorMessage }) =>
     }
 
     render() {
+      // TODO: Support multiple data sources
       const { data: { loading, error } } = this.props
 
       if (loading) {
