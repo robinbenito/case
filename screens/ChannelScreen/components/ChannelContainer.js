@@ -77,11 +77,13 @@ class ChannelContainer extends React.Component {
   renderFooter = () => {
     const { type } = this.state
     const element = type === 'CONNECTION' ? (
-      <Submit>
-        <Button space={1} onPress={this.navigateToConnect}>
-          <ButtonLabel>Connect &rarr;</ButtonLabel>
-        </Button>
-      </Submit>
+      <Empty>
+        <Submit>
+          <Button space={1} onPress={this.navigateToConnect}>
+            <ButtonLabel>Connect &rarr;</ButtonLabel>
+          </Button>
+        </Submit>
+      </Empty>
     ) : null
 
     if (!this.props.blocksData.loading) return element
@@ -119,7 +121,7 @@ class ChannelContainer extends React.Component {
       />
     )
     const empty = (
-      <Empty text={`No connected ${type.toLowerCase()}s`} />
+      <Empty text="Nothing here yet" />
     )
 
     const { networkStatus } = contentsData
