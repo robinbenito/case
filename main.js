@@ -1,6 +1,6 @@
 import Expo from 'expo'
 import React, { Component } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, StatusBar } from 'react-native'
 import { ApolloProvider } from 'react-apollo'
 import gql from 'graphql-tag'
 import { connect } from 'react-redux'
@@ -38,6 +38,10 @@ const AddMenuWithState = connect(({ routes, ui }) => ({
   routes,
   active: ui.isAddMenuActive,
 }))(AddMenu)
+
+const StatusBarWithState = connect(({ ui }) => ({
+  hidden: (ui.isAddMenuActive || ui.isHeaderMenuActive),
+}))(StatusBar)
 
 class AppContainer extends Component {
   constructor(props) {
@@ -119,6 +123,7 @@ class AppContainer extends Component {
       return (
         <ApolloProvider store={Store} client={Client}>
           <View style={StyleSheet.absoluteFill}>
+            <StatusBarWithState />
             <Navigation
               onNavigationStateChange={this.onNavigationStateChange}
               ref={navigationService.setContainer}

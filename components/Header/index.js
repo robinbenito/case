@@ -7,6 +7,9 @@ import HeaderPullDown from './HeaderPullDown'
 import { HEADER_BUTTON_HEIGHT } from './HeaderButton'
 import BackButton from '../BackButton'
 
+import Store from '../../state/Store'
+import { SET_HEADER_MENU_VISIBILITY } from '../../state/actions'
+
 export const HEADER_HEIGHT = HEADER_BUTTON_HEIGHT + Units.statusBarHeight
 
 const HeaderModal = styled.TouchableOpacity`
@@ -49,10 +52,18 @@ export default class Header extends Component {
 
   onPress = () => {
     this.setState({ isExpanded: !this.state.isExpanded })
+    Store.dispatch({
+      type: SET_HEADER_MENU_VISIBILITY,
+      isHeaderMenuActive: !this.state.isExpanded,
+    })
   }
 
   onModalPress = () => {
     this.setState({ isExpanded: false })
+    Store.dispatch({
+      type: SET_HEADER_MENU_VISIBILITY,
+      isHeaderMenuActive: false,
+    })
   }
 
   render() {

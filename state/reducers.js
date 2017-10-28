@@ -4,6 +4,7 @@ import {
   SET_CURRENT_ROUTE,
   SET_HEADER_TITLE_VISIBILITY,
   TOGGLE_ADD_MENU,
+  SET_HEADER_MENU_VISIBILITY,
   SEND_ALERT,
   DISMISS_ALERT,
   DISMISS_ALL_ALERTS,
@@ -18,6 +19,7 @@ const INITIAL_STATES = {
   ui: {
     isHeaderTitleVisible: true,
     isAddMenuActive: false,
+    isHeaderMenuActive: false,
   },
 
   info: {
@@ -36,13 +38,20 @@ export const routes = (state = INITIAL_STATES.routes, { type, current }) => {
   }
 }
 
-export const ui = (state = INITIAL_STATES.ui, { type, isHeaderTitleVisible }) => {
+export const ui = (state = INITIAL_STATES.ui, {
+  type,
+  isHeaderTitleVisible,
+  isHeaderMenuActive,
+}) => {
   switch (type) {
     case SET_HEADER_TITLE_VISIBILITY:
       return { ...state, isHeaderTitleVisible }
 
     case TOGGLE_ADD_MENU:
       return { ...state, isAddMenuActive: !state.isAddMenuActive }
+
+    case SET_HEADER_MENU_VISIBILITY:
+      return { ...state, isHeaderMenuActive }
 
     default:
       return state
