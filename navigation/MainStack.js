@@ -110,14 +110,16 @@ const MainNavigator = enhance(StackNavigator)({
     navigationOptions: ({ navigation }) => {
       const notMyProfile = navigation.state.params && navigation.state.params.id
       const headerLeft = notMyProfile ? <BackButton /> : null
+      const secondary = notMyProfile ? [
+        { title: 'Feed', key: 'feed' },
+        { title: 'Profile', key: 'profile' },
+      ] : [{ title: 'Feed', key: 'feed' }]
       return {
         header: <HeaderWithState
           navigation={navigation}
           primary={{ title: 'Profile' }}
           headerLeft={headerLeft}
-          secondary={[
-            { title: 'Feed', key: 'feed' },
-          ]}
+          secondary={secondary}
           isHeaderTitleVisible={false}
           headerRight={<SearchIcon />}
         />,
