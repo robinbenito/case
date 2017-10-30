@@ -1,7 +1,6 @@
 import React from 'react'
-import { DrawerNavigator } from 'react-navigation'
+import { DrawerNavigator, StackNavigator } from 'react-navigation'
 
-import StackModalNavigator from '../utilities/stackModalNavigator'
 import LoggedOutScreen from '../screens/LoggedOutScreen'
 import LoginScreen from '../screens/LoginScreen'
 import SignUpScreen from '../screens/SignUpScreen'
@@ -22,7 +21,7 @@ const MainStackWithDrawer = DrawerNavigator({
 })
 
 
-export default initialRouteName => StackModalNavigator({
+export default initialRouteName => StackNavigator({
   loggedOut: {
     screen: LoggedOutScreen,
     navigationOptions: {
