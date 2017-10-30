@@ -30,11 +30,13 @@ import BackButton from '../components/BackButton'
 
 import headerNavigationOptions from '../constants/Header'
 
+import navigateOnce from '../utilities/navigateOnce'
+
 const HeaderWithState = connect(({ ui: { isHeaderTitleVisible } }) => ({
   isHeaderTitleVisible,
 }))(Header)
 
-export default enhance(StackNavigator)({
+const MainNavigator = enhance(StackNavigator)({
   feed: {
     screen: FeedScreen,
     navigationOptions: ({ navigation }) => ({
@@ -213,3 +215,7 @@ export default enhance(StackNavigator)({
     backgroundColor: 'white',
   },
 })
+
+MainNavigator.router.getStateForAction = navigateOnce(MainNavigator.router.getStateForAction)
+
+export default MainNavigator
