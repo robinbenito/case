@@ -1,7 +1,11 @@
 import React from 'react'
 import styled from 'styled-components/native'
 import PropTypes from 'prop-types'
+import Swipeout from 'react-native-swipeout'
+import { StyleSheet } from 'react-native'
+
 import { BaseIcon } from './Icons'
+
 import { Border, Typography, Units, Colors } from '../../constants/Style'
 
 export const ButtonOutline = styled.TouchableOpacity`
@@ -166,4 +170,30 @@ export const SecondaryButton = ({ children, ...rest }) => (
 
 SecondaryButton.propTypes = {
   children: PropTypes.node.isRequired,
+}
+
+const StackedSwipeableArea = styled.View`
+  padding-left: ${Units.scale[2]};
+  padding-vertical: ${Units.scale[2]};
+`
+
+export const StackedSwipeable = ({ children, right, ...rest }) => (
+  <Swipeout
+    right={right}
+    style={{
+      backgroundColor: 'white',
+      borderTopWidth: Units.hairlineWidth,
+      borderTopColor: Border.borderColor,
+    }}
+    {...rest}
+  >
+    <StackedSwipeableArea>
+      <StackedButtonLabel>{children}</StackedButtonLabel>
+    </StackedSwipeableArea>
+  </Swipeout>
+)
+
+StackedSwipeable.propTypes = {
+  children: PropTypes.node.isRequired,
+  right: PropTypes.array.isRequired,
 }
