@@ -13,7 +13,7 @@ exports[`renders correctly 1`] = `
         “
       </Styled(Styled(Text))>
       <Styled(Text)>
-         to
+         to:
       </Styled(Text)>
     </Styled(Text)>
   </Styled(View)>
