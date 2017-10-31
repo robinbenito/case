@@ -212,7 +212,7 @@ class SelectConnectionScreen extends React.Component {
       />
     )
 
-    const cancelOrDone = selectedConnections.length > 0 ? 'Done' : 'Cancel'
+    const cancelOrDone = selectedConnections.length > 0 ? 'Connect' : 'Cancel'
 
     return (
       <SelectContainer>

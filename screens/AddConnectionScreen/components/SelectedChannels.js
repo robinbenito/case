@@ -68,14 +68,14 @@ export default class SelectedChannels extends React.Component {
           onPress={() => onRemove(channel)}
           style={{ backgroundColor, borderColor: channelColor }}
         >
+          <ChannelWord style={{ color: channelColor }}>
+            {channel.title}
+          </ChannelWord>
           <Icon
             name="ios-close-outline"
             size={20}
             color={channelColor}
           />
-          <ChannelWord style={{ color: channelColor }}>
-            {channel.title}
-          </ChannelWord>
         </SelectedChannel>
       )
     })
