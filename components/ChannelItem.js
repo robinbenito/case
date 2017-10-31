@@ -12,10 +12,9 @@ const Background = styled.TouchableOpacity`
   padding-vertical: ${Units.base};
   padding-horizontal: ${Units.scale[2]};
   background-color: ${c => Colors.channel.background[c.visibility]};
-  border-color: transparent;
-  border-width: ${Border.borderWidth};
+  border-color: ${c => (c.isSelected ? Colors.channel[c.visibility] : 'transparent')};
+  border-width: ${Border.borderWidthMedium};
   border-radius: ${Border.borderRadius};
-  opacity: ${c => (c.isSelected ? 0.25 : 1)};
 `
 
 const Color = styled.Text`
