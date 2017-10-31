@@ -46,7 +46,7 @@ const SelectedChannel = styled.TouchableOpacity`
 `
 
 const Icon = styled(Ionicons)`
-  padding-right: ${Units.scale[1]};
+  padding-left: ${Units.scale[1]};
   position: relative;
   bottom: -1;
 `
