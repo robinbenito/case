@@ -9,7 +9,7 @@ const Status = styled.View`
   justify-content: center;
   align-items: flex-start;
   margin-bottom: ${Units.scale[3]};
-  padding-horizontal: ${Units.scale[2]};
+  padding-horizontal: ${Units.scale[3]};
 `
 
 const Sentence = styled.View`
@@ -37,7 +37,7 @@ const SelectedChannelsContainer = styled.View`
 const SelectedChannel = styled.TouchableOpacity`
   margin-right: ${Units.scale[2]};
   margin-vertical: ${Units.scale[1]};
-  border-width: ${Border.borderWidth};
+  border-width: ${Border.borderWidthMedium};
   border-radius: ${Border.borderRadius};
   padding-horizontal: ${Units.scale[2]};
   padding-vertical: ${Units.scale[1]};
@@ -90,7 +90,7 @@ export default class SelectedChannels extends React.Component {
             <StatusText>
               <StatusText>Connect </StatusText>
               <BoldStatusText>&#8220;{title}&#8220;</BoldStatusText>
-              <StatusText> to</StatusText>
+              <StatusText> to:</StatusText>
             </StatusText>
           </Sentence>
           {channels.length > 0 &&
@@ -105,7 +105,7 @@ export default class SelectedChannels extends React.Component {
       <Status>
         <Sentence>
           <StatusText>
-            Recent channels
+            Recent channels:
           </StatusText>
         </Sentence>
       </Status>
