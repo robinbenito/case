@@ -2,10 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
+
 import BackButton from '../../../components/BackButton'
 import ChannelForm from '../../../components/Form/ChannelForm'
 import { ChannelQuery } from '../../ChannelScreen/components/ChannelContainer'
+
 import navigationService from '../../../utilities/navigationService'
+import alertErrors from '../../../utilities/alertErrors'
 
 const NAVIGATION_OPTIONS = {
   title: 'Edit Channel',
@@ -19,12 +22,14 @@ class EditChannelScreen extends React.Component {
 
   onSubmit = ({ visibility, ...rest }) => {
     const { channel: { id }, editChannel } = this.props
+
     editChannel({
       variables: {
         id,
         visibility: visibility.toUpperCase(),
         ...rest,
       },
+
       refetchQueries: [
         {
           query: ChannelQuery,
@@ -33,11 +38,11 @@ class EditChannelScreen extends React.Component {
           },
         },
       ],
-    }).then(({ data: { error } }) => {
-      if (!error) navigationService.back()
-
-      // TODO: Render error...
     })
+
+    .then(() => navigationService.back())
+
+    .catch(alertErrors)
   }
 
   render() {
@@ -45,7 +50,7 @@ class EditChannelScreen extends React.Component {
 
     return (
       <ChannelForm
-        channel={channel}
+        id={channel.id}
         onSubmit={this.onSubmit}
         navigation={navigation}
         navigationOptions={NAVIGATION_OPTIONS}
