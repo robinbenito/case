@@ -1,44 +1,56 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { gql, graphql } from 'react-apollo'
+import { propType } from 'graphql-anywhere'
 
-import { Meta, MetaText } from './Meta'
+import { Attribution } from './Meta'
 
-class UserResultMeta extends React.Component {
+import { pluralize } from '../../utilities/inflections'
+
+class UserMeta extends Component {
   render() {
-    const { user, loading, error } = this.props.data
+    const { data: { loading, error, user } } = this.props
 
     if (loading || error) {
       return (
-        <Meta>
-          <MetaText>•</MetaText>
-        </Meta>
+        <Attribution>&nbsp;</Attribution>
       )
     }
 
     return (
-      <Meta>
-        <MetaText onPress={this.goToChannel}>
-          {user.counts.channels} channels • {user.counts.blocks} blocks
-        </MetaText>
-      </Meta>
+      <Attribution>
+        {pluralize(user.counts.channels, 'channel')} • {pluralize(user.counts.blocks, 'block')}
+      </Attribution>
     )
   }
 }
 
-const UserMetaQuery = gql`
-  query UserMetaQuery($id: ID!) {
-    user(id: $id) {
+UserMeta.fragments = {
+  meta: gql`
+    fragment UserMeta on User {
       counts {
         channels
         blocks
       }
     }
-  }
-`
-
-UserResultMeta.propTypes = {
-  data: PropTypes.any.isRequired,
+  `,
 }
 
-export default graphql(UserMetaQuery)(UserResultMeta)
+const UserMetaQuery = gql`
+  query UserMetaQuery($id: ID!) {
+    user(id: $id) {
+      ...UserMeta
+    }
+  }
+  ${UserMeta.fragments.meta}
+`
+
+UserMeta.propTypes = {
+  data: PropTypes.shape({
+    loading: PropTypes.bool.isRequired,
+    error: PropTypes.object,
+    user: propType(UserMeta.fragments.meta),
+  }).isRequired,
+}
+
+export default graphql(UserMetaQuery)(UserMeta)

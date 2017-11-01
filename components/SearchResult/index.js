@@ -14,7 +14,8 @@ import navigationService from '../../utilities/navigationService'
 const Container = styled.TouchableOpacity`
   justify-content: center;
   padding-vertical: ${Units.scale[2]};
-  padding-horizontal: ${Units.scale[3]};
+  padding-right: ${Units.scale[3]};
+  margin-left: ${Units.scale[3]};
   border-bottom-color: ${Border.borderColor};
   border-bottom-width: ${Border.borderWidth};
 `
@@ -22,8 +23,8 @@ const Container = styled.TouchableOpacity`
 class SearchResult extends Component {
   onPress = () => {
     const { item } = this.props
-    const { __typename: typeName } = item
-    switch (typeName) {
+
+    switch (item.__typename) {
       case 'Channel':
         navigationService.navigate('channel', {
           id: item.id,
@@ -46,24 +47,22 @@ class SearchResult extends Component {
       default:
         break
     }
-    return this
   }
 
   render() {
-    let resultInner
+    let result
 
     const { item } = this.props
-    const { __typename: typeName } = item
 
-    switch (typeName) {
+    switch (item.__typename) {
       case 'Connectable':
-        resultInner = <ConnectableResult connectable={item} />
+        result = <ConnectableResult connectable={item} />
         break
       case 'User':
-        resultInner = <UserResult user={item} />
+        result = <UserResult user={item} />
         break
       case 'Channel':
-        resultInner = <ChannelResult channel={item} />
+        result = <ChannelResult channel={item} />
         break
       default:
         break
@@ -74,7 +73,7 @@ class SearchResult extends Component {
         activeOpacity={0.95}
         onPress={this.onPress}
       >
-        {resultInner}
+        {result}
       </Container>
     )
   }

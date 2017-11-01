@@ -1,20 +1,23 @@
 import styled from 'styled-components/native'
 
-import { Units, Typography, Colors } from '../../constants/Style'
+import { Colors, Typography, Units } from '../../constants/Style'
 
-export const Section = styled.View``
-
-export const Meta = styled.View`
-  padding-top: ${Units.scale[1]};
+export const Metadata = styled.View`
+  flex: 1;
 `
 
-export const MetaText = styled.Text`
+export const Title = styled.Text.attrs({
+  numberOfLines: 1,
+})`
+  font-size: ${Typography.fontSize.smedium}
+  color: ${Colors.gray.semiBold};
+  padding-right: ${Units.base};
+`
+
+export const Attribution = styled.Text.attrs({
+  numberOfLines: 1,
+})`
   font-size: ${Typography.fontSize.small};
+  line-height: ${Typography.lineHeightFor('small')};
   color: ${Colors.gray.semiBold};
 `
-
-export default {
-  Section,
-  Meta,
-  MetaText,
-}

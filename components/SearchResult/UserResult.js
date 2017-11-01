@@ -2,45 +2,36 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
 
+import { Title, Metadata } from './Meta'
 import UserMeta from './UserMeta'
 import UserAvatar from '../UserAvatar'
 
 import navigationService from '../../utilities/navigationService'
-
-import { Typography } from '../../constants/Style'
 
 const Container = styled.View`
   flex-direction: row;
   justify-content: space-between;
 `
 
-const Section = styled.View`
-  justify-content: center;
-`
-
-const UserName = styled.Text`
-  font-size: ${Typography.fontSize.smedium}
-`
-
 export default class UserResult extends React.Component {
   onPress = () => {
-    const { user } = this.props
-    navigationService.navigate('profile', { id: user.id })
+    const { user: { id } } = this.props
+
+    navigationService.navigate('profile', { id })
   }
 
   render() {
     const { user } = this.props
+
     return (
       <Container>
-        <Section>
-          <UserName>{user.name}</UserName>
+        <Metadata>
+          <Title>{user.name}</Title>
 
           <UserMeta id={user.id} />
-        </Section>
+        </Metadata>
 
-        <Section>
-          <UserAvatar user={user} size={35} onPress={this.onPress} />
-        </Section>
+        <UserAvatar user={user} size={35} onPress={this.onPress} />
       </Container>
     )
   }

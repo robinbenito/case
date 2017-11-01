@@ -3,19 +3,12 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
 import { decode } from 'he'
 
-import { Meta, MetaText, Section } from './Meta'
-
-import { Typography, Colors } from '../../constants/Style'
+import { Metadata, Title, Attribution } from './Meta'
 
 const Container = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-`
-
-const Title = styled.Text`
-  font-size: ${Typography.fontSize.smedium}
-  color: ${Colors.gray.semiBold};
 `
 
 const ImageThumb = styled.Image`
@@ -27,33 +20,26 @@ const ImageThumb = styled.Image`
 export default class ConnectableResult extends React.Component {
   render() {
     const { connectable } = this.props
-    const { kind: { __typename: kindType } } = connectable
-
-    const ConnectableImage = connectable.kind.image_url ? (
-      <Section>
-        <ImageThumb
-          cache="force-cache"
-          source={{ uri: connectable.kind.image_url, cache: 'force-cache' }}
-        />
-      </Section>
-    ) : null
-
-    const title = connectable.title ? decode(connectable.title) : null
 
     return (
       <Container>
-        <Section>
+        <Metadata>
           <Title>
-            {title}
+            {connectable.title ? decode(connectable.title) : null}
           </Title>
-          <Meta>
-            <MetaText onPress={this.goToChannel}>
-              {kindType} • {connectable.user.name}
-            </MetaText>
-          </Meta>
-        </Section>
 
-        {ConnectableImage}
+          <Attribution>
+            {connectable.kind.__typename} • {connectable.user.name}
+          </Attribution>
+        </Metadata>
+
+        {connectable.kind.image_url &&
+          <ImageThumb
+            source={{
+              uri: connectable.kind.image_url,
+            }}
+          />
+        }
       </Container>
     )
   }
