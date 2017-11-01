@@ -14,18 +14,28 @@ class SearchContents extends React.Component {
   static propTypes = {
     q: PropTypes.string,
     data: PropTypes.object,
+    onResultPress: PropTypes.func,
   }
 
   static defaultProps = {
     q: null,
     data: {},
+    onResultPress: null,
   }
 
   keyExtractor = (item, index) =>
     `${item.klass}-${item.id}-${index}`
 
-  renderItem = ({ item }) =>
-    <SearchResult item={item} />
+  renderItem = ({ item }) => {
+    const { onResultPress } = this.props
+
+    return (
+      <SearchResult
+        item={item}
+        onResultPress={onResultPress}
+      />
+    )
+  }
 
   render() {
     const { q } = this.props

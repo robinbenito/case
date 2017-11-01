@@ -24,7 +24,11 @@ const Container = styled.View`
 
 class SearchResult extends Component {
   onPress = () => {
-    const { item } = this.props
+    const { item, onResultPress } = this.props
+
+    if (onResultPress) {
+      return onResultPress(item)
+    }
 
     switch (item.__typename) {
       case 'Channel':
@@ -88,6 +92,11 @@ SearchResult.fragments = {
 
 SearchResult.propTypes = {
   item: PropTypes.object.isRequired,
+  onResultPress: PropTypes.func,
+}
+
+SearchResult.defaultProps = {
+  onResultPress: null,
 }
 
 export default SearchResult
