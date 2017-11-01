@@ -29,12 +29,11 @@ export const BlurredAbsoluteFill = styled(BlurView).attrs({
   justify-content: center;
   align-items: center;
 `
-
 export const RelativeFill = styled.View`
-  width: 100%;
-  height: ${Units.window.height - HEADER_HEIGHT};
+  flex: 1;
   justify-content: center;
   align-items: center;
+  width: 100%;
 `
 
 export const Section = styled.View`
@@ -44,6 +43,11 @@ export const Section = styled.View`
 export const HeaderAwareContainer = styled.View`
   flex: 1;
   margin-top: ${HEADER_HEIGHT};
+`
+
+export const StatusBarAwareContainer = styled.View`
+  flex: 1;
+  margin-top: ${Units.statusBarHeight};
 `
 
 export const Container = ({ children, ...rest }) => (
