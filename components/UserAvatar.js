@@ -49,10 +49,10 @@ const Avatar = styled.View`
 
 export default class UserAvatar extends React.Component {
   render() {
-    const { user, size, onPress, includeName, ...rest } = this.props
+    const { user, size, includeName, ...rest } = this.props
 
     return (
-      <HitArea size={size} onPress={onPress} {...rest}>
+      <HitArea size={size} {...rest}>
         <Avatar size={size}>
           <Initials size={size}>
             {user.initials}
@@ -87,7 +87,6 @@ UserAvatar.fragments = {
 
 UserAvatar.propTypes = {
   size: PropTypes.number,
-  onPress: PropTypes.func,
   includeName: PropTypes.bool,
   user: propType(UserAvatar.fragments.avatar).isRequired,
 }
@@ -95,5 +94,4 @@ UserAvatar.propTypes = {
 UserAvatar.defaultProps = {
   size: 60,
   includeName: false,
-  onPress: () => null,
 }
