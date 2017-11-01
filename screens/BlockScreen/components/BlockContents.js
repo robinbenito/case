@@ -33,6 +33,13 @@ const ArrowDown = styled(BaseIcon).attrs({
   align-self: center;
 `
 
+const BlockFill = styled.View`
+  width: 100%;
+  height: ${Units.window.height - HEADER_HEIGHT};
+  justify-content: center;
+  align-items: center;
+`
+
 const BlockFold = styled.View`
   min-height: ${CONTENT_HEIGHT};
 `
@@ -192,7 +199,7 @@ class BlockContents extends React.Component {
         onRefresh={this.refresh}
         ref={ref => this.BlockContents = ref}
       >
-        <RelativeFill>
+        <BlockFill>
           <BlockContainer>
             {blockInner}
           </BlockContainer>
@@ -200,7 +207,7 @@ class BlockContents extends React.Component {
           <ScrollToMetadata onPress={this.scrollToMetadata}>
             <ArrowDown />
           </ScrollToMetadata>
-        </RelativeFill>
+        </BlockFill>
 
         {block.counts &&
           <BlockFold ref={ref => this.BlockFold = ref}>
