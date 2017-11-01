@@ -1,77 +1,89 @@
 import React from 'react'
-import {
-  ActivityIndicator,
-  FlatList,
-} from 'react-native'
+import { FlatList } from 'react-native'
 import PropTypes from 'prop-types'
-import styled from 'styled-components/native'
-
-import gql from 'graphql-tag'
-import { graphql } from 'react-apollo'
+import { isEmpty } from 'lodash'
+import { gql, graphql } from 'react-apollo'
 
 import SearchResult from './SearchResult'
+import { RelativeFill } from '../../../components/UI/Layout'
+import LoadingScreen from '../../../components/LoadingScreen'
+import ErrorScreen from '../../../components/ErrorScreen'
+import { GenericMessage } from '../../../components/UI/Alerts'
 
-import Empty from '../../../components/Empty'
 import { Units } from '../../../constants/Style'
 
-const Container = styled.View`
-  flex: 1;
-  background-color: white;
-`
-
 class SearchContents extends React.Component {
+  static propTypes = {
+    q: PropTypes.string,
+    data: PropTypes.object,
+  }
+
+  static defaultProps = {
+    q: null,
+    data: {},
+  }
+
+  keyExtractor = (item, index) =>
+    `${item.klass}-${item.id}-${index}`
+
+  renderItem = ({ item }) =>
+    <SearchResult item={item} />
+
   render() {
-    const { data } = this.props
-    const { error, loading, search } = data
+    const { q } = this.props
+
+    if (!q) {
+      return (
+        <RelativeFill>
+          <GenericMessage>
+            Start typing
+          </GenericMessage>
+        </RelativeFill>
+      )
+    }
+
+    const { data: { loading, error, networkStatus, search } } = this.props
+
+    // Handle our own loading/errors since we need to account for empty queries
+    if (loading) {
+      return <LoadingScreen />
+    }
 
     if (error) {
       return (
-        <Container>
-          <Empty text="Start typing" />
-        </Container>
+        <ErrorScreen
+          error={error}
+        />
       )
     }
 
-    if (loading) {
+    if (search.length === 0) {
       return (
-        <Container>
-          <Empty>
-            <ActivityIndicator />
-          </Empty>
-        </Container>
+        <RelativeFill>
+          <GenericMessage>
+            No results found
+          </GenericMessage>
+        </RelativeFill>
       )
     }
-
-    const empty = (
-      <Container>
-        <Empty text="No results found" />
-      </Container>
-    )
-
-    if (search.length === 0) return empty
 
     return (
       <FlatList
-        contentContainerStyle={{ backgroundColor: '#fff', paddingHorizontal: Units.scale[3] }}
+        contentContainerStyle={{
+          backgroundColor: 'white',
+          paddingHorizontal: Units.scale[3],
+        }}
         data={search}
-        refreshing={data.networkStatus === 4}
+        refreshing={networkStatus === 4}
         onRefresh={this.onRefresh}
         keyboardShouldPersistTaps="always"
-        keyExtractor={(item, index) => `${item.klass}-${item.id}-${index}`}
+        keyExtractor={this.keyExtractor}
         onEndReached={this.onEndReached}
         onEndReachedThreshold={0.9}
-        renderItem={({ item }) => <SearchResult item={item} />}
+        renderItem={this.renderItem}
       />
     )
   }
-}
-
-SearchContents.propTypes = {
-  data: PropTypes.any.isRequired,
-}
-
-SearchContents.defaultProps = {
-  q: null,
 }
 
 const SearchQuery = gql`
@@ -94,6 +106,7 @@ const SearchQuery = gql`
 `
 
 export default graphql(SearchQuery, {
+  // Execute query only if there is a query to execute
+  skip: ({ q }) => isEmpty(q),
   options: { fetchPolicy: 'network-only' },
 })(SearchContents)
-
