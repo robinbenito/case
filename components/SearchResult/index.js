@@ -3,46 +3,42 @@ import gql from 'graphql-tag'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
 
-import { Units, Border, Colors } from '../../../constants/Style'
-import NavigatorService from '../../../utilities/navigationService'
-
 import ChannelResult from './ChannelResult'
 import ConnectableResult from './ConnectableResult'
 import UserResult from './UserResult'
 
-const Result = styled.TouchableOpacity`
-  overflow: hidden;
-  border-bottom-color: ${Border.borderColor};
-  border-bottom-width: ${Border.borderWidth};
+import { Units, Border, Colors } from '../../constants/Style'
+
+import navigationService from '../../utilities/navigationService'
+
+const Container = styled.TouchableOpacity`
   justify-content: center;
   padding-vertical: ${Units.scale[2]};
+  padding-horizontal: ${Units.scale[3]};
+  border-bottom-color: ${Border.borderColor};
+  border-bottom-width: ${Border.borderWidth};
 `
 
-export default class SearchResultItem extends Component {
-  constructor(props) {
-    super(props)
-    this.onPress = this.onPress.bind(this)
-  }
-
-  onPress() {
+class SearchResult extends Component {
+  onPress = () => {
     const { item } = this.props
     const { __typename: typeName } = item
     switch (typeName) {
       case 'Channel':
-        NavigatorService.navigate('channel', {
+        navigationService.navigate('channel', {
           id: item.id,
           title: item.title,
           color: Colors.channel[item.visibility],
         })
         break
       case 'Connectable':
-        NavigatorService.navigate('block', {
+        navigationService.navigate('block', {
           id: item.id,
           title: item.title,
         })
         break
       case 'User':
-        NavigatorService.navigate('profile', {
+        navigationService.navigate('profile', {
           id: item.id,
           title: item.name,
         })
@@ -61,30 +57,30 @@ export default class SearchResultItem extends Component {
 
     switch (typeName) {
       case 'Connectable':
-        resultInner = (<ConnectableResult connectable={item} />)
+        resultInner = <ConnectableResult connectable={item} />
         break
       case 'User':
-        resultInner = (<UserResult user={item} />)
+        resultInner = <UserResult user={item} />
         break
       case 'Channel':
-        resultInner = (<ChannelResult channel={item} />)
+        resultInner = <ChannelResult channel={item} />
         break
       default:
         break
     }
 
     return (
-      <Result
+      <Container
         activeOpacity={0.95}
         onPress={this.onPress}
       >
         {resultInner}
-      </Result>
+      </Container>
     )
   }
 }
 
-SearchResultItem.fragments = {
+SearchResult.fragments = {
   channel: gql`
     fragment ChannelItem on Channel {
       __typename
@@ -140,6 +136,9 @@ SearchResultItem.fragments = {
   `,
 }
 
-SearchResultItem.propTypes = {
+// TODO: Break out fragments to individual subcomponents
+SearchResult.propTypes = {
   item: PropTypes.any.isRequired,
 }
+
+export default SearchResult

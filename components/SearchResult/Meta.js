@@ -1,5 +1,6 @@
 import styled from 'styled-components/native'
-import { Units, Typography, Colors } from '../../../constants/Style'
+
+import { Units, Typography, Colors } from '../../constants/Style'
 
 export const Section = styled.View``
 

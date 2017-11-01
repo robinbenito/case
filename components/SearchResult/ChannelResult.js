@@ -2,10 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
 
-import { Typography, Colors } from '../../../constants/Style'
+import { Typography, Colors } from '../../constants/Style'
+
 import { Meta, MetaText } from './Meta'
 
-const ChannelResult = styled.View`
+const Container = styled.View`
   justify-content: center;
 `
 
@@ -14,11 +15,11 @@ const Title = styled.Text`
   font-weight: ${Typography.fontWeight.medium};
 `
 
-export default class SearchResultChannelItem extends React.Component {
+export default class ChannelResult extends React.Component {
   render() {
     const { channel } = this.props
     return (
-      <ChannelResult>
+      <Container>
         <Title style={{ color: Colors.channel[channel.visibility] }}>
           {channel.title}
         </Title>
@@ -27,11 +28,11 @@ export default class SearchResultChannelItem extends React.Component {
             {channel.user.name} • {channel.updated_at}
           </MetaText>
         </Meta>
-      </ChannelResult>
+      </Container>
     )
   }
 }
 
-SearchResultChannelItem.propTypes = {
+ChannelResult.propTypes = {
   channel: PropTypes.any.isRequired,
 }

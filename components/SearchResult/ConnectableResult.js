@@ -4,9 +4,10 @@ import styled from 'styled-components/native'
 import { decode } from 'he'
 
 import { Meta, MetaText, Section } from './Meta'
-import { Typography, Colors } from '../../../constants/Style'
 
-const ConnectableResult = styled.View`
+import { Typography, Colors } from '../../constants/Style'
+
+const Container = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
@@ -23,7 +24,7 @@ const ImageThumb = styled.Image`
   height: 40;
 `
 
-export default class SearchResultConnectableItem extends React.Component {
+export default class ConnectableResult extends React.Component {
   render() {
     const { connectable } = this.props
     const { kind: { __typename: kindType } } = connectable
@@ -40,7 +41,7 @@ export default class SearchResultConnectableItem extends React.Component {
     const title = connectable.title ? decode(connectable.title) : null
 
     return (
-      <ConnectableResult>
+      <Container>
         <Section>
           <Title>
             {title}
@@ -51,12 +52,13 @@ export default class SearchResultConnectableItem extends React.Component {
             </MetaText>
           </Meta>
         </Section>
+
         {ConnectableImage}
-      </ConnectableResult>
+      </Container>
     )
   }
 }
 
-SearchResultConnectableItem.propTypes = {
+ConnectableResult.propTypes = {
   connectable: PropTypes.any.isRequired,
 }

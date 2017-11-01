@@ -2,13 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
 
-import UserResultMeta from './UserResultMeta'
-import UserAvatar from '../../../components/UserAvatar'
-import NavigationService from '../../../utilities/navigationService'
+import UserMeta from './UserMeta'
+import UserAvatar from '../UserAvatar'
 
-import { Typography } from '../../../constants/Style'
+import navigationService from '../../utilities/navigationService'
 
-const UserResult = styled.View`
+import { Typography } from '../../constants/Style'
+
+const Container = styled.View`
   flex-direction: row;
   justify-content: space-between;
 `
@@ -21,28 +22,31 @@ const UserName = styled.Text`
   font-size: ${Typography.fontSize.smedium}
 `
 
-export default class SearchResultUserItem extends React.Component {
+export default class UserResult extends React.Component {
   onPress = () => {
     const { user } = this.props
-    NavigationService.navigate('profile', { id: user.id })
+    navigationService.navigate('profile', { id: user.id })
   }
 
   render() {
     const { user } = this.props
     return (
-      <UserResult>
+      <Container>
         <Section>
           <UserName>{user.name}</UserName>
-          <UserResultMeta id={user.id} />
+
+          <UserMeta id={user.id} />
         </Section>
+
         <Section>
           <UserAvatar user={user} size={35} onPress={this.onPress} />
         </Section>
-      </UserResult>
+      </Container>
     )
   }
 }
 
-SearchResultUserItem.propTypes = {
+// TYPE FRAGMENT
+UserResult.propTypes = {
   user: PropTypes.any.isRequired,
 }
