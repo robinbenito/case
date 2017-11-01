@@ -4,7 +4,7 @@ import styled from 'styled-components/native'
 
 import SearchHeader from '../../components/SearchHeader'
 import TabToggle from '../../components/TabToggle'
-import SearchContents from './components/SearchContents'
+import SearchContents from '../../components/SearchContents'
 import { StatusBarAwareContainer } from '../../components/UI/Layout'
 
 import navigationService from '../../utilities/navigationService'

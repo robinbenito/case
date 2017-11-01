@@ -4,11 +4,11 @@ import PropTypes from 'prop-types'
 import { isEmpty } from 'lodash'
 import { gql, graphql } from 'react-apollo'
 
-import SearchResult from '../../../components/SearchResult'
-import { RelativeFill } from '../../../components/UI/Layout'
-import LoadingScreen from '../../../components/LoadingScreen'
-import ErrorScreen from '../../../components/ErrorScreen'
-import { GenericMessage } from '../../../components/UI/Alerts'
+import SearchResult from './SearchResult'
+import { RelativeFill } from './UI/Layout'
+import LoadingScreen from './LoadingScreen'
+import ErrorScreen from './ErrorScreen'
+import { GenericMessage } from './UI/Alerts'
 
 class SearchContents extends React.Component {
   static propTypes = {
