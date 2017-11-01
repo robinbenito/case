@@ -1,6 +1,7 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
+import { gql } from 'react-apollo'
+import { propType } from 'graphql-anywhere'
 
 import { Attribution, Title } from './Meta'
 
@@ -28,6 +29,22 @@ export default class ChannelResult extends React.Component {
   }
 }
 
+ChannelResult.fragments = {
+  channel: gql`
+    fragment ChannelResult on Channel {
+      __typename
+      id
+      title
+      visibility
+      updated_at(relative: true)
+      user {
+        id
+        name
+      }
+    }
+  `,
+}
+
 ChannelResult.propTypes = {
-  channel: PropTypes.any.isRequired,
+  channel: propType(ChannelResult.fragments.channel).isRequired,
 }

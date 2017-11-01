@@ -1,7 +1,8 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { Component } from 'react'
 import styled from 'styled-components/native'
 import { decode } from 'he'
+import { gql } from 'react-apollo'
+import { propType } from 'graphql-anywhere'
 
 import { Metadata, Title, Attribution } from './Meta'
 
@@ -17,7 +18,7 @@ const ImageThumb = styled.Image`
   height: 40;
 `
 
-export default class ConnectableResult extends React.Component {
+export default class ConnectableResult extends Component {
   render() {
     const { connectable } = this.props
 
@@ -45,6 +46,35 @@ export default class ConnectableResult extends React.Component {
   }
 }
 
+ConnectableResult.fragments = {
+  connectable: gql`
+    fragment ConnectableResult on Connectable {
+      __typename
+      id
+      title
+      user {
+        id
+        name
+      }
+      kind {
+        __typename
+        ... on Attachment {
+          image_url(size: THUMB)
+        }
+        ... on Embed {
+          image_url(size: THUMB)
+        }
+        ... on Image {
+          image_url(size: THUMB)
+        }
+        ... on Link {
+          image_url(size: THUMB)
+        }
+      }
+    }
+  `,
+}
+
 ConnectableResult.propTypes = {
-  connectable: PropTypes.any.isRequired,
+  connectable: propType(ConnectableResult.fragments.connectable).isRequired,
 }

@@ -84,13 +84,13 @@ const SearchQuery = gql`
   query SearchQuery($q: String!, $type: SearchType) {
     search(q: $q, per: 15, type: $type) {
       ... on User {
-        ...UserItem
+        ...UserResult
       }
       ... on Connectable {
-        ...ConnectableItem
+        ...ConnectableResult
       }
       ... on Channel {
-        ...ChannelItem
+        ...ChannelResult
       }
     }
   }
