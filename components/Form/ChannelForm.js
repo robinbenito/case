@@ -1,41 +1,54 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { gql, graphql, compose } from 'react-apollo'
+import { propType } from 'graphql-anywhere'
 
 import HeaderRightButton from '../HeaderRightButton'
-import NavigatorService from '../../utilities/navigationService'
-import { Section, Container } from '../../components/UI/Layout'
-import { StackedJumpButton } from '../../components/UI/Buttons'
-import { FieldsetLabel, Fieldset, StackedInput, StackedTextArea } from '../../components/UI/Inputs'
+import { Section, Container } from '../UI/Layout'
+import { StackedJumpButton, StackedSwipeable } from '../UI/Buttons'
+import { FieldsetLabel, Fieldset, StackedInput, StackedTextArea } from '../UI/Inputs'
+import withLoadingAndErrors from '../WithLoadingAndErrors'
+
+import navigationService from '../../utilities/navigationService'
+import injectButtonWhenDiff from '../../utilities/injectButtonWhenDiff'
 import { capitalize } from '../../utilities/inflections'
+import alertErrors from '../../utilities/alertErrors'
 
 class ChannelForm extends React.Component {
+  static isAbleToListen = false
+
   constructor(props) {
     super(props)
 
-    const { title, description, visibility } = props.channel
-
     this.state = {
-      title,
-      description,
-      visibility,
+      title: '',
+      description: '',
+      visibility: '',
+      collaborators: [],
     }
   }
 
-  componentDidUpdate() {
-    // Hide or show the done button depending on if content is present
-    if (this.state.title) {
-      return this.setNavOptions({
-        headerRight: (
-          <HeaderRightButton
-            onPress={this.onSubmit}
-            text={this.props.submitText}
-          />
-        ),
-      })
-    }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.data.loading) return
 
-    this.setNavOptions({ headerRight: null })
+    this.setState({ ...nextProps.data.channel })
+
+    this.isAbleToListen = true
+  }
+
+  componentDidUpdate() {
+    if (!this.isAbleToListen) return
+
+    injectButtonWhenDiff({
+      navigation: this.props.navigation,
+      state: this.state,
+      fields: this.props.data.channel,
+      headerRight: <HeaderRightButton
+        onPress={this.onSubmit}
+        text="Done"
+      />,
+    })
   }
 
   onSubmit = () => {
@@ -59,16 +72,41 @@ class ChannelForm extends React.Component {
     })
   }
 
+  removeCollaborator = id => () => {
+    const {
+      mutate,
+      data: { channel: { id: channel_id } },
+    } = this.props
+
+    return mutate({
+      variables: {
+        channel_id,
+        user_ids: [id],
+      },
+    })
+
+    .catch(alertErrors)
+  }
+
   goToChannelVisibilityScreen = () => {
     const { visibility } = this.state
 
-    NavigatorService.navigate('channelVisibility', {
+    navigationService.navigate('channelVisibility', {
       visibility,
       onVisibilityChange: this.onVisibilityChange,
     })
   }
 
+  goToAddCollaboratorsScreen = () => {
+    const { data: { channel: { id } } } = this.props
+
+    navigationService.navigate('addCollaborators', {
+      channel_id: id,
+    })
+  }
+
   render() {
+    const { data: { channel } } = this.props
     const { title, description, visibility } = this.state
 
     return (
@@ -103,33 +141,100 @@ class ChannelForm extends React.Component {
               </StackedJumpButton>
             </Fieldset>
           </Section>
+
+          <Section space={4}>
+            <FieldsetLabel>
+              Collaborators
+            </FieldsetLabel>
+
+            <Fieldset>
+              <StackedJumpButton
+                onPress={this.goToAddCollaboratorsScreen}
+              >
+                + Add collaborators
+              </StackedJumpButton>
+
+              {channel.collaborators.length > 0 &&
+                channel.collaborators.map(collaborator => (
+                  <StackedSwipeable
+                    key={collaborator.id}
+                    right={[
+                      {
+                        text: 'Delete',
+                        backgroundColor: 'red',
+                        color: 'white',
+                        onPress: this.removeCollaborator(collaborator.id),
+                      },
+                    ]}
+                  >
+                    {collaborator.name}
+                  </StackedSwipeable>
+                ))
+              }
+            </Fieldset>
+          </Section>
         </KeyboardAwareScrollView>
       </Container>
     )
   }
 }
 
+ChannelForm.fragments = {
+  channelForm: gql`
+    fragment ChannelForm on Channel {
+      id
+      title
+      description
+      visibility
+      collaborators {
+        id
+        name
+      }
+    }
+  `,
+}
+
 ChannelForm.propTypes = {
+  data: PropTypes.shape({
+    loading: PropTypes.bool.isRequired,
+    error: PropTypes.object,
+    channel: propType(ChannelForm.fragments.channelForm).isRequired,
+  }).isRequired,
+  mutate: PropTypes.func.isRequired,
   onSubmit: PropTypes.func,
-  submitText: PropTypes.string,
   navigation: PropTypes.any,
   navigationOptions: PropTypes.any.isRequired,
-  channel: PropTypes.shape({
-    title: PropTypes.string,
-    description: PropTypes.string,
-    visibility: PropTypes.string,
-  }),
 }
 
 ChannelForm.defaultProps = {
   onSubmit: () => null,
   navigation: {},
   submitText: 'Done',
-  channel: {
-    title: null,
-    description: null,
-    visibility: 'CLOSED',
-  },
 }
 
-export default ChannelForm
+const ChannelFormQuery = gql`
+  query ChannelFormQuery($id: ID!) {
+    channel(id: $id) {
+      ...ChannelForm
+    }
+  }
+  ${ChannelForm.fragments.channelForm}
+`
+
+const RemoveCollaboratorsMutation = gql`
+  mutation removeCollaboratorsMutation($user_ids: [ID]!, $channel_id: ID!){
+    remove_collaborators(input: { user_ids: $user_ids, channel_id: $channel_id }) {
+      channel {
+        ...ChannelForm
+      }
+    }
+  }
+  ${ChannelForm.fragments.channelForm}
+`
+
+const DecoratedChannelForm = withLoadingAndErrors(ChannelForm)
+
+export default compose(
+  graphql(ChannelFormQuery),
+  graphql(RemoveCollaboratorsMutation),
+)(DecoratedChannelForm)

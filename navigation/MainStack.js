@@ -21,6 +21,7 @@ import AddTextScreen from '../screens/AddTextScreen'
 import AddImageScreen from '../screens/AddImageScreen'
 import AddLinkScreen from '../screens/AddLinkScreen'
 import AddConnectionsScreen from '../screens/AddConnectionScreen'
+import AddCollaboratorsScreen from '../screens/AddCollaboratorsScreen'
 
 import Header from '../components/Header'
 import HeaderIcon from '../screens/FeedScreen/components/HeaderIcons'
@@ -184,6 +185,16 @@ const MainNavigator = enhance(StackNavigator)({
     navigationOptions: {
       title: 'Edit Channel',
       ...headerNavigationOptions,
+    },
+  },
+
+  addCollaborators: {
+    screen: AddCollaboratorsScreen,
+    navigationOptions: {
+      header: null,
+      cardStyle: {
+        backgroundColor: 'white',
+      },
     },
   },
 
