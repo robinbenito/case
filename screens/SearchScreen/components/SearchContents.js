@@ -69,10 +69,6 @@ class SearchContents extends React.Component {
 
     return (
       <FlatList
-        contentContainerStyle={{
-          backgroundColor: 'white',
-          paddingHorizontal: Units.scale[3],
-        }}
         data={search}
         refreshing={networkStatus === 4}
         onRefresh={this.onRefresh}
