@@ -6,14 +6,11 @@
   "main": "main.js",
   "scripts": {
     "lint": "eslint ./",
-    "test": "jest",
-    "test-update": "jest --updateSnapshot"
+    "test": "node_modules/.bin/jest",
+    "test-update": "node_modules/.bin/jest --updateSnapshot"
   },
   "jest": {
-    "preset": "jest-expo",
-    "transformIgnorePatterns": [
-      "node_modules/(?!(jest-)?react-native|react-clone-referenced-element|bugsnag-react-native|expo|@expo/*|exponent|@exponent/*)"
-    ]
+    "preset": "jest-expo"
   },
   "dependencies": {
     "@expo/ex-navigation": "^2.11.2",
@@ -65,7 +62,7 @@
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-react": "^7.1.0",
     "jest": "^21.2.1",
-    "jest-expo": "~20.0.0",
+    "jest-expo": "^22.0.1-SNAPSHOT.2017.11.1",
     "react-native-debugger-open": "^0.3.12",
     "react-native-mock": "^0.3.1",
     "react-native-mock-render": "^0.0.8"
