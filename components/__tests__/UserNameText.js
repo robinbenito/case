@@ -11,7 +11,7 @@ const user = {
   slug: 'damon-zucconi',
 }
 
-xtest('renders correctly', () => {
+test('renders correctly', () => {
   const userName = shallow(
     <UserNameText user={user} />,
   )

@@ -27,7 +27,7 @@ const channel = {
   collaborators: [],
 }
 
-xtest('renders correctly', () => {
+test('renders correctly', () => {
   const tree = shallow(
     <ChannelHeader channel={channel} type="BLOCK" />,
   )

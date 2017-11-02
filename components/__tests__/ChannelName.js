@@ -10,7 +10,7 @@ const channel = {
   visibility: 'private',
 }
 
-xtest('renders correctly', () => {
+test('renders correctly', () => {
   const tree = shallow(
     <ChannelNameText channel={channel} />,
   )
