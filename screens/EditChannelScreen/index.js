@@ -1,21 +1,12 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import BackButton from '../../components/BackButton'
 import EditChannelForm from './components/EditChannelForm'
 
-const navigationOptions = {
-  title: 'Edit Channel',
-  headerLeft: (<BackButton />),
-}
-
-class EditChannelScreen extends React.Component {
-  static navigationOptions() {
-    return navigationOptions
-  }
-
+class EditChannelScreen extends Component {
   constructor(props) {
     super(props)
+
     this.state = {
       channel: this.props.navigation.state.params.channel,
     }
@@ -24,22 +15,23 @@ class EditChannelScreen extends React.Component {
   render() {
     const { navigation } = this.props
     const { channel } = this.state
+
     return (
       <EditChannelForm
-        navigation={navigation}
-        channel={channel}
         id={channel.id}
+        channel={channel}
+        navigation={navigation}
       />
     )
   }
 }
 
 EditChannelScreen.propTypes = {
-  navigation: PropTypes.any,
+  navigation: PropTypes.object.isRequired,
 }
 
 EditChannelScreen.defaultProps = {
-  navigation: () => null,
+  navigation: {},
 }
 
 export default EditChannelScreen

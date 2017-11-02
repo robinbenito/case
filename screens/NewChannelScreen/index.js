@@ -1,42 +1,39 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { graphql } from 'react-apollo'
-import gql from 'graphql-tag'
+import { gql, graphql } from 'react-apollo'
+
 import Store from '../../state/Store'
 import { TOGGLE_ADD_MENU } from '../../state/actions'
-import BackButton from '../../components/BackButton'
-import ChannelForm from '../../components/Form/ChannelForm'
-import NavigatorService from '../../utilities/navigationService'
+
+import ChannelForm from '../../components/Form/ChannelForm/ChannelForm'
+
+import navigationService from '../../utilities/navigationService'
+import alertErrors from '../../utilities/alertErrors'
+
 import { Colors } from '../../constants/Style'
 
-const NAVIGATION_OPTIONS = {
-  title: 'New Channel',
-  headerLeft: <BackButton />,
-}
-
-class NewChannelScreen extends React.Component {
-  static navigationOptions() {
-    return NAVIGATION_OPTIONS
-  }
-
+class NewChannelScreen extends Component {
   onSubmit = (variables) => {
-    this.props
-      .mutate({ variables })
-      .then((response) => {
-        const { data, data: { error } } = response
+    const { mutate } = this.props
 
-        if (error) Promise.reject(error)
-
-        const { create_channel: { channel: { id, title, visibility } } } = data
+    return mutate({ variables })
+      .then(({ data }) => {
+        const {
+          create_channel: {
+            channel: { id, title, visibility },
+          },
+        } = data
 
         Store.dispatch({ type: TOGGLE_ADD_MENU })
 
-        NavigatorService.reset('channel', {
+        navigationService.reset('channel', {
           id,
           title,
           color: Colors.channel[visibility],
         })
       })
+
+      .catch(alertErrors)
   }
 
   render() {
@@ -44,22 +41,16 @@ class NewChannelScreen extends React.Component {
 
     return (
       <ChannelForm
-        onSubmit={this.onSubmit}
         navigation={navigation}
-        navigationOptions={NAVIGATION_OPTIONS}
-        submitText="Next"
+        onSubmit={this.onSubmit}
       />
     )
   }
 }
 
 NewChannelScreen.propTypes = {
-  navigation: PropTypes.any,
-  mutate: PropTypes.any.isRequired,
-}
-
-NewChannelScreen.defaultProps = {
-  navigation: {},
+  navigation: PropTypes.object.isRequired,
+  mutate: PropTypes.func.isRequired,
 }
 
 const createChannelMutation = gql`
@@ -67,12 +58,11 @@ const createChannelMutation = gql`
     create_channel(input: { title: $title, description: $description, visibility: $visibility }) {
       clientMutationId
       channel {
-        id
-        title
-        visibility
+        ...ChannelForm
       }
     }
   }
+  ${ChannelForm.fragments.channelForm}
 `
 
 const NewChannelScreenWithData = graphql(createChannelMutation)(NewChannelScreen)

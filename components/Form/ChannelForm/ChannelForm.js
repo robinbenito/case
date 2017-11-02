@@ -1,19 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { gql, graphql, compose } from 'react-apollo'
-import { propType } from 'graphql-anywhere'
+import { gql, graphql } from 'react-apollo'
 
-import HeaderRightButton from '../HeaderRightButton'
-import { Section, Container } from '../UI/Layout'
-import { StackedJumpButton, StackedSwipeable } from '../UI/Buttons'
-import { FieldsetLabel, Fieldset, StackedInput, StackedTextArea } from '../UI/Inputs'
-import withLoadingAndErrors from '../WithLoadingAndErrors'
+import HeaderRightButton from '../../HeaderRightButton'
+import { Section, Container } from '../../UI/Layout'
+import { StackedJumpButton, StackedSwipeable } from '../../UI/Buttons'
+import { FieldsetLabel, Fieldset, StackedInput, StackedTextArea } from '../../UI/Inputs'
 
-import navigationService from '../../utilities/navigationService'
-import injectButtonWhenDiff from '../../utilities/injectButtonWhenDiff'
-import { capitalize } from '../../utilities/inflections'
-import alertErrors from '../../utilities/alertErrors'
+import navigationService from '../../../utilities/navigationService'
+import injectButtonWhenDiff from '../../../utilities/injectButtonWhenDiff'
+import { capitalize } from '../../../utilities/inflections'
+import alertErrors from '../../../utilities/alertErrors'
 
 class ChannelForm extends React.Component {
   static isAbleToListen = false
@@ -24,15 +22,13 @@ class ChannelForm extends React.Component {
     this.state = {
       title: '',
       description: '',
-      visibility: '',
+      visibility: 'CLOSED',
       collaborators: [],
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.data.loading) return
-
-    this.setState({ ...nextProps.data.channel })
+    this.setState({ ...nextProps.channel })
 
     this.isAbleToListen = true
   }
@@ -43,7 +39,7 @@ class ChannelForm extends React.Component {
     injectButtonWhenDiff({
       navigation: this.props.navigation,
       state: this.state,
-      fields: this.props.data.channel,
+      fields: this.props.channel,
       headerRight: <HeaderRightButton
         onPress={this.onSubmit}
         text="Done"
@@ -65,18 +61,8 @@ class ChannelForm extends React.Component {
     this.setState({ visibility: value.toUpperCase() })
   }
 
-  setNavOptions(options) {
-    this.props.navigation.setOptions({
-      ...this.props.navigationOptions,
-      ...options,
-    })
-  }
-
   removeCollaborator = id => () => {
-    const {
-      mutate,
-      data: { channel: { id: channel_id } },
-    } = this.props
+    const { mutate, channel: { id: channel_id } } = this.props
 
     return mutate({
       variables: {
@@ -98,7 +84,7 @@ class ChannelForm extends React.Component {
   }
 
   goToAddCollaboratorsScreen = () => {
-    const { data: { channel: { id } } } = this.props
+    const { channel: { id } } = this.props
 
     navigationService.navigate('addCollaborators', {
       channel_id: id,
@@ -106,7 +92,7 @@ class ChannelForm extends React.Component {
   }
 
   render() {
-    const { data: { channel } } = this.props
+    const { channel } = this.props
     const { title, description, visibility } = this.state
 
     return (
@@ -142,37 +128,39 @@ class ChannelForm extends React.Component {
             </Fieldset>
           </Section>
 
-          <Section space={4}>
-            <FieldsetLabel>
-              Collaborators
-            </FieldsetLabel>
+          {channel.collaborators &&
+            <Section space={4}>
+              <FieldsetLabel>
+                Collaborators
+              </FieldsetLabel>
 
-            <Fieldset>
-              <StackedJumpButton
-                onPress={this.goToAddCollaboratorsScreen}
-              >
-                + Add collaborators
-              </StackedJumpButton>
+              <Fieldset>
+                <StackedJumpButton
+                  onPress={this.goToAddCollaboratorsScreen}
+                >
+                  + Add collaborators
+                </StackedJumpButton>
 
-              {channel.collaborators.length > 0 &&
-                channel.collaborators.map(collaborator => (
-                  <StackedSwipeable
-                    key={collaborator.id}
-                    right={[
-                      {
-                        text: 'Delete',
-                        backgroundColor: 'red',
-                        color: 'white',
-                        onPress: this.removeCollaborator(collaborator.id),
-                      },
-                    ]}
-                  >
-                    {collaborator.name}
-                  </StackedSwipeable>
-                ))
-              }
-            </Fieldset>
-          </Section>
+                {channel.collaborators.length > 0 &&
+                  channel.collaborators.map(collaborator => (
+                    <StackedSwipeable
+                      key={collaborator.id}
+                      right={[
+                        {
+                          text: 'Delete',
+                          backgroundColor: 'red',
+                          color: 'white',
+                          onPress: this.removeCollaborator(collaborator.id),
+                        },
+                      ]}
+                    >
+                      {collaborator.name}
+                    </StackedSwipeable>
+                  ))
+                }
+              </Fieldset>
+            </Section>
+          }
         </KeyboardAwareScrollView>
       </Container>
     )
@@ -195,31 +183,16 @@ ChannelForm.fragments = {
 }
 
 ChannelForm.propTypes = {
-  data: PropTypes.shape({
-    loading: PropTypes.bool.isRequired,
-    error: PropTypes.object,
-    channel: propType(ChannelForm.fragments.channelForm).isRequired,
-  }).isRequired,
+  channel: PropTypes.object,
+  navigation: PropTypes.object,
   mutate: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func,
-  navigation: PropTypes.any,
-  navigationOptions: PropTypes.any.isRequired,
+  onSubmit: PropTypes.func.isRequired,
 }
 
 ChannelForm.defaultProps = {
-  onSubmit: () => null,
+  channel: {},
   navigation: {},
-  submitText: 'Done',
 }
-
-const ChannelFormQuery = gql`
-  query ChannelFormQuery($id: ID!) {
-    channel(id: $id) {
-      ...ChannelForm
-    }
-  }
-  ${ChannelForm.fragments.channelForm}
-`
 
 const RemoveCollaboratorsMutation = gql`
   mutation removeCollaboratorsMutation($user_ids: [ID]!, $channel_id: ID!){
@@ -232,9 +205,4 @@ const RemoveCollaboratorsMutation = gql`
   ${ChannelForm.fragments.channelForm}
 `
 
-const DecoratedChannelForm = withLoadingAndErrors(ChannelForm)
-
-export default compose(
-  graphql(ChannelFormQuery),
-  graphql(RemoveCollaboratorsMutation),
-)(DecoratedChannelForm)
+export default graphql(RemoveCollaboratorsMutation)(ChannelForm)
