@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import ErrorScreen from './ErrorScreen'
 import LoadingScreen from './LoadingScreen'
 
-export default (WrappedComponent, { errorMessage }) =>
+export default (WrappedComponent, { errorMessage } = {}) =>
   class extends Component {
     static propTypes = {
       data: PropTypes.shape({

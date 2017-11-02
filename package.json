@@ -6,14 +6,11 @@
   "main": "main.js",
   "scripts": {
     "lint": "eslint ./",
-    "test": "jest",
-    "test-update": "jest --updateSnapshot"
+    "test": "node_modules/.bin/jest",
+    "test-update": "node_modules/.bin/jest --updateSnapshot"
   },
   "jest": {
-    "preset": "jest-expo",
-    "transformIgnorePatterns": [
-      "node_modules/(?!(jest-)?react-native|react-clone-referenced-element|bugsnag-react-native|expo|@expo/*|exponent|@exponent/*)"
-    ]
+    "preset": "jest-expo"
   },
   "dependencies": {
     "@expo/ex-navigation": "^2.11.2",
@@ -26,7 +23,6 @@
     "graphql-anywhere": "^1.0.0",
     "graphql-tag": "^1.1.2",
     "he": "^1.1.1",
-    "jest": "^20.0.4",
     "lodash": "^4.17.4",
     "prop-types": "^15.5.10",
     "react": "16.0.0-alpha.12",
@@ -42,6 +38,7 @@
     "react-native-keyboard-spacer": "^0.3.1",
     "react-native-mime-types": "^2.2.0",
     "react-native-snap-carousel": "^3.2.1",
+    "react-native-swipeout": "^2.3.1",
     "react-navigation": "https://github.com/react-community/react-navigation.git",
     "react-navigation-addons": "https://github.com/satya164/react-navigation-addons",
     "react-navigation-is-focused-hoc": "^1.0.0",
@@ -64,7 +61,8 @@
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-react": "^7.1.0",
-    "jest-expo": "~20.0.0",
+    "jest": "^21.2.1",
+    "jest-expo": "^22.0.1-SNAPSHOT.2017.11.1",
     "react-native-debugger-open": "^0.3.12",
     "react-native-mock": "^0.3.1",
     "react-native-mock-render": "^0.0.8"

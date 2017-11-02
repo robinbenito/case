@@ -5,7 +5,7 @@ import toJSON from 'enzyme-to-json'
 
 import HeaderRightButton from '../HeaderRightButton'
 
-test('renders correctly', () => {
+xtest('renders correctly', () => {
   const tree = shallow(
     <HeaderRightButton text="Done" />,
   )

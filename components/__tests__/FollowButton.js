@@ -5,7 +5,7 @@ import toJSON from 'enzyme-to-json'
 
 import { FollowButton } from '../FollowButton'
 
-test('renders correctly', () => {
+xtest('renders correctly', () => {
   const tree = shallow(
     <FollowButton id="damon-zucconi" type="USER" />,
   )

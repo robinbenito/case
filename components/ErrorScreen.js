@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import formatErrors from '../utilities/formatErrors'
-import { CenteringPane } from './UI/Layout'
+import { RelativeFill } from './UI/Layout'
 import { ErrorMessage, StatusMessage } from './UI/Alerts'
 
 const ErrorScreen = ({ message, error, ...rest }) => (
-  <CenteringPane {...rest}>
+  <RelativeFill {...rest}>
     {message &&
       <StatusMessage>
         {message}
@@ -15,7 +15,7 @@ const ErrorScreen = ({ message, error, ...rest }) => (
     <ErrorMessage>
       {formatErrors(error)}
     </ErrorMessage>
-  </CenteringPane>
+  </RelativeFill>
 )
 
 ErrorScreen.propTypes = {

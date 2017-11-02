@@ -29,7 +29,7 @@ const group = {
   created_at: '19 minutes ago',
 }
 
-test('renders correctly', () => {
+xtest('renders correctly', () => {
   const tree = shallow(
     <FeedGroupSentence group={group} />,
   )

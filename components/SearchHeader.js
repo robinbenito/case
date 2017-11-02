@@ -7,26 +7,36 @@ import { Colors, Border, Units, Typography } from '../constants/Style'
 import { Input } from '../components/UI/Inputs'
 import navigationService from '../utilities/navigationService'
 
-export const SEARCH_BAR_HEIGHT = 28
+const SEARCH_HEADER_V_PADDING = Units.scale[1]
+const SEARCH_HEADER_LABEL_LINE_HEIGHT = Typography.lineHeightFor(Typography.fontSize.base)
+export const SEARCH_HEADER_HEIGHT = (SEARCH_HEADER_V_PADDING * 2) + SEARCH_HEADER_LABEL_LINE_HEIGHT
 
-const SearchInput = styled(Input)`
-  flex: 1;
-  font-size: ${Typography.fontSize.base};
-  height: ${SEARCH_BAR_HEIGHT};
-  background-color: ${Colors.gray.semiLight};
+const Container = styled.View`
+  flex-direction: row;
+  align-items: center;
   padding-vertical: ${Units.scale[1]};
-  border-radius: ${Border.borderRadius};
+  padding-left: ${Units.scale[2]};
 `
 
 const InputContainer = styled.View`
   flex: 1;
   flex-direction: row;
-  border-radius: ${Border.borderRadius};
-  background-color: ${Colors.gray.semiLight};
-  margin-left: ${Units.scale[2]};
-  padding-left: ${Units.scale[2]};
   justify-content: center;
   align-items: center;
+  padding-left: ${Units.scale[2]};
+  background-color: ${Colors.gray.semiLight};
+  border-radius: ${Border.borderRadius};
+  background-color: ${Colors.gray.semiLight};
+`
+
+
+const SearchInput = styled(Input)`
+  flex: 1;
+  padding-vertical: ${SEARCH_HEADER_V_PADDING};
+  height: ${SEARCH_HEADER_HEIGHT};
+  font-size: ${Typography.fontSize.base};
+  line-height: ${SEARCH_HEADER_LABEL_LINE_HEIGHT};
+  background-color: transparent;
 `
 
 const SearchIcon = styled(Icon)`
@@ -42,13 +52,6 @@ const ButtonText = styled.Text`
   font-size: ${Typography.fontSize.medium};
   line-height: ${Typography.lineHeightFor('medium')};
   color: ${Colors.gray.semiBold};
-`
-
-const Container = styled.View`
-  position: absolute;
-  top: ${SEARCH_BAR_HEIGHT};
-  flex-direction: row;
-  align-items: center;
 `
 
 export default class SearchHeader extends React.Component {

@@ -14,7 +14,7 @@ const channelDos = {
   visibility: 'private',
 }
 
-test('renders correctly', () => {
+xtest('renders correctly', () => {
   const tree = shallow(
     <SelectedChannels channels={[channelUno, channelDos]} />,
   )

@@ -11,7 +11,7 @@ import navigationService from '../../../utilities/navigationService'
 import BlockMetadata from './BlockMetadata'
 import BlockTabs from './BlockTabs'
 import { BaseIcon } from '../../../components/UI/Icons'
-import { RelativeFill, CenteringPane } from '../../../components/UI/Layout'
+import { CenteringPane } from '../../../components/UI/Layout'
 import ScrollWithRefresh from '../../../components/ScrollWithRefresh'
 import HTMLStyles from '../../../constants/HtmlView'
 import { Colors, Units } from '../../../constants/Style'
@@ -31,6 +31,13 @@ const ArrowDown = styled(BaseIcon).attrs({
 })`
   font-size: 30;
   align-self: center;
+`
+
+const BlockFill = styled.View`
+  width: 100%;
+  height: ${Units.window.height - HEADER_HEIGHT};
+  justify-content: center;
+  align-items: center;
 `
 
 const BlockFold = styled.View`
@@ -192,7 +199,7 @@ class BlockContents extends React.Component {
         onRefresh={this.refresh}
         ref={ref => this.BlockContents = ref}
       >
-        <RelativeFill>
+        <BlockFill>
           <BlockContainer>
             {blockInner}
           </BlockContainer>
@@ -200,7 +207,7 @@ class BlockContents extends React.Component {
           <ScrollToMetadata onPress={this.scrollToMetadata}>
             <ArrowDown />
           </ScrollToMetadata>
-        </RelativeFill>
+        </BlockFill>
 
         {block.counts &&
           <BlockFold ref={ref => this.BlockFold = ref}>
