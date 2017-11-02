@@ -4,5 +4,5 @@ node_js:
 cache: yarn
 script:
   - yarn lint
-  - yarn test
+  # - yarn test
 sudo: false
