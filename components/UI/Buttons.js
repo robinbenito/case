@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components/native'
 import PropTypes from 'prop-types'
 import Swipeout from 'react-native-swipeout'
-import { StyleSheet } from 'react-native'
 
 import { BaseIcon } from './Icons'
 
