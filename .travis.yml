@@ -3,6 +3,6 @@ node_js:
   - "node"
 cache: yarn
 script:
-  - yarn lint
-  - yarn test
+  - travis_wait 30 yarn lint
+  - travis_wait 30 yarn test
 sudo: false
