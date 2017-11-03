@@ -3,34 +3,24 @@ import PropTypes from 'prop-types'
 import {
   ActivityIndicator,
   FlatList,
-  StyleSheet,
-  Text,
-  View,
 } from 'react-native'
 import gql from 'graphql-tag'
 import { graphql, compose } from 'react-apollo'
+import styled from 'styled-components/native'
+
 import { NotificationCountQuery } from '../../../components/NotificationCount'
 import FeedWordLink from '../../../components/FeedWordLink'
 import FeedSentence from '../../../components/FeedSentence'
-import { HorizontalRule } from '../../../components/UI/Layout'
 
-import type from '../../../constants/Type'
+import { HorizontalRule, CenteringPane } from '../../../components/UI/Layout'
+import Empty from '../../../components/Empty'
+import formatErrors from '../../../utilities/formatErrors'
+import { ErrorMessage, StatusMessage } from '../../../components/UI/Alerts'
+import { Units } from '../../../constants/Style'
 
-const styles = StyleSheet.create({
-  container: {
-    flexGrow: 1,
-    backgroundColor: '#fff',
-  },
-  loadingContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#fff',
-  },
-  text: {
-    fontSize: type.sizes.medium,
-  },
-})
+const Item = styled.View`
+  margin-left: ${Units.base};
+`
 
 const ReadNotificationMutation = gql`
   mutation ReadNotificationMutation($notification_id: ID!){
@@ -116,19 +106,23 @@ class NotificationContents extends React.Component {
 
     if (error) {
       return (
-        <View style={styles.loadingContainer}>
-          <Text>
+        <CenteringPane>
+          <StatusMessage>
             Error fetching notifications
-          </Text>
-        </View>
+          </StatusMessage>
+
+          <ErrorMessage>
+            {formatErrors(error)}
+          </ErrorMessage>
+        </CenteringPane>
       )
     }
 
     if (loading && !me) {
       return (
-        <View style={styles.loadingContainer} >
+        <Empty>
           <ActivityIndicator />
-        </View>
+        </Empty>
       )
     }
 
@@ -136,8 +130,6 @@ class NotificationContents extends React.Component {
 
     return (
       <FlatList
-        style={styles.container}
-        contentContainerStyle={styles.container}
         data={deeds}
         refreshing={loading}
         onRefresh={this.onRefresh}
@@ -145,14 +137,14 @@ class NotificationContents extends React.Component {
         keyExtractor={(deed, index) => `${deed.id}-${index}`}
         onEndReachedThreshold={0.9}
         renderItem={({ item: deed, index }) => (
-          <View key={`${deed.id}-${index}`}>
+          <Item key={`${deed.id}-${index}`}>
             <FeedSentence
               deed={deed}
               showUnreadState
               onPress={() => this.markNotificationAsRead(deed.bulletin_id)}
             />
             <HorizontalRule />
-          </View>
+          </Item>
         )}
       />
     )
