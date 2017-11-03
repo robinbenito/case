@@ -67,5 +67,5 @@ NotificationCount.defaultProps = {
 }
 
 export default graphql(NotificationCountQuery, {
-  options: { pollInterval: 40000 },
+  options: { pollInterval: 60000 },
 })(NotificationCount)
