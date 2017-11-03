@@ -7,6 +7,7 @@ import {
 
 import NotificationsHeader from './components/NotificationsHeader'
 import NotificationContents from './components/NotificationContents'
+import NotificationsFooter from './components/NotificationFooter'
 
 const styles = StyleSheet.create({
   container: {
@@ -20,6 +21,7 @@ export default class NotificationsScreen extends React.Component {
       <View style={styles.container}>
         <NotificationsHeader />
         <NotificationContents />
+        <NotificationsFooter />
       </View>
     )
   }

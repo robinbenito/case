@@ -26,7 +26,7 @@ const UserNameLink = styled(UserNameText)`
 
 const Notification = styled.TouchableOpacity`
   padding-vertical: ${Units.scale[2]};
-  padding-horizontal: ${Units.scale[3]};
+  padding-right: ${Units.base};
   margin-right: ${Units.scale[1]};
 `
 
