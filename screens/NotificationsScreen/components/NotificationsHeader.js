@@ -5,7 +5,7 @@ import NotificationsCount from '../../../components/NotificationCount'
 import { Units, Border } from '../../../constants/Style'
 import { H1 } from '../../../components/UI/Texts'
 
-const TOP_BAR_HEIGHT = 70
+const TOP_BAR_HEIGHT = 65
 
 const Header = styled.View`
   flex-direction: row;
