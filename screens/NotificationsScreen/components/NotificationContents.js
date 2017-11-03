@@ -34,7 +34,7 @@ const ReadNotificationMutation = gql`
   }
 `
 
-const NotificationsQuery = gql`
+export const NotificationsQuery = gql`
   query FeedQuery($offset: Int, $limit: Int){
     me {
       id
@@ -164,7 +164,9 @@ NotificationContents.defaultProps = {
 }
 
 const NotificationsWithData = compose(
-  graphql(NotificationsQuery),
+  graphql(NotificationsQuery, {
+    options: { pollInterval: 60000 },
+  }),
   graphql(ReadNotificationMutation),
 )(NotificationContents)
 
