@@ -77,14 +77,17 @@ const ItemText = styled.Text`
 
 export default class AddMenu extends Component {
   newChannel = () => {
+    Store.dispatch({ type: TOGGLE_ADD_MENU })
     NavigationService.navigate('newChannel')
   }
 
   enterText = () => {
+    Store.dispatch({ type: TOGGLE_ADD_MENU })
     NavigationService.navigate('newText')
   }
 
   pasteLink = () => {
+    Store.dispatch({ type: TOGGLE_ADD_MENU })
     NavigationService.navigate('newLink')
   }
 
@@ -95,6 +98,7 @@ export default class AddMenu extends Component {
 
     this.setState({ image: result.uri })
     const block = { kind: { image_url: result.uri }, title: result.uri.split('/').pop() }
+    Store.dispatch({ type: TOGGLE_ADD_MENU })
     NavigationService.navigate('newImage', { block })
   }
 
@@ -106,6 +110,7 @@ export default class AddMenu extends Component {
     CameraRoll.saveToCameraRoll(result.uri)
     this.setState({ image: result.uri })
     const block = { kind: { image_url: result.uri }, title: result.uri.split('/').pop() }
+    Store.dispatch({ type: TOGGLE_ADD_MENU })
     NavigationService.navigate('newImage', { block })
   }
 
