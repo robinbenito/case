@@ -2,6 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
 
+import * as is from '../utilities/is'
+
 import { Colors, Units, Typography } from '../constants/Style'
 
 const Button = styled.TouchableOpacity`
@@ -28,7 +30,7 @@ export default class HeaderRightButton extends React.Component {
     this.setState({ disabled: true })
 
     try {
-      await this.props.onPress()
+      await Promise.resolve(this.props.onPress())
     } finally {
       this.setState({ disabled: false })
     }
