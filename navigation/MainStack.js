@@ -155,6 +155,7 @@ const MainNavigator = enhance(StackNavigator)({
   newText: {
     screen: AddTextScreen,
     navigationOptions: {
+      title: 'New Text',
       ...headerNavigationOptions,
     },
   },
