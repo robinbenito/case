@@ -6,6 +6,7 @@ import { graphql } from 'react-apollo'
 import styled from 'styled-components/native'
 
 import { NotificationsQuery } from './NotificationContents'
+import { NotificationCountQuery } from '../../../components/NotificationCount'
 import { Border, Colors } from '../../../constants/Style'
 import { H2 } from '../../../components/UI/Texts'
 
@@ -33,6 +34,9 @@ class NotificationsFooter extends React.Component {
             limit: 20,
             offset: 0,
           },
+        },
+        {
+          query: NotificationCountQuery,
         },
       ],
     })
