@@ -23,13 +23,13 @@ import { Units } from '../../constants/Style'
 import { Container } from '../../components/UI/Layout'
 
 const SelectContainer = styled(Container)`
-  margin-top: 0;
+  margin-top: ${Units.statusBarHeight};
   background-color: white;
 `
 
 const SelectedContainer = styled.View`
   flex: 1;
-  margin-top: ${Units.scale[5]};
+  margin-top: ${Units.scale[3]};
 `
 
 class SelectConnectionScreen extends React.Component {

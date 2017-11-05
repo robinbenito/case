@@ -109,7 +109,7 @@ export default class SearchHeader extends React.Component {
 
 SearchHeader.propTypes = {
   onChangeText: PropTypes.func,
-  cancelOrDone: PropTypes.oneOf(['Cancel', 'Done']),
+  cancelOrDone: PropTypes.oneOf(['Cancel', 'Done', 'Connect']),
   onSubmit: PropTypes.func,
   onCancel: PropTypes.func,
   autoFocus: PropTypes.bool,
