@@ -5,11 +5,16 @@ import { ImagePicker } from 'expo'
 import { CameraRoll, View } from 'react-native'
 import { Border, Typography, Units, Colors } from '../../constants/Style'
 import { AbsoluteFill, BlurredAbsoluteFill, HorizontalRule } from '../UI/Layout'
-import { BaseIcon } from '../UI/Icons'
 import Store from '../../state/Store'
 import { TOGGLE_ADD_MENU } from '../../state/actions'
 import NavigationService from '../../utilities/navigationService'
 import AddButton from './AddButton'
+
+const addIcon = require('../../assets/images/add.png')
+const textIcon = require('../../assets/images/text.png')
+const linkIcon = require('../../assets/images/link.png')
+const imageIcon = require('../../assets/images/image.png')
+const cameraIcon = require('../../assets/images/camera.png')
 
 const ADD_MENU_ROUTE_WHITELIST = [
   'main',
@@ -51,22 +56,21 @@ const Cancel = styled.Text`
   background-color: transparent;
 `
 
-const Item = styled.TouchableOpacity`
-  padding-horizontal: ${Units.scale[2]};
-  flex-direction: row;
-  align-items: center;
-`
-
 const ITEM_LINE_HEIGHT = 48
 
-const ItemIcon = styled(BaseIcon)`
-  font-size: 30;
-  width: ${ITEM_LINE_HEIGHT};
-  line-height: ${ITEM_LINE_HEIGHT};
-  margin-right: ${Units.scale[2]};
-  text-align: center;
-  bottom: -0.5;
-  background-color: transparent;
+const Item = styled.TouchableOpacity`
+  padding-horizontal: ${Units.scale[3]};
+  flex-direction: row;
+  align-items: center;
+  height: ${ITEM_LINE_HEIGHT};
+`
+
+const Icon = styled.Image`
+  margin-top: 1;
+  width: 25;
+  height: 25;
+  align-self: center;
+  margin-right: ${Units.scale[3]};
 `
 
 const ItemText = styled.Text`
@@ -141,29 +145,29 @@ export default class AddMenu extends Component {
 
               <Menu>
                 <Item onPress={this.newChannel}>
-                  <ItemIcon name="ios-add" />
+                  <Icon source={addIcon} />
                   <ItemText>New channel</ItemText>
                 </Item>
 
                 <HorizontalRule />
 
                 <Item onPress={this.enterText}>
-                  <ItemIcon name="ios-create-outline" />
+                  <Icon source={textIcon} />
                   <ItemText>Enter text</ItemText>
                 </Item>
 
                 <Item onPress={this.pasteLink}>
-                  <ItemIcon name="ios-link-outline" />
+                  <Icon source={linkIcon} />
                   <ItemText>Paste link</ItemText>
                 </Item>
 
                 <Item onPress={this.uploadImage}>
-                  <ItemIcon name="ios-image-outline" />
+                  <Icon source={imageIcon} />
                   <ItemText>Upload image</ItemText>
                 </Item>
 
                 <Item onPress={this.takePhoto}>
-                  <ItemIcon name="ios-camera-outline" />
+                  <Icon source={cameraIcon} />
                   <ItemText>Take photo</ItemText>
                 </Item>
               </Menu>
