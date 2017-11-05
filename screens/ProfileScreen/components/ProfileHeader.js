@@ -9,10 +9,11 @@ import TabToggle from '../../../components/TabToggle'
 import UserAvatar from '../../../components/UserAvatar'
 import HTML from '../../../components/HTML'
 import FollowButtonWithData from '../../../components/FollowButton'
-import { BaseIcon } from '../../../components/UI/Icons'
 import { SmallButton } from '../../../components/UI/Buttons'
 import NavigationService from '../../../utilities/navigationService'
 import { pluralize } from '../../../utilities/inflections'
+
+const cogIcon = require('../../../assets/images/settings.png')
 
 const Container = styled.View`
   margin-bottom: ${Units.scale[2]};
@@ -43,14 +44,27 @@ const Blurb = styled.View`
   padding-horizontal: ${Units.scale[2]};
 `
 
+const SettingsIcon = styled.Image.attrs({
+  source: cogIcon,
+})`
+  margin-top: 1;
+  width: 15;
+  height: 15;
+  align-self: center;
+`
+
+const Button = styled(SmallButton)`
+  padding-horizontal: ${Units.scale[1]};
+`
+
 const ProfileAction = ({ isTheCurrentUser, user }) => (
   <View>
     {isTheCurrentUser &&
-      <SmallButton
+      <Button
         onPress={() => NavigationService.navigate('userSettings')}
       >
-        <BaseIcon name="ios-settings" />
-      </SmallButton>
+        <SettingsIcon />
+      </Button>
     }
 
     {user.can.follow &&
