@@ -35,7 +35,7 @@ export const HeaderButton = styled.TouchableOpacity`
 export const HeaderButtonLabel = styled.Text.attrs({
   numberOfLines: 1,
 })`
-  color: ${x => (x.active ? 'black' : Colors.semantic.text)};
+  color: ${x => (x.active ? Colors.gray.semiBold : Colors.gray.medium)};
   font-size: ${Typography.fontSize.h2};
   line-height: ${Typography.lineHeightFor(Typography.fontSize.h2)}
   font-weight: ${Typography.fontWeight.medium};

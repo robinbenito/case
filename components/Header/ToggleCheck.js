@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components/native'
 import { BaseIcon } from '../UI/Icons'
+import { Colors } from '../../constants/Style'
 
 const SIZE = 40
 
@@ -10,6 +11,7 @@ const ToggleCheckIcon = styled(BaseIcon).attrs({
   font-size: ${SIZE};
   background-color: transparent;
   top: 2;
+  color: ${Colors.gray.semiBold}
 `
 
 const ToggleCheckBox = styled.View`

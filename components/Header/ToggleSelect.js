@@ -1,12 +1,12 @@
 import styled from 'styled-components/native'
-import { Border, Units } from '../../constants/Style'
+import { Border, Units, Colors } from '../../constants/Style'
 
 export const ToggleSelect = styled.View`
   width: 100%;
   background-color: white;
   align-self: center;
   width: 100%;
-  border-color: black;
+  border-color: ${Colors.gray.semiBold};
   border-radius: ${Border.borderRadius};
   border-width: 1;
   background-color: white;
