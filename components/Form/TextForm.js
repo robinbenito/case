@@ -1,44 +1,51 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import styled from 'styled-components/native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
-import FieldSet from '../FieldSet'
 import HeaderRightButton from '../HeaderRightButton'
-import { Container } from '../../components/UI/Layout'
+import { Container, Section } from '../UI/Layout'
+import { FieldsetLabel, Fieldset, StackedInput, StackedTextArea } from '../UI/Inputs'
 
-import { Units } from '../../constants/Style'
+import injectButtonWhenDiff from '../../utilities/injectButtonWhenDiff'
 
-const Field = styled(FieldSet)`
-  margin-top: ${Units.scale[4]};
-`
+export default class TextForm extends Component {
+  static isAbleToListen = false
 
-export default class TextForm extends React.Component {
   constructor(props) {
     super(props)
+
+    const { block: { title, description, kind: { content } } } = this.props
+
     this.state = {
-      title: props.block.title,
-      description: props.block.description,
-      content: props.block.kind.content,
+      title,
+      description,
+      content,
     }
+  }
+
+  componentWillReceiveProps({ block: { title, description, kind: { content } } }) {
+    this.setState({ title, description, content })
+
+    this.isAbleToListen = true
   }
 
   componentDidUpdate() {
-    // Hide or show the done button depending on if content is present
-    if (this.state.content) {
-      this.setNavOptions({
-        headerRight: (
-          <HeaderRightButton onPress={this.onSubmit} text={this.props.submitText} />
-        ),
-      })
-    } else {
-      this.setNavOptions({
-        headerRight: null,
-      })
-    }
+    if (!this.isAbleToListen) return
+
+    const { block: { title, description, kind: { content } } } = this.props
+
+    injectButtonWhenDiff({
+      navigation: this.props.navigation,
+      state: this.state,
+      fields: { title, description, content },
+      headerRight: <HeaderRightButton
+        onPress={this.onSubmit}
+        text={this.props.submitText}
+      />,
+    })
   }
 
-  onFieldChange = (key, value) => {
+  onChangeText = key => (value) => {
     this.setState({
       [key]: value,
     })
@@ -48,43 +55,49 @@ export default class TextForm extends React.Component {
     this.props.onSubmit(this.state)
   }
 
-  setNavOptions(options) {
-    const newOptions = Object.assign({}, this.props.navigationOptions, options)
-    this.props.navigation.setOptions(newOptions)
-  }
-
   render() {
+    const { title, description, content } = this.state
+
     return (
       <Container>
         <KeyboardAwareScrollView>
-          <FieldSet
-            label="Text"
-            onChange={this.onFieldChange}
-            fields={[
-              {
-                key: 'content',
-                placeholder: 'Text',
-                type: 'textarea',
-                value: this.state.content,
-              },
-            ]}
-          />
-          <Field
-            label="Title / Description"
-            onChange={this.onFieldChange}
-            fields={[
-              {
-                key: 'title',
-                placeholder: 'Title',
-                value: this.state.title,
-              },
-              {
-                key: 'description',
-                placeholder: 'Description',
-                value: this.state.description,
-              },
-            ]}
-          />
+          <Section space={4}>
+            <FieldsetLabel>
+              Text
+            </FieldsetLabel>
+
+            <Fieldset>
+              <StackedTextArea
+                name="content"
+                placeholder="Text"
+                value={content}
+                rows={4}
+                onChangeText={this.onChangeText('content')}
+                autoFocus
+              />
+            </Fieldset>
+          </Section>
+
+          <Section>
+            <FieldsetLabel>
+              Title / Description
+            </FieldsetLabel>
+
+            <Fieldset>
+              <StackedInput
+                placeholder="Title (optional)"
+                onChangeText={this.onChangeText('title')}
+                value={title}
+              />
+
+              <StackedTextArea
+                name="description"
+                placeholder="Description (optional)"
+                value={description}
+                onChangeText={this.onChangeText('description')}
+              />
+            </Fieldset>
+          </Section>
         </KeyboardAwareScrollView>
       </Container>
     )
@@ -92,10 +105,9 @@ export default class TextForm extends React.Component {
 }
 
 TextForm.propTypes = {
-  onSubmit: PropTypes.func,
-  submitText: PropTypes.string,
-  navigation: PropTypes.any,
-  navigationOptions: PropTypes.any.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  submitText: PropTypes.string.isRequired,
+  navigation: PropTypes.object.isRequired,
   block: PropTypes.shape({
     title: PropTypes.string,
     description: PropTypes.string,
@@ -106,9 +118,9 @@ TextForm.propTypes = {
 }
 
 TextForm.defaultProps = {
-  onSubmit: () => null,
-  navigation: () => null,
+  onSubmit: () => {},
   submitText: 'Done',
+  navigation: {},
   block: {
     title: '',
     description: '',

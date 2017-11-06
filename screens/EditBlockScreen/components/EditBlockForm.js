@@ -1,28 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { graphql } from 'react-apollo'
-import gql from 'graphql-tag'
+import { gql, graphql } from 'react-apollo'
 
-import BackButton from '../../../components/BackButton'
 import ImageForm from '../../../components/Form/ImageForm'
 import TextForm from '../../../components/Form/TextForm'
 import LinkForm from '../../../components/Form/LinkForm'
 import { BlockQuery } from '../../BlockScreen/components/BlockContents'
 
-import NavigatorService from '../../../utilities/navigationService'
-
-const navigationOptions = {
-  title: 'Edit Block',
-  headerLeft: (<BackButton />),
-}
+import navigationService from '../../../utilities/navigationService'
+import alertErrors from '../../../utilities/alertErrors'
 
 class EditBlockScreen extends React.Component {
-  static navigationOptions() {
-    return navigationOptions
-  }
-
   onSubmit = (variables) => {
     const { block, editBlock } = this.props
+
     editBlock({
       variables: {
         ...variables,
@@ -36,12 +27,13 @@ class EditBlockScreen extends React.Component {
           },
         },
       ],
-    }).then((response) => {
-      const { data } = response
-      if (!data.error) {
-        NavigatorService.back()
-      }
     })
+
+    .then(() =>
+      navigationService.back(),
+    )
+
+    .catch(alertErrors)
   }
 
   render() {
@@ -71,7 +63,6 @@ class EditBlockScreen extends React.Component {
         block={block}
         onSubmit={this.onSubmit}
         navigation={navigation}
-        navigationOptions={navigationOptions}
         submitText="Save"
       />
     )
