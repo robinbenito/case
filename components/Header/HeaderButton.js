@@ -17,9 +17,13 @@ const CaretSpacer = styled.View`
   right: 0;
 `
 
+const ColorableCaretGlyph = styled(CaretGlyph)`
+  color: ${x => x.color || Colors.gray.semiBold};
+`
+
 export const Caret = props => (
   <CaretSpacer>
-    <CaretGlyph {...props} />
+    <ColorableCaretGlyph {...props} />
   </CaretSpacer>
 )
 
@@ -35,7 +39,7 @@ export const HeaderButton = styled.TouchableOpacity`
 export const HeaderButtonLabel = styled.Text.attrs({
   numberOfLines: 1,
 })`
-  color: ${x => Colors.gray[x.active ? 'semiBold' : 'medium']};
+  color: ${x => x.color || Colors.gray[x.active ? 'semiBold' : 'medium']};
   font-size: ${Typography.fontSize.h2};
   line-height: ${Typography.lineHeightFor(Typography.fontSize.h2)}
   font-weight: ${Typography.fontWeight.medium};
