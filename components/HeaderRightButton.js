@@ -27,13 +27,19 @@ export default class HeaderRightButton extends React.Component {
   }
 
   onPress = async () => {
-    this.setState({ disabled: true })
+    const press = this.props.onPress()
 
-    try {
-      await Promise.resolve(this.props.onPress())
-    } finally {
-      this.setState({ disabled: false })
+    if (is.promise(press)) {
+      this.setState({ disabled: true })
+
+      try {
+        await press
+      } finally {
+        this.setState({ disabled: false })
+      }
     }
+
+    return press
   }
 
   render() {
