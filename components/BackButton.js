@@ -1,7 +1,10 @@
 import React from 'react'
-import { Ionicons } from '@expo/vector-icons'
 import styled from 'styled-components/native'
-import NavigatorService from '../utilities/navigationService'
+
+import navigationService from '../utilities/navigationService'
+
+import { BaseIcon } from './UI/Icons'
+
 import { Units, Colors } from '../constants/Style'
 
 const Container = styled.TouchableOpacity`
@@ -13,20 +16,22 @@ const Container = styled.TouchableOpacity`
   background-color: transparent;
 `
 
+const BackIcon = styled(BaseIcon).attrs({
+  name: 'ios-arrow-back',
+})`
+  font-size: 24;
+  color: ${Colors.gray.semiBold};
+  padding-horizontal: ${Units.scale[1]};
+`
+
 export default class BackButton extends React.Component {
-  back = () => {
-    NavigatorService.back()
-  }
+  back = () =>
+    navigationService.back()
 
   render() {
     return (
       <Container onPress={this.back}>
-        <Ionicons
-          name="ios-arrow-back"
-          size={24}
-          color={Colors.gray.semiBold}
-          style={{ paddingHorizontal: Units.scale[1] }}
-        />
+        <BackIcon />
       </Container>
     )
   }
