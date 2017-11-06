@@ -8,7 +8,7 @@ import { HeaderButton, HeaderButtonLabel, Caret } from './HeaderButton'
 import ToggleCheck from './ToggleCheck'
 import { ToggleSelect, ToggleSelectOption } from './ToggleSelect'
 import { HorizontalRule } from '../UI/Layout'
-import { Units, Colors } from '../../constants/Style'
+import { Units } from '../../constants/Style'
 
 const HeaderDrawer = styled.View`
   position: absolute;
@@ -23,15 +23,13 @@ const SelectDrawer = styled.View`
 const HeaderPullDown = (props) => {
   const { primary, secondary, onPress, isExpanded, isHeaderTitleVisible } = props
 
-  const color = primary.color || Colors.gray.semiBold
-
   return (
     <HeaderDrawer>
       {!isExpanded &&
         <HeaderButton onPress={onPress}>
-          <HeaderButtonLabel style={{ color }} active>
+          <HeaderButtonLabel color={primary.color} active>
             {isHeaderTitleVisible && primary.title && decode(primary.title)}
-            <Caret style={{ color }} />
+            <Caret color={primary.color} />
           </HeaderButtonLabel>
         </HeaderButton>
       }
