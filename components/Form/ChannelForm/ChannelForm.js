@@ -109,6 +109,7 @@ class ChannelForm extends React.Component {
                 onChangeText={this.onChangeText('title')}
                 value={title}
                 autoFocus
+                onSubmitEditing={this.onSubmit}
               />
 
               <StackedTextArea
@@ -116,6 +117,7 @@ class ChannelForm extends React.Component {
                 placeholder="Description (optional)"
                 value={description}
                 onChangeText={this.onChangeText('description')}
+                onSubmitEditing={this.onSubmit}
               />
             </Fieldset>
           </Section>
