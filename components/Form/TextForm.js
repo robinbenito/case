@@ -73,7 +73,9 @@ export default class TextForm extends Component {
                 value={content}
                 rows={4}
                 onChangeText={this.onChangeText('content')}
+                returnKeyType="next"
                 autoFocus
+                onSubmitEditing={this.onSubmit}
               />
             </Fieldset>
           </Section>
@@ -88,6 +90,7 @@ export default class TextForm extends Component {
                 placeholder="Title (optional)"
                 onChangeText={this.onChangeText('title')}
                 value={title}
+                returnKeyType="next"
               />
 
               <StackedTextArea
@@ -95,6 +98,7 @@ export default class TextForm extends Component {
                 placeholder="Description (optional)"
                 value={description}
                 onChangeText={this.onChangeText('description')}
+                returnKeyType="done"
               />
             </Fieldset>
           </Section>

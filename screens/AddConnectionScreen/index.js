@@ -279,6 +279,7 @@ const createMutation = gql`
       clientMutationId
       block {
         id
+        state
         title
       }
     }
