@@ -57,27 +57,40 @@ const StackedInputLabel = styled.Text`
   padding-right: ${Units.scale[3]};
 `
 
-export const StackedInput = ({ label, ...props }) => (
-  <StackedInputOutline>
-    {label &&
-      <StackedInputLabel>
-        {label}
-      </StackedInputLabel>
-    }
+export class StackedInput extends Component {
+  static propTypes = {
+    label: PropTypes.string,
+  }
 
-    <StackedInputField {...props} />
-  </StackedInputOutline>
-)
+  static defaultProps = {
+    label: null,
+  }
 
-StackedInput.propTypes = {
-  label: PropTypes.string,
+  focus() {
+    this.Input.focus()
+  }
+
+  render() {
+    const { label, ...rest } = this.props
+
+    return (
+      <StackedInputOutline>
+        {label &&
+          <StackedInputLabel>
+            {label}
+          </StackedInputLabel>
+        }
+
+        <StackedInputField
+          innerRef={ref => this.Input = ref}
+          {...rest}
+        />
+      </StackedInputOutline>
+    )
+  }
 }
 
-StackedInput.defaultProps = {
-  label: null,
-}
-
-export const StackedTextArea = StackedInputField.extend.attrs({
+const StackedTextAreaInput = StackedInputField.extend.attrs({
   multiline: true,
 })`
   height: ${x => INPUT_HEIGHT * (x.rows || 2)};
@@ -85,6 +98,21 @@ export const StackedTextArea = StackedInputField.extend.attrs({
   border-top-width: ${Units.hairlineWidth};
   border-color: ${Border.borderColor};
 `
+
+export class StackedTextArea extends Component {
+  focus() {
+    this.Input.focus()
+  }
+
+  render() {
+    return (
+      <StackedTextAreaInput
+        innerRef={ref => this.Input = ref}
+        {...this.props}
+      />
+    )
+  }
+}
 
 export const Underline = styled.View`
   width: 75%;
