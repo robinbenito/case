@@ -110,7 +110,7 @@ export default class LinkForm extends Component {
           </Section>
 
           {state !== 'pending' &&
-            <Section fill>
+            <Section>
               <FieldsetLabel>
                 Title / Description
               </FieldsetLabel>
@@ -128,7 +128,6 @@ export default class LinkForm extends Component {
                   placeholder="Description (optional)"
                   value={description}
                   onChangeText={this.onChangeText('description')}
-                  returnKeyType="done"
                   rows={5}
                 />
               </Fieldset>
