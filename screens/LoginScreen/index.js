@@ -100,6 +100,10 @@ class LoginScreen extends Component {
               autoCorrect={false}
               autoFocus={!email}
               value={email}
+              returnKeyType="next"
+              onSubmitEditing={() => {
+                this.PasswordInput.focus()
+              }}
             />
 
             <UnderlineInput
@@ -107,9 +111,10 @@ class LoginScreen extends Component {
               placeholder="Password"
               autoCapitalize="none"
               onChangeText={this.onChangeText('password')}
-              onSubmitEditing={this.onSubmit}
               autoCorrect={false}
               autoFocus={!!email}
+              onSubmitEditing={this.onSubmit}
+              ref={ref => this.PasswordInput = ref}
             />
 
             <Section space={4}>
