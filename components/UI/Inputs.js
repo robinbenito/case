@@ -1,3 +1,6 @@
+/* eslint-disable react/no-multi-comp */
+// TODO: Organize these into a sub-folder
+
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
@@ -154,3 +157,5 @@ export const InputDescription = styled.Text`
   font-size: ${Typography.fontSize.small};
   line-height: ${Typography.lineHeightFor('small', 'compact')};
 `
+
+/* eslint-enable react/no-multi-comp */
