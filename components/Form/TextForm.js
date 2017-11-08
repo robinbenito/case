@@ -71,11 +71,9 @@ export default class TextForm extends Component {
                 name="content"
                 placeholder="Text"
                 value={content}
-                rows={4}
+                rows={3}
                 onChangeText={this.onChangeText('content')}
-                returnKeyType="next"
                 autoFocus
-                onSubmitEditing={this.onSubmit}
               />
             </Fieldset>
           </Section>
@@ -91,14 +89,17 @@ export default class TextForm extends Component {
                 onChangeText={this.onChangeText('title')}
                 value={title}
                 returnKeyType="next"
+                onSubmitEditing={() => {
+                  this.DescriptionInput.focus()
+                }}
               />
 
               <StackedTextArea
                 name="description"
                 placeholder="Description (optional)"
                 value={description}
+                ref={ref => this.DescriptionInput = ref}
                 onChangeText={this.onChangeText('description')}
-                returnKeyType="done"
               />
             </Fieldset>
           </Section>
