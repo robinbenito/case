@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
 import { Units, Typography, Colors, Border } from '../../constants/Style'
@@ -101,11 +101,22 @@ export const ShortTextInput = styled.TextInput`
   padding-horizontal: ${Units.scale[1]};
 `
 
-export const UnderlineInput = props => (
-  <Underline>
-    <ShortTextInput {...props} />
-  </Underline>
-)
+export class UnderlineInput extends Component {
+  focus() {
+    this.Input.focus()
+  }
+
+  render() {
+    return (
+      <Underline>
+        <ShortTextInput
+          innerRef={ref => this.Input = ref}
+          {...this.props}
+        />
+      </Underline>
+    )
+  }
+}
 
 export const InputDescription = styled.Text`
   margin-vertical: ${Units.scale[2]};
