@@ -113,6 +113,7 @@ class LoginScreen extends Component {
               onChangeText={this.onChangeText('password')}
               autoCorrect={false}
               autoFocus={!!email}
+              returnKeyType="done"
               onSubmitEditing={this.onSubmit}
               ref={ref => this.PasswordInput = ref}
             />
