@@ -12,7 +12,8 @@ import UserAvatar from '../../../components/UserAvatar'
 import Empty from '../../../components/Empty'
 import { CenterColumn } from '../../../components/UI/Layout'
 import { ButtonLabel, Button } from '../../../components/UI/Buttons'
-import withLoadingAndErrors from '../../../components/WithLoadingAndErrors'
+
+import withLoadingAndErrors from '../../../hocs/withLoadingAndErrors'
 
 import CurrentUser from '../../../utilities/currentUserService'
 import navigationService from '../../../utilities/navigationService'

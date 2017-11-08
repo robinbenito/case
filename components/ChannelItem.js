@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
 import { decode } from 'he'
 import { Border, Colors, Typography, Units } from '../constants/Style'
-import NavigatorService from '../utilities/navigationService'
+import navigationService from '../utilities/navigationService'
 
 const Background = styled.TouchableOpacity`
   margin-horizontal: ${Units.scale[2]};
@@ -57,7 +57,7 @@ export default class ChannelItem extends Component {
     const { channel } = this.props
     const visibility = channel.visibility || channel.kind.visibility
 
-    NavigatorService.navigate('channel', {
+    navigationService.navigate('channel', {
       id: channel.id,
       title: channel.title,
       color: Colors.channel[visibility],

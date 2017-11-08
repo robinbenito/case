@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import ErrorScreen from './ErrorScreen'
-import LoadingScreen from './LoadingScreen'
 
-export default (WrappedComponent, { errorMessage } = {}) =>
-  class extends Component {
+import ErrorScreen from '../components/ErrorScreen'
+import LoadingScreen from '../components/LoadingScreen'
+
+export default (WrappedComponent, { errorMessage } = {}) => {
+  class WithLoadingAndErrors extends Component {
     static propTypes = {
       data: PropTypes.shape({
         error: PropTypes.object,
@@ -39,3 +40,6 @@ export default (WrappedComponent, { errorMessage } = {}) =>
       return <WrappedComponent {...this.props} />
     }
   }
+
+  return WithLoadingAndErrors
+}

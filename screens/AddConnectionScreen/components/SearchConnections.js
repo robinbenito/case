@@ -1,64 +1,55 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { FlatList } from 'react-native'
-import { findIndex } from 'lodash'
-import gql from 'graphql-tag'
-import { graphql } from 'react-apollo'
+import { has } from 'lodash'
+import { gql, graphql } from 'react-apollo'
 
 import Empty from '../../../components/Empty'
 import ChannelItem from '../../../components/ChannelItem'
 
 class SearchConnection extends Component {
-  constructor(props) {
-    super(props)
-    this.renderItem = this.renderItem.bind(this)
-    this.isSelected = this.isSelected.bind(this)
+  isSelected = (channel) => {
+    const { selectedConnections } = this.props
+    return has(selectedConnections, channel.id)
   }
 
-  shouldComponentUpdate(newProps) {
-    if (newProps.data && newProps.data.loading) { return false }
-    return true
-  }
+  keyExtractor = item => item.id
 
-  isSelected(channel) {
-    const { selected } = this.props
-    const index = findIndex(selected, selectedChannel => selectedChannel.id === channel.id)
-    return index > -1
-  }
-
-  renderItem({ item }) {
-    const isSelected = this.isSelected(item)
+  renderItem = ({ item }) => {
     const { onToggleConnection } = this.props
+
     return (
       <ChannelItem
-        isSelected={isSelected}
         channel={item}
+        isSelected={this.isSelected(item)}
         onToggleSelect={onToggleConnection}
       />
     )
   }
 
   render() {
-    const { q, data } = this.props
+    const { q, data: { loading, error, me } } = this.props
 
-    if (data && data.error) {
+    // TODO: Use error message or HOC
+    if (error) {
       return (
         <Empty text="No results found" />
       )
     }
 
-    if (data && data.loading) {
+
+    if (loading) {
       return (
         <Empty text={`Searching for ${q}`} />
       )
     }
+
     return (
       <FlatList
-        contentContainerStyle={{ display: 'flex' }}
-        data={data.me.connection_search}
-        keyExtractor={item => item.id}
-        keyboardShouldPersistTaps="always"
+        data={me.connection_search}
+        keyExtractor={this.keyExtractor}
         renderItem={this.renderItem}
+        keyboardShouldPersistTaps="always"
       />
     )
   }
@@ -77,18 +68,15 @@ const ConnectionSearchQuery = gql`
 `
 
 SearchConnection.propTypes = {
-  data: PropTypes.any.isRequired,
+  data: PropTypes.object.isRequired,
   q: PropTypes.string.isRequired,
   onToggleConnection: PropTypes.func,
-  selected: PropTypes.any,
+  selectedConnections: PropTypes.object,
 }
 
 SearchConnection.defaultProps = {
   onToggleConnection: () => null,
-  selected: [],
+  selectedConnections: {},
 }
 
-
-const ConnectionSearchWithData = graphql(ConnectionSearchQuery)(SearchConnection)
-
-export default ConnectionSearchWithData
+export default graphql(ConnectionSearchQuery)(SearchConnection)

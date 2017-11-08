@@ -1,49 +1,41 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  Alert,
-  Clipboard,
-  Keyboard,
-} from 'react-native'
+import { Alert, Clipboard, Keyboard } from 'react-native'
 import { isURL } from 'validator'
 
-import BackButton from '../../components/BackButton'
 import LinkForm from '../../components/Form/LinkForm'
 
 import wait from '../../utilities/wait'
-import NavigatorService from '../../utilities/navigationService'
-
-const navigationOptions = {
-  title: 'Paste Link',
-  headerLeft: (<BackButton />),
-}
+import navigationService from '../../utilities/navigationService'
 
 export default class AddLinkScreen extends React.Component {
-  static navigationOptions() {
-    return navigationOptions
-  }
-
   constructor(props) {
     super(props)
+
     this.state = {
       source_url: '',
     }
   }
 
   componentDidMount() {
-    Clipboard.getString().then((string) => {
-      if (isURL(string)) {
-        wait(100).then(() => Keyboard.dismiss())
-        this.clipboardPrompt(string)
-        Clipboard.setString('')
-      }
-    })
+    Clipboard
+      .getString()
+      .then((string) => {
+        if (isURL(string)) {
+          this.clipboardPrompt(string)
+
+          Clipboard.setString('')
+
+          return wait(100)
+            .then(() =>
+              Keyboard.dismiss(),
+            )
+        }
+      })
   }
 
-  onSubmit = (variables) => {
-    const { source_url } = variables
-    NavigatorService.navigate('connect', { source_url })
-  }
+  onSubmit = ({ source_url }) =>
+    navigationService.navigate('connect', { source_url })
 
   setUrl(url) {
     this.setState({
@@ -65,13 +57,16 @@ export default class AddLinkScreen extends React.Component {
 
   render() {
     const { navigation } = this.props
+
     return (
       <LinkForm
-        onSubmit={this.onSubmit}
         navigation={navigation}
-        navigationOptions={navigationOptions}
-        block={{ source: { url: this.state.source_url } }}
+        onSubmit={this.onSubmit}
         submitText="Next"
+        block={{
+          state: 'pending',
+          source: { url: this.state.source_url },
+        }}
       />
     )
   }

@@ -155,6 +155,7 @@ const MainNavigator = enhance(StackNavigator)({
   newText: {
     screen: AddTextScreen,
     navigationOptions: {
+      title: 'New Text',
       ...headerNavigationOptions,
     },
   },
@@ -176,7 +177,7 @@ const MainNavigator = enhance(StackNavigator)({
   connect: {
     screen: AddConnectionsScreen,
     navigationOptions: {
-      ...headerNavigationOptions,
+      header: null,
     },
   },
 
@@ -192,9 +193,6 @@ const MainNavigator = enhance(StackNavigator)({
     screen: AddCollaboratorsScreen,
     navigationOptions: {
       header: null,
-      cardStyle: {
-        backgroundColor: 'white',
-      },
     },
   },
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { FlatList } from 'react-native'
-import { findIndex } from 'lodash'
+import { has } from 'lodash'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 
@@ -9,40 +9,36 @@ import Empty from '../../../components/Empty'
 import ChannelItem from '../../../components/ChannelItem'
 
 class RecentConnections extends Component {
-  constructor(props) {
-    super(props)
-    this.renderItem = this.renderItem.bind(this)
-    this.isSelected = this.isSelected.bind(this)
+  isSelected = (channel) => {
+    const { selectedConnections } = this.props
+    return has(selectedConnections, channel.id)
   }
 
-  isSelected(channel) {
-    const { selected } = this.props
-    const index = findIndex(selected, selectedChannel => selectedChannel.id === channel.id)
-    return index > -1
-  }
+  keyExtractor = item => item.id
 
-  renderItem({ item }) {
-    const isSelected = this.isSelected(item)
+  renderItem = ({ item }) => {
     const { onToggleConnection } = this.props
+
     return (
       <ChannelItem
-        isSelected={isSelected}
         channel={item}
+        isSelected={this.isSelected(item)}
         onToggleSelect={onToggleConnection}
       />
     )
   }
 
   render() {
-    const { data } = this.props
+    const { data: { error, loading, me } } = this.props
 
-    if (data && data.error) {
+    // TODO: Use error message or HOC
+    if (error) {
       return (
         <Empty text="No recent connections" />
       )
     }
 
-    if (data && data.loading) {
+    if (loading) {
       return (
         <Empty text="Loading" />
       )
@@ -50,9 +46,10 @@ class RecentConnections extends Component {
 
     return (
       <FlatList
-        data={data.me.recent_connections}
+        data={me.recent_connections}
         keyExtractor={item => item.id}
         renderItem={this.renderItem}
+        extraData={this.props.selectedConnections}
       />
     )
   }
@@ -71,14 +68,14 @@ export const RecentConnectionsQuery = gql`
 `
 
 RecentConnections.propTypes = {
-  data: PropTypes.any.isRequired,
+  data: PropTypes.object.isRequired,
   onToggleConnection: PropTypes.func,
-  selected: PropTypes.any,
+  selectedConnections: PropTypes.object,
 }
 
 RecentConnections.defaultProps = {
   onToggleConnection: () => null,
-  selected: [],
+  selectedConnections: {},
 }
 
 const RecentConnectionsWithData = graphql(RecentConnectionsQuery)(RecentConnections)

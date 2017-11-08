@@ -1,44 +1,35 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import BackButton from '../../components/BackButton'
 import TextForm from '../../components/Form/TextForm'
 
-import NavigatorService from '../../utilities/navigationService'
+import navigationService from '../../utilities/navigationService'
 
-
-const navigationOptions = {
-  title: 'Enter Text',
-  headerLeft: (<BackButton />),
-}
-
-export default class AddTextScreen extends React.Component {
-  static navigationOptions() {
-    return navigationOptions
+export default class AddTextScreen extends Component {
+  static propTypes = {
+    navigation: PropTypes.object.isRequired,
   }
 
-  onSubmit = (variables) => {
-    const { title, description, content } = variables
-    NavigatorService.navigate('connect', { title, description, content })
+  static defaultProps = {
+    navigation: {},
   }
+
+  onSubmit = ({ title, description, content }) =>
+    navigationService.navigate('connect', {
+      title,
+      description,
+      content,
+    })
 
   render() {
     const { navigation } = this.props
+
     return (
       <TextForm
         onSubmit={this.onSubmit}
+        submitLabel="Next"
         navigation={navigation}
-        navigationOptions={navigationOptions}
-        submitText="Next"
       />
     )
   }
-}
-
-AddTextScreen.propTypes = {
-  navigation: PropTypes.any,
-}
-
-AddTextScreen.defaultProps = {
-  navigation: () => null,
 }

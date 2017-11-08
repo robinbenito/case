@@ -11,7 +11,8 @@ import BlockItem from '../../../components/BlockItem'
 import { CenterColumn } from '../../../components/UI/Layout'
 import { ButtonLabel, Button } from '../../../components/UI/Buttons'
 import Empty from '../../../components/Empty'
-import withLoadingAndErrors from '../../../components/WithLoadingAndErrors'
+
+import withLoadingAndErrors from '../../../hocs/withLoadingAndErrors'
 
 import { Units } from '../../../constants/Style'
 

@@ -11,7 +11,8 @@ import HeaderRightButton from '../../components/HeaderRightButton'
 import { Fieldset, StackedTextArea, InputDescription } from '../../components/UI/Inputs'
 import { Container, Section } from '../../components/UI/Layout'
 import { dismissAllAlerts } from '../../components/Alerts'
-import withLoadingAndErrors from '../../components/WithLoadingAndErrors'
+
+import withLoadingAndErrors from '../../hocs/withLoadingAndErrors'
 
 class EditAccountBioScreen extends React.Component {
   static isAbleToListen = false

@@ -1,21 +1,25 @@
 import React from 'react'
 import gql from 'graphql-tag'
-import { graphql } from 'react-apollo'
+import { compose, graphql } from 'react-apollo'
 import PropTypes from 'prop-types'
-import { ActivityIndicator, Image, Text, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, Image, TouchableOpacity, View } from 'react-native'
 import HTMLView from 'react-native-htmlview'
 import { WebBrowser } from 'expo'
 import styled from 'styled-components/native'
 
-import navigationService from '../../../utilities/navigationService'
 import BlockMetadata from './BlockMetadata'
 import BlockTabs from './BlockTabs'
 import { BaseIcon } from '../../../components/UI/Icons'
-import { CenteringPane } from '../../../components/UI/Layout'
 import ScrollWithRefresh from '../../../components/ScrollWithRefresh'
+import { HEADER_HEIGHT } from '../../../components/Header'
+
+import pollForBlockAvailability from '../../../hocs/pollForBlockAvailability'
+import withLoadingAndErrors from '../../../hocs/withLoadingAndErrors'
+
 import HTMLStyles from '../../../constants/HtmlView'
 import { Colors, Units } from '../../../constants/Style'
-import { HEADER_HEIGHT } from '../../../components/Header'
+
+import navigationService from '../../../utilities/navigationService'
 
 const CONTENT_HEIGHT = Units.window.height - HEADER_HEIGHT
 const CONTENT_WIDTH = Units.window.width - Units.base
@@ -58,6 +62,7 @@ const BlockContainer = styled.View`
   border-width: 1;
   border-color: ${Colors.gray.light};
   align-self: center;
+  justify-content: center;
 `
 
 const ExpandTextContainer = styled.TouchableHighlight`
@@ -103,15 +108,13 @@ class BlockContents extends React.Component {
     super(props)
 
     this.state = {
-      result: '',
       refetched: null,
     }
   }
 
   openBrowser = async (url) => {
     if (url) {
-      const result = await WebBrowser.openBrowserAsync(url)
-      this.setState({ result })
+      await WebBrowser.openBrowserAsync(url)
     }
   }
 
@@ -128,31 +131,10 @@ class BlockContents extends React.Component {
   }
 
   render() {
-    const { error, loading } = this.props.data
-    const { imageLocation } = this.props
-
-    const block = this.props.data.block
-
-    if (error) {
-      return (
-        <CenteringPane>
-          <Text>
-            Block not found
-          </Text>
-        </CenteringPane>
-      )
-    }
-
-    if (loading && !block) {
-      return (
-        <CenteringPane>
-          <ActivityIndicator />
-        </CenteringPane>
-      )
-    }
+    const { data: { block }, imageLocation } = this.props
 
     const __typename = block.kind && block.kind.__typename
-    const imageUrl = block.kind.image_url || imageLocation || 'https://s3.amazonaws.com/arena_assets/assets/brand/arena-app-icon.png'
+    const imageUrl = block.kind.image_url || imageLocation
 
     let blockInner
 
@@ -161,7 +143,6 @@ class BlockContents extends React.Component {
       case 'Embed':
       case 'Link':
       case 'Image':
-      case 'Block':
         blockInner = (
           <TouchableOpacity onPress={() => this.openBrowser(block.source.url)}>
             <BlockImage
@@ -183,10 +164,8 @@ class BlockContents extends React.Component {
         )
         break
 
-      default:
-        blockInner = (
-          <Text>{block.title}</Text>
-        )
+      default: // Processing or stalled
+        blockInner = <ActivityIndicator />
         break
     }
 
@@ -227,6 +206,7 @@ export const BlockQuery = gql`
       __typename
       id
       title
+      state
       updated_at(relative: true)
       created_at(relative: true)
       displayDescription: description(format: HTML)
@@ -272,7 +252,7 @@ export const BlockQuery = gql`
 `
 
 BlockContents.propTypes = {
-  data: PropTypes.any.isRequired,
+  data: PropTypes.object.isRequired,
   imageLocation: PropTypes.any,
 }
 
@@ -280,6 +260,11 @@ BlockContents.defaultProps = {
   imageLocation: null,
 }
 
-const BlockContentsWithData = graphql(BlockQuery)(BlockContents)
+const DecoratedBlockContents = compose(
+  withLoadingAndErrors,
+  pollForBlockAvailability,
+)(BlockContents)
+
+const BlockContentsWithData = graphql(BlockQuery)(DecoratedBlockContents)
 
 export default BlockContentsWithData

@@ -1,34 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Ionicons } from '@expo/vector-icons'
-
 import styled from 'styled-components/native'
+
 import { Units, Typography, Colors, Border } from '../../../constants/Style'
 
-const Status = styled.View`
-  justify-content: center;
-  align-items: flex-start;
-  margin-bottom: ${Units.scale[3]};
-  padding-horizontal: ${Units.scale[3]};
-`
-
-const Sentence = styled.View`
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-bottom: ${Units.scale[2]};
-`
-
-const StatusText = styled.Text`
-  font-size: ${Typography.fontSize.base};
-  color: ${Colors.gray.semiBold};
-`
-
-const BoldStatusText = styled(StatusText)`
-  font-weight: ${Typography.fontWeight.semiBold};
-`
-
-const SelectedChannelsContainer = styled.View`
+const Container = styled.View`
   flex-direction: row;
   justify-content: flex-start;
   flex-wrap: wrap;
@@ -40,88 +17,61 @@ const SelectedChannel = styled.TouchableOpacity`
   border-width: ${Border.borderWidthMedium};
   border-radius: ${Border.borderRadius};
   padding-horizontal: ${Units.scale[2]};
-  padding-vertical: ${Units.scale[1]};
+  padding-vertical: ${Units.scale[1] / 2};
   flex-direction: row;
   align-items: center;
 `
 
-const Icon = styled(Ionicons)`
+const Close = styled(Ionicons)`
   padding-left: ${Units.scale[1]};
   position: relative;
   bottom: -1;
 `
 
-const ChannelWord = styled.Text`
+const Title = styled.Text`
   font-weight: ${Typography.fontWeight.semiBold};
 `
 
 export default class SelectedChannels extends React.Component {
-  renderChannels() {
-    const { channels, onRemove } = this.props
-    return channels.map((channel) => {
-      const channelColor = Colors.channel[channel.visibility]
-      const backgroundColor = Colors.channel.background[channel.visibility]
-
-      return (
-        <SelectedChannel
-          key={`connection-${channel.id}`}
-          onPress={() => onRemove(channel)}
-          style={{ backgroundColor, borderColor: channelColor }}
-        >
-          <ChannelWord style={{ color: channelColor }}>
-            {channel.title}
-          </ChannelWord>
-          <Icon
-            name="ios-close-outline"
-            size={20}
-            color={channelColor}
-          />
-        </SelectedChannel>
-      )
-    })
-  }
-
   render() {
-    const { channels, title, isSearching } = this.props
-    if (channels.length > 0 || isSearching) {
-      return (
-        <Status>
-          <Sentence>
-            <StatusText>
-              <StatusText>Connect </StatusText>
-              <BoldStatusText>&#8220;{title}&#8220;</BoldStatusText>
-              <StatusText> to:</StatusText>
-            </StatusText>
-          </Sentence>
-          {channels.length > 0 &&
-            <SelectedChannelsContainer>
-              {this.renderChannels()}
-            </SelectedChannelsContainer>
-          }
-        </Status>
-      )
-    }
+    const { selectedConnections, onRemove } = this.props
+
     return (
-      <Status>
-        <Sentence>
-          <StatusText>
-            Recent channels:
-          </StatusText>
-        </Sentence>
-      </Status>
+      <Container>
+        {Object.keys(selectedConnections).map((id) => {
+          const channel = selectedConnections[id]
+          const foregroundColor = Colors.channel[channel.visibility]
+          const backgroundColor = Colors.channel.background[channel.visibility]
+
+          return (
+            <SelectedChannel
+              key={`connection-${channel.id}`}
+              onPress={() => onRemove(channel)}
+              style={{ backgroundColor, borderColor: foregroundColor }}
+            >
+              <Title style={{ color: foregroundColor }}>
+                {channel.title}
+              </Title>
+
+              <Close
+                name="ios-close-outline"
+                size={20}
+                color={foregroundColor}
+              />
+            </SelectedChannel>
+          )
+        })}
+      </Container>
     )
   }
 }
 
 SelectedChannels.propTypes = {
-  title: PropTypes.string,
-  channels: PropTypes.any.isRequired,
+  selectedConnections: PropTypes.object.isRequired, // TODO: object of channel fragments
   onRemove: PropTypes.func,
-  isSearching: PropTypes.bool,
 }
 
 SelectedChannels.defaultProps = {
-  title: 'Untitled block',
   onRemove: () => null,
-  isSearching: false,
+  selectedConnections: {},
 }

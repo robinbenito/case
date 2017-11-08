@@ -10,11 +10,11 @@ import { TOGGLE_ADD_MENU } from '../../state/actions'
 import NavigationService from '../../utilities/navigationService'
 import AddButton from './AddButton'
 
-const addIcon = require('../../assets/images/add.png')
-const textIcon = require('../../assets/images/text.png')
-const linkIcon = require('../../assets/images/link.png')
-const imageIcon = require('../../assets/images/image.png')
-const cameraIcon = require('../../assets/images/camera.png')
+const addIcon = require('./icons/add.png')
+const textIcon = require('./icons/text.png')
+const linkIcon = require('./icons/link.png')
+const imageIcon = require('./icons/image.png')
+const cameraIcon = require('./icons/camera.png')
 
 const ADD_MENU_ROUTE_WHITELIST = [
   'main',

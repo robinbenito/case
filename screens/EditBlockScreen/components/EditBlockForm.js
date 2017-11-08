@@ -1,28 +1,23 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { graphql } from 'react-apollo'
-import gql from 'graphql-tag'
+import { gql, graphql, compose } from 'react-apollo'
 
-import BackButton from '../../../components/BackButton'
 import ImageForm from '../../../components/Form/ImageForm'
 import TextForm from '../../../components/Form/TextForm'
 import LinkForm from '../../../components/Form/LinkForm'
+import LoadingScreen from '../../../components/LoadingScreen'
 import { BlockQuery } from '../../BlockScreen/components/BlockContents'
 
-import NavigatorService from '../../../utilities/navigationService'
+import withLoadingAndErrors from '../../../hocs/withLoadingAndErrors'
+import pollForBlockAvailability from '../../../hocs/pollForBlockAvailability'
 
-const navigationOptions = {
-  title: 'Edit Block',
-  headerLeft: (<BackButton />),
-}
+import navigationService from '../../../utilities/navigationService'
+import alertErrors from '../../../utilities/alertErrors'
 
-class EditBlockScreen extends React.Component {
-  static navigationOptions() {
-    return navigationOptions
-  }
-
+class EditBlockForm extends React.Component {
   onSubmit = (variables) => {
-    const { block, editBlock } = this.props
+    const { data: { block }, editBlock } = this.props
+
     editBlock({
       variables: {
         ...variables,
@@ -36,20 +31,24 @@ class EditBlockScreen extends React.Component {
           },
         },
       ],
-    }).then((response) => {
-      const { data } = response
-      if (!data.error) {
-        NavigatorService.back()
-      }
     })
+
+    .then(() =>
+      navigationService.back(),
+    )
+
+    .catch(alertErrors)
   }
 
   render() {
-    const { navigation, block } = this.props
-    const { kind: { __typename } } = block
+    const { navigation, data: { block, block: { state, kind: { __typename } } } } = this.props
 
-    // Pick the right kind of Form to use
+    if (state !== 'available' && state !== 'failed') {
+      return <LoadingScreen />
+    }
+
     let Form
+
     switch (__typename) {
       case 'Image':
         Form = ImageForm
@@ -57,12 +56,8 @@ class EditBlockScreen extends React.Component {
       case 'Text':
         Form = TextForm
         break
-      case 'Link':
-      case 'Media':
-      case 'Attachment':
-        Form = LinkForm
-        break
       default:
+        Form = LinkForm
         break
     }
 
@@ -71,21 +66,21 @@ class EditBlockScreen extends React.Component {
         block={block}
         onSubmit={this.onSubmit}
         navigation={navigation}
-        navigationOptions={navigationOptions}
         submitText="Save"
       />
     )
   }
 }
 
-EditBlockScreen.propTypes = {
-  block: PropTypes.any.isRequired,
-  navigation: PropTypes.any,
-  editBlock: PropTypes.any.isRequired,
+EditBlockForm.propTypes = {
+  data: PropTypes.object.isRequired,
+  editBlock: PropTypes.func.isRequired,
+  navigation: PropTypes.object,
 }
 
-EditBlockScreen.defaultProps = {
-  navigation: () => null,
+EditBlockForm.defaultProps = {
+  navigation: {},
+  data: {},
 }
 
 const updateBlockMutation = gql`
@@ -100,6 +95,14 @@ const updateBlockMutation = gql`
   }
 `
 
-const EditBlockScreenWithData = graphql(updateBlockMutation, { name: 'editBlock' })(EditBlockScreen)
+const DecoratedEditBlockForm = compose(
+  withLoadingAndErrors,
+  pollForBlockAvailability,
+)(EditBlockForm)
 
-export default EditBlockScreenWithData
+const EditBlockFormWithData = compose(
+  graphql(BlockQuery),
+  graphql(updateBlockMutation, { name: 'editBlock' }),
+)(DecoratedEditBlockForm)
+
+export default EditBlockFormWithData

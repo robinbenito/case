@@ -1,102 +1,131 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import styled from 'styled-components/native'
 import { isURL } from 'validator'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
-import FieldSet from '../FieldSet'
 import HeaderRightButton from '../HeaderRightButton'
-import { Container } from '../../components/UI/Layout'
+import { Container, Section } from '../UI/Layout'
+import { FieldsetLabel, Fieldset, StackedInput, StackedTextArea } from '../UI/Inputs'
+import { sendAlert, dismissAllAlerts } from '../Alerts'
 
-import { Units } from '../../constants/Style'
+import injectButtonWhenDiff from '../../utilities/injectButtonWhenDiff'
 
-const Field = styled(FieldSet)`
-  margin-top: ${Units.scale[4]};
-`
-
-export default class LinkForm extends React.Component {
+export default class LinkForm extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      source_url: props.block.source.url,
-      title: props.block.title,
-      description: props.block.description,
-    }
-  }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.block) {
-      this.setState({ source_url: nextProps.block.source.url })
+    const {
+      block: {
+        title,
+        description,
+        source: {
+          url: source_url,
+        },
+      },
+    } = this.props
+
+    this.state = {
+      source_url,
+      title,
+      description,
     }
   }
 
   componentDidUpdate() {
-    // Hide or show the done button depending on if content is present
-    if (this.state.source_url && isURL(this.state.source_url)) {
-      this.setNavOptions({
-        headerRight: (
-          <HeaderRightButton onPress={this.onSubmit} text={this.props.submitText} />
-        ),
-      })
-    } else {
-      this.setNavOptions({
-        headerRight: null,
-      })
-    }
+    const {
+      block: {
+        title,
+        description,
+        source: {
+          url: source_url,
+        },
+      },
+    } = this.props
+
+    injectButtonWhenDiff({
+      navigation: this.props.navigation,
+      state: this.state,
+      fields: { title, description, source_url },
+      headerRight: <HeaderRightButton
+        onPress={this.onSubmit}
+        text={this.props.submitText}
+      />,
+    })
   }
 
-  onFieldChange = (key, value) => {
+  onChangeText = key => (value) => {
     this.setState({
       [key]: value,
     })
   }
 
   onSubmit = () => {
+    dismissAllAlerts()
+
+    const { source_url } = this.state
+
+    if (!isURL(source_url)) {
+      return sendAlert({
+        children: 'Please enter a valid URL',
+      })
+    }
+
     this.props.onSubmit(this.state)
   }
 
-  setNavOptions(options) {
-    const newOptions = Object.assign({}, this.props.navigationOptions, options)
-    this.props.navigation.setOptions(newOptions)
-  }
-
   render() {
+    const { block: { state } } = this.props
     const { source_url, title, description } = this.state
-    const hasProcessed = (title || description)
+
     return (
       <Container>
         <KeyboardAwareScrollView>
-          <Field
-            isFirst
-            label="Link"
-            onChange={this.onFieldChange}
-            fields={[
-              {
-                key: 'source_url',
-                placeholder: 'URL',
-                type: 'url',
-                value: source_url,
-                editable: !hasProcessed,
-              },
-            ]}
-          />
-          {hasProcessed && <Field
-            label="Title / Description"
-            onChange={this.onFieldChange}
-            fields={[
-              {
-                key: 'title',
-                placeholder: 'Title',
-                value: this.state.title,
-              },
-              {
-                key: 'description',
-                placeholder: 'Description',
-                value: this.state.description,
-                type: 'textarea',
-              },
-            ]}
-          />}
+          <Section space={4}>
+            <FieldsetLabel>
+              URL
+            </FieldsetLabel>
+
+            <Fieldset>
+              <StackedInput
+                placeholder="https://"
+                onChangeText={this.onChangeText('source_url')}
+                value={source_url}
+                keyboardType="url"
+                autoCapitalize="none"
+                autoCorrect={false}
+                autoFocus
+                returnKeyType={state !== 'pending' ? 'next' : 'done'}
+                onSubmitEditing={this.onSubmit}
+                editable={state === 'pending'}
+              />
+            </Fieldset>
+          </Section>
+
+          {state !== 'pending' &&
+            <Section fill>
+              <FieldsetLabel>
+                Title / Description
+              </FieldsetLabel>
+
+              <Fieldset>
+                <StackedInput
+                  placeholder="Title (optional)"
+                  onChangeText={this.onChangeText('title')}
+                  value={title}
+                  returnKeyType="next"
+                />
+
+                <StackedTextArea
+                  name="description"
+                  placeholder="Description (optional)"
+                  value={description}
+                  onChangeText={this.onChangeText('description')}
+                  returnKeyType="done"
+                  rows={5}
+                />
+              </Fieldset>
+            </Section>
+          }
         </KeyboardAwareScrollView>
       </Container>
     )
@@ -106,26 +135,22 @@ export default class LinkForm extends React.Component {
 LinkForm.propTypes = {
   onSubmit: PropTypes.func,
   submitText: PropTypes.string,
-  navigation: PropTypes.any,
-  navigationOptions: PropTypes.any.isRequired,
+  navigation: PropTypes.object,
   block: PropTypes.shape({
-    title: PropTypes.any,
-    description: PropTypes.any,
-    source: PropTypes.shape({
-      url: PropTypes.string,
-    }),
+    title: PropTypes.string,
+    description: PropTypes.string,
+    source_url: PropTypes.string,
   }),
 }
 
 LinkForm.defaultProps = {
   onSubmit: () => null,
-  navigation: () => null,
+  navigation: {},
   submitText: 'Done',
   block: {
-    title: null,
-    description: null,
-    source: {
-      url: '',
-    },
+    title: '',
+    description: '',
+    source_url: '',
+    state: 'pending',
   },
 }

@@ -29,7 +29,6 @@ const InputContainer = styled.View`
   background-color: ${Colors.gray.semiLight};
 `
 
-
 const SearchInput = styled(Input)`
   flex: 1;
   padding-vertical: ${SEARCH_HEADER_V_PADDING};
@@ -81,6 +80,7 @@ export default class SearchHeader extends React.Component {
   render() {
     const { cancelOrDone, onCancel, autoFocus } = this.props
     const { search, isSubmitting } = this.state
+    // TODO: Avoid doing string comparison for the submit function
     const buttonFunc = cancelOrDone === 'Cancel' ? onCancel : this.onSubmit
 
     return (
