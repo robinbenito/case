@@ -10,7 +10,8 @@ import { Fieldset } from '../../components/UI/Inputs'
 import { StackedToggle } from '../../components/UI/Buttons'
 import { Container, Section } from '../../components/UI/Layout'
 import { dismissAllAlerts } from '../../components/Alerts'
-import withLoadingAndErrors from '../../components/WithLoadingAndErrors'
+
+import withLoadingAndErrors from '../../hocs/withLoadingAndErrors'
 
 class EditAccountReceiveNewsletterScreen extends React.Component {
   static isAbleToListen = false

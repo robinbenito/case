@@ -16,7 +16,8 @@ import { Fieldset, FieldsetLabel, InputDescription } from '../../components/UI/I
 import { StackedButton, StackedJumpButton } from '../../components/UI/Buttons'
 import { Container, Section } from '../../components/UI/Layout'
 import UserAvatar from '../../components/UserAvatar'
-import withLoadingAndErrors from '../../components/WithLoadingAndErrors'
+
+import withLoadingAndErrors from '../../hocs/withLoadingAndErrors'
 
 class UserSettingsScreen extends React.Component {
   static propTypes = {

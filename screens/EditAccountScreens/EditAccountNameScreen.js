@@ -11,7 +11,8 @@ import HeaderRightButton from '../../components/HeaderRightButton'
 import { Fieldset, StackedInput } from '../../components/UI/Inputs'
 import { Container, Section } from '../../components/UI/Layout'
 import { dismissAllAlerts } from '../../components/Alerts'
-import withLoadingAndErrors from '../../components/WithLoadingAndErrors'
+
+import withLoadingAndErrors from '../../hocs/withLoadingAndErrors'
 
 const refetchAccountNameQuery = gql`
   query refetchAccountNameQuery($id: ID!) {

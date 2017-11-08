@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 import { gql, graphql } from 'react-apollo'
 
 import ChannelForm from './ChannelForm'
-import withLoadingAndErrors from '../../WithLoadingAndErrors'
+
+import withLoadingAndErrors from '../../../hocs/withLoadingAndErrors'
 
 class ChannelFormContainer extends React.Component {
   static propTypes = {
