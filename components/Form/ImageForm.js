@@ -3,21 +3,18 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
-import { Container } from '../../components/UI/Layout'
-import FieldSet from '../FieldSet'
 import HeaderRightButton from '../HeaderRightButton'
+import { Container, Section } from '../UI/Layout'
+import { FieldsetLabel, Fieldset, StackedInput, StackedTextArea } from '../UI/Inputs'
+import { BLOCK_SIZES } from '../BlockItem'
+
+import injectButtonWhenDiff from '../../utilities/injectButtonWhenDiff'
 
 import { Units, Border } from '../../constants/Style'
 
-const contentWidth = (Units.window.width - (Units.scale[4] * 2))
-
-const Field = styled(FieldSet)`
-  margin-top: ${Units.scale[4]};
-`
-
 const ImagePreview = styled.Image`
-  width: ${contentWidth};
-  height: ${contentWidth};
+  width: ${BLOCK_SIZES['1-up']};
+  height: ${BLOCK_SIZES['1-up']};
   border-width: 1;
   border-color: ${Border.borderColor};
   align-self: center;
@@ -28,20 +25,47 @@ const ImagePreview = styled.Image`
 export default class ImageForm extends React.Component {
   constructor(props) {
     super(props)
+
+    const {
+      block: {
+        title,
+        description,
+        kind: {
+          image_url: image,
+        },
+      },
+    } = props
+
     this.state = {
-      image: props.block.kind.image_url,
-      title: props.block.title,
-      description: props.block.description,
+      image,
+      title,
+      description,
     }
   }
 
   componentDidUpdate() {
-    this.setNavOptions({
-      headerRight: <HeaderRightButton onPress={this.onSubmit} text={this.props.submitText} />,
+    const {
+      block: {
+        title,
+        description,
+        kind: {
+          image_url: image,
+        },
+      },
+    } = this.props
+
+    injectButtonWhenDiff({
+      navigation: this.props.navigation,
+      state: this.state,
+      fields: { title, description, image },
+      headerRight: <HeaderRightButton
+        onPress={this.onSubmit}
+        text={this.props.submitText}
+      />,
     })
   }
 
-  onFieldChange = (key, value) => {
+  onChangeText = key => (value) => {
     this.setState({
       [key]: value,
     })
@@ -51,35 +75,36 @@ export default class ImageForm extends React.Component {
     this.props.onSubmit(this.state)
   }
 
-  setNavOptions(options) {
-    const newOptions = Object.assign({}, this.props.navigationOptions, options)
-    this.props.navigation.setOptions(newOptions)
-  }
-
   render() {
     const { image, title, description } = this.state
+
     return (
       <Container>
         <KeyboardAwareScrollView>
           <ImagePreview source={{ uri: image }} />
-          <Field
-            isFirst
-            label="Title / Description"
-            onChange={this.onFieldChange}
-            fields={[
-              {
-                key: 'title',
-                placeholder: 'Title',
-                value: title,
-              },
-              {
-                key: 'description',
-                placeholder: 'Description',
-                type: 'textarea',
-                value: description,
-              },
-            ]}
-          />
+
+          <Section>
+            <FieldsetLabel>
+              Title / Description
+            </FieldsetLabel>
+
+            <Fieldset>
+              <StackedInput
+                placeholder="Title (optional)"
+                onChangeText={this.onChangeText('title')}
+                value={title}
+                returnKeyType="next"
+              />
+
+              <StackedTextArea
+                name="description"
+                placeholder="Description (optional)"
+                value={description}
+                onChangeText={this.onChangeText('description')}
+                rows={2}
+              />
+            </Fieldset>
+          </Section>
         </KeyboardAwareScrollView>
       </Container>
     )
@@ -89,26 +114,25 @@ export default class ImageForm extends React.Component {
 ImageForm.propTypes = {
   onSubmit: PropTypes.func,
   submitText: PropTypes.string,
-  navigation: PropTypes.any,
-  navigationOptions: PropTypes.any.isRequired,
+  navigation: PropTypes.object,
   block: PropTypes.shape({
+    title: PropTypes.string,
+    description: PropTypes.string,
     kind: PropTypes.shape({
       image_url: PropTypes.string,
     }),
-    title: PropTypes.string,
-    description: PropTypes.string,
   }),
 }
 
 ImageForm.defaultProps = {
   onSubmit: () => null,
-  navigation: () => null,
+  navigation: {},
   submitText: 'Done',
   block: {
+    title: '',
+    description: '',
     kind: {
       image_url: '',
     },
-    title: '',
-    description: '',
   },
 }
