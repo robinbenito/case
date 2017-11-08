@@ -65,9 +65,16 @@ export default class LinkForm extends Component {
     const { source_url } = this.state
 
     if (!isURL(source_url)) {
-      return sendAlert({
+      sendAlert({
         children: 'Please enter a valid URL',
       })
+
+      // Wait a moment before re-focusing the input.
+      // Calling `focus` immediately doesn't work
+      // and it feels a bit better to wait anyway.
+      setTimeout(() => this.Input.focus(), 500)
+
+      return
     }
 
     this.props.onSubmit(this.state)
@@ -97,12 +104,13 @@ export default class LinkForm extends Component {
                 returnKeyType={state !== 'pending' ? 'next' : 'done'}
                 onSubmitEditing={this.onSubmit}
                 editable={state === 'pending'}
+                ref={ref => this.Input = ref}
               />
             </Fieldset>
           </Section>
 
           {state !== 'pending' &&
-            <Section fill>
+            <Section>
               <FieldsetLabel>
                 Title / Description
               </FieldsetLabel>
@@ -120,7 +128,6 @@ export default class LinkForm extends Component {
                   placeholder="Description (optional)"
                   value={description}
                   onChangeText={this.onChangeText('description')}
-                  returnKeyType="done"
                   rows={5}
                 />
               </Fieldset>

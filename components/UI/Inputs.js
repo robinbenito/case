@@ -1,4 +1,7 @@
-import React from 'react'
+/* eslint-disable react/no-multi-comp */
+// TODO: Organize these into a sub-folder
+
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
 import { Units, Typography, Colors, Border } from '../../constants/Style'
@@ -57,27 +60,40 @@ const StackedInputLabel = styled.Text`
   padding-right: ${Units.scale[3]};
 `
 
-export const StackedInput = ({ label, ...props }) => (
-  <StackedInputOutline>
-    {label &&
-      <StackedInputLabel>
-        {label}
-      </StackedInputLabel>
-    }
+export class StackedInput extends Component {
+  static propTypes = {
+    label: PropTypes.string,
+  }
 
-    <StackedInputField {...props} />
-  </StackedInputOutline>
-)
+  static defaultProps = {
+    label: null,
+  }
 
-StackedInput.propTypes = {
-  label: PropTypes.string,
+  focus() {
+    this.Input.focus()
+  }
+
+  render() {
+    const { label, ...rest } = this.props
+
+    return (
+      <StackedInputOutline>
+        {label &&
+          <StackedInputLabel>
+            {label}
+          </StackedInputLabel>
+        }
+
+        <StackedInputField
+          innerRef={ref => this.Input = ref}
+          {...rest}
+        />
+      </StackedInputOutline>
+    )
+  }
 }
 
-StackedInput.defaultProps = {
-  label: null,
-}
-
-export const StackedTextArea = StackedInputField.extend.attrs({
+const StackedTextAreaInput = StackedInputField.extend.attrs({
   multiline: true,
 })`
   height: ${x => INPUT_HEIGHT * (x.rows || 2)};
@@ -85,6 +101,21 @@ export const StackedTextArea = StackedInputField.extend.attrs({
   border-top-width: ${Units.hairlineWidth};
   border-color: ${Border.borderColor};
 `
+
+export class StackedTextArea extends Component {
+  focus() {
+    this.Input.focus()
+  }
+
+  render() {
+    return (
+      <StackedTextAreaInput
+        innerRef={ref => this.Input = ref}
+        {...this.props}
+      />
+    )
+  }
+}
 
 export const Underline = styled.View`
   width: 75%;
@@ -101,11 +132,22 @@ export const ShortTextInput = styled.TextInput`
   padding-horizontal: ${Units.scale[1]};
 `
 
-export const UnderlineInput = props => (
-  <Underline>
-    <ShortTextInput {...props} />
-  </Underline>
-)
+export class UnderlineInput extends Component {
+  focus() {
+    this.Input.focus()
+  }
+
+  render() {
+    return (
+      <Underline>
+        <ShortTextInput
+          innerRef={ref => this.Input = ref}
+          {...this.props}
+        />
+      </Underline>
+    )
+  }
+}
 
 export const InputDescription = styled.Text`
   margin-vertical: ${Units.scale[2]};
@@ -115,3 +157,5 @@ export const InputDescription = styled.Text`
   font-size: ${Typography.fontSize.small};
   line-height: ${Typography.lineHeightFor('small', 'compact')};
 `
+
+/* eslint-enable react/no-multi-comp */
