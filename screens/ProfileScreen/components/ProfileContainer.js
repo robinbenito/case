@@ -40,6 +40,7 @@ class ProfileContainer extends React.Component {
   static defaultProps = {
     page: 1,
     loadMore: () => null,
+    type: 'CHANNEL',
   }
 
   constructor(props) {
