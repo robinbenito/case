@@ -10,7 +10,7 @@ import { Units, Typography, Colors } from '../../../constants/Style'
 const Container = styled.View`
   width: 100%;
   margin-vertical: ${Units.base};
-  padding-horizontal: ${Units.scale[2]};
+  padding-horizontal: ${Units.scale[3]};
 `
 
 const Title = styled.Text`
@@ -18,19 +18,19 @@ const Title = styled.Text`
   line-height: ${Typography.lineHeightFor(Typography.fontSize.h2)};
   font-weight: ${Typography.fontWeight.semiBold};
   color: ${Colors.semantic.text};
-  margin-bottom: ${Units.base};
+  margin-bottom: ${Units.scale[2]};
 `
 
 const Metadata = styled.Text`
-  width: 85%;
-  margin-bottom: ${Units.scale[1]};
+  margin-bottom: ${Units.scale[2]};
+  margin-right: ${Units.scale[2]};
   font-size: ${Typography.fontSize.small};
   line-height: ${Typography.lineHeightFor('small', 'compact')};
   color: ${Colors.semantic.text};
 `
 
 const Description = styled(HTML)`
-  width: 85%;
+  margin-right: ${Units.scale[2]};
 `
 
 const UserNameLink = styled(UserNameText)`
@@ -71,7 +71,7 @@ const BlockMetadata = ({ block }) => {
         stylesheet={{
           p: {
             fontSize: Typography.fontSize.small,
-            lineHeight: Typography.lineHeightFor('base', 'compact'),
+            lineHeight: Typography.lineHeightFor('small', 'compact'),
           },
         }}
       />
