@@ -20,7 +20,7 @@ const Sentence = styled.Text`
 `
 
 const Timestamp = styled.Text`
-  margin-top: ${Units.scale[2]};
+  margin-top: ${Units.scale[1]};
   color: ${Colors.gray.medium};
   font-size: ${Typography.fontSize.small};
   line-height: ${Typography.lineHeightFor('small', 'compact')};

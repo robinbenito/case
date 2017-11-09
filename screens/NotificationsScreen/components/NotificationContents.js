@@ -10,7 +10,7 @@ import styled from 'styled-components/native'
 
 import { NotificationCountQuery } from '../../../components/NotificationCount'
 import FeedWordLink from '../../../components/FeedWordLink'
-import FeedSentence from '../../../components/FeedSentence'
+import NotificationSentence from '../../../components/NotificationSentence'
 
 import { HorizontalRule, CenteringPane } from '../../../components/UI/Layout'
 import Empty from '../../../components/Empty'
@@ -138,7 +138,7 @@ class NotificationContents extends React.Component {
         onEndReachedThreshold={0.9}
         renderItem={({ item: deed, index }) => (
           <Item key={`${deed.id}-${index}`}>
-            <FeedSentence
+            <NotificationSentence
               deed={deed}
               showUnreadState
               onPress={() => this.markNotificationAsRead(deed.bulletin_id)}

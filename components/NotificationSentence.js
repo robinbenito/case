@@ -44,7 +44,7 @@ const Timestamp = styled.Text`
 `
 
 // TODO: Rename to NotificationSentence
-class FeedSentence extends React.Component {
+class NotificationSentence extends React.Component {
   onPress = () => {
     // 'connected' => `item`
     // 'commented' => `target`
@@ -115,15 +115,15 @@ class FeedSentence extends React.Component {
   }
 }
 
-FeedSentence.propTypes = {
+NotificationSentence.propTypes = {
   deed: PropTypes.any.isRequired,
   showUnreadState: PropTypes.bool,
   onPress: PropTypes.func,
 }
 
-FeedSentence.defaultProps = {
+NotificationSentence.defaultProps = {
   showUnreadState: false,
   onPress: () => null,
 }
 
-export default FeedSentence
+export default NotificationSentence

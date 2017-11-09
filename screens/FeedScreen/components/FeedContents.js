@@ -10,8 +10,11 @@ import UserAvatar from '../../../components/UserAvatar'
 import { Units } from '../../../constants/Style'
 
 const Container = styled.View`
-  flexGrow: 1;
+  flex-grow: 1;
   flex-wrap: wrap;
+  flex-direction: ${x => (x.mode === 'channel' ? 'column' : 'row')};
+  justify-content: ${x => (x.mode === 'user' ? 'flex-start' : 'center')};
+  padding-horizontal: ${x => (x.mode === 'user' ? Units.scale[2] : 0)};
 `
 
 const SLIDER_WIDTH = Units.window.width
@@ -69,13 +72,12 @@ const renderItem = ({ item }) => {
 
 const FeedContents = ({ items, verb }) => {
   const itemData = items.slice().reverse()
-
   const __typename = items[0] && items[0].__typename
-  const channelGroup = __typename === 'Channel'
-  const userGroup = __typename === 'User'
-  const showSlider = verb === 'connected' && items.length > 1 && !channelGroup
+  const isSwipeable = verb === 'connected'
+    && items.length > 1
+    && __typename !== 'Channel'
 
-  if (showSlider) {
+  if (isSwipeable) {
     return (
       <Carousel
         ref={carousel => this.Carousel = carousel}
@@ -93,13 +95,9 @@ const FeedContents = ({ items, verb }) => {
     )
   }
 
-  const flexDirection = channelGroup ? 'column' : 'row'
-  const justifyContent = userGroup ? 'flex-start' : 'center'
-  const contentsItems = itemData.map((item, index) => renderItem({ item, index }))
-
   return (
-    <Container style={{ flexDirection, justifyContent, flex: 1 }}>
-      {contentsItems}
+    <Container mode={__typename.toLowerCase()}>
+      {itemData.map((item, index) => renderItem({ item, index }))}
     </Container>
   )
 }
