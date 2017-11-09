@@ -24,10 +24,33 @@ import navigationService from '../../../utilities/navigationService'
 const CONTENT_HEIGHT = Units.window.height - HEADER_HEIGHT
 const CONTENT_WIDTH = Units.window.width - Units.base
 
-// TODO: Organize!
+const BlockFill = styled.View`
+  width: 100%;
+  height: ${Units.window.height - HEADER_HEIGHT};
+  justify-content: center;
+  align-items: center;
+`
+
+const TopSpacer = styled.View`
+  flex: 1;
+  width: 100%;
+  margin-top: ${-HEADER_HEIGHT};
+`
+
+const BlockContainer = styled.View`
+  width: ${CONTENT_WIDTH};
+  height: ${CONTENT_WIDTH};
+  border-width: 1;
+  border-color: ${Colors.gray.light};
+  align-self: center;
+  justify-content: center;
+`
+
 const ScrollToMetadata = styled.TouchableOpacity`
   width: 100%;
-  padding-vertical: ${Units.base};
+  flex: 1;
+  align-items: center;
+  justify-content: center;
 `
 
 const ArrowDown = styled(BaseIcon).attrs({
@@ -35,13 +58,6 @@ const ArrowDown = styled(BaseIcon).attrs({
 })`
   font-size: 30;
   align-self: center;
-`
-
-const BlockFill = styled.View`
-  width: 100%;
-  height: ${Units.window.height - HEADER_HEIGHT};
-  justify-content: center;
-  align-items: center;
 `
 
 const BlockFold = styled.View`
@@ -54,15 +70,6 @@ const TextContainer = styled.View`
   padding-vertical: ${Units.scale[2]};
   overflow: hidden;
   position: relative;
-`
-
-const BlockContainer = styled.View`
-  width: ${CONTENT_WIDTH};
-  height: ${CONTENT_WIDTH};
-  border-width: 1;
-  border-color: ${Colors.gray.light};
-  align-self: center;
-  justify-content: center;
 `
 
 const ExpandTextContainer = styled.TouchableHighlight`
@@ -179,6 +186,8 @@ class BlockContents extends React.Component {
         ref={ref => this.BlockContents = ref}
       >
         <BlockFill>
+          <TopSpacer />
+
           <BlockContainer>
             {blockInner}
           </BlockContainer>
