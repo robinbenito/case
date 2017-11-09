@@ -61,7 +61,7 @@ export default class UserAvatar extends React.Component {
 
           <AvatarImage
             size={size}
-            source={{ uri: decodeURIComponent(user.avatar) }}
+            source={{ uri: user.avatar }}
           />
         </Avatar>
 
