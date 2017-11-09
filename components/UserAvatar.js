@@ -15,7 +15,8 @@ const Name = styled.Text.attrs({
   margin-vertical: ${Units.scale[1]};
   text-align: center;
   font-size: ${Typography.fontSize.small};
-  line-height: ${Typography.lineHeightFor('small')};
+  line-height: ${Typography.lineHeightFor('small', 'compact')};
+  color: ${Colors.gray.semiBold};
 `
 
 const Initials = styled.Text.attrs({
