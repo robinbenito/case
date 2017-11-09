@@ -12,12 +12,14 @@ import { BaseIcon } from './UI/Icons'
 const Container = styled.View`
   width: 100%;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
   margin-bottom: ${Units.base};
 `
 
 const Avatar = styled.View`
   flex-basis: 12.5%;
+  margin-top: ${Units.scale[2]};
+  margin-right: ${Units.scale[1]};
 `
 
 const Content = styled.View`
