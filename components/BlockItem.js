@@ -144,9 +144,6 @@ BlockItem.fragments = {
       }
       kind {
         __typename
-        ... on Block {
-          is_processed
-        }
         ... on Attachment {
           image_url(size: DISPLAY)
         }
