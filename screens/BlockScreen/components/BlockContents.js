@@ -236,9 +236,6 @@ export const BlockQuery = gql`
       }
       kind {
         __typename
-        ... on Block {
-          is_processed
-        }
         ... on Embed {
           image_url(size: ORIGINAL)
         }

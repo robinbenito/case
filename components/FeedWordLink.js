@@ -6,7 +6,6 @@ import UserNameText from './UserNameText'
 import ChannelNameText from './ChannelNameText'
 import BlockLink from './BlockLink'
 
-// TODO: Get rid of `phrase` prop in favor of children...
 const FeedWordLink = ({ object, phrase, ...rest }) => {
   let link = <Text {...rest}>{phrase}</Text>
 
@@ -22,6 +21,9 @@ const FeedWordLink = ({ object, phrase, ...rest }) => {
         break
       case 'Connectable':
         link = <BlockLink block={object} phrase={phrase} {...rest} />
+        break
+      case 'Comment':
+        link = <Text {...rest}>“{phrase}”</Text>
         break
       default:
         link = <Text {...rest}>{phrase || object.title}</Text>
