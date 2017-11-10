@@ -39,9 +39,14 @@ const FeedGroupSentence = ({ group }) => {
       <Sentence>
         <UserNameText user={user} />
 
-        <Text> {verb} </Text>
+        <Text>
+          {verb === 'commented' ? ': ' : ` ${verb} `}
+        </Text>
 
-        <FeedWordLink object={object} phrase={group.object_phrase} />
+        <FeedWordLink
+          object={object}
+          phrase={group.object_phrase}
+        />
 
         <Text> {connector} </Text>
 

@@ -144,7 +144,7 @@ const FeedQuery = gql`
             ...ConnectableWord
             ...UserWord
           }
-          object_phrase
+          object_phrase(truncate: 60)
           connector
           target {
             __typename
