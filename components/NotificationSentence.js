@@ -43,7 +43,6 @@ const Timestamp = styled.Text`
   line-height: ${Typography.lineHeightFor('small', 'compact')};
 `
 
-// TODO: Rename to NotificationSentence
 class NotificationSentence extends React.Component {
   onPress = () => {
     // 'connected' => `item`
