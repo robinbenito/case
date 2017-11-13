@@ -14,7 +14,8 @@ const Container = styled.View`
 
 const Label = styled.Text`
   font-weight: ${Typography.fontWeight.semiBold};
-  color: ${Colors.semantic.text};
+  color: ${Colors.gray.semiBold};
+  font-size: ${Typography.fontSize.smedium};
 `
 
 export default class PlainHeader extends Component {
