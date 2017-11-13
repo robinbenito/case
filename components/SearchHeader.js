@@ -3,18 +3,23 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
 
 import { Icon } from './SearchIcon'
-import { Colors, Border, Units, Typography } from '../constants/Style'
 import { Input } from '../components/UI/Inputs'
+import { HEADER_HEIGHT } from '../components/Header'
+
+import { Colors, Border, Units, Typography } from '../constants/Style'
+
 import navigationService from '../utilities/navigationService'
 
-const SEARCH_HEADER_V_PADDING = Units.scale[1]
-const SEARCH_HEADER_LABEL_LINE_HEIGHT = Typography.lineHeightFor(Typography.fontSize.base)
-export const SEARCH_HEADER_HEIGHT = (SEARCH_HEADER_V_PADDING * 2) + SEARCH_HEADER_LABEL_LINE_HEIGHT
+const SEARCH_INPUT_V_PADDING = Units.scale[1]
+const SEARCH_INPUT_LABEL_LINE_HEIGHT = Typography.lineHeightFor(Typography.fontSize.base)
+export const SEARCH_INPUT_HEIGHT = (SEARCH_INPUT_V_PADDING * 2) + SEARCH_INPUT_LABEL_LINE_HEIGHT
+export const SEARCH_HEADER_HEIGHT = HEADER_HEIGHT - Units.statusBarHeight
 
 const Container = styled.View`
+  height: ${SEARCH_HEADER_HEIGHT};
   flex-direction: row;
   align-items: center;
-  padding-vertical: ${Units.scale[1]};
+  justify-content: center;
   padding-left: ${Units.scale[2]};
 `
 
@@ -31,10 +36,10 @@ const InputContainer = styled.View`
 
 const SearchInput = styled(Input)`
   flex: 1;
-  padding-vertical: ${SEARCH_HEADER_V_PADDING};
-  height: ${SEARCH_HEADER_HEIGHT};
+  padding-vertical: ${SEARCH_INPUT_V_PADDING};
+  height: ${SEARCH_INPUT_HEIGHT};
   font-size: ${Typography.fontSize.base};
-  line-height: ${SEARCH_HEADER_LABEL_LINE_HEIGHT};
+  line-height: ${SEARCH_INPUT_LABEL_LINE_HEIGHT};
   background-color: transparent;
 `
 
