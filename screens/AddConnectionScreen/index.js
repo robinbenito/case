@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { gql, graphql, compose } from 'react-apollo'
-import { Keyboard } from 'react-native'
+import { Keyboard, View } from 'react-native'
 import styled from 'styled-components/native'
 
 import navigationService from '../../utilities/navigationService'
@@ -14,6 +14,9 @@ import { ChannelConnectionsQuery } from '../ChannelScreen/components/ChannelCont
 import SearchConnectionsWithData from './components/SearchConnections'
 import RecentConnectionsWithData, { RecentConnectionsQuery } from './components/RecentConnections'
 import { StatusBarAwareContainer } from '../../components/UI/Layout'
+import ProgressBar from '../../components/ProgressBar'
+import PlainHeader from '../../components/PlainHeader'
+import { HEADER_HEIGHT } from '../../components/Header'
 
 import { BlockConnectionsQuery } from '../../screens/BlockScreen/components/BlockConnections'
 import { BlockQuery } from '../../screens/BlockScreen/components/BlockContents'
@@ -29,6 +32,15 @@ const ConnectionSelection = styled.View`
 
 const ConnectionStatusMessage = styled(StatusMessage)`
   margin-bottom: ${Units.scale[1]};
+`
+
+const SimulatedProgressBar = styled(ProgressBar).attrs({
+  shouldSimulate: true,
+})`
+  position: absolute;
+  top: ${HEADER_HEIGHT - Units.statusBarHeight};
+  right: 0;
+  left: 0;
 `
 
 class AddConnectionsScreen extends Component {
@@ -48,6 +60,7 @@ class AddConnectionsScreen extends Component {
     } = props.navigation.state.params
 
     this.state = {
+      isConnecting: false,
       isSearching: false,
       q: null,
       selectedConnections: {},
@@ -147,6 +160,8 @@ class AddConnectionsScreen extends Component {
     const channelIds = Object.keys(this.state.selectedConnections)
     const refetchQueries = this.getRefetchQueries()
 
+    this.setState({ isConnecting: true })
+
     if (connectableId) {
       return createConnection({
         variables: {
@@ -162,7 +177,10 @@ class AddConnectionsScreen extends Component {
         navigationService.back()
       })
 
-      .catch(alertErrors)
+      .catch((err) => {
+        this.setState({ isConnecting: false })
+        alertErrors(err)
+      })
     }
 
     return this
@@ -207,6 +225,7 @@ class AddConnectionsScreen extends Component {
       search,
       selectedConnections,
       isSearching,
+      isConnecting,
       title,
       source_url: sourceURL,
     } = this.state
@@ -220,13 +239,25 @@ class AddConnectionsScreen extends Component {
 
     return (
       <StatusBarAwareContainer>
-        <SearchHeader
-          onChangeText={this.search}
-          cancelOrDone={cancelOrDone}
-          onSubmit={this.saveConnections}
-          onCancel={this.onCancel}
-          autoFocus
-        />
+        {isConnecting &&
+          <View>
+            <PlainHeader>
+              Connecting...
+            </PlainHeader>
+
+            <SimulatedProgressBar />
+          </View>
+        }
+
+        {!isConnecting &&
+          <SearchHeader
+            onChangeText={this.search}
+            cancelOrDone={cancelOrDone}
+            onSubmit={this.saveConnections}
+            onCancel={this.onCancel}
+            autoFocus
+          />
+        }
 
         <ConnectionSelection>
           <ConnectionStatusMessage

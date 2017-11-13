@@ -27,7 +27,7 @@ export default class AddTextScreen extends Component {
     return (
       <TextForm
         onSubmit={this.onSubmit}
-        submitLabel="Next"
+        submitText="Next"
         navigation={navigation}
       />
     )
