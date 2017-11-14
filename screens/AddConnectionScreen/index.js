@@ -211,7 +211,10 @@ class AddConnectionsScreen extends Component {
         this.navigateToBlock(block.id, image && image.location)
       })
 
-      .catch(alertErrors)
+      .catch((err) => {
+        this.setState({ isConnecting: false })
+        alertErrors(err)
+      })
   }
 
   search = query =>
