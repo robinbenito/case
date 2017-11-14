@@ -40,21 +40,33 @@ export const Section = styled.View`
   margin-vertical: ${x => Units.scale[x.space || 1]};
 `
 
-export const HeaderAwareContainer = styled.View`
+const HeaderMargin = styled.View`
   flex: 1;
   margin-top: ${HEADER_HEIGHT};
 `
 
-export const StatusBarAwareContainer = styled.View`
+const StatusBarMargin = styled.View`
   flex: 1;
   margin-top: ${Units.statusBarHeight};
 `
 
-export const Container = ({ children, ...rest }) => (
-  <HeaderAwareContainer {...rest}>
+export const StatusBarAwareContainer = ({ children, ...rest }) => (
+  <StatusBarMargin {...rest}>
     {children}
     <Alerts />
-  </HeaderAwareContainer>
+  </StatusBarMargin>
+)
+
+StatusBarAwareContainer.propTypes = {
+  children: PropTypes.node.isRequired,
+}
+
+// TODO: Rename to HeaderAwareContainer
+export const Container = ({ children, ...rest }) => (
+  <HeaderMargin {...rest}>
+    {children}
+    <Alerts />
+  </HeaderMargin>
 )
 
 Container.propTypes = {
