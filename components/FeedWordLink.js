@@ -1,7 +1,9 @@
 import React from 'react'
 import gql from 'graphql-tag'
 import { Text } from 'react-native'
+import { decode } from 'he'
 import PropTypes from 'prop-types'
+
 import UserNameText from './UserNameText'
 import ChannelNameText from './ChannelNameText'
 import BlockLink from './BlockLink'
@@ -23,7 +25,7 @@ const FeedWordLink = ({ object, phrase, ...rest }) => {
         link = <BlockLink block={object} phrase={phrase} {...rest} />
         break
       case 'Comment':
-        link = <Text {...rest}>“{phrase}”</Text>
+        link = <Text {...rest}>“{decode(phrase)}”</Text>
         break
       default:
         link = <Text {...rest}>{phrase || object.title}</Text>
