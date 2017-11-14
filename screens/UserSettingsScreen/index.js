@@ -117,9 +117,9 @@ class UserSettingsScreen extends React.Component {
 
             {me.plan === 'Free' &&
               <InputDescription>
-                You are currently using {`${me.counts.private_connections} `}
-                out of {`${me.counts.private_connections_limit} `} available
-                private blocks for free account
+                You are currently using {me.counts.private_connections} out of {
+                  me.counts.private_connections_limit
+                } available private blocks for free account
               </InputDescription>
             }
           </Section>

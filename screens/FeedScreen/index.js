@@ -16,7 +16,11 @@ class FeedScreen extends React.Component {
 
     if (loading || error) return
 
-    const { is_confirmed, unconfirmed_email } = alerts
+    const {
+      is_confirmed,
+      unconfirmed_email,
+      is_exceeding_private_connections_limit,
+    } = alerts
 
     if (!is_confirmed) {
       sendAlert({
@@ -31,6 +35,14 @@ class FeedScreen extends React.Component {
         id: 'feed:unconfirmed_email',
         type: 'confirmation',
         children: `Please check your email to confirm ${unconfirmed_email}`,
+      })
+    }
+
+    if (is_exceeding_private_connections_limit) {
+      sendAlert({
+        id: 'feed:exceeded_private_connections_limit',
+        type: 'alert',
+        children: 'You’ve reached your limit of free private blocks. Upgrade to premium to remove this limit.',
       })
     }
   }
@@ -50,6 +62,7 @@ const AlertsQuery = gql`
       id
       is_confirmed
       unconfirmed_email
+      is_exceeding_private_connections_limit
     }
   }
 `
