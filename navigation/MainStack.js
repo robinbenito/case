@@ -163,6 +163,7 @@ const MainNavigator = enhance(StackNavigator)({
   newImage: {
     screen: AddImageScreen,
     navigationOptions: {
+      title: 'Upload Image',
       ...headerNavigationOptions,
     },
   },
@@ -170,6 +171,7 @@ const MainNavigator = enhance(StackNavigator)({
   newLink: {
     screen: AddLinkScreen,
     navigationOptions: {
+      title: 'Add Link',
       ...headerNavigationOptions,
     },
   },

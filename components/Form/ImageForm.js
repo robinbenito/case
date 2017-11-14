@@ -45,23 +45,32 @@ export default class ImageForm extends React.Component {
 
   componentDidUpdate() {
     const {
+      navigation,
       block: {
         title,
+        state,
         description,
-        kind: {
-          image_url: image,
-        },
       },
     } = this.props
 
-    injectButtonWhenDiff({
-      navigation: this.props.navigation,
-      state: this.state,
-      fields: { title, description, image },
-      headerRight: <HeaderRightButton
+    const headerRight = (
+      <HeaderRightButton
         onPress={this.onSubmit}
         text={this.props.submitText}
-      />,
+      />
+    )
+
+    // No need to wait for edit changes
+    if (state === 'pending') {
+      navigation.setOptions({ headerRight })
+      return
+    }
+
+    injectButtonWhenDiff({
+      navigation,
+      state: this.state,
+      fields: { title, description },
+      headerRight,
     })
   }
 
@@ -118,6 +127,7 @@ ImageForm.propTypes = {
   block: PropTypes.shape({
     title: PropTypes.string,
     description: PropTypes.string,
+    state: PropTypes.string,
     kind: PropTypes.shape({
       image_url: PropTypes.string,
     }),
@@ -131,6 +141,7 @@ ImageForm.defaultProps = {
   block: {
     title: '',
     description: '',
+    state: 'pending',
     kind: {
       image_url: '',
     },
