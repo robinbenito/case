@@ -131,9 +131,12 @@ const Checkmark = ArrowForward.extend.attrs({
   color: ${Colors.semantic.text};
 `
 
-export const StackedToggle = ({ active, children, ...rest }) => (
+export const StackedToggle = ({ active, disabled, onPress, children, ...rest }) => (
   <StackedButtonBorder>
-    <StackedButtonHitArea {...rest}>
+    <StackedButtonHitArea
+      onPress={disabled ? () => {} : onPress}
+      {...rest}
+    >
       <StackedButtonLabel>
         {children}
       </StackedButtonLabel>
@@ -150,10 +153,14 @@ export const StackedToggle = ({ active, children, ...rest }) => (
 StackedToggle.propTypes = {
   active: PropTypes.bool.isRequired,
   children: PropTypes.node.isRequired,
+  disabled: PropTypes.bool.isRequired,
+  onPress: PropTypes.func,
 }
 
 StackedToggle.defaultProps = {
   active: false,
+  disabled: false,
+  onPress: () => {},
 }
 
 export const SecondaryButtonLabel = styled.Text`
