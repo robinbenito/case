@@ -79,7 +79,7 @@ class ChannelForm extends React.Component {
 
     navigationService.navigate('channelVisibility', {
       visibility,
-      onVisibilityChange: this.onVisibilityChange,
+      onVisibilityChangeUpdate: this.onVisibilityChange,
     })
   }
 
