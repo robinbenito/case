@@ -10,3 +10,7 @@ export const H2 = styled.Text`
   font-size: ${Typography.fontSize.h2};
   font-weight: ${Typography.fontWeight.semiBold};
 `
+
+export const Strong = styled.Text`
+  font-weight: ${Typography.fontWeight.bold};
+`
