@@ -14,7 +14,7 @@ import UserSettingsScreen from '../screens/UserSettingsScreen'
 import EditChannelScreen from '../screens/EditChannelScreen'
 import EditBlockScreen from '../screens/EditBlockScreen'
 import NewChannelScreen from '../screens/NewChannelScreen'
-import ChannelVisibility from '../components/ChannelVisibility' // TODO: Move this to screens
+import ChannelVisibilityScreen from '../screens/ChannelVisibilityScreen'
 import routesForEditAccountScreens from '../screens/EditAccountScreens/routes'
 
 import AddTextScreen from '../screens/AddTextScreen'
@@ -215,7 +215,7 @@ const MainNavigator = enhance(StackNavigator)({
   },
 
   channelVisibility: {
-    screen: ChannelVisibility,
+    screen: ChannelVisibilityScreen,
     navigationOptions: {
       title: 'Channel Privacy',
       ...headerNavigationOptions,
