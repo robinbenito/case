@@ -6,7 +6,9 @@ import * as is from '../utilities/is'
 
 import { Colors, Units, Typography } from '../constants/Style'
 
-const Button = styled.TouchableOpacity`
+const Button = styled.TouchableOpacity.attrs({
+  activeOpacity: 1,
+})`
   padding-horizontal: ${Units.scale[2]};
 `
 

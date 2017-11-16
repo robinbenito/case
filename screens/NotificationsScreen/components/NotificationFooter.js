@@ -12,7 +12,9 @@ import { H2 } from '../../../components/UI/Texts'
 
 const FOOTER_HEIGHT = 75
 
-const Footer = styled.TouchableOpacity`
+const Footer = styled.TouchableOpacity.attrs({
+  activeOpacity: 1,
+})`
   flex-direction: row;
   justify-content: center;
   align-items: center;

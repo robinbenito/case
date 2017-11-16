@@ -8,7 +8,9 @@ const Tabs = styled.View`
   align-items: center;
 `
 
-const Tab = styled.TouchableOpacity`
+const Tab = styled.TouchableOpacity.attrs({
+  activeOpacity: 1,
+})`
   flex: 1;
   align-items: center;
   justify-content: center;

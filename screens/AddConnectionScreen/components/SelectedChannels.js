@@ -11,7 +11,9 @@ const Container = styled.View`
   flex-wrap: wrap;
 `
 
-const SelectedChannel = styled.TouchableOpacity`
+const SelectedChannel = styled.TouchableOpacity.attrs({
+  activeOpacity: 1,
+})`
   margin-right: ${Units.scale[2]};
   margin-vertical: ${Units.scale[1]};
   border-width: ${Border.borderWidthMedium};

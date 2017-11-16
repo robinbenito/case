@@ -23,7 +23,9 @@ const Badge = styled.View`
   padding-horizontal: ${Units.scale[1]};
 `
 
-const Container = styled.TouchableOpacity`
+const Container = styled.TouchableOpacity.attrs({
+  activeOpacity: 1,
+})`
   padding-horizontal: ${Units.scale[1]};
 `
 

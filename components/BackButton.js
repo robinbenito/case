@@ -7,7 +7,9 @@ import { BaseIcon } from './UI/Icons'
 
 import { Units, Colors } from '../constants/Style'
 
-const Container = styled.TouchableOpacity`
+const Container = styled.TouchableOpacity.attrs({
+  activeOpacity: 1,
+})`
   flex: 1;
   justify-content: center;
   align-items: center;
