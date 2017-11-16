@@ -9,7 +9,9 @@ const PLUS_THICKNESS = 2.5
 const PLUS_SIZE = 66.66
 const PLUS_COLOR = 'black'
 
-const HitArea = styled.TouchableOpacity`
+const HitArea = styled.TouchableOpacity.attrs({
+  activeOpacity: 1,
+})`
   position: absolute;
   bottom: 0;
   right: 0;

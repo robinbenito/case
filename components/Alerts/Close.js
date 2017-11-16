@@ -8,7 +8,9 @@ import { BaseIcon } from '../UI/Icons'
 
 import { dismissAlert } from './index'
 
-const CloseHitArea = styled.TouchableOpacity`
+const CloseHitArea = styled.TouchableOpacity.attrs({
+  activeOpacity: 1,
+})`
   position: absolute;
   top: 0;
   left: 0;

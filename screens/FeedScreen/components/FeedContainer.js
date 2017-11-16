@@ -97,6 +97,7 @@ class FeedContainer extends React.Component {
 
     return (
       <FlatList
+        removeClippedSubviews
         style={{ flexGrow: 1, backgroundColor: 'white' }}
         contentContainerStyle={{ flexGrow: 1, backgroundColor: 'white' }}
         data={me.feed.groups}
