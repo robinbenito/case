@@ -21,7 +21,10 @@
   },
   "ios": {
     "supportsTablet": true,
-    "bundleIdentifier": "na.are.arenaapp"
+    "bundleIdentifier": "na.are.arenaapp",
+    "config": {
+      "usesNonExemptEncryption": false
+    }
   },
   "android": {
     "package": "na.are.arenaapp"
