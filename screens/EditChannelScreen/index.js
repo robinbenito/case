@@ -4,6 +4,7 @@ import { compose, graphql } from 'react-apollo'
 
 import updateChannelMutation from './mutations/updateChannel'
 import removeCollaboratorsMutation from './mutations/removeCollaborators'
+import deleteChannelMutation from './mutations/deleteChannel'
 import editChannelQuery from './queries/editChannel'
 
 import EditChannelForm from './components/EditChannelForm'
@@ -16,6 +17,7 @@ class EditChannelScreen extends Component {
     navigation: PropTypes.object.isRequired,
     updateChannel: PropTypes.func.isRequired,
     removeCollaborators: PropTypes.func.isRequired,
+    deleteChannel: PropTypes.func.isRequired,
   }
 
   render() {
@@ -23,6 +25,7 @@ class EditChannelScreen extends Component {
       navigation,
       updateChannel,
       removeCollaborators,
+      deleteChannel,
       data: { channel },
     } = this.props
 
@@ -31,6 +34,7 @@ class EditChannelScreen extends Component {
         channel={channel}
         updateChannel={updateChannel}
         removeCollaborators={removeCollaborators}
+        deleteChannel={deleteChannel}
         navigation={navigation}
       />
     )
@@ -44,5 +48,6 @@ export default compose(
     options: ownProps => ({ variables: { id: ownProps.navigation.state.params.id } }),
   }),
   graphql(removeCollaboratorsMutation, { name: 'removeCollaborators' }),
+  graphql(deleteChannelMutation, { name: 'deleteChannel' }),
   graphql(updateChannelMutation, { name: 'updateChannel' }),
 )(DecoratedEditChannelScreen)

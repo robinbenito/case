@@ -13,6 +13,7 @@ export default class EditChannelForm extends Component {
     navigation: PropTypes.object.isRequired,
     updateChannel: PropTypes.func.isRequired,
     removeCollaborators: PropTypes.func.isRequired,
+    deleteChannel: PropTypes.func.isRequired,
   }
 
   onSubmit = ({ visibility, ...rest }) => {
@@ -44,6 +45,7 @@ export default class EditChannelForm extends Component {
       channel,
       navigation,
       removeCollaborators,
+      deleteChannel,
     } = this.props
 
     return (
@@ -52,6 +54,7 @@ export default class EditChannelForm extends Component {
         navigation={navigation}
         onSubmit={this.onSubmit}
         removeCollaborators={removeCollaborators}
+        deleteChannel={deleteChannel}
       />
     )
   }

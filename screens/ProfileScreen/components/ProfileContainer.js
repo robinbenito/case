@@ -190,7 +190,7 @@ const ProfileQuery = gql`
   ${UserAvatar.fragments.avatar}
 `
 
-const ProfileContentsQuery = gql`
+export const ProfileContentsQuery = gql`
   query ProfileContentsQuery($id: ID!, $page: Int!, $type: ConnectableTypeEnum){
     user(id: $id) {
       __typename
@@ -214,6 +214,7 @@ const ProfileContainerWithData = compose(
     options: ({ id, page, type }) => ({
       variables: { id, page, type },
       notifyOnNetworkStatusChange: true,
+      fetchPolicy: 'network-only',
     }),
     props: (props) => {
       const { userBlocksData } = props
