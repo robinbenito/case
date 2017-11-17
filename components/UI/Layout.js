@@ -8,6 +8,16 @@ import { HEADER_HEIGHT } from '../Header'
 import Alerts from '../Alerts'
 import { Units, Border } from '../../constants/Style'
 
+export const TouchableFill = styled.TouchableOpacity`
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: ${({ active }) => (active ? '100%' : 100)};
+  height: ${({ active }) => (active ? '100%' : 100)};
+  align-items: center;
+  justify-content: center;
+`
+
 export const AbsoluteFill = styled.View`
   position: absolute;
   top: 0;
