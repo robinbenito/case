@@ -1,37 +1,48 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { compose, graphql } from 'react-apollo'
+
+import updateChannelMutation from './mutations/updateChannel'
+import removeCollaboratorsMutation from './mutations/removeCollaborators'
+import editChannelQuery from './queries/editChannel'
 
 import EditChannelForm from './components/EditChannelForm'
 
-class EditChannelScreen extends Component {
-  constructor(props) {
-    super(props)
+import withLoadingAndErrors from '../../hocs/withLoadingAndErrors'
 
-    this.state = {
-      channel: this.props.navigation.state.params.channel,
-    }
+class EditChannelScreen extends Component {
+  static propTypes = {
+    data: PropTypes.object.isRequired,
+    navigation: PropTypes.object.isRequired,
+    updateChannel: PropTypes.func.isRequired,
+    removeCollaborators: PropTypes.func.isRequired,
   }
 
   render() {
-    const { navigation } = this.props
-    const { channel } = this.state
+    const {
+      navigation,
+      updateChannel,
+      removeCollaborators,
+      data: { channel },
+    } = this.props
 
     return (
       <EditChannelForm
-        id={channel.id}
         channel={channel}
+        updateChannel={updateChannel}
+        removeCollaborators={removeCollaborators}
         navigation={navigation}
       />
     )
   }
 }
 
-EditChannelScreen.propTypes = {
-  navigation: PropTypes.object.isRequired,
-}
+const DecoratedEditChannelScreen = withLoadingAndErrors(EditChannelScreen)
 
-EditChannelScreen.defaultProps = {
-  navigation: {},
-}
-
-export default EditChannelScreen
+export default compose(
+  graphql(editChannelQuery, {
+    options: ownProps => ({ variables: { id: ownProps.navigation.state.params.id } }),
+  }),
+  graphql(removeCollaboratorsMutation, { name: 'removeCollaborators' }),
+  graphql(updateChannelMutation, { name: 'updateChannel' }),
+)(DecoratedEditChannelScreen)

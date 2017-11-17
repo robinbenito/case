@@ -9,8 +9,17 @@ import withLoadingAndErrors from '../../hocs/withLoadingAndErrors'
 
 class ChannelVisibilityScreen extends Component {
   static propTypes = {
-    navigation: PropTypes.object.isRequired,
-    data: PropTypes.object.isRequired,
+    navigation: PropTypes.shape({
+      state: PropTypes.shape({
+        params: PropTypes.shape({
+          visibility: PropTypes.oneOf(['PUBLIC', 'CLOSED', 'PRIVATE']).isRequired,
+          onVisibilityChangeUpdate: PropTypes.func.isRequired,
+        }).isRequired,
+      }).isRequired,
+    }).isRequired,
+    data: PropTypes.shape({
+      me: PropTypes.object.isRequired,
+    }).isRequired,
   }
 
   render() {

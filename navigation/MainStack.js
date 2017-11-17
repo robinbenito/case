@@ -58,7 +58,7 @@ const MainNavigator = enhance(StackNavigator)({
     navigationOptions: ({ navigation }) => ({
       header: <Header
         navigation={navigation}
-        primary={{ title: 'Block' }}
+        primary={{ title: '' }}
         secondary={[
           { title: 'Your profile', key: 'profile' },
           { title: 'Feed', key: 'feed' },

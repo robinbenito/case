@@ -5,7 +5,7 @@ import { gql, graphql } from 'react-apollo'
 import Store from '../../state/Store'
 import { TOGGLE_ADD_MENU } from '../../state/actions'
 
-import ChannelForm from '../../components/Form/ChannelForm/ChannelForm'
+import ChannelForm from '../../components/Form/ChannelForm'
 
 import navigationService from '../../utilities/navigationService'
 import alertErrors from '../../utilities/alertErrors'
@@ -41,6 +41,7 @@ class NewChannelScreen extends Component {
 
     return (
       <ChannelForm
+        mode={'NEW'}
         navigation={navigation}
         onSubmit={this.onSubmit}
       />
