@@ -174,8 +174,8 @@ class ChannelContainer extends React.Component {
                 <BlockItem
                   block={item}
                   onLongPress={this.onBlockLongPress({
+                    channel,
                     block: item,
-                    channel: channel,
                   })}
                   style={{
                     // Ensures margins are even
