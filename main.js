@@ -6,6 +6,8 @@ import gql from 'graphql-tag'
 import { connect } from 'react-redux'
 
 import AddMenu from './components/AddMenu'
+import Modal from './components/Modal'
+import { dismissAlertsOnCurrentRoute } from './components/Alerts'
 
 import createRootNavigator from './navigation/Routes'
 
@@ -17,8 +19,6 @@ import navigationService from './utilities/navigationService'
 import cacheAssetsAsync from './utilities/cacheAssetsAsync'
 import currentUserService from './utilities/currentUserService'
 import { trackPage } from './utilities/analytics'
-
-import { dismissAlertsOnCurrentRoute } from './components/Alerts'
 
 const logo = require('./assets/images/logo.png')
 const searchIcon = require('./assets/images/searchIcon.png')
@@ -42,6 +42,10 @@ const AddMenuWithState = connect(({ routes, ui }) => ({
 const StatusBarWithState = connect(({ ui }) => ({
   hidden: (ui.isAddMenuActive || ui.isHeaderMenuActive),
 }))(StatusBar)
+
+const ModalWithState = connect(({ ui }) => ({
+  ...ui.modal,
+}))(Modal)
 
 class AppContainer extends Component {
   constructor(props) {
@@ -129,6 +133,7 @@ class AppContainer extends Component {
               ref={navigationService.setContainer}
             />
             <AddMenuWithState />
+            <ModalWithState />
           </View>
         </ApolloProvider>
       )

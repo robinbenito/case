@@ -8,9 +8,11 @@ import { ActivityIndicator, FlatList, View } from 'react-native'
 import ChannelHeader from './ChannelHeader'
 import ChannelItem from '../../../components/ChannelItem'
 import BlockItem from '../../../components/BlockItem'
+import BlockModalMenu from '../../../components/BlockModalMenu'
 import { CenterColumn } from '../../../components/UI/Layout'
 import { ButtonLabel, Button } from '../../../components/UI/Buttons'
 import Empty from '../../../components/Empty'
+import { openModal } from '../../../components/Modal'
 
 import withLoadingAndErrors from '../../../hocs/withLoadingAndErrors'
 
@@ -63,6 +65,15 @@ class ChannelContainer extends React.Component {
       if (type !== 'CONNECTION') {
         this.props.blocksData.refetch({ page: 1, type })
       }
+    })
+  }
+
+  onBlockLongPress = ({ block, channel }) => () => {
+    openModal({
+      children: <BlockModalMenu
+        block={block}
+        channel={channel}
+      />,
     })
   }
 
@@ -162,6 +173,10 @@ class ChannelContainer extends React.Component {
               return (
                 <BlockItem
                   block={item}
+                  onLongPress={this.onBlockLongPress({
+                    channel,
+                    block: item,
+                  })}
                   style={{
                     // Ensures margins are even
                     marginLeft: isLeft ? Units.scale[1] : 0,
@@ -186,15 +201,17 @@ export const ChannelQuery = gql`
       id
       title
       description(format: MARKDOWN)
-      ...ChannelHeader
       counts {
         blocks
         channels
         connections
       }
+      ...ChannelHeader
+      ...BlockModalMenuChannel
     }
   }
   ${ChannelHeader.fragments.channelHeader}
+  ${BlockModalMenu.fragments.channel}
 `
 
 const ChannelBlocksQuery = gql`
@@ -204,10 +221,12 @@ const ChannelBlocksQuery = gql`
       id
       blocks(per: 10, page: $page, sort_by: POSITION, direction: DESC, type: $type) {
         ...BlockThumb
+        ...BlockModalMenuBlock
       }
     }
   }
   ${BlockItem.fragments.block}
+  ${BlockModalMenu.fragments.block}
 `
 
 export const ChannelConnectionsQuery = gql`

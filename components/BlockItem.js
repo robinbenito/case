@@ -132,7 +132,7 @@ BlockItem.fragments = {
     fragment BlockThumb on Connectable {
       __typename
       id
-      title(truncate: 30)
+      title
       updated_at(relative: true)
       user {
         id
