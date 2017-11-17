@@ -16,9 +16,7 @@ export const BLOCK_SIZES = {
   '2-up': ((Units.window.width / 2) - (Units.scale[1] * 3)),
 }
 
-const Container = styled.TouchableOpacity.attrs({
-  activeOpacity: 1,
-})`
+const Container = styled.TouchableOpacity`
   width: ${x => BLOCK_SIZES[x.size]};
   height: ${x => BLOCK_SIZES[x.size] + BLOCK_METADATA_HEIGHT};
 `

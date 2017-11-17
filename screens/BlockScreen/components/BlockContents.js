@@ -46,9 +46,7 @@ const BlockContainer = styled.View`
   justify-content: center;
 `
 
-const ScrollToMetadata = styled.TouchableOpacity.attrs({
-  activeOpacity: 1,
-})`
+const ScrollToMetadata = styled.TouchableOpacity`
   width: 100%;
   flex: 1;
   align-items: center;

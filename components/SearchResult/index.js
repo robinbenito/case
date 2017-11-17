@@ -10,9 +10,8 @@ import { Units, Border, Colors } from '../../constants/Style'
 
 import navigationService from '../../utilities/navigationService'
 
-const HitArea = styled.TouchableOpacity.attrs({
-  activeOpacity: 1,
-})``
+const HitArea = styled.TouchableOpacity`
+`
 
 const Container = styled.View`
   justify-content: center;

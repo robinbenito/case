@@ -48,9 +48,7 @@ const SearchIcon = styled(Icon)`
   height: 15;
 `
 
-const Button = styled.TouchableOpacity.attrs({
-  activeOpacity: 1,
-})`
+const Button = styled.TouchableOpacity`
   padding-horizontal: ${Units.scale[2]};
 `
 

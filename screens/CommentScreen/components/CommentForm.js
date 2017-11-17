@@ -22,9 +22,7 @@ const Input = styled.TextInput`
   flex-basis: 80%;
 `
 
-const Submit = styled.TouchableOpacity.attrs({
-  activeOpacity: 1,
-})`
+const Submit = styled.TouchableOpacity`
   flex-basis: 20%;
   align-items: center;
   alin-content; center;

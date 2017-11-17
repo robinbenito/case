@@ -7,9 +7,7 @@ import { BaseIcon } from './Icons'
 
 import { Border, Typography, Units, Colors } from '../../constants/Style'
 
-export const ButtonOutline = styled.TouchableOpacity.attrs({
-  activeOpacity: 1,
-})`
+export const ButtonOutline = styled.TouchableOpacity`
   border-width: ${Border.borderWidthMedium};
   border-radius: ${Border.borderRadius};
   border-color: ${Colors.semantic.text};
@@ -44,9 +42,7 @@ export const StackedButtonBorder = styled.View`
   border-top-width: ${Units.hairlineWidth};
 `
 
-export const StackedButtonHitArea = styled.TouchableOpacity.attrs({
-  activeOpacity: 1,
-})`
+export const StackedButtonHitArea = styled.TouchableOpacity`
   padding-left: ${Units.scale[2]};
   padding-vertical: ${Units.scale[2]};
 `
