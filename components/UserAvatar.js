@@ -5,9 +5,7 @@ import { propType } from 'graphql-anywhere'
 import styled from 'styled-components/native'
 import { Colors, Typography, Units } from '../constants/Style'
 
-const HitArea = styled.TouchableOpacity.attrs({
-  activeOpacity: 1,
-})`
+const HitArea = styled.TouchableOpacity`
   width: ${x => x.size};
 `
 

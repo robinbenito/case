@@ -6,9 +6,7 @@ import { decode } from 'he'
 import { Border, Colors, Typography, Units } from '../constants/Style'
 import navigationService from '../utilities/navigationService'
 
-const Background = styled.TouchableOpacity.attrs({
-  activeOpacity: 1,
-})`
+const Background = styled.TouchableOpacity`
   margin-horizontal: ${Units.scale[2]};
   margin-bottom: ${Units.scale[2]};
   padding-vertical: ${Units.base};

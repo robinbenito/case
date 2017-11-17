@@ -12,9 +12,7 @@ export const ToggleSelect = styled.View`
   background-color: white;
 `
 
-export const ToggleSelectOption = styled.TouchableOpacity.attrs({
-  activeOpacity: 1,
-})`
+export const ToggleSelectOption = styled.TouchableOpacity`
   align-self: center;
   padding-horizontal: ${Units.base};
   padding-vertical: ${Units.scale[2]};

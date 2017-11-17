@@ -24,9 +24,7 @@ const UserNameLink = styled(UserNameText)`
   font-weight: ${Typography.fontWeight.bold};
 `
 
-const Notification = styled.TouchableOpacity.attrs({
-  activeOpacity: 1,
-})`
+const Notification = styled.TouchableOpacity`
   padding-vertical: ${Units.scale[2]};
   padding-right: ${Units.base};
   margin-right: ${Units.scale[1]};

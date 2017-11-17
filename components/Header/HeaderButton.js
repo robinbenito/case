@@ -27,9 +27,7 @@ export const Caret = props => (
   </CaretSpacer>
 )
 
-export const HeaderButton = styled.TouchableOpacity.attrs({
-  activeOpacity: 1,
-})`
+export const HeaderButton = styled.TouchableOpacity`
   border-radius: ${Border.borderRadius};
   background-color: transparent;
   padding-horizontal: ${Units.base};

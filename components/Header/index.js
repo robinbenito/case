@@ -12,9 +12,7 @@ import { SET_HEADER_MENU_VISIBILITY } from '../../state/actions'
 
 export const HEADER_HEIGHT = HEADER_BUTTON_HEIGHT + Units.statusBarHeight
 
-const HeaderModal = styled.TouchableOpacity.attrs({
-  activeOpacity: 1,
-})`
+const HeaderModal = styled.TouchableOpacity`
   position: absolute;
   top: 0;
   right: 0;
