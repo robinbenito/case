@@ -3,16 +3,20 @@ import PropTypes from 'prop-types'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { gql } from 'react-apollo'
 import { propType } from 'graphql-anywhere'
+import { View, Text } from 'react-native'
 
 import HeaderRightButton from '../HeaderRightButton'
 import { Section, Container } from '../UI/Layout'
-import { StackedJumpButton } from '../UI/Buttons'
+import { StackedButton, StackedJumpButton } from '../UI/Buttons'
 import { FieldsetLabel, Fieldset, StackedInput, StackedTextArea } from '../UI/Inputs'
 import CollaboratorsForm from './CollaboratorsForm'
 
 import navigationService from '../../utilities/navigationService'
+import alertErrors from '../../utilities/alertErrors'
 import injectButtonWhenDiff from '../../utilities/injectButtonWhenDiff'
 import { capitalize } from '../../utilities/inflections'
+
+import { Colors } from '../../constants/Style'
 
 class ChannelForm extends React.Component {
   static isAbleToListen = false
@@ -80,6 +84,14 @@ class ChannelForm extends React.Component {
     })
   }
 
+  deleteChannel = () => {
+    const { deleteChannel, channel: { id } } = this.props
+
+    return deleteChannel({ variables: { id } })
+    .then(() => navigationService.navigate('profile'))
+    .catch(alertErrors)
+  }
+
   render() {
     const { channel, removeCollaborators, mode } = this.props
     const { title, description, visibility } = this.state
@@ -87,7 +99,7 @@ class ChannelForm extends React.Component {
     return (
       <Container>
         <KeyboardAwareScrollView>
-          <Section space={4}>
+          <Section spaceT={4} spaceB={4}>
             <FieldsetLabel>
               Title / Description
             </FieldsetLabel>
@@ -114,7 +126,7 @@ class ChannelForm extends React.Component {
             </Fieldset>
           </Section>
 
-          <Section>
+          <Section spaceB={4}>
             <Fieldset>
               <StackedJumpButton label="Privacy" onPress={this.goToChannelVisibilityScreen}>
                 {capitalize(visibility.toLowerCase())}
@@ -123,13 +135,25 @@ class ChannelForm extends React.Component {
           </Section>
 
           {mode === 'EDIT' &&
-            <Section space={4}>
-              <CollaboratorsForm
-                channel={channel}
-                collaborators={channel.collaborators}
-                removeCollaborators={removeCollaborators}
-              />
-            </Section>
+            <View>
+              <Section spaceB={4}>
+                <CollaboratorsForm
+                  channel={channel}
+                  collaborators={channel.collaborators}
+                  removeCollaborators={removeCollaborators}
+                />
+              </Section>
+
+              <Section spaceB={4}>
+                <Fieldset>
+                  <StackedButton onPress={this.deleteChannel}>
+                    <Text style={{ color: Colors.state.alert }}>
+                      Delete channel
+                    </Text>
+                  </StackedButton>
+                </Fieldset>
+              </Section>
+            </View>
           }
         </KeyboardAwareScrollView>
       </Container>
@@ -156,8 +180,9 @@ ChannelForm.propTypes = {
   mode: PropTypes.oneOf(['NEW', 'EDIT']),
   channel: propType(ChannelForm.fragments.channelForm).isRequired,
   navigation: PropTypes.object.isRequired,
-  removeCollaborators: PropTypes.func,
   onSubmit: PropTypes.func.isRequired,
+  removeCollaborators: PropTypes.func,
+  deleteChannel: PropTypes.func,
 }
 
 ChannelForm.defaultProps = {
@@ -170,6 +195,7 @@ ChannelForm.defaultProps = {
     collaborators: [],
   },
   removeCollaborators: () => {},
+  deleteChannel: () => {},
 }
 
 export default ChannelForm

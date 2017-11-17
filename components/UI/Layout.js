@@ -38,6 +38,8 @@ export const RelativeFill = styled.View`
 
 export const Section = styled.View`
   margin-vertical: ${x => Units.scale[x.space || 1]};
+  ${x => x.spaceT && `margin-top: ${Units.scale[x.spaceT]};`}
+  ${x => x.spaceB && `margin-bottom: ${Units.scale[x.spaceB]};`}
   ${x => (x.fill ? 'flex: 1;' : '')}
 `
 

@@ -41,7 +41,7 @@ class NewChannelScreen extends Component {
 
     return (
       <ChannelForm
-        mode={'NEW'}
+        mode="NEW"
         navigation={navigation}
         onSubmit={this.onSubmit}
       />
