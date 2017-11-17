@@ -3,12 +3,23 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
 import { ImagePicker } from 'expo'
 import { CameraRoll, View } from 'react-native'
-import { Border, Typography, Units, Colors } from '../../constants/Style'
-import { AbsoluteFill, BlurredAbsoluteFill, HorizontalRule } from '../UI/Layout'
-import Store from '../../state/Store'
-import { TOGGLE_ADD_MENU } from '../../state/actions'
-import NavigationService from '../../utilities/navigationService'
+
 import AddButton from './AddButton'
+import MenuButtonGroup from '../Menu/MenuButtonGroup'
+import { MenuButtonHitArea, MenuButtonLabel, MenuButtonIcon } from '../Menu/MenuButton'
+import {
+  TouchableFill,
+  AbsoluteFill,
+  BlurredAbsoluteFill,
+  HorizontalRule,
+} from '../UI/Layout'
+
+import Store from '../../state/Store'
+import { TOGGLE_ADD_MENU, CLOSE_ADD_MENU } from '../../state/actions'
+
+import navigationService from '../../utilities/navigationService'
+
+import { Typography, Units, Colors } from '../../constants/Style'
 
 const addIcon = require('./icons/add.png')
 const textIcon = require('./icons/text.png')
@@ -23,27 +34,9 @@ const ADD_MENU_ROUTE_WHITELIST = [
   'profile',
 ]
 
-const AddModal = styled.TouchableOpacity`
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  width: ${({ active }) => (active ? '100%' : 100)};
-  height: ${({ active }) => (active ? '100%' : 100)};
-  align-items: center;
-  justify-content: center;
-`
-
 const BackgroundFill = styled(AbsoluteFill)`
   padding-horizontal: ${Units.base};
   justify-content: flex-end;
-`
-
-const Menu = styled.View`
-  width: 100%;
-  border-color: black;
-  border-radius: ${Border.borderRadius};
-  border-width: 1;
-  background-color: white;
 `
 
 const Cancel = styled.Text`
@@ -56,43 +49,23 @@ const Cancel = styled.Text`
   background-color: transparent;
 `
 
-const ITEM_LINE_HEIGHT = 48
-
-const Item = styled.TouchableOpacity`
-  padding-horizontal: ${Units.scale[3]};
-  flex-direction: row;
-  align-items: center;
-  height: ${ITEM_LINE_HEIGHT};
-`
-
-const Icon = styled.Image`
-  margin-top: 1;
-  width: 25;
-  height: 25;
-  align-self: center;
-  margin-right: ${Units.scale[3]};
-`
-
-const ItemText = styled.Text`
-  font-size: ${Typography.fontSize.smedium};
-  font-weight: ${Typography.fontWeight.medium};
-  color: ${Colors.semantic.text};
-`
-
 export default class AddMenu extends Component {
   newChannel = () => {
-    Store.dispatch({ type: TOGGLE_ADD_MENU })
-    NavigationService.navigate('newChannel')
+    this.closeAddMenu()
+
+    navigationService.navigate('newChannel')
   }
 
   enterText = () => {
-    Store.dispatch({ type: TOGGLE_ADD_MENU })
-    NavigationService.navigate('newText')
+    this.closeAddMenu()
+
+    navigationService.navigate('newText')
   }
 
   pasteLink = () => {
-    Store.dispatch({ type: TOGGLE_ADD_MENU })
-    NavigationService.navigate('newLink')
+    this.closeAddMenu()
+
+    navigationService.navigate('newLink')
   }
 
   uploadImage = async () => {
@@ -100,10 +73,7 @@ export default class AddMenu extends Component {
 
     if (result.cancelled) return
 
-    this.setState({ image: result.uri })
-    const block = { kind: { image_url: result.uri }, title: result.uri.split('/').pop() }
-    Store.dispatch({ type: TOGGLE_ADD_MENU })
-    NavigationService.navigate('newImage', { block })
+    this.handleImageResult(result)
   }
 
   takePhoto = async () => {
@@ -112,22 +82,38 @@ export default class AddMenu extends Component {
     if (result.cancelled) return
 
     CameraRoll.saveToCameraRoll(result.uri)
-    this.setState({ image: result.uri })
-    const block = { kind: { image_url: result.uri }, title: result.uri.split('/').pop() }
-    Store.dispatch({ type: TOGGLE_ADD_MENU })
-    NavigationService.navigate('newImage', { block })
+
+    this.handleImageResult(result)
   }
 
-  toggleAddMenu = () => {
-    Store.dispatch({ type: TOGGLE_ADD_MENU })
+  handleImageResult = (result) => {
+    this.setState({ image: result.uri })
+
+    const title = result.uri.split('/').pop()
+    const block = {
+      title,
+      kind: {
+        image_url: result.uri,
+      },
+    }
+
+    this.closeAddMenu()
+
+    navigationService.navigate('newImage', { block })
   }
+
+  closeAddMenu = () =>
+    Store.dispatch({ type: CLOSE_ADD_MENU })
+
+  toggleAddMenu = () =>
+    Store.dispatch({ type: TOGGLE_ADD_MENU, CLOSE_ADD_MENU })
 
   render() {
     const { active, routes: { current } } = this.props
 
     if (ADD_MENU_ROUTE_WHITELIST.includes(current)) {
       return (
-        <AddModal
+        <TouchableFill
           activeOpacity={1}
           active={active}
           onPress={this.toggleAddMenu}
@@ -143,39 +129,49 @@ export default class AddMenu extends Component {
             <BackgroundFill>
               <BlurredAbsoluteFill />
 
-              <Menu>
-                <Item onPress={this.newChannel}>
-                  <Icon source={addIcon} />
-                  <ItemText>New channel</ItemText>
-                </Item>
+              <MenuButtonGroup>
+                <MenuButtonHitArea onPress={this.newChannel}>
+                  <MenuButtonIcon source={addIcon} />
+                  <MenuButtonLabel>
+                    New channel
+                  </MenuButtonLabel>
+                </MenuButtonHitArea>
 
                 <HorizontalRule />
 
-                <Item onPress={this.enterText}>
-                  <Icon source={textIcon} />
-                  <ItemText>Enter text</ItemText>
-                </Item>
+                <MenuButtonHitArea onPress={this.enterText}>
+                  <MenuButtonIcon source={textIcon} />
+                  <MenuButtonLabel>
+                    Enter text
+                  </MenuButtonLabel>
+                </MenuButtonHitArea>
 
-                <Item onPress={this.pasteLink}>
-                  <Icon source={linkIcon} />
-                  <ItemText>Paste link</ItemText>
-                </Item>
+                <MenuButtonHitArea onPress={this.pasteLink}>
+                  <MenuButtonIcon source={linkIcon} />
+                  <MenuButtonLabel>
+                    Paste link
+                  </MenuButtonLabel>
+                </MenuButtonHitArea>
 
-                <Item onPress={this.uploadImage}>
-                  <Icon source={imageIcon} />
-                  <ItemText>Upload image</ItemText>
-                </Item>
+                <MenuButtonHitArea onPress={this.uploadImage}>
+                  <MenuButtonIcon source={imageIcon} />
+                  <MenuButtonLabel>
+                    Upload image
+                  </MenuButtonLabel>
+                </MenuButtonHitArea>
 
-                <Item onPress={this.takePhoto}>
-                  <Icon source={cameraIcon} />
-                  <ItemText>Take photo</ItemText>
-                </Item>
-              </Menu>
+                <MenuButtonHitArea onPress={this.takePhoto}>
+                  <MenuButtonIcon source={cameraIcon} />
+                  <MenuButtonLabel>
+                    Take photo
+                  </MenuButtonLabel>
+                </MenuButtonHitArea>
+              </MenuButtonGroup>
 
               <Cancel>Cancel</Cancel>
             </BackgroundFill>
           }
-        </AddModal>
+        </TouchableFill>
       )
     }
 
