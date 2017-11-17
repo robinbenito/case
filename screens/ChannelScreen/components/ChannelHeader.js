@@ -103,7 +103,7 @@ class ChannelHeader extends Component {
             {channel.can.manage &&
               <Actions>
                 <SmallButton
-                  onPress={() => navigationService.navigate('editChannel', { channel })}
+                  onPress={() => navigationService.navigate('editChannel', { id: channel.id })}
                 >
                   <SmallButtonLabel accessibilityLabel="Edit">
                     Edit

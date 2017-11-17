@@ -1,17 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { gql, graphql } from 'react-apollo'
+import { gql } from 'react-apollo'
+import { propType } from 'graphql-anywhere'
 
-import HeaderRightButton from '../../HeaderRightButton'
-import { Section, Container } from '../../UI/Layout'
-import { StackedJumpButton, StackedSwipeable } from '../../UI/Buttons'
-import { FieldsetLabel, Fieldset, StackedInput, StackedTextArea } from '../../UI/Inputs'
+import HeaderRightButton from '../HeaderRightButton'
+import { Section, Container } from '../UI/Layout'
+import { StackedJumpButton } from '../UI/Buttons'
+import { FieldsetLabel, Fieldset, StackedInput, StackedTextArea } from '../UI/Inputs'
+import CollaboratorsForm from './CollaboratorsForm'
 
-import navigationService from '../../../utilities/navigationService'
-import injectButtonWhenDiff from '../../../utilities/injectButtonWhenDiff'
-import { capitalize } from '../../../utilities/inflections'
-import alertErrors from '../../../utilities/alertErrors'
+import navigationService from '../../utilities/navigationService'
+import injectButtonWhenDiff from '../../utilities/injectButtonWhenDiff'
+import { capitalize } from '../../utilities/inflections'
 
 class ChannelForm extends React.Component {
   static isAbleToListen = false
@@ -19,11 +20,20 @@ class ChannelForm extends React.Component {
   constructor(props) {
     super(props)
 
+    const {
+      channel: {
+        title,
+        description,
+        visibility,
+        collaborators,
+      },
+    } = props
+
     this.state = {
-      title: '',
-      description: '',
-      visibility: 'CLOSED',
-      collaborators: [],
+      title,
+      description,
+      visibility,
+      collaborators,
     }
   }
 
@@ -61,38 +71,17 @@ class ChannelForm extends React.Component {
     this.setState({ visibility: value.toUpperCase() })
   }
 
-  removeCollaborator = id => () => {
-    const { mutate, channel: { id: channel_id } } = this.props
-
-    return mutate({
-      variables: {
-        channel_id,
-        user_ids: [id],
-      },
-    })
-
-    .catch(alertErrors)
-  }
-
   goToChannelVisibilityScreen = () => {
     const { visibility } = this.state
 
     navigationService.navigate('channelVisibility', {
-      visibility,
+      visibility: visibility.toUpperCase(),
       onVisibilityChangeUpdate: this.onVisibilityChange,
     })
   }
 
-  goToAddCollaboratorsScreen = () => {
-    const { channel: { id } } = this.props
-
-    navigationService.navigate('addCollaborators', {
-      channel_id: id,
-    })
-  }
-
   render() {
-    const { channel } = this.props
+    const { channel, removeCollaborators, mode } = this.props
     const { title, description, visibility } = this.state
 
     return (
@@ -133,37 +122,13 @@ class ChannelForm extends React.Component {
             </Fieldset>
           </Section>
 
-          {channel.collaborators &&
+          {mode === 'EDIT' &&
             <Section space={4}>
-              <FieldsetLabel>
-                Collaborators
-              </FieldsetLabel>
-
-              <Fieldset>
-                <StackedJumpButton
-                  onPress={this.goToAddCollaboratorsScreen}
-                >
-                  + Add collaborators
-                </StackedJumpButton>
-
-                {channel.collaborators.length > 0 &&
-                  channel.collaborators.map(collaborator => (
-                    <StackedSwipeable
-                      key={collaborator.id}
-                      right={[
-                        {
-                          text: 'Delete',
-                          backgroundColor: 'red',
-                          color: 'white',
-                          onPress: this.removeCollaborator(collaborator.id),
-                        },
-                      ]}
-                    >
-                      {collaborator.name}
-                    </StackedSwipeable>
-                  ))
-                }
-              </Fieldset>
+              <CollaboratorsForm
+                channel={channel}
+                collaborators={channel.collaborators}
+                removeCollaborators={removeCollaborators}
+              />
             </Section>
           }
         </KeyboardAwareScrollView>
@@ -180,34 +145,31 @@ ChannelForm.fragments = {
       description
       visibility
       collaborators {
-        id
-        name
+        ...CollaboratorsFormCollaborator
       }
     }
+    ${CollaboratorsForm.fragments.collaborator}
   `,
 }
 
 ChannelForm.propTypes = {
-  channel: PropTypes.object,
-  navigation: PropTypes.object,
-  mutate: PropTypes.func.isRequired,
+  mode: PropTypes.oneOf(['NEW', 'EDIT']),
+  channel: propType(ChannelForm.fragments.channelForm).isRequired,
+  navigation: PropTypes.object.isRequired,
+  removeCollaborators: PropTypes.func,
   onSubmit: PropTypes.func.isRequired,
 }
 
 ChannelForm.defaultProps = {
-  channel: {},
-  navigation: {},
+  mode: 'EDIT',
+  channel: {
+    id: 0,
+    title: '',
+    description: '',
+    visibility: 'CLOSED',
+    collaborators: [],
+  },
+  removeCollaborators: () => {},
 }
 
-const RemoveCollaboratorsMutation = gql`
-  mutation removeCollaboratorsMutation($user_ids: [ID]!, $channel_id: ID!){
-    remove_collaborators(input: { user_ids: $user_ids, channel_id: $channel_id }) {
-      channel {
-        ...ChannelForm
-      }
-    }
-  }
-  ${ChannelForm.fragments.channelForm}
-`
-
-export default graphql(RemoveCollaboratorsMutation)(ChannelForm)
+export default ChannelForm
