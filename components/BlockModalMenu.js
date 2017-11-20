@@ -131,7 +131,7 @@ class BlockModalMenu extends Component {
         {block.connection.can.destroy &&
           <View>
             <HorizontalRule />
-            <MenuButton onPress={this.deleteConnection} numOfLines={1}>
+            <MenuButton onPress={this.deleteConnection}>
               Remove from {channel.title}
             </MenuButton>
           </View>

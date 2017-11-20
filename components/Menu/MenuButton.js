@@ -22,7 +22,9 @@ export const MenuButtonIcon = styled.Image`
   margin-right: ${Units.scale[3]};
 `
 
-export const MenuButtonLabel = styled.Text`
+export const MenuButtonLabel = styled.Text.attrs({
+  numberOfLines: 1,
+})`
   font-size: ${Typography.fontSize.smedium};
   font-weight: ${Typography.fontWeight.medium};
   color: ${Colors.semantic.text};
