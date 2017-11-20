@@ -36,6 +36,9 @@ export default class LinkForm extends Component {
   }
 
   componentDidUpdate() {
+    // TODO: Refactor injectButtonWhenDiff to optionally take a validation rule
+    // instead of simply comparing the difference of two states.
+    // (i.e. is string a URL?)
     if (this.state.source_url && isURL(this.state.source_url)) {
       this.props.navigation.setOptions({
         headerRight: (
