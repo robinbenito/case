@@ -89,6 +89,7 @@ export default class TextForm extends Component {
                 onChangeText={this.onChangeText('title')}
                 value={title}
                 returnKeyType="next"
+                clearButtonMode="while-editing"
                 onSubmitEditing={() => {
                   this.DescriptionInput.focus()
                 }}
