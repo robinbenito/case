@@ -24,12 +24,8 @@ class NewChannelScreen extends Component {
           },
         } = data
 
-        Store.dispatch({ type: TOGGLE_ADD_MENU })
-
         navigationService.reset('channel', {
-          id,
-          title,
-          color: Colors.channel[visibility],
+          id, title, color: Colors.channel[visibility],
         })
       })
 
