@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { View } from 'react-native'
 import { pickBy } from 'lodash'
@@ -80,38 +80,42 @@ ProfileAction.propTypes = {
   isTheCurrentUser: PropTypes.bool.isRequired,
 }
 
-const ProfileHeader = ({ user, type, onToggle, isTheCurrentUser }) => {
-  let TAB_OPTIONS = {
-    [pluralize(user.counts.channels, 'Channel')]: 'CHANNEL',
-    [pluralize(user.counts.blocks, 'Block')]: 'BLOCK',
-  }
+class ProfileHeader extends Component {
+  render() {
+    const { user, type, onToggle, isTheCurrentUser } = this.props
 
-  // Remove blocks tab if there are none
-  if (user.counts.blocks === 0) {
-    TAB_OPTIONS = pickBy(TAB_OPTIONS, value => value !== 'BLOCK')
-  }
+    let TAB_OPTIONS = {
+      [pluralize(user.counts.channels, 'Channel')]: 'CHANNEL',
+      [pluralize(user.counts.blocks, 'Block')]: 'BLOCK',
+    }
 
-  return (
-    <Container>
-      <Header>
-        <Avatar user={user} />
-        <Blurb>
-          <Name>{user.name}</Name>
-          <Bio value={user.bio || '<p>—</p>'} />
-        </Blurb>
+    // Remove blocks tab if there are none
+    if (user.counts.blocks === 0) {
+      TAB_OPTIONS = pickBy(TAB_OPTIONS, value => value !== 'BLOCK')
+    }
 
-        <ProfileAction
-          user={user}
-          isTheCurrentUser={isTheCurrentUser}
+    return (
+      <Container>
+        <Header>
+          <Avatar user={user} />
+          <Blurb>
+            <Name>{user.name}</Name>
+            <Bio value={user.bio || '<p>—</p>'} />
+          </Blurb>
+
+          <ProfileAction
+            user={user}
+            isTheCurrentUser={isTheCurrentUser}
+          />
+        </Header>
+        <TabToggle
+          selectedSegment={type}
+          onToggleChange={onToggle}
+          options={TAB_OPTIONS}
         />
-      </Header>
-      <TabToggle
-        selectedSegment={type}
-        onToggleChange={onToggle}
-        options={TAB_OPTIONS}
-      />
-    </Container>
-  )
+      </Container>
+    )
+  }
 }
 
 ProfileHeader.propTypes = {
