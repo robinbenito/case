@@ -63,16 +63,16 @@ class AppContainer extends Component {
   }
 
   onNavigationStateChange = (prevState, currentState) => {
-    const currentScreen = getCurrentRouteName(currentState)
+    const currentRoute = getCurrentRouteName(currentState)
     const prevScreen = getCurrentRouteName(prevState)
 
     Store.dispatch({
       type: SET_CURRENT_ROUTE,
-      current: currentScreen,
+      currentRoute,
     })
 
-    if (prevScreen !== currentScreen) {
-      trackPage({ page: currentScreen })
+    if (prevScreen !== currentRoute) {
+      trackPage({ page: currentRoute })
 
       dismissAlertsOnCurrentRoute()
     }
@@ -121,7 +121,7 @@ class AppContainer extends Component {
 
       Store.dispatch({
         type: SET_CURRENT_ROUTE,
-        current: initialRouteName,
+        currentRoute: initialRouteName,
       })
 
       return (

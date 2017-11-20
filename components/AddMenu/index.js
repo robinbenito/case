@@ -107,9 +107,9 @@ export default class AddMenu extends Component {
     Store.dispatch({ type: TOGGLE_ADD_MENU, CLOSE_ADD_MENU })
 
   render() {
-    const { active, routes: { current } } = this.props
+    const { active, routes: { currentRoute } } = this.props
 
-    if (ADD_MENU_ROUTE_WHITELIST.includes(current)) {
+    if (ADD_MENU_ROUTE_WHITELIST.includes(currentRoute)) {
       return (
         <TouchableFill
           activeOpacity={1}
@@ -180,7 +180,7 @@ export default class AddMenu extends Component {
 AddMenu.propTypes = {
   active: PropTypes.bool.isRequired,
   routes: PropTypes.shape({
-    current: PropTypes.string,
+    currentRoute: PropTypes.string.isRequired,
   }).isRequired,
 }
 

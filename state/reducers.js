@@ -16,7 +16,7 @@ import {
 
 const INITIAL_STATES = {
   routes: {
-    current: null,
+    currentRoute: null,
   },
 
   ui: {
@@ -32,11 +32,10 @@ const INITIAL_STATES = {
   },
 }
 
-export const routes = (state = INITIAL_STATES.routes, { type, current }) => {
-  switch (type) {
+export const routes = (state = INITIAL_STATES.routes, action) => {
+  switch (action.type) {
     case SET_CURRENT_ROUTE:
-      return { ...state, current }
-
+      return { ...state, currentRoute: action.currentRoute }
     default:
       return state
   }
