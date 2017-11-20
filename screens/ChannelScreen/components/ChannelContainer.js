@@ -262,19 +262,19 @@ const DecoratedChannelContainer = withLoadingAndErrors(ChannelContainer, {
 const ChannelContainerWithData = compose(
   graphql(ChannelQuery, {
     options: {
-      fetchPolicy: 'network-only',
+      fetchPolicy: 'cache-and-network',
     },
   }),
   graphql(ChannelConnectionsQuery, {
     name: 'connectionsData',
-    fetchPolicy: 'network-only',
+    fetchPolicy: 'cache-and-network',
   }),
   graphql(ChannelBlocksQuery, {
     name: 'blocksData',
     options: ({ id, page, type }) => ({
       variables: { id, page, type },
       notifyOnNetworkStatusChange: true,
-      fetchPolicy: 'network-only',
+      fetchPolicy: 'cache-and-network',
     }),
     props: (props) => {
       const { blocksData } = props

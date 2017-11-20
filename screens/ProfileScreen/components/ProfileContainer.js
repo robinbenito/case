@@ -212,7 +212,7 @@ const DecoratedProfileContainer = withLoadingAndErrors(ProfileContainer, {
 const ProfileContainerWithData = compose(
   graphql(ProfileQuery, {
     options: {
-      fetchPolicy: 'network-only',
+      fetchPolicy: 'cache-and-network',
     },
   }),
   graphql(ProfileContentsQuery, {
@@ -220,7 +220,7 @@ const ProfileContainerWithData = compose(
     options: ({ id, page, type }) => ({
       variables: { id, page, type },
       notifyOnNetworkStatusChange: true,
-      fetchPolicy: 'network-only',
+      fetchPolicy: 'cache-and-network',
     }),
     props: (props) => {
       const { userBlocksData } = props
