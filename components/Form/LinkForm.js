@@ -8,8 +8,6 @@ import { Container, Section } from '../UI/Layout'
 import { FieldsetLabel, Fieldset, StackedInput, StackedTextArea } from '../UI/Inputs'
 import { sendAlert, dismissAllAlerts } from '../Alerts'
 
-import injectButtonWhenDiff from '../../utilities/injectButtonWhenDiff'
-
 export default class LinkForm extends Component {
   constructor(props) {
     super(props)
@@ -31,26 +29,24 @@ export default class LinkForm extends Component {
     }
   }
 
-  componentDidUpdate() {
-    const {
-      block: {
-        title,
-        description,
-        source: {
-          url: source_url,
-        },
-      },
-    } = this.props
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.block && nextProps.block.source && nextProps.block.source.url) {
+      this.setState({ source_url: nextProps.block.source.url })
+    }
+  }
 
-    injectButtonWhenDiff({
-      navigation: this.props.navigation,
-      state: this.state,
-      fields: { title, description, source_url },
-      headerRight: <HeaderRightButton
-        onPress={this.onSubmit}
-        text={this.props.submitText}
-      />,
-    })
+  componentDidUpdate() {
+    if (this.state.source_url && isURL(this.state.source_url)) {
+      this.props.navigation.setOptions({
+        headerRight: (
+          <HeaderRightButton onPress={this.onSubmit} text={this.props.submitText} />
+        ),
+      })
+    } else {
+      this.props.navigation.setOptions({
+        headerRight: null,
+      })
+    }
   }
 
   onChangeText = key => (value) => {
@@ -146,7 +142,9 @@ LinkForm.propTypes = {
   block: PropTypes.shape({
     title: PropTypes.string,
     description: PropTypes.string,
-    source_url: PropTypes.string,
+    source: PropTypes.shape({
+      url: '',
+    }),
   }),
 }
 
