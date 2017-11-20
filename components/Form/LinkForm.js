@@ -117,6 +117,7 @@ export default class LinkForm extends Component {
                   onChangeText={this.onChangeText('title')}
                   value={title}
                   returnKeyType="next"
+                  clearButtonMode="while-editing"
                 />
 
                 <StackedTextArea
