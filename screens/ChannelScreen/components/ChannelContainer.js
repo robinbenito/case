@@ -195,7 +195,7 @@ class ChannelContainer extends React.Component {
 }
 
 export const ChannelQuery = gql`
-  query ChannelQuery($id: ID!){
+  query ChannelQuery($id: ID!) {
     channel(id: $id) {
       __typename
       id
@@ -214,8 +214,8 @@ export const ChannelQuery = gql`
   ${BlockModalMenu.fragments.channel}
 `
 
-const ChannelBlocksQuery = gql`
-  query ChannelBlocksQuery($id: ID!, $page: Int!, $type: ConnectableTypeEnum){
+export const ChannelBlocksQuery = gql`
+  query ChannelBlocksQuery($id: ID!, $page: Int!, $type: ConnectableTypeEnum) {
     channel(id: $id) {
       __typename
       id
@@ -230,7 +230,7 @@ const ChannelBlocksQuery = gql`
 `
 
 export const ChannelConnectionsQuery = gql`
-  query ChannelBlocksQuery($id: ID!){
+  query ChannelBlocksQuery($id: ID!) {
     channel(id: $id) {
       __typename
       id
@@ -260,13 +260,21 @@ const DecoratedChannelContainer = withLoadingAndErrors(ChannelContainer, {
 })
 
 const ChannelContainerWithData = compose(
-  graphql(ChannelQuery),
-  graphql(ChannelConnectionsQuery, { name: 'connectionsData' }),
+  graphql(ChannelQuery, {
+    options: {
+      fetchPolicy: 'network-only',
+    },
+  }),
+  graphql(ChannelConnectionsQuery, {
+    name: 'connectionsData',
+    fetchPolicy: 'network-only',
+  }),
   graphql(ChannelBlocksQuery, {
     name: 'blocksData',
     options: ({ id, page, type }) => ({
       variables: { id, page, type },
       notifyOnNetworkStatusChange: true,
+      fetchPolicy: 'network-only',
     }),
     props: (props) => {
       const { blocksData } = props
