@@ -1,6 +1,6 @@
 import React from 'react'
 import gql from 'graphql-tag'
-import { graphql, compose, withApollo } from 'react-apollo'
+import { graphql, compose } from 'react-apollo'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
 import { ActivityIndicator, FlatList, View } from 'react-native'
@@ -108,6 +108,7 @@ class ProfileContainer extends React.Component {
     const shouldShowChannel = type === 'CHANNEL'
     const columnCount = shouldShowChannel ? 1 : 2
     const columnStyle = columnCount > 1 ? { justifyContent: 'space-around' } : false
+
     const currentUser = CurrentUser.sync.get()
     const isTheCurrentUser = currentUser && currentUser.id === data.user.id
 
@@ -191,7 +192,7 @@ const ProfileQuery = gql`
 `
 
 export const ProfileContentsQuery = gql`
-  query ProfileContentsQuery($id: ID!, $page: Int!, $type: ConnectableTypeEnum){
+  query ProfileContentsQuery($id: ID!, $page: Int!, $type: ConnectableTypeEnum) {
     user(id: $id) {
       __typename
       id
@@ -205,10 +206,15 @@ export const ProfileContentsQuery = gql`
 
 const DecoratedProfileContainer = withLoadingAndErrors(ProfileContainer, {
   errorMessage: 'Error getting profile',
+  dataKeys: ['data', 'userBlocksData'],
 })
 
 const ProfileContainerWithData = compose(
-  graphql(ProfileQuery),
+  graphql(ProfileQuery, {
+    options: {
+      fetchPolicy: 'network-only',
+    },
+  }),
   graphql(ProfileContentsQuery, {
     name: 'userBlocksData',
     options: ({ id, page, type }) => ({
@@ -249,4 +255,4 @@ const ProfileContainerWithData = compose(
   }),
 )(DecoratedProfileContainer)
 
-export default withApollo(ProfileContainerWithData)
+export default ProfileContainerWithData
