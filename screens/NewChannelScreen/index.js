@@ -2,9 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { gql, graphql } from 'react-apollo'
 
-import Store from '../../state/Store'
-import { TOGGLE_ADD_MENU } from '../../state/actions'
-
 import ChannelForm from '../../components/Form/ChannelForm'
 
 import navigationService from '../../utilities/navigationService'
