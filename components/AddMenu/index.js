@@ -89,9 +89,7 @@ export default class AddMenu extends Component {
   handleImageResult = (result) => {
     this.setState({ image: result.uri })
 
-    const title = result.uri.split('/').pop()
     const block = {
-      title,
       kind: {
         image_url: result.uri,
       },
