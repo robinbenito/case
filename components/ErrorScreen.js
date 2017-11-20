@@ -4,7 +4,7 @@ import formatErrors from '../utilities/formatErrors'
 import { RelativeFill } from './UI/Layout'
 import { ErrorMessage, StatusMessage } from './UI/Alerts'
 
-const ErrorScreen = ({ message, error, ...rest }) => (
+const ErrorScreen = ({ message, errors, ...rest }) => (
   <RelativeFill {...rest}>
     {message &&
       <StatusMessage>
@@ -13,14 +13,14 @@ const ErrorScreen = ({ message, error, ...rest }) => (
     }
 
     <ErrorMessage>
-      {formatErrors(error)}
+      {formatErrors(errors)}
     </ErrorMessage>
   </RelativeFill>
 )
 
 ErrorScreen.propTypes = {
   message: PropTypes.node,
-  error: PropTypes.object.isRequired,
+  errors: PropTypes.arrayOf(PropTypes.object).isRequired,
 }
 
 ErrorScreen.defaultProps = {

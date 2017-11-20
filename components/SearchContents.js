@@ -60,7 +60,7 @@ class SearchContents extends React.Component {
     if (error) {
       return (
         <ErrorScreen
-          error={error}
+          errors={[error]}
         />
       )
     }

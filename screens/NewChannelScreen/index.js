@@ -2,9 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { gql, graphql } from 'react-apollo'
 
-import Store from '../../state/Store'
-import { TOGGLE_ADD_MENU } from '../../state/actions'
-
 import ChannelForm from '../../components/Form/ChannelForm'
 
 import navigationService from '../../utilities/navigationService'
@@ -24,12 +21,8 @@ class NewChannelScreen extends Component {
           },
         } = data
 
-        Store.dispatch({ type: TOGGLE_ADD_MENU })
-
         navigationService.reset('channel', {
-          id,
-          title,
-          color: Colors.channel[visibility],
+          id, title, color: Colors.channel[visibility],
         })
       })
 

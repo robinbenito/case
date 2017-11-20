@@ -1,38 +1,27 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import { compact, some, map, pick } from 'lodash'
 
 import ErrorScreen from '../components/ErrorScreen'
 import LoadingScreen from '../components/LoadingScreen'
 
-export default (WrappedComponent, { errorMessage } = {}) => {
+const DEFAULT_KEYS = ['data']
+
+export default (WrappedComponent, { errorMessage, dataKeys = DEFAULT_KEYS } = {}) => {
   class WithLoadingAndErrors extends Component {
-    static propTypes = {
-      data: PropTypes.shape({
-        error: PropTypes.object,
-        loading: PropTypes.bool.isRequired,
-      }).isRequired,
-    }
-
-    static defaultProps = {
-      data: {
-        error: null,
-        loading: true,
-      },
-    }
-
     render() {
-      // TODO: Support multiple data sources
-      const { data: { loading, error } } = this.props
+      const datums = pick(this.props, dataKeys)
+      const isLoading = some(map(datums, 'loading'))
+      const errors = compact(map(datums, 'error'))
 
-      if (loading) {
+      if (isLoading) {
         return <LoadingScreen />
       }
 
-      if (error) {
+      if (errors.length > 0) {
         return (
           <ErrorScreen
             message={errorMessage}
-            error={error}
+            errors={errors}
           />
         )
       }
