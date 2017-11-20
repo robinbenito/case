@@ -13,7 +13,8 @@ import Empty from '../../../components/Empty'
 import { CenterColumn } from '../../../components/UI/Layout'
 import { ButtonLabel, Button } from '../../../components/UI/Buttons'
 
-import withLoadingAndErrors from '../../../hocs/withLoadingAndErrors'
+import withLoading from '../../../hocs/withLoading'
+import withErrors from '../../../hocs/withErrors'
 
 import CurrentUser from '../../../utilities/currentUserService'
 import navigationService from '../../../utilities/navigationService'
@@ -204,10 +205,10 @@ export const ProfileContentsQuery = gql`
   ${BlockItem.fragments.block}
 `
 
-const DecoratedProfileContainer = withLoadingAndErrors(ProfileContainer, {
+const DecoratedProfileContainer = withLoading(withErrors(ProfileContainer, {
   errorMessage: 'Error getting profile',
   dataKeys: ['data', 'userBlocksData'],
-})
+}))
 
 const ProfileContainerWithData = compose(
   graphql(ProfileQuery, {
