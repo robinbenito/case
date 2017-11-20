@@ -103,6 +103,8 @@ export default class ImageForm extends React.Component {
                 onChangeText={this.onChangeText('title')}
                 value={title}
                 returnKeyType="next"
+                clearButtonMode="while-editing"
+                autoFocus
               />
 
               <StackedTextArea
