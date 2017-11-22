@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components/native'
 
-import NavigationService from '../utilities/navigationService'
+import navigationService from '../utilities/navigationService'
 
 import { Units } from '../constants/Style'
 
@@ -11,8 +11,7 @@ const Container = styled.View`
   margin-horizontal: ${Units.scale[2]};
 `
 
-const Button = styled.TouchableWithoutFeedback`
-  background-color: white;
+const Button = styled.TouchableOpacity`
 `
 
 export const Icon = styled.Image.attrs({
@@ -24,9 +23,12 @@ export const Icon = styled.Image.attrs({
   align-self: center;
 `
 
+const navigateToSearch = () =>
+  navigationService.navigate('search')
+
 export default () => (
   <Container>
-    <Button onPress={() => NavigationService.navigate('search')}>
+    <Button onPress={navigateToSearch}>
       <Icon />
     </Button>
   </Container>
