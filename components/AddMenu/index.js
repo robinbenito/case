@@ -50,6 +50,16 @@ const Cancel = styled.Text`
 `
 
 export default class AddMenu extends Component {
+  includedContext = () => {
+    const { ability, routes: { currentRoute } } = this.props
+
+    if (currentRoute.routeName === 'channel' && ability.add_to) {
+      return { channel: currentRoute.params }
+    }
+
+    return {}
+  }
+
   newChannel = () => {
     this.closeAddMenu()
 
@@ -59,13 +69,13 @@ export default class AddMenu extends Component {
   enterText = () => {
     this.closeAddMenu()
 
-    navigationService.navigate('newText')
+    navigationService.navigate('newText', this.includedContext())
   }
 
   pasteLink = () => {
     this.closeAddMenu()
 
-    navigationService.navigate('newLink')
+    navigationService.navigate('newLink', this.includedContext())
   }
 
   uploadImage = async () => {
@@ -97,93 +107,96 @@ export default class AddMenu extends Component {
 
     this.closeAddMenu()
 
-    navigationService.navigate('newImage', { block })
+    navigationService.navigate('newImage', { block, ...this.includedContext() })
   }
 
   closeAddMenu = () =>
     Store.dispatch({ type: CLOSE_ADD_MENU })
 
   toggleAddMenu = () =>
-    Store.dispatch({ type: TOGGLE_ADD_MENU, CLOSE_ADD_MENU })
+    Store.dispatch({ type: TOGGLE_ADD_MENU })
 
   render() {
-    const { active, routes: { currentRoute } } = this.props
+    const { active, routes: { currentRoute: { routeName } } } = this.props
 
-    if (ADD_MENU_ROUTE_WHITELIST.includes(currentRoute)) {
-      return (
-        <TouchableFill
-          activeOpacity={1}
-          active={active}
-          onPress={this.toggleAddMenu}
-        >
-          {!active &&
-            <AddButton
-              active={active}
-              onPress={this.toggleAddMenu}
-            />
-          }
+    if (!ADD_MENU_ROUTE_WHITELIST.includes(routeName)) return <View />
 
-          {active &&
-            <BackgroundFill>
-              <BlurredAbsoluteFill />
+    return (
+      <TouchableFill
+        activeOpacity={1}
+        active={active}
+        onPress={this.toggleAddMenu}
+      >
+        {!active &&
+          <AddButton
+            active={active}
+            onPress={this.toggleAddMenu}
+          />
+        }
 
-              <MenuButtonGroup>
-                <MenuButtonHitArea onPress={this.newChannel}>
-                  <MenuButtonIcon source={addIcon} />
-                  <MenuButtonLabel>
-                    New channel
-                  </MenuButtonLabel>
-                </MenuButtonHitArea>
+        {active &&
+          <BackgroundFill>
+            <BlurredAbsoluteFill />
 
-                <HorizontalRule />
+            <MenuButtonGroup>
+              <MenuButtonHitArea onPress={this.newChannel}>
+                <MenuButtonIcon source={addIcon} />
+                <MenuButtonLabel>
+                  New channel
+                </MenuButtonLabel>
+              </MenuButtonHitArea>
 
-                <MenuButtonHitArea onPress={this.enterText}>
-                  <MenuButtonIcon source={textIcon} />
-                  <MenuButtonLabel>
-                    Enter text
-                  </MenuButtonLabel>
-                </MenuButtonHitArea>
+              <HorizontalRule />
 
-                <MenuButtonHitArea onPress={this.pasteLink}>
-                  <MenuButtonIcon source={linkIcon} />
-                  <MenuButtonLabel>
-                    Paste link
-                  </MenuButtonLabel>
-                </MenuButtonHitArea>
+              <MenuButtonHitArea onPress={this.enterText}>
+                <MenuButtonIcon source={textIcon} />
+                <MenuButtonLabel>
+                  Enter text
+                </MenuButtonLabel>
+              </MenuButtonHitArea>
 
-                <MenuButtonHitArea onPress={this.uploadImage}>
-                  <MenuButtonIcon source={imageIcon} />
-                  <MenuButtonLabel>
-                    Upload image
-                  </MenuButtonLabel>
-                </MenuButtonHitArea>
+              <MenuButtonHitArea onPress={this.pasteLink}>
+                <MenuButtonIcon source={linkIcon} />
+                <MenuButtonLabel>
+                  Paste link
+                </MenuButtonLabel>
+              </MenuButtonHitArea>
 
-                <MenuButtonHitArea onPress={this.takePhoto}>
-                  <MenuButtonIcon source={cameraIcon} />
-                  <MenuButtonLabel>
-                    Take photo
-                  </MenuButtonLabel>
-                </MenuButtonHitArea>
-              </MenuButtonGroup>
+              <MenuButtonHitArea onPress={this.uploadImage}>
+                <MenuButtonIcon source={imageIcon} />
+                <MenuButtonLabel>
+                  Upload image
+                </MenuButtonLabel>
+              </MenuButtonHitArea>
 
-              <Cancel>Cancel</Cancel>
-            </BackgroundFill>
-          }
-        </TouchableFill>
-      )
-    }
+              <MenuButtonHitArea onPress={this.takePhoto}>
+                <MenuButtonIcon source={cameraIcon} />
+                <MenuButtonLabel>
+                  Take photo
+                </MenuButtonLabel>
+              </MenuButtonHitArea>
+            </MenuButtonGroup>
 
-    return <View />
+            <Cancel>Cancel</Cancel>
+          </BackgroundFill>
+        }
+      </TouchableFill>
+    )
   }
 }
 
 AddMenu.propTypes = {
   active: PropTypes.bool.isRequired,
+  ability: PropTypes.object.isRequired,
   routes: PropTypes.shape({
-    currentRoute: PropTypes.string.isRequired,
+    currentRoute: PropTypes.shape({
+      routeName: PropTypes.string.isRequired,
+    }).isRequired,
   }).isRequired,
 }
 
 AddMenu.defaultProps = {
-  routes: {},
+  routes: {
+    currentRoute: {},
+  },
 }
