@@ -25,9 +25,8 @@ const reset = (routeName, params = {}) => {
 }
 
 const getCurrentRoute = (state) => {
-  if (!_container || !_container.state.nav) return null
-
   if (!state) {
+    if (!_container || !_container.state.nav) return null
     return getCurrentRoute(_container.state.nav.routes[_container.state.nav.index])
   }
 
