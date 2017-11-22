@@ -21,6 +21,9 @@ import { Units } from '../../../constants/Style'
 import navigationService from '../../../utilities/navigationService'
 import scrollHeaderVisibilitySensor from '../../../utilities/scrollHeaderVisibilitySensor'
 
+import Store from '../../../state/Store'
+import { SET_CURRENT_ABILITY } from '../../../state/actions'
+
 const Submit = styled(CenterColumn)`
   margin-vertical: ${Units.base};
 `
@@ -37,6 +40,14 @@ class ChannelContainer extends React.Component {
 
   componentDidMount() {
     scrollHeaderVisibilitySensor.dispatch(false)
+  }
+
+  componentWillReceiveProps({ data: { channel } }) {
+    // TODO: How to prevent this from firing after the route is unloaded?
+    Store.dispatch({
+      type: SET_CURRENT_ABILITY,
+      can: channel.can,
+    })
   }
 
   onRefresh = () => {
@@ -205,6 +216,9 @@ export const ChannelQuery = gql`
         blocks
         channels
         connections
+      }
+      can {
+        add_to
       }
       ...ChannelHeader
       ...BlockModalMenuChannel
