@@ -99,6 +99,10 @@ class AppContainer extends Component {
         isStorageChecked: true,
       })
     } catch (err) {
+      // TODO: Log only in dev mode?
+      // `console.error` causes a red screen
+      console.log('checkLoginStateAsync', err)
+
       currentUserService.clear()
 
       this.setState({
