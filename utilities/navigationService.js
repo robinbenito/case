@@ -24,29 +24,25 @@ const reset = (routeName, params = {}) => {
   )
 }
 
-const getCurrentRoute = (route) => {
+const getCurrentRoute = (state) => {
   if (!_container || !_container.state.nav) return null
 
-  if (!route) {
-    const stack = _container.state.nav.routes[_container.state.nav.index] || null
-    const currentRoute = stack.routes[stack.index]
-
-    if (has(currentRoute, 'routes')) return getCurrentRoute(currentRoute.routes)
-
-    return currentRoute
+  if (!state) {
+    return getCurrentRoute(_container.state.nav.routes[_container.state.nav.index])
   }
 
-  if (has(route, 'routes')) return getCurrentRoute(route.routes)
-  if (isArray(route)) return getCurrentRoute(last(route))
+  if (has(state, 'routes') && has(state, 'index')) {
+    return getCurrentRoute(state.routes[state.index])
+  }
 
-  return route
+  return state
 }
 
-const getCurrentParams = () =>
-  (getCurrentRoute() || {}).params
+const getCurrentParams = (state = null) =>
+  (getCurrentRoute(state) || {}).params
 
-const getCurrentRouteName = () =>
-  (getCurrentRoute() || {}).routeName
+const getCurrentRouteName = (state = null) =>
+  (getCurrentRoute(state) || {}).routeName
 
 const back = (key) => {
   _container.dispatch(
