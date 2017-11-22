@@ -23,6 +23,8 @@ import AddLinkScreen from '../screens/AddLinkScreen'
 import AddConnectionsScreen from '../screens/AddConnectionScreen'
 import AddCollaboratorsScreen from '../screens/AddCollaboratorsScreen'
 
+import ProgressScreen from '../screens/ProgressScreen'
+
 import Header from '../components/Header'
 import HeaderIcon from '../screens/FeedScreen/components/HeaderIcons'
 import SearchIcon from '../components/SearchIcon'
@@ -32,6 +34,8 @@ import BackButton from '../components/BackButton'
 import headerNavigationOptions from '../constants/Header'
 
 import navigateOnce from '../utilities/navigateOnce'
+
+import withParams from '../hocs/withParams'
 
 const HeaderWithState = connect(({ ui: { isHeaderTitleVisible } }) => ({
   isHeaderTitleVisible,
@@ -152,8 +156,15 @@ const MainNavigator = enhance(StackNavigator)({
     },
   },
 
+  progress: {
+    screen: withParams(ProgressScreen),
+    navigationOptions: {
+      header: null,
+    },
+  },
+
   newText: {
-    screen: AddTextScreen,
+    screen: withParams(AddTextScreen),
     navigationOptions: {
       title: 'New Text',
       ...headerNavigationOptions,
