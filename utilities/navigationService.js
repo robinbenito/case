@@ -1,6 +1,6 @@
 // NOTE: Adapted from https://github.com/react-community/react-navigation/issues/1439
 
-import { last, has, isArray } from 'lodash'
+import { has } from 'lodash'
 import { NavigationActions } from 'react-navigation'
 
 let _container

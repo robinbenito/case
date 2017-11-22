@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { graphql, compose } from 'react-apollo'
-import { Keyboard, View } from 'react-native'
+import { Keyboard } from 'react-native'
 import styled from 'styled-components/native'
 
 import navigationService from '../../utilities/navigationService'
