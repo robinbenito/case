@@ -140,6 +140,10 @@ export const BlockCommentsQuery = gql`
   ${Comment.fragments.comment}
 `
 
-const BlockCommentsWithData = graphql(BlockCommentsQuery)(BlockComments)
+const BlockCommentsWithData = graphql(BlockCommentsQuery, {
+  options: {
+    fetchPolicy: 'cache-and-network',
+  },
+})(BlockComments)
 
 export default BlockCommentsWithData
