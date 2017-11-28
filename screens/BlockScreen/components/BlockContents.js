@@ -2,10 +2,11 @@ import React from 'react'
 import gql from 'graphql-tag'
 import { compose, graphql } from 'react-apollo'
 import PropTypes from 'prop-types'
-import { ActivityIndicator, Image, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, TouchableOpacity, View } from 'react-native'
 import HTMLView from 'react-native-htmlview'
 import { WebBrowser } from 'expo'
 import styled from 'styled-components/native'
+import Image from 'react-native-image-progress'
 
 import BlockMetadata from './BlockMetadata'
 import BlockTabs from './BlockTabs'
@@ -85,10 +86,11 @@ const TextIcon = styled(BaseIcon)`
   font-size: 24;
 `
 
-const BlockImage = styled(Image)`
+const BlockImage = styled(Image).attrs({
+  resizeMode: 'contain',
+})`
   width: 100%;
   height: 100%;
-  resize-mode: contain;
 `
 
 const ExpandText = ({ block }) => (
