@@ -1,13 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
-
 import styled from 'styled-components/native'
 
-import { NotificationsQuery } from './NotificationContents'
+import NotificationsQuery from '../queries/notifications'
 import { NotificationCountQuery } from '../../../components/NotificationCount'
+
 import { H2 } from '../../../components/UI/Texts'
+
+import alertErrors from '../../../utilities/alertErrors'
+import navigationService from '../../../utilities/navigationService'
+
+import readAllNotificationsMutation from '../mutations/readAllNotifications'
 
 import { Border, Colors, Units } from '../../../constants/Style'
 
@@ -26,27 +30,27 @@ const Headline = styled(H2)`
 `
 class NotificationsFooter extends React.Component {
   clearNotifcations = () => {
-    this.props
-      .mutate({
-        refetchQueries: [
-          {
-            query: NotificationsQuery,
-            variables: {
-              limit: 20,
-              offset: 0,
-            },
+    const { readAllNotifications } = this.props
+
+    readAllNotifications({
+      refetchQueries: [
+        {
+          query: NotificationsQuery,
+          variables: {
+            limit: 20,
+            offset: 0,
           },
-          {
-            query: NotificationCountQuery,
-          },
-        ],
-      })
-      // TODO: Handle errors
-      // TODO: Re-direct back to feed
+        },
+        {
+          query: NotificationCountQuery,
+        },
+      ],
+    })
+      .then(() => navigationService.back())
+      .catch(alertErrors)
   }
 
   render() {
-    // TODO: Only show this when there are unread messages
     return (
       <Footer onPress={this.clearNotifcations}>
         <Headline>Mark all as read</Headline>
@@ -55,18 +59,10 @@ class NotificationsFooter extends React.Component {
   }
 }
 
-export const MarkNotificationsReadMutation = gql`
-  mutation MarkNotificationsAsRead {
-    clear_notifications(input: { confirm: true }) {
-      me {
-        id
-      }
-    }
-  }
-`
-
 NotificationsFooter.propTypes = {
-  mutate: PropTypes.func.isRequired,
+  readAllNotifications: PropTypes.func.isRequired,
 }
 
-export default graphql(MarkNotificationsReadMutation)(NotificationsFooter)
+export default graphql(readAllNotificationsMutation, {
+  name: 'readAllNotifications',
+})(NotificationsFooter)

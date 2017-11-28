@@ -2,9 +2,13 @@ import React from 'react'
 import { Text } from 'react-native'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
+import { gql } from 'react-apollo'
+
 import UserNameText from './UserNameText'
 import FeedWordLink from './FeedWordLink'
+
 import NavigatorService from '../utilities/navigationService'
+
 import { Typography, Units, Colors } from '../constants/Style'
 
 const typeToRoute = (type) => {
@@ -112,6 +116,42 @@ class NotificationSentence extends React.Component {
       </Notification>
     )
   }
+}
+
+NotificationSentence.fragments = {
+  // TODO: Separate out the rest of the fucking fragments...
+  notificationSentence: gql `
+    fragment NotificationSentence on Deed {
+      __typename
+      id
+      bulletin_id
+      is_read
+      user {
+        id
+        name
+        slug
+      }
+      action
+      item_title
+      item {
+        __typename
+        ...ChannelWord
+        ...ConnectableWord
+        ...UserWord
+      }
+      connector
+      target {
+        __typename
+        ...ChannelWord
+        ...ConnectableWord
+        ...UserWord
+      }
+      created_at(relative: true)
+    }
+    ${FeedWordLink.fragments.channel}
+    ${FeedWordLink.fragments.connectable}
+    ${FeedWordLink.fragments.user}
+  `,
 }
 
 NotificationSentence.propTypes = {
