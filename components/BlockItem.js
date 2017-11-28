@@ -5,6 +5,7 @@ import { ActivityIndicator, Text } from 'react-native'
 import { decode } from 'he'
 import styled from 'styled-components/native'
 import { propType } from 'graphql-anywhere'
+import Image from 'react-native-image-progress'
 
 import TruncatedHTML from './TruncatedHTML'
 import BlockItemIcon from './BlockItemIcon'
@@ -33,10 +34,11 @@ const Outline = styled.View`
   overflow: hidden;
 `
 
-const Thumbnail = styled.Image`
+const Thumbnail = styled(Image).attrs({
+  resizeMode: 'contain',
+})`
   width: 100%;
   height: 100%;
-  resize-mode: contain;
 `
 
 const Metadata = styled.View`
