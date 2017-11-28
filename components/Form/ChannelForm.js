@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { gql } from 'react-apollo'
@@ -18,9 +18,7 @@ import { capitalize } from '../../utilities/inflections'
 
 import { Colors } from '../../constants/Style'
 
-class ChannelForm extends React.Component {
-  static isAbleToListen = false
-
+class ChannelForm extends Component {
   constructor(props) {
     super(props)
 
@@ -41,19 +39,24 @@ class ChannelForm extends React.Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({ ...nextProps.channel })
-
-    this.isAbleToListen = true
-  }
-
   componentDidUpdate() {
-    if (!this.isAbleToListen) return
+    const {
+      channel: {
+        title,
+        description,
+        visibility,
+        collaborators,
+      },
+    } = this.props
 
     injectButtonWhenDiff({
-      navigation: this.props.navigation,
       state: this.state,
-      fields: this.props.channel,
+      fields: {
+        title,
+        description,
+        visibility,
+        collaborators,
+      },
       headerRight: <HeaderRightButton
         onPress={this.onSubmit}
         text="Done"
@@ -179,7 +182,6 @@ ChannelForm.fragments = {
 ChannelForm.propTypes = {
   mode: PropTypes.oneOf(['NEW', 'EDIT']),
   channel: propType(ChannelForm.fragments.channelForm).isRequired,
-  navigation: PropTypes.object.isRequired,
   onSubmit: PropTypes.func.isRequired,
   removeCollaborators: PropTypes.func,
   deleteChannel: PropTypes.func,

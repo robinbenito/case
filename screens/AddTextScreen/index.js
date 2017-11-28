@@ -6,7 +6,7 @@ import TextForm from '../../components/Form/TextForm'
 
 import createBlockMutation from '../AddConnectionScreen/mutations/createBlock'
 
-import navigationService from '../../utilities/navigationService'
+import addOrConnect from '../../utilities/addOrConnect'
 
 class AddTextScreen extends Component {
   static propTypes = {
@@ -23,33 +23,12 @@ class AddTextScreen extends Component {
     channel: null,
   }
 
-  onSubmit = ({ title, description, content }) => {
-    const { channel, createBlock } = this.props
-
-    if (channel) {
-      const promise = createBlock({
-        variables: {
-          title,
-          description,
-          content,
-          channel_ids: [channel.id],
-        },
-      })
-
-      navigationService.navigate('progress', {
-        promise,
-        label: `Connecting to ${channel.title}`,
-        done: () =>
-          navigationService.navigate('channel', channel),
-      })
-
-      return promise
-    }
-
-    navigationService.navigate('connect', {
-      title, description, content,
+  onSubmit = ({ title, description, content }) =>
+    addOrConnect({
+      variables: { title, description, content },
+      mutation: this.props.createBlock,
+      channel: this.props.channel,
     })
-  }
 
   render() {
     const { navigation } = this.props

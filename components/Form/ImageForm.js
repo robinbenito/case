@@ -8,6 +8,8 @@ import { Container, Section } from '../UI/Layout'
 import { FieldsetLabel, Fieldset, StackedInput, StackedTextArea } from '../UI/Inputs'
 import { BLOCK_SIZES } from '../BlockItem'
 
+import { updateHeader } from '../SubmittableHeader'
+
 import injectButtonWhenDiff from '../../utilities/injectButtonWhenDiff'
 
 import { Units, Border } from '../../constants/Style'
@@ -43,9 +45,21 @@ export default class ImageForm extends React.Component {
     }
   }
 
+  componentDidMount() {
+    const { block: { state } } = this.props
+
+    if (state !== 'pending') return
+
+    updateHeader({
+      headerRight: <HeaderRightButton
+        onPress={this.onSubmit}
+        text={this.props.submitText}
+      />,
+    })
+  }
+
   componentDidUpdate() {
     const {
-      navigation,
       block: {
         title,
         state,
@@ -53,24 +67,15 @@ export default class ImageForm extends React.Component {
       },
     } = this.props
 
-    const headerRight = (
-      <HeaderRightButton
-        onPress={this.onSubmit}
-        text={this.props.submitText}
-      />
-    )
-
-    // No need to wait for edit changes
-    if (state === 'pending') {
-      navigation.setOptions({ headerRight })
-      return
-    }
+    if (state === 'pending') return
 
     injectButtonWhenDiff({
-      navigation,
       state: this.state,
       fields: { title, description },
-      headerRight,
+      headerRight: <HeaderRightButton
+        onPress={this.onSubmit}
+        text={this.props.submitText}
+      />,
     })
   }
 
@@ -125,7 +130,6 @@ export default class ImageForm extends React.Component {
 ImageForm.propTypes = {
   onSubmit: PropTypes.func,
   submitText: PropTypes.string,
-  navigation: PropTypes.object,
   block: PropTypes.shape({
     title: PropTypes.string,
     description: PropTypes.string,
@@ -138,7 +142,6 @@ ImageForm.propTypes = {
 
 ImageForm.defaultProps = {
   onSubmit: () => null,
-  navigation: {},
   submitText: 'Done',
   block: {
     title: '',

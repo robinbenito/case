@@ -9,12 +9,18 @@ import { FieldsetLabel, Fieldset, StackedInput, StackedTextArea } from '../UI/In
 import injectButtonWhenDiff from '../../utilities/injectButtonWhenDiff'
 
 export default class TextForm extends Component {
-  static isAbleToListen = false
-
   constructor(props) {
     super(props)
 
-    const { block: { title, description, kind: { content } } } = this.props
+    const {
+      block: {
+        title,
+        description,
+        kind: {
+          content,
+        },
+      },
+    } = props
 
     this.state = {
       title,
@@ -25,17 +31,20 @@ export default class TextForm extends Component {
 
   componentWillReceiveProps({ block: { title, description, kind: { content } } }) {
     this.setState({ title, description, content })
-
-    this.isAbleToListen = true
   }
 
   componentDidUpdate() {
-    if (!this.isAbleToListen) return
-
-    const { block: { title, description, kind: { content } } } = this.props
+    const {
+      block: {
+        title,
+        description,
+        kind: {
+          content,
+        },
+      },
+    } = this.props
 
     injectButtonWhenDiff({
-      navigation: this.props.navigation,
       state: this.state,
       fields: { title, description, content },
       headerRight: <HeaderRightButton
@@ -113,7 +122,6 @@ export default class TextForm extends Component {
 TextForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   submitText: PropTypes.string.isRequired,
-  navigation: PropTypes.object.isRequired,
   block: PropTypes.shape({
     title: PropTypes.string,
     description: PropTypes.string,
@@ -126,7 +134,6 @@ TextForm.propTypes = {
 TextForm.defaultProps = {
   onSubmit: () => {},
   submitText: 'Done',
-  navigation: {},
   block: {
     title: '',
     description: '',
