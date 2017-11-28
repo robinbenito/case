@@ -13,6 +13,7 @@ import {
   DISMISS_ROUTE_ALERTS,
   OPEN_MODAL,
   CLOSE_MODAL,
+  UPDATE_HEADER,
  } from './actions'
 
 const INITIAL_STATES = {
@@ -29,6 +30,7 @@ const INITIAL_STATES = {
     isAddMenuActive: false,
     isHeaderMenuActive: false,
     modal: {},
+    header: {},
   },
 
   info: {
@@ -74,6 +76,9 @@ export const ui = (state = INITIAL_STATES.ui, action) => {
 
     case CLOSE_MODAL:
       return { ...state, modal: { active: false } }
+
+    case UPDATE_HEADER:
+      return { ...state, header: { ...action.header } }
 
     default:
       return state
