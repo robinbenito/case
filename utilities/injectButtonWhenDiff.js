@@ -1,11 +1,13 @@
 import { isEqual } from 'lodash'
 
-export default ({ navigation, state, fields, headerRight }) => {
+import { updateHeader } from '../components/SubmittableHeader'
+
+export default ({ state, fields, headerRight }) => {
   if (!isEqual(state, fields)) {
-    navigation.setOptions({ headerRight })
+    updateHeader({ headerRight })
     return true
   }
 
-  navigation.setOptions({ headerRight: null })
+  updateHeader({ headerRight: null })
   return false
 }

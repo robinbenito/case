@@ -31,8 +31,6 @@ const refetchAccountNameQuery = gql`
 `
 
 class EditAccountNameScreen extends React.Component {
-  static isAbleToListen = false
-
   constructor(props) {
     super(props)
 
@@ -46,17 +44,21 @@ class EditAccountNameScreen extends React.Component {
     if (nextProps.data.loading) return
 
     this.setState({ ...nextProps.data.me })
-
-    this.isAbleToListen = true
   }
 
   componentDidUpdate() {
-    if (!this.isAbleToListen) return
+    const {
+      data: {
+        me: {
+          first_name,
+          last_name,
+        },
+      },
+    } = this.props
 
     injectButtonWhenDiff({
-      navigation: this.props.navigation,
       state: this.state,
-      fields: this.props.data.me,
+      fields: { first_name, last_name },
       headerRight: <HeaderRightButton
         onPress={this.onSubmit}
         text="Done"
@@ -125,7 +127,6 @@ class EditAccountNameScreen extends React.Component {
 
 EditAccountNameScreen.propTypes = {
   data: PropTypes.object.isRequired,
-  navigation: PropTypes.object.isRequired,
   mutate: PropTypes.func.isRequired,
 }
 

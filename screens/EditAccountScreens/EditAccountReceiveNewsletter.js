@@ -14,8 +14,6 @@ import { dismissAllAlerts } from '../../components/Alerts'
 import withLoadingAndErrors from '../../hocs/withLoadingAndErrors'
 
 class EditAccountReceiveNewsletterScreen extends React.Component {
-  static isAbleToListen = false
-
   static propTypes = {
     data: PropTypes.object.isRequired,
     mutate: PropTypes.func.isRequired,
