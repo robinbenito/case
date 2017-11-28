@@ -271,6 +271,10 @@ const DecoratedBlockContents = compose(
   pollForBlockAvailability,
 )(BlockContents)
 
-const BlockContentsWithData = graphql(BlockQuery)(DecoratedBlockContents)
+const BlockContentsWithData = graphql(BlockQuery, {
+  options: {
+    fetchPolicy: 'cache-and-network',
+  },
+})(DecoratedBlockContents)
 
 export default BlockContentsWithData
