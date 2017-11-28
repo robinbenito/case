@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
-import { Units } from '../../constants/Style'
+import { connect } from 'react-redux'
+
 import { BlurredAbsoluteFill, AbsoluteFill } from '../UI/Layout'
 import HeaderPullDown from './HeaderPullDown'
 import { HEADER_BUTTON_HEIGHT } from './HeaderButton'
@@ -9,6 +10,8 @@ import BackButton from '../BackButton'
 
 import Store from '../../state/Store'
 import { SET_HEADER_MENU_VISIBILITY } from '../../state/actions'
+
+import { Units } from '../../constants/Style'
 
 export const HEADER_HEIGHT = HEADER_BUTTON_HEIGHT + Units.statusBarHeight
 
@@ -18,7 +21,7 @@ const HeaderModal = styled.TouchableOpacity`
   right: 0;
   left: 0;
   height: ${({ isExpanded }) => (isExpanded ? '100%' : HEADER_HEIGHT)};
-  padding-top: ${Units.statusBarHeight}
+  padding-top: ${Units.statusBarHeight};
   align-items: center;
   justify-content: center;
 `
@@ -41,7 +44,7 @@ const HeaderLeft = styled(HeaderRight)`
   left: 0;
 `
 
-export default class Header extends Component {
+class Header extends Component {
   constructor(props) {
     super(props)
 
@@ -133,3 +136,6 @@ Header.defaultProps = {
   headerLeft: <BackButton />,
   isHeaderTitleVisible: true,
 }
+
+const selector = ({ ui: { isHeaderTitleVisible } }) => ({ isHeaderTitleVisible })
+export default connect(selector)(Header)

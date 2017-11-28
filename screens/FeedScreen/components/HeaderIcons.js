@@ -14,7 +14,9 @@ const Container = styled.View`
 const HeaderIcons = props => (
   <Container>
     <SearchIcon />
-    <NotificationCountWithData onPress={() => props.navigation.navigate('DrawerOpen')} />
+    <NotificationCountWithData
+      onPress={() => props.navigation.navigate('notifications')}
+    />
   </Container>
 )
 

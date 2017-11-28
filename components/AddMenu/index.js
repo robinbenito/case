@@ -28,7 +28,6 @@ const imageIcon = require('./icons/image.png')
 const cameraIcon = require('./icons/camera.png')
 
 const ADD_MENU_ROUTE_WHITELIST = [
-  'main',
   'feed',
   'channel',
   'profile',
