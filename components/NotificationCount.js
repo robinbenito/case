@@ -4,6 +4,7 @@ import { View } from 'react-native'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 import styled from 'styled-components/native'
+import { propType } from 'graphql-anywhere'
 
 import { Typography, Colors, Units, Border } from '../constants/Style'
 
@@ -29,15 +30,24 @@ const Container = styled.TouchableOpacity`
 
 class NotificationCount extends React.Component {
   render() {
-    const { data, onPress } = this.props
+    const {
+      data: {
+        loading,
+        error,
+        me,
+      },
+      onPress,
+    } = this.props
 
-    if (data.loading || data.error) return <View />
+    if (loading || error) return <View />
+
+    const { counts } = me
 
     return (
       <Container onPress={onPress}>
-        <Badge hasUnread={data.me.counts.notifications > 0}>
+        <Badge hasUnread={counts.notifications > 0}>
           <Count>
-            {data.me.counts.notifications}
+            {counts.notifications}
           </Count>
         </Badge>
       </Container>
@@ -45,26 +55,41 @@ class NotificationCount extends React.Component {
   }
 }
 
-export const NotificationCountQuery = gql`
-  query NotificationCountQuery {
-    me {
+NotificationCount.fragments = {
+  unreadNotificationsCount: gql`
+    fragment UnreadNotificationsCount on Me {
       id
       counts {
         notifications
       }
     }
-  }
-`
+  `,
+}
 
 NotificationCount.propTypes = {
-  data: PropTypes.any.isRequired,
+  data: PropTypes.shape({
+    loading: PropTypes.bool.isRequired,
+    error: PropTypes.object,
+    me: propType(NotificationCount.fragments.unreadNotificationsCount),
+  }),
   onPress: PropTypes.func,
 }
 
 NotificationCount.defaultProps = {
-  data: {},
-  onPress: () => null,
+  data: {
+    loading: true,
+  },
+  onPress: null,
 }
+
+export const NotificationCountQuery = gql`
+  query NotificationCountQuery {
+    me {
+      ...UnreadNotificationsCount
+    }
+  }
+  ${NotificationCount.fragments.unreadNotificationsCount}
+`
 
 export default graphql(NotificationCountQuery, {
   options: { pollInterval: 60000 },
