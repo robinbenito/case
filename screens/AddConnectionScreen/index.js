@@ -7,6 +7,7 @@ import styled from 'styled-components/native'
 import navigationService from '../../utilities/navigationService'
 import alertErrors from '../../utilities/alertErrors'
 import params from '../../utilities/params'
+import uploadImageIfPresent from '../../utilities/uploadImageIfPresent'
 
 import SelectedChannels from './components/SelectedChannels'
 import StatusMessage from './components/StatusMessage'
@@ -22,8 +23,6 @@ import createBlockMutation from './mutations/createBlock'
 
 import { BlockConnectionsQuery } from '../../screens/BlockScreen/components/BlockConnections'
 import { BlockQuery } from '../../screens/BlockScreen/components/BlockContents'
-
-import uploadImage from '../../api/uploadImage'
 
 import { Colors, Units } from '../../constants/Style'
 
@@ -129,12 +128,6 @@ class AddConnectionsScreen extends Component {
     return refetchQueries
   }
 
-  maybeUploadImage = () => {
-    const { image } = this.state
-    if (!image) return Promise.resolve()
-    return uploadImage(image)
-  }
-
   connectConnectableTo = (channelIds) => {
     this.setState({ isConnecting: true })
 
@@ -175,9 +168,7 @@ class AddConnectionsScreen extends Component {
       })
     }
 
-    return this
-      .maybeUploadImage()
-
+    return uploadImageIfPresent(this.state.image)
       .then((image) => {
         let variables = { channel_ids: channelIds, title, description }
 
