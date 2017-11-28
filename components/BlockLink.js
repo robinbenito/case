@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Text } from 'react-native'
+import { decode } from 'he'
 import NavigatorService from '../utilities/navigationService'
 
 export default class BlockText extends React.Component {
@@ -17,7 +18,7 @@ export default class BlockText extends React.Component {
     const { phrase, block: { title, kind: { __typename } }, ...rest } = this.props
     return (
       <Text onPress={this.goToBlock} {...rest}>
-        {phrase || title || `${__typename.match(/^[AEIOU]/) ? 'an' : 'a'} ${__typename.toLowerCase()}`}
+        {phrase || decode(title) || `${__typename.match(/^[AEIOU]/) ? 'an' : 'a'} ${__typename.toLowerCase()}`}
       </Text>
     )
   }
