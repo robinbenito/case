@@ -1,12 +1,16 @@
 import React, { Component } from 'react'
 import gql from 'graphql-tag'
 import PropTypes from 'prop-types'
-import { Text } from 'react-native'
+import { ActivityIndicator, Text } from 'react-native'
 import { decode } from 'he'
 import styled from 'styled-components/native'
-import BlockItemIcon from './BlockItemIcon'
-import NavigatorService from '../utilities/navigationService'
+import { propType } from 'graphql-anywhere'
+
 import TruncatedHTML from './TruncatedHTML'
+import BlockItemIcon from './BlockItemIcon'
+
+import navigationService from '../utilities/navigationService'
+
 import { Border, Colors, Typography, Units } from '../constants/Style'
 
 export const BLOCK_METADATA_HEIGHT = Units.scale[4]
@@ -53,17 +57,32 @@ const Title = styled.Text`
   text-align: center;
 `
 
-export default class BlockItem extends Component {
+const ProcessingIndicator = styled(ActivityIndicator)`
+  height: 100%;
+`
+
+class BlockItem extends Component {
   onPress = () => {
-    NavigatorService.navigate('block', {
+    navigationService.navigate('block', {
       id: this.props.block.id,
       title: this.props.block.title,
     })
   }
 
   render() {
-    const { size, block, ...rest } = this.props
-    const __typename = block.kind && block.kind.__typename
+    const {
+      size,
+      block,
+      block: {
+        state,
+        kind: {
+          __typename,
+        },
+      },
+      ...rest
+    } = this.props
+
+    const title = block.title ? decode(block.title) : null
 
     let inner
 
@@ -101,7 +120,9 @@ export default class BlockItem extends Component {
         break
     }
 
-    const title = block.title ? decode(block.title) : null
+    if (state !== 'available' && state !== 'failed') {
+      inner = <ProcessingIndicator />
+    }
 
     return (
       <Container
@@ -133,6 +154,7 @@ BlockItem.fragments = {
       __typename
       id
       title
+      state
       updated_at(relative: true)
       user {
         id
@@ -172,17 +194,15 @@ BlockItem.fragments = {
 }
 
 BlockItem.propTypes = {
-  size: PropTypes.oneOf(['2-up', '1-up']),
-  block: PropTypes.shape({
-    id: PropTypes.any,
-    title: PropTypes.string,
-    updated_at: PropTypes.string,
-    user: PropTypes.any,
-    kind: PropTypes.any,
-  }).isRequired,
+  size: PropTypes.oneOf(['2-up', '1-up']).isRequired,
+  block: propType(BlockItem.fragments.block).isRequired,
 }
 
 BlockItem.defaultProps = {
   size: '2-up',
 }
+
+// export default pollForBlockAvailability(BlockItem)
+
+export default BlockItem
 

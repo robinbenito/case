@@ -58,7 +58,7 @@ class SignUpScreen extends Component {
       })
 
       .then(() => {
-        navigationService.reset('main')
+        navigationService.reset('feed')
       })
 
       .catch((err) => {

@@ -7,16 +7,16 @@ import styled from 'styled-components/native'
 
 import { NotificationsQuery } from './NotificationContents'
 import { NotificationCountQuery } from '../../../components/NotificationCount'
-import { Border, Colors } from '../../../constants/Style'
 import { H2 } from '../../../components/UI/Texts'
 
-const FOOTER_HEIGHT = 75
+import { Border, Colors, Units } from '../../../constants/Style'
 
 const Footer = styled.TouchableOpacity`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  height: ${FOOTER_HEIGHT};
+  padding-vertical: ${Units.scale[3]};
+  padding-horizontal: ${Units.scale[2]};
   border-top-width: ${Border.borderWidth};
   border-top-color: ${Border.borderColor};
 `
@@ -26,23 +26,27 @@ const Headline = styled(H2)`
 `
 class NotificationsFooter extends React.Component {
   clearNotifcations = () => {
-    this.props.mutate({
-      refetchQueries: [
-        {
-          query: NotificationsQuery,
-          variables: {
-            limit: 20,
-            offset: 0,
+    this.props
+      .mutate({
+        refetchQueries: [
+          {
+            query: NotificationsQuery,
+            variables: {
+              limit: 20,
+              offset: 0,
+            },
           },
-        },
-        {
-          query: NotificationCountQuery,
-        },
-      ],
-    })
+          {
+            query: NotificationCountQuery,
+          },
+        ],
+      })
+      // TODO: Handle errors
+      // TODO: Re-direct back to feed
   }
 
   render() {
+    // TODO: Only show this when there are unread messages
     return (
       <Footer onPress={this.clearNotifcations}>
         <Headline>Mark all as read</Headline>
@@ -66,4 +70,3 @@ NotificationsFooter.propTypes = {
 }
 
 export default graphql(MarkNotificationsReadMutation)(NotificationsFooter)
-

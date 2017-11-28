@@ -15,8 +15,6 @@ import { dismissAllAlerts } from '../../components/Alerts'
 import withLoadingAndErrors from '../../hocs/withLoadingAndErrors'
 
 class EditAccountBioScreen extends React.Component {
-  static isAbleToListen = false
-
   constructor(props) {
     super(props)
 
@@ -29,17 +27,20 @@ class EditAccountBioScreen extends React.Component {
     if (nextProps.data.loading) return
 
     this.setState({ ...nextProps.data.me })
-
-    this.isAbleToListen = true
   }
 
   componentDidUpdate() {
-    if (!this.isAbleToListen) return
+    const {
+      data: {
+        me: {
+          bio,
+        },
+      },
+    } = this.props
 
     injectButtonWhenDiff({
-      navigation: this.props.navigation,
       state: this.state,
-      fields: this.props.data.me,
+      fields: { bio },
       headerRight: <HeaderRightButton
         onPress={this.onSubmit}
         text="Done"
@@ -107,7 +108,6 @@ class EditAccountBioScreen extends React.Component {
 
 EditAccountBioScreen.propTypes = {
   data: PropTypes.object.isRequired,
-  navigation: PropTypes.object.isRequired,
   mutate: PropTypes.func.isRequired,
 }
 

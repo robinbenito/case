@@ -1,8 +1,6 @@
 import React from 'react'
-import { StackNavigator } from 'react-navigation'
-import { enhance } from 'react-navigation-addons'
-import { connect } from 'react-redux'
 
+// Show objects
 import BlockScreen from '../screens/BlockScreen'
 import BlockTextScreen from '../screens/BlockScreen/components/BlockText' // TODO: Move this to screens
 import ChannelScreen from '../screens/ChannelScreen'
@@ -10,34 +8,35 @@ import CommentScreen from '../screens/CommentScreen'
 import FeedScreen from '../screens/FeedScreen'
 import SearchScreen from '../screens/SearchScreen'
 import ProfileScreen from '../screens/ProfileScreen'
-import UserSettingsScreen from '../screens/UserSettingsScreen'
-import EditChannelScreen from '../screens/EditChannelScreen'
-import EditBlockScreen from '../screens/EditBlockScreen'
+// New objects
 import NewChannelScreen from '../screens/NewChannelScreen'
-import ChannelVisibilityScreen from '../screens/ChannelVisibilityScreen'
-import routesForEditAccountScreens from '../screens/EditAccountScreens/routes'
-
 import AddTextScreen from '../screens/AddTextScreen'
 import AddImageScreen from '../screens/AddImageScreen'
 import AddLinkScreen from '../screens/AddLinkScreen'
 import AddConnectionsScreen from '../screens/AddConnectionScreen'
 import AddCollaboratorsScreen from '../screens/AddCollaboratorsScreen'
+// Edit objects
+import UserSettingsScreen from '../screens/UserSettingsScreen'
+import EditChannelScreen from '../screens/EditChannelScreen'
+import EditBlockScreen from '../screens/EditBlockScreen'
+import ChannelVisibilityScreen from '../screens/ChannelVisibilityScreen'
+import routesForEditAccountScreens from '../screens/EditAccountScreens/routes'
+// Misc.
+import ProgressScreen from '../screens/ProgressScreen'
+import NotificationsScreen from '../screens/NotificationsScreen'
 
 import Header from '../components/Header'
 import HeaderIcon from '../screens/FeedScreen/components/HeaderIcons'
 import SearchIcon from '../components/SearchIcon'
 import BlockEditButton from '../components/BlockEditButton'
 import BackButton from '../components/BackButton'
+import SubmittableHeader from '../components/SubmittableHeader'
 
 import headerNavigationOptions from '../constants/Header'
 
-import navigateOnce from '../utilities/navigateOnce'
+import withParams from '../hocs/withParams'
 
-const HeaderWithState = connect(({ ui: { isHeaderTitleVisible } }) => ({
-  isHeaderTitleVisible,
-}))(Header)
-
-const MainNavigator = enhance(StackNavigator)({
+export default ({
   feed: {
     screen: FeedScreen,
     navigationOptions: ({ navigation }) => ({
@@ -49,6 +48,21 @@ const MainNavigator = enhance(StackNavigator)({
         ]}
         headerLeft={null}
         headerRight={<HeaderIcon navigation={navigation} />}
+      />,
+    }),
+  },
+
+  notifications: {
+    screen: NotificationsScreen,
+    navigationOptions: ({ navigation }) => ({
+      header: <Header
+        navigation={navigation}
+        primary={{ title: 'Notifications' }}
+        secondary={[
+          { title: 'Your profile', key: 'profile' },
+          { title: 'Feed', key: 'feed' },
+        ]}
+        headerLeft={<BackButton />}
       />,
     }),
   },
@@ -93,7 +107,7 @@ const MainNavigator = enhance(StackNavigator)({
   channel: {
     screen: ChannelScreen,
     navigationOptions: ({ navigation }) => ({
-      header: <HeaderWithState
+      header: <Header
         navigation={navigation}
         primary={{ title: 'Channel' }}
         secondary={[
@@ -116,7 +130,7 @@ const MainNavigator = enhance(StackNavigator)({
         { title: 'Profile', key: 'profile' },
       ] : [{ title: 'Feed', key: 'feed' }]
       return {
-        header: <HeaderWithState
+        header: <Header
           navigation={navigation}
           primary={{ title: 'Profile' }}
           headerLeft={headerLeft}
@@ -152,28 +166,41 @@ const MainNavigator = enhance(StackNavigator)({
     },
   },
 
-  newText: {
-    screen: AddTextScreen,
+  progress: {
+    screen: withParams(ProgressScreen),
     navigationOptions: {
-      title: 'New Text',
-      ...headerNavigationOptions,
+      header: null,
     },
+  },
+
+  newText: {
+    screen: withParams(AddTextScreen),
+    navigationOptions: ({ navigation }) => ({
+      header: <SubmittableHeader
+        navigation={navigation}
+        title="New Text"
+      />,
+    }),
   },
 
   newImage: {
-    screen: AddImageScreen,
-    navigationOptions: {
-      title: 'Upload Image',
-      ...headerNavigationOptions,
-    },
+    screen: withParams(AddImageScreen),
+    navigationOptions: ({ navigation }) => ({
+      header: <SubmittableHeader
+        navigation={navigation}
+        title="Upload Image"
+      />,
+    }),
   },
 
   newLink: {
-    screen: AddLinkScreen,
-    navigationOptions: {
-      title: 'Add Link',
-      ...headerNavigationOptions,
-    },
+    screen: withParams(AddLinkScreen),
+    navigationOptions: ({ navigation }) => ({
+      header: <SubmittableHeader
+        navigation={navigation}
+        title="Add Link"
+      />,
+    }),
   },
 
   connect: {
@@ -185,10 +212,12 @@ const MainNavigator = enhance(StackNavigator)({
 
   editChannel: {
     screen: EditChannelScreen,
-    navigationOptions: {
-      title: 'Edit Channel',
-      ...headerNavigationOptions,
-    },
+    navigationOptions: ({ navigation }) => ({
+      header: <SubmittableHeader
+        navigation={navigation}
+        title="Edit Channel"
+      />,
+    }),
   },
 
   addCollaborators: {
@@ -200,35 +229,33 @@ const MainNavigator = enhance(StackNavigator)({
 
   editBlock: {
     screen: EditBlockScreen,
-    navigationOptions: {
-      title: 'Edit Block',
-      ...headerNavigationOptions,
-    },
+    navigationOptions: ({ navigation }) => ({
+      header: <SubmittableHeader
+        navigation={navigation}
+        title="Edit Block"
+      />,
+    }),
   },
 
   newChannel: {
     screen: NewChannelScreen,
-    navigationOptions: {
-      title: 'New Channel',
-      ...headerNavigationOptions,
-    },
+    navigationOptions: ({ navigation }) => ({
+      header: <SubmittableHeader
+        navigation={navigation}
+        title="New Channel"
+      />,
+    }),
   },
 
   channelVisibility: {
     screen: ChannelVisibilityScreen,
-    navigationOptions: {
-      title: 'Channel Privacy',
-      ...headerNavigationOptions,
-    },
+    navigationOptions: ({ navigation }) => ({
+      header: <SubmittableHeader
+        navigation={navigation}
+        title="Channel Privacy"
+      />,
+    }),
   },
 
   ...routesForEditAccountScreens,
-}, {
-  cardStyle: {
-    backgroundColor: 'white',
-  },
 })
-
-MainNavigator.router.getStateForAction = navigateOnce(MainNavigator.router.getStateForAction)
-
-export default MainNavigator

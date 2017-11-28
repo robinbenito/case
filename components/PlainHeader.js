@@ -12,7 +12,9 @@ const Container = styled.View`
   height: ${HEADER_HEIGHT - Units.statusBarHeight}
 `
 
-const Label = styled.Text`
+const Label = styled.Text.attrs({
+  numberOfLines: 1,
+})`
   font-weight: ${Typography.fontWeight.semiBold};
   color: ${Colors.gray.semiBold};
   font-size: ${Typography.fontSize.smedium};

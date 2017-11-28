@@ -1,12 +1,15 @@
+// NOTE: Adapted from https://github.com/react-community/react-navigation/issues/1439
+
+import { has } from 'lodash'
 import { NavigationActions } from 'react-navigation'
 
-let _container; // eslint-disable-line
+let _container
 
-function setContainer(container) {
+const setContainer = (container) => {
   _container = container
 }
 
-function reset(routeName, params) {
+const reset = (routeName, params = {}) => {
   _container.dispatch(
     NavigationActions.reset({
       index: 0,
@@ -21,13 +24,32 @@ function reset(routeName, params) {
   )
 }
 
-function back(key) {
+const getCurrentRoute = (state) => {
+  if (!state) {
+    if (!_container || !_container.state.nav) return null
+    return getCurrentRoute(_container.state.nav.routes[_container.state.nav.index])
+  }
+
+  if (has(state, 'routes') && has(state, 'index')) {
+    return getCurrentRoute(state.routes[state.index])
+  }
+
+  return state
+}
+
+const getCurrentParams = (state = null) =>
+  (getCurrentRoute(state) || {}).params
+
+const getCurrentRouteName = (state = null) =>
+  (getCurrentRoute(state) || {}).routeName
+
+const back = (key) => {
   _container.dispatch(
     NavigationActions.back(key),
   )
 }
 
-function navigate(routeName, params) {
+const navigate = (routeName, params = {}) => {
   _container.dispatch(
     NavigationActions.navigate({
       routeName,
@@ -36,37 +58,12 @@ function navigate(routeName, params) {
   )
 }
 
-function navigateDeep(actions) {
-  _container.dispatch(
-    actions.reduceRight(
-      (prevAction, action) =>
-        NavigationActions.navigate({
-          type: 'Navigation/NAVIGATE',
-          routeName: action.routeName,
-          params: action.params,
-          action: prevAction,
-        }),
-      undefined,
-    ),
-  )
-}
-
-function getCurrentRoute() {
-  if (!_container || !_container.state.nav) {
-    return null
-  }
-  const firstStack = _container.state.nav.routes[_container.state.nav.index] || null
-  if (firstStack) {
-    return firstStack.routes[firstStack.index]
-  }
-  return null
-}
-
 export default {
   setContainer,
-  navigateDeep,
   navigate,
   reset,
   back,
   getCurrentRoute,
+  getCurrentParams,
+  getCurrentRouteName,
 }

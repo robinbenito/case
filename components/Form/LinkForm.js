@@ -8,6 +8,8 @@ import { Container, Section } from '../UI/Layout'
 import { FieldsetLabel, Fieldset, StackedInput, StackedTextArea } from '../UI/Inputs'
 import { sendAlert, dismissAllAlerts } from '../Alerts'
 
+import { updateHeader } from '../SubmittableHeader'
+
 export default class LinkForm extends Component {
   constructor(props) {
     super(props)
@@ -40,13 +42,16 @@ export default class LinkForm extends Component {
     // instead of simply comparing the difference of two states.
     // (i.e. is string a URL?)
     if (this.state.source_url && isURL(this.state.source_url)) {
-      this.props.navigation.setOptions({
+      updateHeader({
         headerRight: (
-          <HeaderRightButton onPress={this.onSubmit} text={this.props.submitText} />
+          <HeaderRightButton
+            onPress={this.onSubmit}
+            text={this.props.submitText}
+          />
         ),
       })
     } else {
-      this.props.navigation.setOptions({
+      updateHeader({
         headerRight: null,
       })
     }
@@ -142,7 +147,6 @@ export default class LinkForm extends Component {
 LinkForm.propTypes = {
   onSubmit: PropTypes.func,
   submitText: PropTypes.string,
-  navigation: PropTypes.object,
   block: PropTypes.shape({
     title: PropTypes.string,
     description: PropTypes.string,
@@ -154,7 +158,6 @@ LinkForm.propTypes = {
 
 LinkForm.defaultProps = {
   onSubmit: () => null,
-  navigation: {},
   submitText: 'Done',
   block: {
     title: '',

@@ -56,7 +56,7 @@ class LoginScreen extends Component {
       })
 
       .then(() => {
-        navigationService.reset('main')
+        navigationService.reset('feed')
       })
 
       .catch(async (err) => {

@@ -1,14 +1,31 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Alert, Clipboard, Keyboard } from 'react-native'
 import { isURL } from 'validator'
+import { graphql } from 'react-apollo'
 
 import LinkForm from '../../components/Form/LinkForm'
 
-import wait from '../../utilities/wait'
-import navigationService from '../../utilities/navigationService'
+import createBlockMutation from '../AddConnectionScreen/mutations/createBlock'
 
-export default class AddLinkScreen extends React.Component {
+import wait from '../../utilities/wait'
+import addOrConnect from '../../utilities/addOrConnect'
+
+class AddLinkScreen extends Component {
+  static propTypes = {
+    navigation: PropTypes.object.isRequired,
+    createBlock: PropTypes.func.isRequired,
+    channel: PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      title: PropTypes.string.isRequired,
+      color: PropTypes.string.isRequired,
+    }),
+  }
+
+  static defaultProps = {
+    channel: null,
+  }
+
   constructor(props) {
     super(props)
 
@@ -35,7 +52,11 @@ export default class AddLinkScreen extends React.Component {
   }
 
   onSubmit = ({ source_url }) =>
-    navigationService.navigate('connect', { source_url })
+    addOrConnect({
+      variables: { source_url },
+      mutation: this.props.createBlock,
+      channel: this.props.channel,
+    })
 
   setUrl(url) {
     this.setState({
@@ -72,10 +93,7 @@ export default class AddLinkScreen extends React.Component {
   }
 }
 
-AddLinkScreen.propTypes = {
-  navigation: PropTypes.any.isRequired,
-}
+export default graphql(createBlockMutation, {
+  name: 'createBlock',
+})(AddLinkScreen)
 
-AddLinkScreen.defaultProps = {
-  navigation: {},
-}

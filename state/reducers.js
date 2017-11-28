@@ -2,6 +2,7 @@ import { reduce } from 'lodash'
 
 import {
   SET_CURRENT_ROUTE,
+  SET_CURRENT_ABILITY,
   SET_HEADER_TITLE_VISIBILITY,
   CLOSE_ADD_MENU,
   TOGGLE_ADD_MENU,
@@ -12,18 +13,24 @@ import {
   DISMISS_ROUTE_ALERTS,
   OPEN_MODAL,
   CLOSE_MODAL,
+  UPDATE_HEADER,
  } from './actions'
 
 const INITIAL_STATES = {
   routes: {
-    current: null,
+    currentRoute: {
+      routeName: null,
+    },
   },
+
+  ability: {},
 
   ui: {
     isHeaderTitleVisible: true,
     isAddMenuActive: false,
     isHeaderMenuActive: false,
     modal: {},
+    header: {},
   },
 
   info: {
@@ -32,11 +39,19 @@ const INITIAL_STATES = {
   },
 }
 
-export const routes = (state = INITIAL_STATES.routes, { type, current }) => {
-  switch (type) {
+export const routes = (state = INITIAL_STATES.routes, action) => {
+  switch (action.type) {
     case SET_CURRENT_ROUTE:
-      return { ...state, current }
+      return { ...state, currentRoute: action.currentRoute }
+    default:
+      return state
+  }
+}
 
+export const ability = (state = INITIAL_STATES.ability, action) => {
+  switch (action.type) {
+    case SET_CURRENT_ABILITY:
+      return { ...action.can }
     default:
       return state
   }
@@ -61,6 +76,9 @@ export const ui = (state = INITIAL_STATES.ui, action) => {
 
     case CLOSE_MODAL:
       return { ...state, modal: { active: false } }
+
+    case UPDATE_HEADER:
+      return { ...state, header: { ...action.header } }
 
     default:
       return state

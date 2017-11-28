@@ -1,4 +1,3 @@
-import { defer } from 'lodash'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { View } from 'react-native'
@@ -15,20 +14,19 @@ import {
 
 import Alert from './Alert'
 
-export const sendAlert = ({ id, ...rest }) => {
-  // Deferred so as to be sent with the correct route
-  defer(() => {
-    const { routes: { current: currentRoute } } = Store.getState()
-    const alertId = id || `${new Date().getTime()}`
+import navigationService from '../../utilities/navigationService'
 
-    Store.dispatch({
-      type: SEND_ALERT,
-      alert: {
-        id: alertId,
-        route: currentRoute,
-        ...rest,
-      },
-    })
+export const sendAlert = ({ id, ...rest }) => {
+  const alertId = id || `${new Date().getTime()}`
+  const currentRoute = navigationService.getCurrentRouteName()
+
+  Store.dispatch({
+    type: SEND_ALERT,
+    alert: {
+      id: alertId,
+      route: currentRoute,
+      ...rest,
+    },
   })
 }
 
@@ -39,7 +37,7 @@ export const dismissAllAlerts = () =>
   Store.dispatch({ type: DISMISS_ALL_ALERTS })
 
 export const dismissAlertsOnCurrentRoute = () => {
-  const { routes: { current: currentRoute } } = Store.getState()
+  const currentRoute = navigationService.getCurrentRouteName()
   Store.dispatch({ type: DISMISS_ROUTE_ALERTS, route: currentRoute })
 }
 

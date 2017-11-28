@@ -4,6 +4,7 @@ import { StyleSheet, View, StatusBar } from 'react-native'
 import { ApolloProvider } from 'react-apollo'
 import gql from 'graphql-tag'
 import { connect } from 'react-redux'
+import { defer } from 'lodash'
 
 import AddMenu from './components/AddMenu'
 import Modal from './components/Modal'
@@ -12,7 +13,7 @@ import { dismissAlertsOnCurrentRoute } from './components/Alerts'
 import createRootNavigator from './navigation/Routes'
 
 import Store from './state/Store'
-import { SET_CURRENT_ROUTE } from './state/actions'
+import { SET_CURRENT_ROUTE, SET_CURRENT_ABILITY } from './state/actions'
 import Client from './state/Apollo'
 
 import navigationService from './utilities/navigationService'
@@ -23,20 +24,8 @@ import { trackPage } from './utilities/analytics'
 const logo = require('./assets/images/logo.png')
 const searchIcon = require('./assets/images/searchIcon.png')
 
-const getCurrentRouteName = (navigationState) => {
-  if (!navigationState) return null
-
-  const route = navigationState.routes[navigationState.index]
-
-  // Dive into nested navigators
-  if (route.routes) return getCurrentRouteName(route)
-
-  return route.routeName
-}
-
-const AddMenuWithState = connect(({ routes, ui }) => ({
-  routes,
-  active: ui.isAddMenuActive,
+const AddMenuWithState = connect(({ routes, ability, ui }) => ({
+  routes, ability, active: ui.isAddMenuActive,
 }))(AddMenu)
 
 const StatusBarWithState = connect(({ ui }) => ({
@@ -63,16 +52,23 @@ class AppContainer extends Component {
   }
 
   onNavigationStateChange = (prevState, currentState) => {
-    const currentScreen = getCurrentRouteName(currentState)
-    const prevScreen = getCurrentRouteName(prevState)
+    const currentRoute = navigationService.getCurrentRoute(currentState)
+    const prevRoute = navigationService.getCurrentRoute(prevState)
 
-    Store.dispatch({
-      type: SET_CURRENT_ROUTE,
-      current: currentScreen,
-    })
+    if (prevRoute.routeName !== currentRoute.routeName) {
+      trackPage({ page: currentRoute.routeName })
 
-    if (prevScreen !== currentScreen) {
-      trackPage({ page: currentScreen })
+      Store.dispatch({ type: SET_CURRENT_ROUTE, currentRoute })
+
+      defer(() => {
+        // TODO: Is there a way around this deferral?
+        // ChannelContainer#componentWillReceiveProps fires *after* a `back`
+        // navigation is executed and the component should unload.
+        // `onNavigationStateChange` executes *before* that happens, for whatever reason
+        // causing the Channel's `can` ability to get set over our reset state.
+        // Confusing.
+        Store.dispatch({ type: SET_CURRENT_ABILITY, can: {} })
+      })
 
       dismissAlertsOnCurrentRoute()
     }
@@ -103,6 +99,10 @@ class AppContainer extends Component {
         isStorageChecked: true,
       })
     } catch (err) {
+      // TODO: Log only in dev mode?
+      // `console.error` causes a red screen
+      console.log('checkLoginStateAsync', err)
+
       currentUserService.clear()
 
       this.setState({
@@ -116,12 +116,14 @@ class AppContainer extends Component {
     const { isAssetsLoaded, isStorageChecked, isLoggedIn } = this.state
 
     if (isAssetsLoaded && isStorageChecked) {
-      const initialRouteName = isLoggedIn ? 'main' : 'loggedOut'
+      const initialRouteName = isLoggedIn ? 'feed' : 'loggedOut'
       const Navigation = createRootNavigator(initialRouteName)
 
       Store.dispatch({
         type: SET_CURRENT_ROUTE,
-        current: initialRouteName,
+        currentRoute: {
+          routeName: initialRouteName,
+        },
       })
 
       return (

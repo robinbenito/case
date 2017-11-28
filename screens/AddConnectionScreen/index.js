@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { gql, graphql, compose } from 'react-apollo'
-import { Keyboard, View } from 'react-native'
+import { graphql, compose } from 'react-apollo'
+import { Keyboard } from 'react-native'
 import styled from 'styled-components/native'
 
 import navigationService from '../../utilities/navigationService'
 import alertErrors from '../../utilities/alertErrors'
+import params from '../../utilities/params'
+import uploadImageIfPresent from '../../utilities/uploadImageIfPresent'
 
 import SelectedChannels from './components/SelectedChannels'
 import StatusMessage from './components/StatusMessage'
@@ -14,16 +16,15 @@ import { ChannelConnectionsQuery } from '../ChannelScreen/components/ChannelCont
 import SearchConnectionsWithData from './components/SearchConnections'
 import RecentConnectionsWithData, { RecentConnectionsQuery } from './components/RecentConnections'
 import { StatusBarAwareContainer } from '../../components/UI/Layout'
-import ProgressBar from '../../components/ProgressBar'
-import PlainHeader from '../../components/PlainHeader'
-import { HEADER_HEIGHT } from '../../components/Header'
+import SimulatedProgressHeader from '../../components/SimulatedProgressHeader'
+
+import createConnectionMutation from './mutations/createConnection'
+import createBlockMutation from './mutations/createBlock'
 
 import { BlockConnectionsQuery } from '../../screens/BlockScreen/components/BlockConnections'
 import { BlockQuery } from '../../screens/BlockScreen/components/BlockContents'
 
-import uploadImage from '../../api/uploadImage'
-
-import { Units } from '../../constants/Style'
+import { Colors, Units } from '../../constants/Style'
 
 const ConnectionSelection = styled.View`
   margin-vertical: ${Units.scale[3]};
@@ -32,15 +33,6 @@ const ConnectionSelection = styled.View`
 
 const ConnectionStatusMessage = styled(StatusMessage)`
   margin-bottom: ${Units.scale[1]};
-`
-
-const SimulatedProgressBar = styled(ProgressBar).attrs({
-  shouldSimulate: true,
-})`
-  position: absolute;
-  top: ${HEADER_HEIGHT - Units.statusBarHeight};
-  right: 0;
-  left: 0;
 `
 
 class AddConnectionsScreen extends Component {
@@ -57,7 +49,7 @@ class AddConnectionsScreen extends Component {
       source_url,
       connectable_id,
       connectable_type,
-    } = props.navigation.state.params
+    } = params(props.navigation)
 
     this.state = {
       isConnecting: false,
@@ -78,7 +70,7 @@ class AddConnectionsScreen extends Component {
     this.onCancel = onCancel
   }
 
-  // TODO: isSelected prop is unessaray to toggle
+  // TODO: isSelected prop is unnecessary to toggle
   onToggleConnection = (connection, isSelected) => {
     const { selectedConnections } = this.state
 
@@ -136,37 +128,30 @@ class AddConnectionsScreen extends Component {
     return refetchQueries
   }
 
-  navigateToBlock = (id, imageLocation) => {
-    this.setState({ selectedConnections: {} }) // TODO: Why?
-    navigationService.reset('block', { id, imageLocation })
-  }
+  connectConnectableTo = (channelIds) => {
+    this.setState({ isConnecting: true })
 
-  maybeUploadImage = () => {
-    const { image } = this.state
-    if (!image) return Promise.resolve()
-    return uploadImage(image)
-  }
-
-  saveConnections = () => {
     const {
       title,
       content,
       description,
       source_url,
-      connectable_id: connectableId,
-      connectable_type: connectableType,
+      connectable_id,
+      connectable_type,
     } = this.state
-    const { createBlock, createConnection } = this.props
-    const channelIds = Object.keys(this.state.selectedConnections)
+
+    const {
+      createBlock,
+      createConnection,
+    } = this.props
+
     const refetchQueries = this.getRefetchQueries()
 
-    this.setState({ isConnecting: true })
-
-    if (connectableId) {
+    if (connectable_id) {
       return createConnection({
         variables: {
-          connectable_type: connectableType,
-          connectable_id: connectableId,
+          connectable_type,
+          connectable_id,
           channel_ids: channelIds,
         },
         refetchQueries,
@@ -183,9 +168,7 @@ class AddConnectionsScreen extends Component {
       })
     }
 
-    return this
-      .maybeUploadImage()
-
+    return uploadImageIfPresent(this.state.image)
       .then((image) => {
         let variables = { channel_ids: channelIds, title, description }
 
@@ -206,15 +189,34 @@ class AddConnectionsScreen extends Component {
         ])
       })
 
-      .then(([{ data: { create_block: { block } } }, image]) => {
+      .then(([{ data: { create_block: { block, channels } } }, image]) => {
         Keyboard.dismiss()
-        this.navigateToBlock(block.id, image && image.location)
+
+        if (channels.length === 1) {
+          const channel = channels[0]
+
+          return navigationService.reset('channel', {
+            id: channel.id,
+            title: channel.title,
+            color: Colors.channel[channel.visibility],
+          })
+        }
+
+        navigationService.reset('block', {
+          id: block.id,
+          imageLocation: image && image.location,
+        })
       })
 
       .catch((err) => {
         this.setState({ isConnecting: false })
         alertErrors(err)
       })
+  }
+
+  saveSelectedConnections = () => {
+    const channelIds = Object.keys(this.state.selectedConnections)
+    this.connectConnectableTo(channelIds)
   }
 
   search = query =>
@@ -243,20 +245,16 @@ class AddConnectionsScreen extends Component {
     return (
       <StatusBarAwareContainer>
         {isConnecting &&
-          <View>
-            <PlainHeader>
-              Connecting...
-            </PlainHeader>
-
-            <SimulatedProgressBar />
-          </View>
+          <SimulatedProgressHeader>
+            Connecting...
+          </SimulatedProgressHeader>
         }
 
         {!isConnecting &&
           <SearchHeader
             onChangeText={this.search}
             cancelOrDone={cancelOrDone}
-            onSubmit={this.saveConnections}
+            onSubmit={this.saveSelectedConnections}
             onCancel={this.onCancel}
             autoFocus
           />
@@ -307,33 +305,9 @@ AddConnectionsScreen.defaultProps = {
   searchData: {},
 }
 
-const createMutation = gql`
-  mutation createBlockMutation($channel_ids: [ID]!, $title: String, $content: String, $description: String, $source_url: String){
-    create_block(input: { channel_ids: $channel_ids, title: $title, content: $content, description: $description, source_url: $source_url }) {
-      clientMutationId
-      block {
-        id
-        state
-        title
-      }
-    }
-  }
-`
-
-const connectMutation = gql`
-  mutation createConnectionMutation($channel_ids: [ID]!, $connectable_id: ID!, $connectable_type: BaseConnectableTypeEnum!){
-    create_connection(input: { channel_ids: $channel_ids, connectable_type: $connectable_type, connectable_id: $connectable_id }) {
-      connectable {
-        id
-        title
-      }
-    }
-  }
-`
-
 const AddConnectionsScreenWithData = compose(
-  graphql(connectMutation, { name: 'createConnection' }),
-  graphql(createMutation, { name: 'createBlock' }),
+  graphql(createConnectionMutation, { name: 'createConnection' }),
+  graphql(createBlockMutation, { name: 'createBlock' }),
 )(AddConnectionsScreen)
 
 export default AddConnectionsScreenWithData
