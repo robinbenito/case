@@ -7,6 +7,7 @@ import LoadingScreen from '../../components/LoadingScreen'
 
 import wait from '../../utilities/wait'
 import alertErrors from '../../utilities/alertErrors'
+import navigationService from '../../utilities/navigationService'
 
 export default class ProgressScreen extends Component {
   static propTypes = {
@@ -29,7 +30,10 @@ export default class ProgressScreen extends Component {
     props.promise
       .then(() => wait(props.delay))
       .then(props.done)
-      .catch(alertErrors)
+      .catch((err) => {
+        navigationService.back()
+        alertErrors(err)
+      })
   }
 
   render() {
