@@ -39,8 +39,8 @@ export default class BlockTabs extends React.Component {
     )
 
     const tabOptions = {
-      [pluralize(block.counts.channels, 'Connection')]: 'connections',
-      [pluralize(block.counts.comments, 'Comment')]: 'comments',
+      [pluralize(block.kind.counts.channels, 'Connection')]: 'connections',
+      [pluralize(block.kind.counts.comments, 'Comment')]: 'comments',
     }
 
     return (
