@@ -177,7 +177,7 @@ const props = ({ data, data: { fetchMore } }) => ({
       variables: { page },
       updateQuery: (previousResult, { fetchMoreResult }) => {
         const { channel: { contents: newContents } } = fetchMoreResult
-        const { channel: { contents: previusContents } } = previousResult
+        const { channel: { contents: previousContents } } = previousResult
 
         if (!newContents.length) return previousResult
 
@@ -185,7 +185,7 @@ const props = ({ data, data: { fetchMore } }) => ({
           channel: {
             ...previousResult.channel,
             contents: [
-              ...previusContents,
+              ...previousContents,
               ...newContents,
             ],
           },
