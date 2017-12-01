@@ -1,29 +1,23 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import ChannelContainerWithData from './components/ChannelContainer'
-import { Container } from '../../components/UI/Layout'
 
-export default class ChannelScreen extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      channelId: this.props.navigation.state.params.id,
-    }
+import { Container } from '../../components/UI/Layout'
+import ChannelContainer from './components/ChannelContainer'
+
+export default class ChannelScreen extends Component {
+  static propTypes = {
+    id: PropTypes.number.isRequired,
   }
 
   render() {
     return (
       <Container>
-        <ChannelContainerWithData
-          id={this.state.channelId}
+        <ChannelContainer
+          id={this.props.id}
           page={1}
           type="BLOCK"
         />
       </Container>
     )
   }
-}
-
-ChannelScreen.propTypes = {
-  navigation: PropTypes.any.isRequired,
 }

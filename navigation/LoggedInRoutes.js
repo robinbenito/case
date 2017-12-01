@@ -105,7 +105,7 @@ export default ({
   },
 
   channel: {
-    screen: ChannelScreen,
+    screen: withParams(ChannelScreen),
     navigationOptions: ({ navigation }) => ({
       header: <Header
         navigation={navigation}
