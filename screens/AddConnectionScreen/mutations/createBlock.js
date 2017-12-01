@@ -1,4 +1,4 @@
-import { gql } from 'react-apollo'
+import gql from 'graphql-tag'
 
 export default gql`
   mutation createBlockMutation($channel_ids: [ID]!, $title: String, $content: String, $description: String, $source_url: String){

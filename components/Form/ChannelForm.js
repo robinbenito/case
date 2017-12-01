@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { gql } from 'react-apollo'
+import gql from 'graphql-tag'
 import { propType } from 'graphql-anywhere'
 import { View, Text } from 'react-native'
 

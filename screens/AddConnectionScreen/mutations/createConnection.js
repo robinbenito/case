@@ -1,4 +1,4 @@
-import { gql } from 'react-apollo'
+import gql from 'graphql-tag'
 
 export default gql`
   mutation createConnectionMutation($channel_ids: [ID]!, $connectable_id: ID!, $connectable_type: BaseConnectableTypeEnum!){
