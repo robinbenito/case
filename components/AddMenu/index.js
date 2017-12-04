@@ -49,32 +49,19 @@ const Cancel = styled.Text`
 `
 
 export default class AddMenu extends Component {
-  includedContext = () => {
-    const { ability, routes: { currentRoute } } = this.props
-
-    if (currentRoute.routeName === 'channel' && ability.add_to) {
-      return { channel: currentRoute.params }
-    }
-
-    return {}
-  }
-
   newChannel = () => {
     this.closeAddMenu()
-
     navigationService.navigate('newChannel')
   }
 
   enterText = () => {
     this.closeAddMenu()
-
-    navigationService.navigate('newText', this.includedContext())
+    navigationService.navigate('newText')
   }
 
   pasteLink = () => {
     this.closeAddMenu()
-
-    navigationService.navigate('newLink', this.includedContext())
+    navigationService.navigate('newLink')
   }
 
   uploadImage = async () => {
@@ -106,7 +93,7 @@ export default class AddMenu extends Component {
 
     this.closeAddMenu()
 
-    navigationService.navigate('newImage', { block, ...this.includedContext() })
+    navigationService.navigate('newImage', { block })
   }
 
   closeAddMenu = () =>
@@ -186,7 +173,6 @@ export default class AddMenu extends Component {
 
 AddMenu.propTypes = {
   active: PropTypes.bool.isRequired,
-  ability: PropTypes.object.isRequired,
   routes: PropTypes.shape({
     currentRoute: PropTypes.shape({
       routeName: PropTypes.string.isRequired,
