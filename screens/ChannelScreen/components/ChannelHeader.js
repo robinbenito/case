@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
 import { pickBy } from 'lodash'
 import { Share, Text } from 'react-native'
-import { gql } from 'react-apollo'
+import gql from 'graphql-tag'
 import { propType } from 'graphql-anywhere'
 
 import UserNameText from '../../../components/UserNameText'

@@ -1,4 +1,4 @@
-import { gql } from 'react-apollo'
+import gql from 'graphql-tag'
 import ChannelForm from '../../../components/Form/ChannelForm'
 
 export default gql`

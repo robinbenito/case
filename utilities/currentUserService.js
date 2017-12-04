@@ -1,6 +1,6 @@
 import { pick, isEmpty } from 'lodash'
 import { AsyncStorage } from 'react-native'
-import { gql } from 'react-apollo'
+import gql from 'graphql-tag'
 
 let CURRENT_USER
 

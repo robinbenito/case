@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { View } from 'react-native'
-import { gql, graphql } from 'react-apollo'
+import { graphql } from 'react-apollo'
+import gql from 'graphql-tag'
 import { propType } from 'graphql-anywhere'
 import PropTypes from 'prop-types'
 
@@ -146,9 +147,6 @@ BlockModalMenu.fragments = {
     fragment BlockModalMenuBlock on Connectable {
       id
       title
-      counts {
-        comments
-      }
       can {
         manage
       }
@@ -156,6 +154,13 @@ BlockModalMenu.fragments = {
         id
         can {
           destroy
+        }
+      }
+      kind {
+        ...on Block {
+          counts {
+            comments
+          }
         }
       }
     }

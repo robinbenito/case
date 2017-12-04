@@ -1,4 +1,4 @@
-import { gql } from 'react-apollo'
+import gql from 'graphql-tag'
 
 import NotificationSentence from '../../../components/NotificationSentence'
 import NotificationCount from '../../../components/NotificationCount'

@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components/native'
-import { gql } from 'react-apollo'
+import gql from 'graphql-tag'
 import { propType } from 'graphql-anywhere'
 
 import { Attribution, Title } from './Meta'

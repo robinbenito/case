@@ -199,7 +199,7 @@ class BlockContents extends React.Component {
           </ScrollToMetadata>
         </BlockFill>
 
-        {block.counts &&
+        {block.kind.counts &&
           <BlockFold ref={ref => this.BlockFold = ref}>
             <BlockMetadata block={block} />
 
@@ -232,12 +232,14 @@ export const BlockQuery = gql`
       source {
         url
       }
-      counts {
-        channels
-        comments
-      }
       kind {
         __typename
+        ... on Block {
+          counts {
+            channels
+            comments
+          }
+        }
         ... on Embed {
           image_url(size: ORIGINAL)
         }

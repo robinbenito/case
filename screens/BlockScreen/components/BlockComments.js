@@ -25,7 +25,7 @@ class BlockComments extends React.Component {
   leaveComment = (block) => {
     navigationService.navigate('comment', {
       id: block.id,
-      title: pluralize(block.counts.comments, 'Comment'),
+      title: pluralize(block.kind.counts.comments, 'Comment'),
     })
   }
 
@@ -129,8 +129,12 @@ export const BlockCommentsQuery = gql`
     block(id: $id) {
       __typename
       id
-      counts {
-        comments
+      kind {
+        ...on Block {
+          counts {
+            comments
+          }
+        }
       }
       comments {
         ...CommentItem
