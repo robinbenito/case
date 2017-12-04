@@ -7,28 +7,30 @@ import TextForm from '../../components/Form/TextForm'
 import createBlockMutation from '../AddConnectionScreen/mutations/createBlock'
 
 import addOrConnect from '../../utilities/addOrConnect'
+import navigationService from '../../utilities/navigationService'
+
+import addToWithContext from '../../hocs/addToWithContext'
 
 class AddTextScreen extends Component {
   static propTypes = {
     navigation: PropTypes.object.isRequired,
-    channel: PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      title: PropTypes.string.isRequired,
-      color: PropTypes.string.isRequired,
-    }),
     createBlock: PropTypes.func.isRequired,
+    can: PropTypes.shape({
+      add_to: PropTypes.bool.isRequired,
+    }).isRequired,
   }
 
-  static defaultProps = {
-    channel: null,
-  }
+  onSubmit = ({ title, description, content }) => {
+    const { can } = this.props
+    const { params } = navigationService.getPreviousRoute()
 
-  onSubmit = ({ title, description, content }) =>
-    addOrConnect({
+    return addOrConnect({
       variables: { title, description, content },
       mutation: this.props.createBlock,
-      channel: this.props.channel,
+      // If we `can.add_to` then add to the last channel directly
+      ...(can.add_to ? { channel: params } : {}),
     })
+  }
 
   render() {
     const { navigation } = this.props
@@ -45,4 +47,4 @@ class AddTextScreen extends Component {
 
 export default graphql(createBlockMutation, {
   name: 'createBlock',
-})(AddTextScreen)
+})(addToWithContext(AddTextScreen))
