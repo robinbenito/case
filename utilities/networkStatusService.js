@@ -1,3 +1,5 @@
+import { every, map } from 'lodash'
+
 // See the source for networkStatus @:
 // https://github.com/apollographql/apollo-client/blob/master/packages/apollo-client/src/core/networkStatus.ts
 
@@ -31,16 +33,34 @@ const STATUSES = {
   8: 'error',
 }
 
-export default (networkStatus = 1) => ({
-  name: STATUSES[networkStatus],
+const networkStatusService = status => ({
+  name: STATUSES[status],
   is: {
-    settingVariables: networkStatus === 2,
-    inFlight: networkStatus < 7,
-    refreshing: networkStatus === 4,
-    fetchingMore: networkStatus === 3,
-    ready: networkStatus === 7,
+    inFlight: status < 7,
     // `is.loading` is distinct from the `{ data: { loading } }` property,
     // which is `true` when `inFlight`
-    loading: networkStatus === 1,
+    loading: status === 1,
+    settingVariables: status === 2,
+    fetchingMore: status === 3,
+    refreshing: status === 4,
+    ready: status === 7,
   },
 })
+
+export const networkStatusesService = (statuses = []) => {
+  const services = statuses.map(networkStatusService)
+
+  return {
+    names: map(services, 'name'),
+    is: {
+      inFlight: every(map(services, 'is.inFlight')),
+      loading: every(map(services, 'is.loading')),
+      settingVariables: every(map(services, 'is.settingVariables')),
+      fetchingMore: every(map(services, 'is.fetchingMore')),
+      refreshing: every(map(services, 'is.refreshing')),
+      ready: every(map(services, 'is.ready')),
+    },
+  }
+}
+
+export default networkStatusService
