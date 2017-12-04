@@ -7,9 +7,7 @@ import ChannelContents from './ChannelContents'
 
 import withLoadingAndErrors from '../../../hocs/withLoadingAndErrors'
 
-// TODO:
-// import Store from '../../../state/Store'
-// import { SET_CURRENT_ABILITY } from '../../../state/actions'
+import navigationService from '../../../utilities/navigationService'
 
 import channelQuery from '../queries/channel'
 
@@ -31,6 +29,11 @@ class ChannelContainer extends React.Component {
       page: props.page,
       type: props.type,
     }
+  }
+
+  shouldComponentUpdate({ navigation: { state } }) {
+    // Determine if the current route is onscreen and only render if it is active.
+    return navigationService.isStateCurrentState(state)
   }
 
   onToggleChange = (type) => {
