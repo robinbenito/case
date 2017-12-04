@@ -17,7 +17,7 @@ class ChannelContainer extends React.Component {
   static propTypes = {
     type: PropTypes.oneOf(['CHANNEL', 'BLOCK', 'CONNECTION']).isRequired,
     page: PropTypes.number.isRequired,
-    data: PropTypes.object.isRequired,
+    channelData: PropTypes.object.isRequired,
   }
 
   static defaultProps = {
@@ -38,7 +38,7 @@ class ChannelContainer extends React.Component {
   }
 
   render() {
-    const { data: { channel } } = this.props
+    const { channelData, channelData: { channel } } = this.props
     const { type, page } = this.state
 
     const Header = (
@@ -53,6 +53,7 @@ class ChannelContainer extends React.Component {
       <ChannelContents
         id={channel.id}
         channel={channel}
+        channelData={channelData}
         type={type}
         page={page}
         header={Header}
@@ -62,11 +63,13 @@ class ChannelContainer extends React.Component {
 }
 
 const DecoratedChannelContainer = withLoadingAndErrors(ChannelContainer, {
+  dataKeys: ['channelData'],
   errorMessage: 'Error getting this channel',
 })
 
 const ChannelContainerWithData = compose(
   graphql(channelQuery, {
+    name: 'channelData',
     options: {
       fetchPolicy: 'cache-and-network',
     },

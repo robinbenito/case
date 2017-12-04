@@ -11,7 +11,7 @@ import BlockModalMenu from '../../../components/BlockModalMenu'
 import { openModal } from '../../../components/Modal'
 
 import scrollHeaderVisibilitySensor from '../../../utilities/scrollHeaderVisibilitySensor'
-import networkStatusService from '../../../utilities/networkStatusService'
+import { networkStatusesService } from '../../../utilities/networkStatusService'
 import alertErrors from '../../../utilities/alertErrors'
 
 import channelBlocksQuery from '../queries/channelBlocks'
@@ -46,6 +46,7 @@ class ChannelContents extends Component {
     header: PropTypes.node.isRequired,
     channel: PropTypes.object.isRequired,
     data: PropTypes.object.isRequired,
+    channelData: PropTypes.object.isRequired,
     loadPage: PropTypes.func.isRequired,
   }
 
@@ -84,9 +85,13 @@ class ChannelContents extends Component {
     return loadPage(nextPage).catch(alertErrors)
   }
 
-  // TODO:
   onRefresh = () => {
-    console.log('onRefresh')
+    const { channelData, data } = this.props
+
+    this.setState({ page: 1 })
+
+    channelData.refetch()
+    data.refetch()
   }
 
   onBlockLongPress = ({ block, channel }) => () => {
@@ -131,9 +136,8 @@ class ChannelContents extends Component {
       header,
       channel,
       data,
+      channelData,
     } = this.props
-
-    const networkStatus = networkStatusService(data.networkStatus)
 
     const {
       numColumns,
@@ -143,6 +147,10 @@ class ChannelContents extends Component {
 
     const key = type
     const contents = get(data, 'channel.contents', [])
+    const networkStatus = networkStatusesService([
+      channelData.networkStatus,
+      data.networkStatus,
+    ])
 
     return (
       <FlatList
