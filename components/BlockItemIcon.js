@@ -42,7 +42,7 @@ BlockItemIcon.propTypes = {
     'Attachment',
     'Text',
     'Image',
-    'Block',
+    'PendingBlock',
   ]).isRequired,
   size: PropTypes.number,
   color: PropTypes.string,
