@@ -16,6 +16,9 @@ class ChannelContainer extends React.Component {
     type: PropTypes.oneOf(['CHANNEL', 'BLOCK', 'CONNECTION']).isRequired,
     page: PropTypes.number.isRequired,
     channelData: PropTypes.object.isRequired,
+    navigation: PropTypes.shape({
+      state: PropTypes.object.isRequired,
+    }).isRequired,
   }
 
   static defaultProps = {
