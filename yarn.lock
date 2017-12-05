@@ -4774,13 +4774,6 @@ react-addons-shallow-compare@15.6.0:
     fbjs "^0.8.4"
     object-assign "^4.1.0"
 
-react-addons-test-utils@16.0.0-alpha.3:
-  version "16.0.0-alpha.3"
-  resolved "https://registry.yarnpkg.com/react-addons-test-utils/-/react-addons-test-utils-16.0.0-alpha.3.tgz#c17796f9b2c527b6be56f8d783b38020513fdb42"
-  dependencies:
-    fbjs "^0.8.9"
-    object-assign "^4.1.0"
-
 react-addons-test-utils@^15.4.0:
   version "15.6.0"
   resolved "https://registry.yarnpkg.com/react-addons-test-utils/-/react-addons-test-utils-15.6.0.tgz#062d36117fe8d18f3ba5e06eb33383b0b85ea5b9"
@@ -4840,10 +4833,6 @@ react-dom@^15.4.0:
     loose-envify "^1.1.0"
     object-assign "^4.1.0"
     prop-types "^15.5.10"
-
-react-native-actionsheet@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/react-native-actionsheet/-/react-native-actionsheet-2.2.0.tgz#3783ad2c8d1ba116908ab8e169399adc486cc89e"
 
 react-native-aws3@^0.0.8:
   version "0.0.8"
@@ -5771,9 +5760,9 @@ strip-json-comments@~2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-2.0.1.tgz#3c531942e908c2697c0ec344858c286c7ca0a60a"
 
-styled-components@^2.2.1:
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/styled-components/-/styled-components-2.2.1.tgz#f4835f1001c37bcc301ac3865b5d93466de4dd5b"
+styled-components@^2.2.4:
+  version "2.2.4"
+  resolved "https://registry.yarnpkg.com/styled-components/-/styled-components-2.2.4.tgz#dd87fd3dafd359e7a0d570aec1bd07d691c0b5a2"
   dependencies:
     buffer "^5.0.3"
     css-to-react-native "^2.0.3"
@@ -5782,12 +5771,12 @@ styled-components@^2.2.1:
     is-function "^1.0.1"
     is-plain-object "^2.0.1"
     prop-types "^15.5.4"
-    stylis "^3.2.1"
+    stylis "^3.4.0"
     supports-color "^3.2.3"
 
-stylis@^3.2.1:
-  version "3.2.16"
-  resolved "https://registry.yarnpkg.com/stylis/-/stylis-3.2.16.tgz#f336893e55f9f13299b39c01af3b10546cd7507a"
+stylis@^3.4.0:
+  version "3.4.5"
+  resolved "https://registry.yarnpkg.com/stylis/-/stylis-3.4.5.tgz#d7b9595fc18e7b9c8775eca8270a9a1d3e59806e"
 
 supports-color@^2.0.0:
   version "2.0.0"
@@ -5866,22 +5855,6 @@ tar@^2.2.1:
     block-stream "*"
     fstream "^1.0.2"
     inherits "2"
-
-tcomb-form-native@^0.6.4:
-  version "0.6.8"
-  resolved "https://registry.yarnpkg.com/tcomb-form-native/-/tcomb-form-native-0.6.8.tgz#fccdd117d2712c338f6c3aae943690ec7357f061"
-  dependencies:
-    tcomb-validation "^3.0.0"
-
-tcomb-validation@^3.0.0:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/tcomb-validation/-/tcomb-validation-3.3.0.tgz#29ada8534203500e90b245eedd0e1a80f1909ba2"
-  dependencies:
-    tcomb "^3.0.0"
-
-tcomb@^3.0.0:
-  version "3.2.20"
-  resolved "https://registry.yarnpkg.com/tcomb/-/tcomb-3.2.20.tgz#823e689dcf3518d82c4b6c890a822aa6916692cd"
 
 temp@0.8.3:
   version "0.8.3"
