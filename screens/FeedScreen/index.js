@@ -1,11 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { graphql } from 'react-apollo'
-import gql from 'graphql-tag'
 
 import FeedContainer from './components/FeedContainer'
 import { Container } from '../../components/UI/Layout'
 import { sendAlert } from '../../components/Alerts'
+
+import alertsQuery from './queries/alerts'
 
 class FeedScreen extends React.Component {
   static propTypes = {
@@ -57,18 +58,7 @@ class FeedScreen extends React.Component {
   }
 }
 
-const AlertsQuery = gql`
-  query AlertsQuery {
-    alerts: me {
-      id
-      is_confirmed
-      unconfirmed_email
-      is_exceeding_private_connections_limit
-    }
-  }
-`
-
-const FeedScreenWithData = graphql(AlertsQuery, {
+const FeedScreenWithData = graphql(alertsQuery, {
   fetchPolicy: 'network-only',
 })(FeedScreen)
 
