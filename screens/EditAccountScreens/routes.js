@@ -1,4 +1,4 @@
-import headerNavigationOptions from '../../constants/Header'
+import React from 'react'
 
 import EditAccountNameScreen from './EditAccountNameScreen'
 import EditAccountBioScreen from './EditAccountBioScreen'
@@ -6,44 +6,56 @@ import EditAccountEmailScreen from './EditAccountEmailScreen'
 import EditEmailNotificationsScreen from './EditEmailNotificationsScreen'
 import EditAccountReceiveNewsletter from './EditAccountReceiveNewsletter'
 
+import SubmittableHeader from '../../components/SubmittableHeader'
+
 export default {
   editAccountName: {
     screen: EditAccountNameScreen,
-    navigationOptions: {
-      title: 'Name',
-      ...headerNavigationOptions,
-    },
+    navigationOptions: ({ navigation }) => ({
+      header: <SubmittableHeader
+        navigation={navigation}
+        title="Name"
+      />,
+    }),
   },
 
   editAccountBio: {
     screen: EditAccountBioScreen,
-    navigationOptions: {
-      title: 'Bio',
-      ...headerNavigationOptions,
-    },
+    navigationOptions: ({ navigation }) => ({
+      header: <SubmittableHeader
+        navigation={navigation}
+        title="Bio"
+      />,
+    }),
   },
 
   editAccountEmail: {
     screen: EditAccountEmailScreen,
-    navigationOptions: {
-      title: 'Email',
-      ...headerNavigationOptions,
-    },
+    navigationOptions: ({ navigation }) => ({
+      header: <SubmittableHeader
+        navigation={navigation}
+        title="Email"
+      />,
+    }),
   },
 
   editEmailNotifications: {
     screen: EditEmailNotificationsScreen,
-    navigationOptions: {
-      title: 'Email Preferences',
-      ...headerNavigationOptions,
-    },
+    navigationOptions: ({ navigation }) => ({
+      header: <SubmittableHeader
+        navigation={navigation}
+        title="Email Preferences"
+      />,
+    }),
   },
 
   editAccountReceiveNewsletter: {
     screen: EditAccountReceiveNewsletter,
-    navigationOptions: {
-      title: 'Newsletter',
-      ...headerNavigationOptions,
-    },
+    navigationOptions: ({ navigation }) => ({
+      header: <SubmittableHeader
+        navigation={navigation}
+        title="Newsletter"
+      />,
+    }),
   },
 }

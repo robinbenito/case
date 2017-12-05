@@ -134,4 +134,8 @@ class AppContainer extends Component {
   }
 }
 
+console.ignoredYellowBox = [
+  'Header.HEIGHT is deprecated and will be removed before react-navigation comes out of beta',
+]
+
 Expo.registerRootComponent(AppContainer)
