@@ -1,7 +1,7 @@
 import gql from 'graphql-tag'
 
 import ChannelHeader from '../components/ChannelHeader'
-import BlockModalMenu from '../../../components/BlockModalMenu'
+import blockModalMenuChannelFragment from '../../../components/BlockModalMenu/fragments/blockModalMenuChannel'
 
 export default gql`
   query ChannelQuery($id: ID!) {
@@ -23,5 +23,5 @@ export default gql`
     }
   }
   ${ChannelHeader.fragments.channelHeader}
-  ${BlockModalMenu.fragments.channel}
+  ${blockModalMenuChannelFragment}
 `
