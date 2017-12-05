@@ -1,7 +1,7 @@
 import gql from 'graphql-tag'
 
 import BlockItem from '../../../components/BlockItem'
-import BlockModalMenu from '../../../components/BlockModalMenu'
+import blockModalMenuBlockFragment from '../../../components/BlockModalMenu/fragments/blockModalMenuBlock'
 
 export default gql`
   query ChannelBlocksQuery($id: ID!, $page: Int!, $type: ConnectableTypeEnum) {
@@ -19,5 +19,5 @@ export default gql`
     }
   }
   ${BlockItem.fragments.block}
-  ${BlockModalMenu.fragments.block}
+  ${blockModalMenuBlockFragment}
 `

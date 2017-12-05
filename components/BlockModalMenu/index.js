@@ -1,37 +1,44 @@
 import React, { Component } from 'react'
 import { View } from 'react-native'
 import { graphql } from 'react-apollo'
-import gql from 'graphql-tag'
 import { propType } from 'graphql-anywhere'
 import PropTypes from 'prop-types'
 
-import { HorizontalRule } from './UI/Layout'
-import MenuButtonGroup from './Menu/MenuButtonGroup'
-import MenuButton from './Menu/MenuButton'
-import { closeModal } from './Modal'
+import { HorizontalRule } from '../UI/Layout'
+import MenuButtonGroup from '../Menu/MenuButtonGroup'
+import MenuButton from '../Menu/MenuButton'
+import { closeModal } from '../Modal'
 
-import { Colors } from '../constants/Style'
+import { Colors } from '../../constants/Style'
 
-import navigationService from '../utilities/navigationService'
-import alertErrors from '../utilities/alertErrors'
-import { pluralize } from '../utilities/inflections'
+import navigationService from '../../utilities/navigationService'
+import alertErrors from '../../utilities/alertErrors'
+import { pluralize } from '../../utilities/inflections'
 
-import {
-  ChannelQuery,
-  ChannelConnectionsQuery,
-  ChannelBlocksQuery,
-} from '../screens/ChannelScreen/components/ChannelContainer'
+import channelQuery from '../../screens/ChannelScreen/queries/channel'
+import channelBlocksQuery from '../../screens/ChannelScreen/queries/channelBlocks'
 
-export const deleteConnectionMutation = gql`
-  mutation deleteConnectionMutation($id: ID!) {
-    delete_connection(input: { id: $id }) {
-      clientMutationId
-      status
-    }
-  }
-`
+import deleteConnectionMutation from './mutations/deleteConnection'
+import blockModalMenuBlockFragment from './fragments/blockModalMenuBlock'
+import blockModalMenuChannelFragment from './fragments/blockModalMenuChannel'
 
 class BlockModalMenu extends Component {
+  static fragments = {
+    block: blockModalMenuBlockFragment,
+    channel: blockModalMenuChannelFragment,
+  }
+
+  static propTypes = {
+    channel: propType(blockModalMenuChannelFragment),
+    block: propType(blockModalMenuBlockFragment).isRequired,
+    deleteConnection: PropTypes.func,
+  }
+
+  static defaultProps = {
+    channel: null,
+    deleteConnection: null,
+  }
+
   connect = () => {
     const { block: { id, title } } = this.props
     this.close()
@@ -84,9 +91,8 @@ class BlockModalMenu extends Component {
     return deleteConnection({
       variables: { id },
       refetchQueries: [
-        { query: ChannelQuery, variables: { id: channel_id } },
-        { query: ChannelConnectionsQuery, variables: { id: channel_id } },
-        { query: ChannelBlocksQuery, variables: { id: channel_id, page: 1, type: 'BLOCK' } },
+        { query: channelQuery, variables: { id: channel_id } },
+        { query: channelBlocksQuery, variables: { id: channel_id, page: 1, type: 'BLOCK' } },
       ],
     })
 
@@ -140,49 +146,6 @@ class BlockModalMenu extends Component {
       </MenuButtonGroup>
     )
   }
-}
-
-BlockModalMenu.fragments = {
-  block: gql`
-    fragment BlockModalMenuBlock on Connectable {
-      id
-      title
-      can {
-        manage
-      }
-      connection {
-        id
-        can {
-          destroy
-        }
-      }
-      kind {
-        ...on Block {
-          counts {
-            comments
-          }
-        }
-      }
-    }
-  `,
-  channel: gql`
-    fragment BlockModalMenuChannel on Channel {
-      id
-      title
-      visibility
-    }
-  `,
-}
-
-BlockModalMenu.propTypes = {
-  channel: propType(BlockModalMenu.fragments.channel),
-  block: propType(BlockModalMenu.fragments.block).isRequired,
-  deleteConnection: PropTypes.func,
-}
-
-BlockModalMenu.defaultProps = {
-  channel: null,
-  deleteConnection: null,
 }
 
 export default graphql(deleteConnectionMutation, {

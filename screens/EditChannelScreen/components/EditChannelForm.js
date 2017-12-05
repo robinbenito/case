@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import ChannelForm from '../../../components/Form/ChannelForm'
-import { ChannelQuery } from '../../ChannelScreen/components/ChannelContainer'
+import channelQuery from '../../ChannelScreen/queries/channel'
 
 import navigationService from '../../../utilities/navigationService'
 import alertErrors from '../../../utilities/alertErrors'
@@ -16,19 +16,20 @@ export default class EditChannelForm extends Component {
     deleteChannel: PropTypes.func.isRequired,
   }
 
-  onSubmit = ({ visibility, ...rest }) => {
+  onSubmit = ({ title, description, visibility }) => {
     const { channel: { id }, updateChannel } = this.props
 
     return updateChannel({
       variables: {
         id,
+        title,
+        description,
         visibility: visibility.toUpperCase(),
-        ...rest,
       },
 
       refetchQueries: [
         {
-          query: ChannelQuery,
+          query: channelQuery,
           variables: {
             id,
           },
