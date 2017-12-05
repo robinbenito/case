@@ -8,7 +8,6 @@ const store = createStore(
     routes: reducers.routes,
     ui: reducers.ui,
     info: reducers.info,
-    ability: reducers.ability,
   }),
   compose(
     applyMiddleware(client.middleware()),

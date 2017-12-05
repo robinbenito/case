@@ -9,6 +9,8 @@ const setContainer = (container) => {
   _container = container
 }
 
+const getContainer = () => _container
+
 const reset = (routeName, params = {}) => {
   _container.dispatch(
     NavigationActions.reset({
@@ -43,6 +45,9 @@ const getCurrentParams = (state = null) =>
 const getCurrentRouteName = (state = null) =>
   (getCurrentRoute(state) || {}).routeName
 
+const getPreviousRoute = () =>
+  _container.state.nav.routes[_container.state.nav.index - 1]
+
 const back = (key) => {
   _container.dispatch(
     NavigationActions.back(key),
@@ -58,12 +63,18 @@ const navigate = (routeName, params = {}) => {
   )
 }
 
+const isStateCurrentState = state =>
+  _container.state.nav.index === _container.state.nav.routes.indexOf(state)
+
 export default {
   setContainer,
+  getContainer,
   navigate,
   reset,
   back,
   getCurrentRoute,
   getCurrentParams,
   getCurrentRouteName,
+  getPreviousRoute,
+  isStateCurrentState,
 }

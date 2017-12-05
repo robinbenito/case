@@ -7,28 +7,30 @@ import ImageForm from '../../components/Form/ImageForm'
 import createBlockMutation from '../AddConnectionScreen/mutations/createBlock'
 
 import addOrConnect from '../../utilities/addOrConnect'
+import navigationService from '../../utilities/navigationService'
+
+import addToWithContext from '../../hocs/addToWithContext'
 
 class AddImageScreen extends Component {
   static propTypes = {
     navigation: PropTypes.object.isRequired,
-    channel: PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      title: PropTypes.string.isRequired,
-      color: PropTypes.string.isRequired,
-    }),
     createBlock: PropTypes.func.isRequired,
+    can: PropTypes.shape({
+      add_to: PropTypes.bool.isRequired,
+    }).isRequired,
   }
 
-  static defaultProps = {
-    channel: null,
-  }
+  onSubmit = ({ title, description, image }) => {
+    const { can } = this.props
+    const { params } = navigationService.getPreviousRoute()
 
-  onSubmit = ({ title, description, image }) =>
-    addOrConnect({
+    return addOrConnect({
       variables: { title, description, image },
       mutation: this.props.createBlock,
-      channel: this.props.channel,
+      // If we `can.add_to` then add to the last channel directly
+      ...(can.add_to ? { channel: params } : {}),
     })
+  }
 
   render() {
     const { navigation } = this.props
@@ -48,7 +50,6 @@ class AddImageScreen extends Component {
   }
 }
 
-
 export default graphql(createBlockMutation, {
   name: 'createBlock',
-})(AddImageScreen)
+})(addToWithContext(AddImageScreen))

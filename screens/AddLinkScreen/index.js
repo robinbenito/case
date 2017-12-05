@@ -10,20 +10,17 @@ import createBlockMutation from '../AddConnectionScreen/mutations/createBlock'
 
 import wait from '../../utilities/wait'
 import addOrConnect from '../../utilities/addOrConnect'
+import navigationService from '../../utilities/navigationService'
+
+import addToWithContext from '../../hocs/addToWithContext'
 
 class AddLinkScreen extends Component {
   static propTypes = {
     navigation: PropTypes.object.isRequired,
     createBlock: PropTypes.func.isRequired,
-    channel: PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      title: PropTypes.string.isRequired,
-      color: PropTypes.string.isRequired,
-    }),
-  }
-
-  static defaultProps = {
-    channel: null,
+    can: PropTypes.shape({
+      add_to: PropTypes.bool.isRequired,
+    }).isRequired,
   }
 
   constructor(props) {
@@ -51,12 +48,17 @@ class AddLinkScreen extends Component {
       })
   }
 
-  onSubmit = ({ source_url }) =>
-    addOrConnect({
+  onSubmit = ({ source_url }) => {
+    const { can } = this.props
+    const { params } = navigationService.getPreviousRoute()
+
+    return addOrConnect({
       variables: { source_url },
       mutation: this.props.createBlock,
-      channel: this.props.channel,
+      // If we `can.add_to` then add to the last channel directly
+      ...(can.add_to ? { channel: params } : {}),
     })
+  }
 
   setUrl(url) {
     this.setState({
@@ -95,5 +97,4 @@ class AddLinkScreen extends Component {
 
 export default graphql(createBlockMutation, {
   name: 'createBlock',
-})(AddLinkScreen)
-
+})(addToWithContext(AddLinkScreen))

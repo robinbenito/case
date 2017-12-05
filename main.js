@@ -4,7 +4,6 @@ import { StyleSheet, View, StatusBar } from 'react-native'
 import { ApolloProvider } from 'react-apollo'
 import gql from 'graphql-tag'
 import { connect } from 'react-redux'
-import { defer } from 'lodash'
 
 import AddMenu from './components/AddMenu'
 import Modal from './components/Modal'
@@ -13,7 +12,7 @@ import { dismissAlertsOnCurrentRoute } from './components/Alerts'
 import createRootNavigator from './navigation/Routes'
 
 import Store from './state/Store'
-import { SET_CURRENT_ROUTE, SET_CURRENT_ABILITY } from './state/actions'
+import { SET_CURRENT_ROUTE } from './state/actions'
 import Client from './state/Apollo'
 
 import navigationService from './utilities/navigationService'
@@ -24,8 +23,8 @@ import { trackPage } from './utilities/analytics'
 const logo = require('./assets/images/logo.png')
 const searchIcon = require('./assets/images/searchIcon.png')
 
-const AddMenuWithState = connect(({ routes, ability, ui }) => ({
-  routes, ability, active: ui.isAddMenuActive,
+const AddMenuWithState = connect(({ routes, ui }) => ({
+  routes, active: ui.isAddMenuActive,
 }))(AddMenu)
 
 const StatusBarWithState = connect(({ ui }) => ({
@@ -59,16 +58,6 @@ class AppContainer extends Component {
       trackPage({ page: currentRoute.routeName })
 
       Store.dispatch({ type: SET_CURRENT_ROUTE, currentRoute })
-
-      defer(() => {
-        // TODO: Is there a way around this deferral?
-        // ChannelContainer#componentWillReceiveProps fires *after* a `back`
-        // navigation is executed and the component should unload.
-        // `onNavigationStateChange` executes *before* that happens, for whatever reason
-        // causing the Channel's `can` ability to get set over our reset state.
-        // Confusing.
-        Store.dispatch({ type: SET_CURRENT_ABILITY, can: {} })
-      })
 
       dismissAlertsOnCurrentRoute()
     }
