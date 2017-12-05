@@ -137,9 +137,11 @@ export default class AddMenu extends Component {
               <MenuButtonHitArea onPress={this.enterText}>
                 <MenuButtonIcon source={textIcon} />
                 <MenuButtonLabel>
-                  Enter text
+                  New text block
                 </MenuButtonLabel>
               </MenuButtonHitArea>
+
+              <HorizontalRule />
 
               <MenuButtonHitArea onPress={this.pasteLink}>
                 <MenuButtonIcon source={linkIcon} />
@@ -148,6 +150,8 @@ export default class AddMenu extends Component {
                 </MenuButtonLabel>
               </MenuButtonHitArea>
 
+              <HorizontalRule />
+
               <MenuButtonHitArea onPress={this.uploadImage}>
                 <MenuButtonIcon source={imageIcon} />
                 <MenuButtonLabel>
@@ -155,10 +159,12 @@ export default class AddMenu extends Component {
                 </MenuButtonLabel>
               </MenuButtonHitArea>
 
+              <HorizontalRule />
+
               <MenuButtonHitArea onPress={this.takePhoto}>
                 <MenuButtonIcon source={cameraIcon} />
                 <MenuButtonLabel>
-                  Take photo
+                  Take picture
                 </MenuButtonLabel>
               </MenuButtonHitArea>
             </MenuButtonGroup>
