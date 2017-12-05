@@ -32,8 +32,6 @@ import BlockEditButton from '../components/BlockEditButton'
 import BackButton from '../components/BackButton'
 import SubmittableHeader from '../components/SubmittableHeader'
 
-import headerNavigationOptions from '../constants/Header'
-
 import withParams from '../hocs/withParams'
 
 export default ({
@@ -99,8 +97,10 @@ export default ({
   comment: {
     screen: CommentScreen,
     navigationOptions: ({ navigation }) => ({
-      title: navigation.state.params.title,
-      ...headerNavigationOptions,
+      header: <SubmittableHeader
+        navigation={navigation}
+        title={navigation.state.params.title}
+      />,
     }),
   },
 
