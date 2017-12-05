@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 
 import { Container } from '../../components/UI/Layout'
 import ChannelContainer from './components/ChannelContainer'
