@@ -12,17 +12,16 @@ import uploadImageIfPresent from '../../utilities/uploadImageIfPresent'
 import SelectedChannels from './components/SelectedChannels'
 import StatusMessage from './components/StatusMessage'
 import SearchHeader from '../../components/SearchHeader'
-import { ChannelConnectionsQuery } from '../ChannelScreen/components/ChannelContainer'
 import SearchConnectionsWithData from './components/SearchConnections'
 import RecentConnectionsWithData, { RecentConnectionsQuery } from './components/RecentConnections'
 import { StatusBarAwareContainer } from '../../components/UI/Layout'
 import SimulatedProgressHeader from '../../components/SimulatedProgressHeader'
 
-import createConnectionMutation from './mutations/createConnection'
-import createBlockMutation from './mutations/createBlock'
-
+import channelConnectionsQuery from '../ChannelScreen/queries/channelConnections'
 import { BlockConnectionsQuery } from '../../screens/BlockScreen/components/BlockConnections'
 import { BlockQuery } from '../../screens/BlockScreen/components/BlockContents'
+import createConnectionMutation from './mutations/createConnection'
+import createBlockMutation from './mutations/createBlock'
 
 import { Colors, Units } from '../../constants/Style'
 
@@ -119,7 +118,7 @@ class AddConnectionsScreen extends Component {
     } else if (connectableType === 'CHANNEL') {
       refetchQueries = [...refetchQueries,
         {
-          query: ChannelConnectionsQuery,
+          query: channelConnectionsQuery,
           variables: { id: connectableId },
         },
       ]
