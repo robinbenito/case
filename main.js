@@ -11,7 +11,6 @@ import { dismissAlertsOnCurrentRoute } from './components/Alerts'
 import createRootNavigator from './navigation/Routes'
 
 import Store from './state/Store'
-import { SET_CURRENT_ROUTE } from './state/actions'
 import Client from './state/Apollo'
 
 import navigationService from './utilities/navigationService'
@@ -46,8 +45,6 @@ class AppContainer extends Component {
 
     if (prevRoute.routeName !== currentRoute.routeName) {
       trackPage({ page: currentRoute.routeName })
-
-      Store.dispatch({ type: SET_CURRENT_ROUTE, currentRoute })
 
       dismissAlertsOnCurrentRoute()
     }
@@ -92,13 +89,6 @@ class AppContainer extends Component {
     if (isAssetsLoaded && isStorageChecked) {
       const initialRouteName = isLoggedIn ? 'feed' : 'loggedOut'
       const Navigation = createRootNavigator(initialRouteName)
-
-      Store.dispatch({
-        type: SET_CURRENT_ROUTE,
-        currentRoute: {
-          routeName: initialRouteName,
-        },
-      })
 
       return (
         <ApolloProvider store={Store} client={Client}>

@@ -5,7 +5,6 @@ import * as reducers from './reducers'
 const store = createStore(
   combineReducers({
     apollo: client.reducer(),
-    routes: reducers.routes,
     ui: reducers.ui,
     info: reducers.info,
   }),

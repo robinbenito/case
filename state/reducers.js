@@ -1,7 +1,6 @@
 import { reduce } from 'lodash'
 
 import {
-  SET_CURRENT_ROUTE,
   SET_HEADER_TITLE_VISIBILITY,
   SET_HEADER_MENU_VISIBILITY,
   SEND_ALERT,
@@ -14,12 +13,6 @@ import {
  } from './actions'
 
 const INITIAL_STATES = {
-  routes: {
-    currentRoute: {
-      routeName: null,
-    },
-  },
-
   ui: {
     isHeaderTitleVisible: true,
     isHeaderMenuActive: false,
@@ -31,15 +24,6 @@ const INITIAL_STATES = {
     alerts: {},
     dismissedAlertIds: [],
   },
-}
-
-export const routes = (state = INITIAL_STATES.routes, action) => {
-  switch (action.type) {
-    case SET_CURRENT_ROUTE:
-      return { ...state, currentRoute: action.currentRoute }
-    default:
-      return state
-  }
 }
 
 export const ui = (state = INITIAL_STATES.ui, action) => {
