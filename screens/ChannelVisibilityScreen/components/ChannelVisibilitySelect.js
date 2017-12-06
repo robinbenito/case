@@ -140,6 +140,7 @@ ChannelVisibilitySelect.fragments = {
     fragment ChannelVisibilitySelectFragment on Me {
       id
       is_exceeding_private_connections_limit
+      is_premium
       counts {
         private_connections
         private_connections_limit
