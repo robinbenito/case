@@ -48,7 +48,7 @@ class BlockModalMenu extends Component {
   }
 
   leaveComment = () => {
-    const { block: { id, counts: { comments } } } = this.props
+    const { block: { id, kind: { counts: { comments } } } } = this.props
     this.close()
     navigationService.navigate('comment', {
       id, title: pluralize(comments, 'Comment'),
