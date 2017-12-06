@@ -8,7 +8,7 @@ import MenuButton from '../Menu/MenuButton'
 import { Border, Units } from '../../constants/Style'
 
 const HitArea = styled(MenuButton.HitArea).attrs({
-  activeOpacity: 1,
+  activeOpacity: 0.6,
 })`
   width: 100%;
 `
@@ -33,17 +33,22 @@ export default class AddButton extends React.Component {
 
   static propTypes = {
     onPress: PropTypes.func.isRequired,
+    title: PropTypes.string.isRequired,
+  }
+
+  static defaultProps = {
+    title: 'Are.na',
   }
 
   render() {
-    const { onPress, ...rest } = this.props
+    const { title, onPress, ...rest } = this.props
 
     return (
       <HitArea onPress={onPress} {...rest}>
         <VisibleArea>
           <MenuButton.Icon source={addIcon} />
           <MenuButton.Label>
-            Add to Are.na
+            Add to {title}
           </MenuButton.Label>
         </VisibleArea>
       </HitArea>

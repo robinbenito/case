@@ -5,7 +5,6 @@ import { ApolloProvider } from 'react-apollo'
 import gql from 'graphql-tag'
 import { connect } from 'react-redux'
 
-import AddMenu from './components/AddMenu'
 import Modal from './components/Modal'
 import { dismissAlertsOnCurrentRoute } from './components/Alerts'
 
@@ -109,7 +108,6 @@ class AppContainer extends Component {
               onNavigationStateChange={this.onNavigationStateChange}
               ref={navigationService.setContainer}
             />
-            <AddMenu />
             <Modal />
           </View>
         </ApolloProvider>

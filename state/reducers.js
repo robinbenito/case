@@ -3,8 +3,6 @@ import { reduce } from 'lodash'
 import {
   SET_CURRENT_ROUTE,
   SET_HEADER_TITLE_VISIBILITY,
-  CLOSE_ADD_MENU,
-  TOGGLE_ADD_MENU,
   SET_HEADER_MENU_VISIBILITY,
   SEND_ALERT,
   DISMISS_ALERT,
@@ -24,7 +22,6 @@ const INITIAL_STATES = {
 
   ui: {
     isHeaderTitleVisible: true,
-    isAddMenuActive: false,
     isHeaderMenuActive: false,
     modal: {},
     header: {},
@@ -49,12 +46,6 @@ export const ui = (state = INITIAL_STATES.ui, action) => {
   switch (action.type) {
     case SET_HEADER_TITLE_VISIBILITY:
       return { ...state, isHeaderTitleVisible: action.isHeaderTitleVisible }
-
-    case TOGGLE_ADD_MENU:
-      return { ...state, isAddMenuActive: !state.isAddMenuActive }
-
-    case CLOSE_ADD_MENU:
-      return { ...state, isAddMenuActive: false }
 
     case SET_HEADER_MENU_VISIBILITY:
       return { ...state, isHeaderMenuActive: action.isHeaderMenuActive }

@@ -5,13 +5,11 @@ import styled from 'styled-components/native'
 import { Colors, Typography, Units } from '../../constants/Style'
 
 const MENU_BUTTON_HEIGHT = 48
-
 const MenuButtonHitArea = styled.TouchableOpacity`
   padding-horizontal: ${Units.scale[3]};
   flex-direction: row;
   align-items: center;
   height: ${MENU_BUTTON_HEIGHT};
-  ${x => x.centered && 'justify-content: center;'}
 `
 
 const MenuButtonIcon = styled.Image`
@@ -28,6 +26,8 @@ const MenuButtonLabel = styled.Text.attrs({
   font-size: ${Typography.fontSize.smedium};
   font-weight: ${Typography.fontWeight.medium};
   color: ${Colors.semantic.text};
+  flex: 1;
+  ${x => x.centered && 'text-align: center;'}
 `
 
 export default class MenuButton extends Component {
@@ -51,12 +51,12 @@ export default class MenuButton extends Component {
     const { children, icon, centered, ...rest } = this.props
 
     return (
-      <MenuButtonHitArea centered={centered} {...rest}>
+      <MenuButtonHitArea {...rest}>
         {icon &&
           <MenuButtonIcon source={icon} />
         }
 
-        <MenuButtonLabel>
+        <MenuButtonLabel centered={centered}>
           {children}
         </MenuButtonLabel>
       </MenuButtonHitArea>
