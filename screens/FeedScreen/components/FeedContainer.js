@@ -6,12 +6,11 @@ import { ActivityIndicator, FlatList } from 'react-native'
 
 import { Units } from '../../../constants/Style'
 
-import withErrors from '../../../hocs/withErrors'
-
 import FeedContents from './FeedContents'
 import { CenterColumn, CenteringPane } from '../../../components/UI/Layout'
 import FeedGroupSentence from '../../../components/FeedGroupSentence'
 import LoadingScreen from '../../../components/LoadingScreen'
+import { ButtonLabel, Button } from '../../../components/UI/Buttons'
 import { GenericMessage } from '../../../components/UI/Alerts'
 
 import feedQuery from '../queries/feed'
@@ -20,6 +19,9 @@ const ItemContainer = styled.View`
   margin-bottom: ${Units.scale[4]};
 `
 
+const ErrorMessage = styled(GenericMessage)`
+  margin-bottom: ${Units.scale[4]};
+`
 const Footer = styled(CenterColumn)`
   margin-vertical: ${Units.base};
 `
@@ -94,11 +96,24 @@ class FeedContainer extends React.Component {
   )
 
   render() {
-    const { data: { loading, me } } = this.props
+    const { data: { loading, me, error } } = this.props
 
     if (loading && !me) {
       return <LoadingScreen />
     }
+
+    const ErrorComponent = (
+      <CenteringPane>
+        <ErrorMessage>
+          Oops! Something went wrong.
+        </ErrorMessage>
+        <Button onPress={this.onRefresh}>
+          <ButtonLabel>Refresh</ButtonLabel>
+        </Button>
+      </CenteringPane>
+    )
+
+    if (error) return ErrorComponent
 
     const EmptyComponent = (
       <CenteringPane>
@@ -160,6 +175,6 @@ const FeedContainerWithData = graphql(feedQuery, {
       })
     },
   }),
-})(withErrors(FeedContainer))
+})(FeedContainer)
 
 export default FeedContainerWithData
