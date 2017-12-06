@@ -30,10 +30,6 @@ const StatusBarWithState = connect(({ ui }) => ({
   hidden: (ui.isAddMenuActive || ui.isHeaderMenuActive),
 }))(StatusBar)
 
-const ModalWithState = connect(({ ui }) => ({
-  ...ui.modal,
-}))(Modal)
-
 class AppContainer extends Component {
   constructor(props) {
     super(props)
@@ -118,7 +114,7 @@ class AppContainer extends Component {
               ref={navigationService.setContainer}
             />
             <AddMenuWithState />
-            <ModalWithState />
+            <Modal />
           </View>
         </ApolloProvider>
       )
