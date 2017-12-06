@@ -21,7 +21,6 @@
     "assetExts": ["ttf"]
   },
   "ios": {
-    "loadJSInBackgroundExperimental": true,
     "supportsTablet": true,
     "bundleIdentifier": "na.are.arenaapp",
     "config": {
