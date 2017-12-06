@@ -4,9 +4,10 @@
   "slug": "arena",
   "privacy": "public",
   "sdkVersion": "23.0.0",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "orientation": "portrait",
   "primaryColor": "#ffffff",
+  "scheme": "arena",
   "icon": "https://s3.amazonaws.com/arena_assets/assets/brand/arena-app-icon.png",
   "notification": {
     "icon": "https://s3.amazonaws.com/arena_assets/assets/brand/arena-app-icon.png",
@@ -20,6 +21,7 @@
     "assetExts": ["ttf"]
   },
   "ios": {
+    "loadJSInBackgroundExperimental": true,
     "supportsTablet": true,
     "bundleIdentifier": "na.are.arenaapp",
     "config": {
