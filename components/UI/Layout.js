@@ -12,8 +12,8 @@ export const TouchableFill = styled.TouchableOpacity`
   position: absolute;
   bottom: 0;
   right: 0;
-  width: ${({ active }) => (active ? '100%' : 100)};
-  height: ${({ active }) => (active ? '100%' : 100)};
+  width: ${({ active, inactiveWidth }) => (active ? '100%' : (inactiveWidth || 0))};
+  height: ${({ active, inactiveHeight }) => (active ? '100%' : (inactiveHeight || 0))};
   align-items: center;
   justify-content: center;
 `
