@@ -20,8 +20,7 @@ import cacheAssetsAsync from './utilities/cacheAssetsAsync'
 import currentUserService from './utilities/currentUserService'
 import { trackPage } from './utilities/analytics'
 
-const logo = require('./assets/images/logo.png')
-const searchIcon = require('./assets/images/searchIcon.png')
+import cachedAssets from './cachedAssets'
 
 const AddMenuWithState = connect(({ routes, ui }) => ({
   routes, active: ui.isAddMenuActive,
@@ -65,12 +64,7 @@ class AppContainer extends Component {
 
   async loadAssetsAsync() {
     try {
-      await cacheAssetsAsync({
-        images: [
-          logo,
-          searchIcon,
-        ],
-      })
+      await cacheAssetsAsync(cachedAssets)
     } finally {
       this.setState({ isAssetsLoaded: true })
     }
