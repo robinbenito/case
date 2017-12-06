@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
+import { connect } from 'react-redux'
 
 import AddButton from './AddButton'
 import AddMenuOptions from './AddMenuOptions'
@@ -8,11 +9,12 @@ import { openModal } from '../Modal'
 
 import { Units } from '../../constants/Style'
 
-const INACTIVE_HEIGHT = AddButton.height + (Units.scale[2] * 2)
+const HEIGHT_WITH_PADDING = AddButton.height + (Units.scale[2] * 2)
 
 const Container = styled.View`
+  display: ${x => (x.visible ? 'flex' : 'none')};
   width: 100%;
-  height: ${INACTIVE_HEIGHT};
+  height: ${HEIGHT_WITH_PADDING};
   justify-content: center;
   position: absolute;
   bottom: 0;
@@ -22,21 +24,23 @@ const Container = styled.View`
 
 class AddMenu extends Component {
   static propTypes = {
-    title: PropTypes.string,
+    title: PropTypes.string.isRequired,
+    visible: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
     title: 'Are.na',
+    visible: false,
   }
 
   open = () =>
     openModal({ children: <AddMenuOptions /> })
 
   render() {
-    const { title } = this.props
+    const { title, visible } = this.props
 
     return (
-      <Container>
+      <Container visible={visible}>
         <AddButton
           title={title}
           onPress={this.open}
@@ -46,4 +50,5 @@ class AddMenu extends Component {
   }
 }
 
-export default AddMenu
+export default connect(({ ui: { isHeaderTitleVisible } }) =>
+  ({ visible: isHeaderTitleVisible }))(AddMenu)
