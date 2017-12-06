@@ -2,11 +2,12 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
 import { ImagePicker } from 'expo'
-import { CameraRoll, View } from 'react-native'
+import { CameraRoll, View, Text } from 'react-native'
 
 import AddButton from './AddButton'
 import MenuButtonGroup from '../Menu/MenuButtonGroup'
-import { MenuButtonHitArea, MenuButtonLabel, MenuButtonIcon } from '../Menu/MenuButton'
+import MenuButton from '../Menu/MenuButton'
+
 import {
   TouchableFill,
   AbsoluteFill,
@@ -19,13 +20,14 @@ import { TOGGLE_ADD_MENU, CLOSE_ADD_MENU } from '../../state/actions'
 
 import navigationService from '../../utilities/navigationService'
 
-import { Typography, Units, Colors } from '../../constants/Style'
+import { Border, Colors, Units } from '../../constants/Style'
 
 const addIcon = require('./icons/add.png')
 const textIcon = require('./icons/text.png')
 const linkIcon = require('./icons/link.png')
 const imageIcon = require('./icons/image.png')
 const cameraIcon = require('./icons/camera.png')
+const cancelIcon = require('./icons/cancel.png')
 
 const ADD_MENU_ROUTE_WHITELIST = [
   'feed',
@@ -33,19 +35,22 @@ const ADD_MENU_ROUTE_WHITELIST = [
   'profile',
 ]
 
+const INACTIVE_HEIGHT = AddButton.height + (Units.scale[2] * 2)
+
+const CancelButtonGroup = styled(MenuButtonGroup)`
+  margin-vertical: ${Units.scale[2]};
+  border-width: 0;
+`
+
+const CancelButton = styled(MenuButton)`
+  border-color: ${Colors.gray.semiBold};
+  border-width: 1;
+  border-radius: ${Border.borderRadius}
+`
+
 const BackgroundFill = styled(AbsoluteFill)`
   padding-horizontal: ${Units.base};
   justify-content: flex-end;
-`
-
-const Cancel = styled.Text`
-  align-self: center;
-  padding-vertical: ${Units.base};
-  margin-vertical: ${Units.scale[2]};
-  font-size: ${Typography.fontSize.medium};
-  font-weight: ${Typography.fontWeight.normal};
-  color: ${Colors.state.alert};
-  background-color: transparent;
 `
 
 export default class AddMenu extends Component {
@@ -111,6 +116,8 @@ export default class AddMenu extends Component {
       <TouchableFill
         activeOpacity={1}
         active={active}
+        inactiveWidth="100%"
+        inactiveHeight={INACTIVE_HEIGHT}
         onPress={this.toggleAddMenu}
       >
         {!active &&
@@ -125,51 +132,60 @@ export default class AddMenu extends Component {
             <BlurredAbsoluteFill />
 
             <MenuButtonGroup>
-              <MenuButtonHitArea onPress={this.newChannel}>
-                <MenuButtonIcon source={addIcon} />
-                <MenuButtonLabel>
-                  New channel
-                </MenuButtonLabel>
-              </MenuButtonHitArea>
+              <MenuButton
+                onPress={this.newChannel}
+                icon={addIcon}
+              >
+                New channel
+              </MenuButton>
 
               <HorizontalRule />
 
-              <MenuButtonHitArea onPress={this.enterText}>
-                <MenuButtonIcon source={textIcon} />
-                <MenuButtonLabel>
-                  New text block
-                </MenuButtonLabel>
-              </MenuButtonHitArea>
+              <MenuButton
+                onPress={this.enterText}
+                icon={textIcon}
+              >
+                New text block
+              </MenuButton>
 
               <HorizontalRule />
 
-              <MenuButtonHitArea onPress={this.pasteLink}>
-                <MenuButtonIcon source={linkIcon} />
-                <MenuButtonLabel>
-                  Paste link
-                </MenuButtonLabel>
-              </MenuButtonHitArea>
+              <MenuButton
+                onPress={this.pasteLink}
+                icon={linkIcon}
+              >
+                Paste link
+              </MenuButton>
 
               <HorizontalRule />
 
-              <MenuButtonHitArea onPress={this.uploadImage}>
-                <MenuButtonIcon source={imageIcon} />
-                <MenuButtonLabel>
-                  Upload image
-                </MenuButtonLabel>
-              </MenuButtonHitArea>
+              <MenuButton
+                onPress={this.uploadImage}
+                icon={imageIcon}
+              >
+                Upload image
+              </MenuButton>
 
               <HorizontalRule />
 
-              <MenuButtonHitArea onPress={this.takePhoto}>
-                <MenuButtonIcon source={cameraIcon} />
-                <MenuButtonLabel>
-                  Take picture
-                </MenuButtonLabel>
-              </MenuButtonHitArea>
+              <MenuButton
+                onPress={this.takePhoto}
+                icon={cameraIcon}
+              >
+                Take picture
+              </MenuButton>
             </MenuButtonGroup>
 
-            <Cancel>Cancel</Cancel>
+            <CancelButtonGroup>
+              <CancelButton
+                onPress={this.toggleAddMenu}
+                icon={cancelIcon}
+              >
+                <Text style={{ color: Colors.gray.semiBold }}>
+                  Cancel
+                </Text>
+              </CancelButton>
+            </CancelButtonGroup>
           </BackgroundFill>
         }
       </TouchableFill>

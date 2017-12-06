@@ -2,60 +2,51 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
 import { BlurView } from 'expo'
-import { Units } from '../../constants/Style'
 
-const BUTTON_SIZE = 60
-const PLUS_THICKNESS = 2.5
-const PLUS_SIZE = 66.66
-const PLUS_COLOR = 'black'
+import MenuButton from '../Menu/MenuButton'
 
-const HitArea = styled.TouchableOpacity`
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  padding-horizontal: ${Units.base};
-  padding-vertical: ${Units.base};
+import { Border, Units } from '../../constants/Style'
+
+const HitArea = styled(MenuButton.HitArea).attrs({
+  activeOpacity: 1,
+})`
+  width: 100%;
 `
 
 const VisibleArea = styled(BlurView).attrs({
   intensity: 100,
 })`
-  border-radius: ${BUTTON_SIZE / 2};
-  width: ${BUTTON_SIZE};
-  height: ${BUTTON_SIZE};
+  width: 100%;
+  height: 100%;
+  flex-direction: row;
   align-items: center;
-  justify-content: center;
+  padding-horizontal: ${Units.scale[3]};
   border-width: 1;
+  border-radius: ${Border.borderRadius};
   border-color: rgba(0, 0, 0, 0.25);
 `
 
-const PlusStrokeA = styled.View`
-  position: absolute;
-  width: ${PLUS_SIZE / 2}%;
-  height: ${PLUS_THICKNESS};
-  background-color: ${PLUS_COLOR};
-`
-
-const PlusStrokeB = styled.View`
-  position: absolute;
-  height: ${PLUS_SIZE / 2}%;
-  width: ${PLUS_THICKNESS};
-  background-color: ${PLUS_COLOR};
-`
+const addIcon = require('./icons/add.png')
 
 export default class AddButton extends React.Component {
+  static height = MenuButton.height
+
+  static propTypes = {
+    onPress: PropTypes.func.isRequired,
+  }
+
   render() {
+    const { onPress, ...rest } = this.props
+
     return (
-      <HitArea onPress={this.props.onPress}>
+      <HitArea onPress={onPress} {...rest}>
         <VisibleArea>
-          <PlusStrokeA />
-          <PlusStrokeB />
+          <MenuButton.Icon source={addIcon} />
+          <MenuButton.Label>
+            Add to Are.na
+          </MenuButton.Label>
         </VisibleArea>
       </HitArea>
     )
   }
-}
-
-AddButton.propTypes = {
-  onPress: PropTypes.func.isRequired,
 }
