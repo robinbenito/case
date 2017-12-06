@@ -22,10 +22,6 @@ import { trackPage } from './utilities/analytics'
 
 import cachedAssets from './cachedAssets'
 
-const AddMenuWithState = connect(({ routes, ui }) => ({
-  routes, active: ui.isAddMenuActive,
-}))(AddMenu)
-
 const StatusBarWithState = connect(({ ui }) => ({
   hidden: (ui.isAddMenuActive || ui.isHeaderMenuActive),
 }))(StatusBar)
@@ -113,7 +109,7 @@ class AppContainer extends Component {
               onNavigationStateChange={this.onNavigationStateChange}
               ref={navigationService.setContainer}
             />
-            <AddMenuWithState />
+            <AddMenu />
             <Modal />
           </View>
         </ApolloProvider>

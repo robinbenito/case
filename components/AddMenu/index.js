@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
 import { ImagePicker } from 'expo'
 import { CameraRoll, View, Text } from 'react-native'
+import { connect } from 'react-redux'
 
 import AddButton from './AddButton'
 import MenuButtonGroup from '../Menu/MenuButtonGroup'
@@ -53,7 +54,22 @@ const BackgroundFill = styled(AbsoluteFill)`
   justify-content: flex-end;
 `
 
-export default class AddMenu extends Component {
+class AddMenu extends Component {
+  static propTypes = {
+    active: PropTypes.bool.isRequired,
+    routes: PropTypes.shape({
+      currentRoute: PropTypes.shape({
+        routeName: PropTypes.string.isRequired,
+      }).isRequired,
+    }).isRequired,
+  }
+
+  static defaultProps = {
+    routes: {
+      currentRoute: {},
+    },
+  }
+
   newChannel = () => {
     this.closeAddMenu()
     navigationService.navigate('newChannel')
@@ -193,17 +209,6 @@ export default class AddMenu extends Component {
   }
 }
 
-AddMenu.propTypes = {
-  active: PropTypes.bool.isRequired,
-  routes: PropTypes.shape({
-    currentRoute: PropTypes.shape({
-      routeName: PropTypes.string.isRequired,
-    }).isRequired,
-  }).isRequired,
-}
-
-AddMenu.defaultProps = {
-  routes: {
-    currentRoute: {},
-  },
-}
+export default connect(({ routes, ui }) => ({
+  routes, active: ui.isAddMenuActive,
+}))(AddMenu)
