@@ -16,6 +16,8 @@ import { GenericMessage } from '../../../components/UI/Alerts'
 
 import feedQuery from '../queries/feed'
 
+import scrollSensorForAddButton from '../../../utilities/scrollSensorForAddButton'
+
 const ItemContainer = styled.View`
   margin-bottom: ${Units.scale[4]};
 `
@@ -124,6 +126,8 @@ class FeedContainer extends React.Component {
         ListFooterComponent={this.renderLoader}
         ListEmptyComponent={EmptyComponent}
         renderItem={this.renderItem}
+        onScroll={scrollSensorForAddButton}
+        scrollEventThrottle={50}
       />
     )
   }

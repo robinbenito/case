@@ -10,7 +10,8 @@ import BlockItem from '../../../components/BlockItem'
 import BlockModalMenu from '../../../components/BlockModalMenu'
 import { openModal } from '../../../components/Modal'
 
-import scrollHeaderVisibilitySensor from '../../../utilities/scrollHeaderVisibilitySensor'
+import scrollSensorForHeader from '../../../utilities/scrollSensorForHeader'
+import scrollSensorForAddButton from '../../../utilities/scrollSensorForAddButton'
 import { networkStatusesService } from '../../../utilities/networkStatusService'
 import alertErrors from '../../../utilities/alertErrors'
 
@@ -59,7 +60,7 @@ class ChannelContents extends Component {
   }
 
   componentDidMount() {
-    scrollHeaderVisibilitySensor.dispatch(false)
+    scrollSensorForHeader.dispatch(false)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -93,6 +94,8 @@ class ChannelContents extends Component {
     channelData.refetch()
     data.refetch()
   }
+
+  onScroll = compose(scrollSensorForHeader, scrollSensorForAddButton)
 
   onBlockLongPress = ({ block, channel }) => () => {
     openModal({
@@ -163,7 +166,7 @@ class ChannelContents extends Component {
         onRefresh={this.onRefresh}
         onEndReached={this.onEndReached}
         onEndReachedThreshold={0.9}
-        onScroll={scrollHeaderVisibilitySensor}
+        onScroll={this.onScroll}
         scrollEventThrottle={50}
         ListHeaderComponent={header}
         ListFooterComponent={

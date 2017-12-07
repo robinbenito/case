@@ -48,7 +48,7 @@ class BlockModalMenu extends Component {
   }
 
   leaveComment = () => {
-    const { block: { id, counts: { comments } } } = this.props
+    const { block: { id, kind: { counts: { comments } } } } = this.props
     this.close()
     navigationService.navigate('comment', {
       id, title: pluralize(comments, 'Comment'),
@@ -113,32 +113,60 @@ class BlockModalMenu extends Component {
 
     return (
       <MenuButtonGroup>
-        <MenuButton onPress={this.connect}>Connect &rarr;</MenuButton>
+        <MenuButton
+          centered
+          onPress={this.connect}
+        >
+            Connect &rarr;
+        </MenuButton>
 
         <HorizontalRule />
-        <MenuButton onPress={this.leaveComment}>Leave comment</MenuButton>
+        <MenuButton
+          centered
+          onPress={this.leaveComment}
+        >
+          Leave comment
+        </MenuButton>
 
         <HorizontalRule />
-        <MenuButton onPress={this.visitBlock}>Visit block</MenuButton>
+        <MenuButton
+          centered
+          onPress={this.visitBlock}
+        >
+          Visit block
+        </MenuButton>
 
         {channel &&
           <View>
             <HorizontalRule />
-            <MenuButton onPress={this.visitChannel}>Visit channel</MenuButton>
+            <MenuButton
+              centered
+              onPress={this.visitChannel}
+            >
+              Visit channel
+            </MenuButton>
           </View>
         }
 
         {block.can.manage &&
           <View>
             <HorizontalRule />
-            <MenuButton onPress={this.editBlock}>Edit block</MenuButton>
+            <MenuButton
+              centered
+              onPress={this.editBlock}
+            >
+              Edit block
+            </MenuButton>
           </View>
         }
 
         {block.connection.can.destroy &&
           <View>
             <HorizontalRule />
-            <MenuButton onPress={this.deleteConnection}>
+            <MenuButton
+              centered
+              onPress={this.deleteConnection}
+            >
               Remove from {channel.title}
             </MenuButton>
           </View>

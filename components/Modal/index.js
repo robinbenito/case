@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
 import { View } from 'react-native'
+import { connect } from 'react-redux'
 
 import { AbsoluteFill, BlurredAbsoluteFill, TouchableFill } from '../UI/Layout'
 
@@ -25,7 +26,7 @@ export const openModal = (options = {}) =>
 export const closeModal = () =>
   Store.dispatch({ type: CLOSE_MODAL })
 
-export default class Modal extends Component {
+class Modal extends Component {
   static propTypes = {
     active: PropTypes.bool.isRequired,
     children: PropTypes.node,
@@ -52,3 +53,5 @@ export default class Modal extends Component {
     )
   }
 }
+
+export default connect(({ ui }) => ({ ...ui.modal }))(Modal)

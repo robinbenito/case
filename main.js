@@ -5,14 +5,12 @@ import { ApolloProvider } from 'react-apollo'
 import gql from 'graphql-tag'
 import { connect } from 'react-redux'
 
-import AddMenu from './components/AddMenu'
 import Modal from './components/Modal'
 import { dismissAlertsOnCurrentRoute } from './components/Alerts'
 
 import createRootNavigator from './navigation/Routes'
 
 import Store from './state/Store'
-import { SET_CURRENT_ROUTE } from './state/actions'
 import Client from './state/Apollo'
 
 import navigationService from './utilities/navigationService'
@@ -20,20 +18,11 @@ import cacheAssetsAsync from './utilities/cacheAssetsAsync'
 import currentUserService from './utilities/currentUserService'
 import { trackPage } from './utilities/analytics'
 
-const logo = require('./assets/images/logo.png')
-const searchIcon = require('./assets/images/searchIcon.png')
-
-const AddMenuWithState = connect(({ routes, ui }) => ({
-  routes, active: ui.isAddMenuActive,
-}))(AddMenu)
+import cachedAssets from './cachedAssets'
 
 const StatusBarWithState = connect(({ ui }) => ({
   hidden: (ui.isAddMenuActive || ui.isHeaderMenuActive),
 }))(StatusBar)
-
-const ModalWithState = connect(({ ui }) => ({
-  ...ui.modal,
-}))(Modal)
 
 class AppContainer extends Component {
   constructor(props) {
@@ -57,20 +46,13 @@ class AppContainer extends Component {
     if (prevRoute.routeName !== currentRoute.routeName) {
       trackPage({ page: currentRoute.routeName })
 
-      Store.dispatch({ type: SET_CURRENT_ROUTE, currentRoute })
-
       dismissAlertsOnCurrentRoute()
     }
   }
 
   async loadAssetsAsync() {
     try {
-      await cacheAssetsAsync({
-        images: [
-          logo,
-          searchIcon,
-        ],
-      })
+      await cacheAssetsAsync(cachedAssets)
     } finally {
       this.setState({ isAssetsLoaded: true })
     }
@@ -108,13 +90,6 @@ class AppContainer extends Component {
       const initialRouteName = isLoggedIn ? 'feed' : 'loggedOut'
       const Navigation = createRootNavigator(initialRouteName)
 
-      Store.dispatch({
-        type: SET_CURRENT_ROUTE,
-        currentRoute: {
-          routeName: initialRouteName,
-        },
-      })
-
       return (
         <ApolloProvider store={Store} client={Client}>
           <View style={StyleSheet.absoluteFill}>
@@ -123,8 +98,7 @@ class AppContainer extends Component {
               onNavigationStateChange={this.onNavigationStateChange}
               ref={navigationService.setContainer}
             />
-            <AddMenuWithState />
-            <ModalWithState />
+            <Modal />
           </View>
         </ApolloProvider>
       )

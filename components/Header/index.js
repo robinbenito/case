@@ -137,5 +137,5 @@ Header.defaultProps = {
   isHeaderTitleVisible: true,
 }
 
-const selector = ({ ui: { isHeaderTitleVisible } }) => ({ isHeaderTitleVisible })
-export default connect(selector)(Header)
+export default connect(({ ui: { isHeaderTitleVisible } }) =>
+  ({ isHeaderTitleVisible }))(Header)

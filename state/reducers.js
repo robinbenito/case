@@ -1,11 +1,9 @@
 import { reduce } from 'lodash'
 
 import {
-  SET_CURRENT_ROUTE,
   SET_HEADER_TITLE_VISIBILITY,
-  CLOSE_ADD_MENU,
-  TOGGLE_ADD_MENU,
   SET_HEADER_MENU_VISIBILITY,
+  SET_ADD_BUTTON_VISIBILITY,
   SEND_ALERT,
   DISMISS_ALERT,
   DISMISS_ALL_ALERTS,
@@ -16,16 +14,10 @@ import {
  } from './actions'
 
 const INITIAL_STATES = {
-  routes: {
-    currentRoute: {
-      routeName: null,
-    },
-  },
-
   ui: {
     isHeaderTitleVisible: true,
-    isAddMenuActive: false,
     isHeaderMenuActive: false,
+    isAddButtonVisible: false,
     modal: {},
     header: {},
   },
@@ -36,28 +28,16 @@ const INITIAL_STATES = {
   },
 }
 
-export const routes = (state = INITIAL_STATES.routes, action) => {
-  switch (action.type) {
-    case SET_CURRENT_ROUTE:
-      return { ...state, currentRoute: action.currentRoute }
-    default:
-      return state
-  }
-}
-
 export const ui = (state = INITIAL_STATES.ui, action) => {
   switch (action.type) {
     case SET_HEADER_TITLE_VISIBILITY:
       return { ...state, isHeaderTitleVisible: action.isHeaderTitleVisible }
 
-    case TOGGLE_ADD_MENU:
-      return { ...state, isAddMenuActive: !state.isAddMenuActive }
-
-    case CLOSE_ADD_MENU:
-      return { ...state, isAddMenuActive: false }
-
     case SET_HEADER_MENU_VISIBILITY:
       return { ...state, isHeaderMenuActive: action.isHeaderMenuActive }
+
+    case SET_ADD_BUTTON_VISIBILITY:
+      return { ...state, isAddButtonVisible: action.isAddButtonVisible }
 
     case OPEN_MODAL:
       return { ...state, modal: { ...action.modal, active: true } }

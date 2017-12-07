@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { graphql } from 'react-apollo'
 
 import FeedContainer from './components/FeedContainer'
+import AddMenu from '../../components/AddMenu'
 import { Container } from '../../components/UI/Layout'
 import { sendAlert } from '../../components/Alerts'
 
@@ -53,6 +54,7 @@ class FeedScreen extends React.Component {
     return (
       <Container>
         <FeedContainer limit={20} />
+        <AddMenu />
       </Container>
     )
   }
