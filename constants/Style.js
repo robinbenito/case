@@ -36,6 +36,7 @@ export const Colors = {
     label: {
       active: 'black',
       default: 'rgb(109, 109, 109)',
+      secondary: 'rgb(151, 151, 151)',
     },
     divider: 'rgb(151, 151, 151)',
   },
