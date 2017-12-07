@@ -18,7 +18,9 @@ import withErrors from '../../../hocs/withErrors'
 
 import CurrentUser from '../../../utilities/currentUserService'
 import navigationService from '../../../utilities/navigationService'
-import scrollHeaderVisibilitySensor from '../../../utilities/scrollHeaderVisibilitySensor'
+import scrollSensorForHeader from '../../../utilities/scrollSensorForHeader'
+import scrollSensorForAddButton from '../../../utilities/scrollSensorForAddButton'
+
 import { Units } from '../../../constants/Style'
 
 const Submit = styled(CenterColumn)`
@@ -54,7 +56,7 @@ class ProfileContainer extends React.Component {
   }
 
   componentDidMount() {
-    scrollHeaderVisibilitySensor.dispatch(false)
+    scrollSensorForHeader.dispatch(false)
   }
 
   onEndReached = () => {
@@ -78,6 +80,8 @@ class ProfileContainer extends React.Component {
     this.setState({ page: 1 })
     this.props.data.refetch()
   }
+
+  onScroll = compose(scrollSensorForHeader, scrollSensorForAddButton)
 
   onToggleChange = (type) => {
     this.setState({ page: 1, type }, () => {
@@ -156,7 +160,7 @@ class ProfileContainer extends React.Component {
           onEndReached={this.onEndReached}
           onEndReachedThreshold={0.9}
           scrollEventThrottle={50}
-          onScroll={scrollHeaderVisibilitySensor}
+          onScroll={this.onScroll}
           ListFooterComponent={this.renderLoader}
           ListHeaderComponent={header}
           renderItem={({ item }) => {
