@@ -71,6 +71,7 @@ class ChannelContainer extends React.Component {
 const DecoratedChannelContainer = withLoadingAndErrors(ChannelContainer, {
   dataKeys: ['channelData'],
   errorMessage: 'Error getting this channel',
+  showRefresh: true,
 })
 
 const ChannelContainerWithData = compose(

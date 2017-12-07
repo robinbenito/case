@@ -160,6 +160,6 @@ const FeedContainerWithData = graphql(feedQuery, {
       })
     },
   }),
-})(withErrors(FeedContainer))
+})(withErrors(FeedContainer, { showRefresh: true }))
 
 export default FeedContainerWithData
