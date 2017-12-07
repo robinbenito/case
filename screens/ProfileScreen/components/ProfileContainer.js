@@ -6,6 +6,7 @@ import styled from 'styled-components/native'
 import { ActivityIndicator, FlatList, View } from 'react-native'
 
 import ProfileHeader from './ProfileHeader'
+import ProfileActions from './ProfileActions'
 import ChannelItem from '../../../components/ChannelItem'
 import BlockItem from '../../../components/BlockItem'
 import UserAvatar from '../../../components/UserAvatar'
@@ -189,10 +190,12 @@ const ProfileQuery = gql`
         blocks
         channels
       }
-      ... Avatar
+      ...Avatar
+      ...ProfileActions
     }
   }
   ${UserAvatar.fragments.avatar}
+  ${ProfileActions.fragment}
 `
 
 export const ProfileContentsQuery = gql`
