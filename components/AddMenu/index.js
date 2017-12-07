@@ -8,16 +8,13 @@ import { openModal } from '../Modal'
 
 import { Units } from '../../constants/Style'
 
-const HEIGHT_WITH_PADDING = AddButton.height + (Units.scale[2] * 2)
-
 const Container = styled.View`
-  width: 100%;
-  height: ${HEIGHT_WITH_PADDING};
-  justify-content: center;
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
+  width: 100%;
+  padding-bottom: ${Units.base};
 `
 
 class AddMenu extends Component {

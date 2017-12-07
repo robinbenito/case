@@ -15,7 +15,7 @@ import navigationService from '../../utilities/navigationService'
 import ICONS from './icons'
 
 const CancelButtonGroup = styled(MenuButtonGroup)`
-  margin-vertical: ${Units.scale[2]};
+  margin-vertical: ${Units.base};
   border-width: 0;
 `
 

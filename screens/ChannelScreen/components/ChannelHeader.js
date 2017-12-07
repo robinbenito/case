@@ -2,19 +2,17 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
 import { pickBy } from 'lodash'
-import { Share, Text } from 'react-native'
+import { Text } from 'react-native'
 import gql from 'graphql-tag'
 import { propType } from 'graphql-anywhere'
 
+import ChannelActions from './ChannelActions'
 import UserNameText from '../../../components/UserNameText'
 import TabToggle from '../../../components/TabToggle'
-import FollowButtonWithData from '../../../components/FollowButton'
 import HTML from '../../../components/HTML'
-import { SmallButton, SmallButtonLabel } from '../../../components/UI/Buttons'
 
 import { Colors, Units, Typography } from '../../../constants/Style'
 
-import navigationService from '../../../utilities/navigationService'
 import { pluralize } from '../../../utilities/inflections'
 
 const Container = styled.View`
@@ -22,32 +20,24 @@ const Container = styled.View`
 `
 
 const Header = styled.View`
-  padding-top: ${Units.scale[3]};
   padding-horizontal: ${Units.scale[3]};
-  padding-bottom: ${Units.scale[4]};
-`
-
-const Headline = styled.View`
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: space-between;
 `
 
 const Title = styled.Text`
-  flex: 1;
-  margin-right: ${Units.scale[2]};
-  margin-bottom: ${Units.scale[3]};
+  text-align: center;
+  width: 100%;
+  margin-bottom: ${Units.scale[1]};
   font-size: ${Typography.fontSize.h1};
   font-weight: ${Typography.fontWeight.medium};
   color: ${({ visibility }) => Colors.channel[visibility]};
 `
 
 const Metadata = styled.Text`
-  width: 85%;
-  margin-vertical: ${Units.scale[2]};
+  text-align: center;
+  margin-vertical: ${Units.scale[1]};
   color: ${({ visibility }) => Colors.channel[visibility]};
-  font-size: ${Typography.fontSize.small};
-  line-height: ${Typography.lineHeightFor('small', 'compact')};
+  font-size: ${Typography.fontSize.base};
+  line-height: ${Typography.lineHeightFor('base', 'compact')};
 `
 
 const Author = styled(UserNameText)`
@@ -55,20 +45,7 @@ const Author = styled(UserNameText)`
 `
 
 const Description = styled(HTML)`
-  width: 85%;
   margin-vertical: ${Units.scale[1]};
-`
-
-const Actions = styled.View`
-  margin-top: ${Units.scale[1]};
-`
-
-const Action = styled.Text`
-  margin-vertical: ${Units.scale[1] / 2};
-  font-size: ${Typography.fontSize.small};
-  line-height: ${Typography.lineHeightFor('base')};
-  font-weight: ${Typography.fontWeight.bold};
-  color: ${({ visibility }) => Colors.channel[visibility]};
 `
 
 class ChannelHeader extends Component {
@@ -89,35 +66,17 @@ class ChannelHeader extends Component {
     return (
       <Container>
         <Header>
-          <Headline>
-            <Title visibility={channel.visibility}>
-              {channel.title}
-            </Title>
-
-            {channel.can.follow &&
-              <Actions>
-                <FollowButtonWithData id={channel.id} type="CHANNEL" />
-              </Actions>
-            }
-
-            {channel.can.manage &&
-              <Actions>
-                <SmallButton
-                  onPress={() => navigationService.navigate('editChannel', { id: channel.id })}
-                >
-                  <SmallButtonLabel accessibilityLabel="Edit">
-                    Edit
-                  </SmallButtonLabel>
-                </SmallButton>
-              </Actions>
-            }
-          </Headline>
+          <Title visibility={channel.visibility}>
+            {channel.title}
+          </Title>
 
           <Description
             value={channel.displayDescription || '<p>—</p>'}
             stylesheet={{
               p: {
                 color: Colors.channel[channel.visibility],
+                textAlign: 'center',
+                lineHeight: Typography.lineHeightFor('small'),
               },
             }}
           />
@@ -138,18 +97,7 @@ class ChannelHeader extends Component {
             }
           </Metadata>
 
-          {/* TODO: `can { share }` */}
-          {channel.visibility !== 'private' &&
-            <Action
-              visibility={channel.visibility}
-              onPress={() =>
-                Share.share({ url: `https://www.are.na/${channel.user.slug}/${channel.id}` })
-              }
-            >
-              Share
-            </Action>
-          }
-
+          <ChannelActions channel={channel} />
         </Header>
 
         <TabToggle
@@ -175,10 +123,6 @@ ChannelHeader.fragments = {
         name
         slug
       }
-      can {
-        follow
-        manage
-      }
       counts {
         connections
         channels
@@ -189,7 +133,9 @@ ChannelHeader.fragments = {
         slug
         name
       }
+      ...ChannelActions
     }
+    ${ChannelActions.fragment}
   `,
 }
 

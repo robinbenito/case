@@ -2,15 +2,29 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import gql from 'graphql-tag'
 import { graphql, compose } from 'react-apollo'
-import { SmallButton, SmallButtonLabel } from './UI/Buttons'
+
+import SmallButton from './UI/Buttons/SmallButton'
 
 export class FollowButton extends React.Component {
-  constructor(props) {
-    super(props)
-    this.handlePress = this.handlePress.bind(this)
+  static propTypes = {
+    id: PropTypes.any.isRequired,
+    type: PropTypes.oneOf(['USER', 'CHANNEL']).isRequired,
+    data: PropTypes.any.isRequired,
+    follow: PropTypes.func,
+    unfollow: PropTypes.func,
+    color: PropTypes.string,
   }
 
-  handlePress() {
+  static defaultProps = {
+    id: null,
+    type: null,
+    data: {},
+    follow: () => null,
+    unfollow: () => null,
+    color: undefined,
+  }
+
+  onPress = () => {
     const { id, type, data: { followable } } = this.props
     const { __typename } = followable
     const mutation = followable.is_followed ? 'unfollow' : 'follow'
@@ -41,11 +55,16 @@ export class FollowButton extends React.Component {
     const label = this.props.data.followable &&
       this.props.data.followable.is_followed ? 'Unfollow' : 'Follow'
 
+    const { color, ...rest } = this.props
+
     return (
-      <SmallButton onPress={this.handlePress}>
-        <SmallButtonLabel accessibilityLabel={label}>
-          {label}
-        </SmallButtonLabel>
+      <SmallButton
+        onPress={this.onPress}
+        accessibilityLabel={label}
+        color={color}
+        {...rest}
+      >
+        {label}
       </SmallButton>
     )
   }
@@ -101,22 +120,6 @@ const UnfollowMutation = gql`
     }
   }
 `
-
-FollowButton.propTypes = {
-  id: PropTypes.any.isRequired,
-  type: PropTypes.oneOf(['USER', 'CHANNEL']).isRequired,
-  data: PropTypes.any.isRequired,
-  follow: PropTypes.func,
-  unfollow: PropTypes.func,
-}
-
-FollowButton.defaultProps = {
-  id: null,
-  type: null,
-  data: {},
-  follow: () => null,
-  unfollow: () => null,
-}
 
 const update = (proxy, { data }) => {
   const response = data.follow ? data.follow : data.unfollow
