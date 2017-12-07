@@ -1,4 +1,5 @@
-import { get } from 'lodash'
+import scrollSensor from './scrollSensor'
+
 import { SET_HEADER_TITLE_VISIBILITY } from '../state/actions'
 import Store from '../state/Store'
 
@@ -10,19 +11,11 @@ const dispatch = visibility =>
     isHeaderTitleVisible: visibility,
   })
 
-const sensor = (e) => {
-  const offset = get(e, 'nativeEvent.contentOffset.y')
-
-  if (offset && offset >= VISIBILITY_LIMIT) {
-    return dispatch(true)
-  }
-
-  if (offset && offset <= VISIBILITY_LIMIT) {
-    return dispatch(false)
-  }
-
-  return false
-}
+const sensor = scrollSensor({
+  limit: VISIBILITY_LIMIT,
+  onOver: () => dispatch(true),
+  onUnder: () => dispatch(false),
+})
 
 sensor.dispatch = dispatch
 
