@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
-import { connect } from 'react-redux'
 
 import AddButton from './AddButton'
 import AddMenuOptions from './AddMenuOptions'
@@ -12,7 +11,6 @@ import { Units } from '../../constants/Style'
 const HEIGHT_WITH_PADDING = AddButton.height + (Units.scale[2] * 2)
 
 const Container = styled.View`
-  display: ${x => (x.visible ? 'flex' : 'none')};
   width: 100%;
   height: ${HEIGHT_WITH_PADDING};
   justify-content: center;
@@ -25,22 +23,20 @@ const Container = styled.View`
 class AddMenu extends Component {
   static propTypes = {
     title: PropTypes.string.isRequired,
-    visible: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
     title: 'Are.na',
-    visible: false,
   }
 
   open = () =>
     openModal({ children: <AddMenuOptions /> })
 
   render() {
-    const { title, visible } = this.props
+    const { title } = this.props
 
     return (
-      <Container visible={visible}>
+      <Container>
         <AddButton
           title={title}
           onPress={this.open}
@@ -50,5 +46,4 @@ class AddMenu extends Component {
   }
 }
 
-export default connect(({ ui: { isAddButtonVisible } }) =>
-  ({ visible: isAddButtonVisible }))(AddMenu)
+export default AddMenu
