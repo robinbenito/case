@@ -5,7 +5,7 @@ import { RelativeFill } from './UI/Layout'
 import { ErrorMessage, StatusMessage, GenericMessage } from './UI/Alerts'
 import { ButtonLabel, Button } from './UI/Buttons'
 
-const ErrorScreen = ({ message, errors, onRefresh, ...rest }) => (
+const ErrorScreen = ({ message, errors, showRefresh, onRefresh, ...rest }) => (
   <RelativeFill {...rest}>
     {message &&
       <StatusMessage>
@@ -18,15 +18,16 @@ const ErrorScreen = ({ message, errors, onRefresh, ...rest }) => (
     <ErrorMessage>
       {formatErrors(errors)}
     </ErrorMessage>
-    <Button space={1} onPress={onRefresh}>
+    {showRefresh && <Button space={1} onPress={onRefresh}>
       <ButtonLabel>Refresh</ButtonLabel>
-    </Button>
+    </Button>}
   </RelativeFill>
 )
 
 ErrorScreen.propTypes = {
   message: PropTypes.node,
   errors: PropTypes.arrayOf(PropTypes.object).isRequired,
+  showRefresh: PropTypes.bool.isRequired,
   onRefresh: PropTypes.func.isRequired,
 }
 
