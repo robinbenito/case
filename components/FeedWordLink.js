@@ -28,7 +28,7 @@ const FeedWordLink = ({ object, phrase, ...rest }) => {
         link = <Text {...rest}>“{decode(phrase)}”</Text>
         break
       default:
-        link = <Text {...rest}>{phrase || object.title}</Text>
+        link = <Text {...rest}>{phrase || (object.title && decode(object.title))}</Text>
     }
   }
 
