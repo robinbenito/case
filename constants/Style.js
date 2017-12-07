@@ -39,6 +39,7 @@ export const Colors = {
       secondary: 'rgb(151, 151, 151)',
     },
     divider: 'rgb(151, 151, 151)',
+    border: 'rgb(151, 151, 151)',
   },
 
   alert: {
