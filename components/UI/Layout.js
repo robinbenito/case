@@ -6,7 +6,7 @@ import styled from 'styled-components/native'
 
 import { HEADER_HEIGHT } from '../Header'
 import Alerts from '../Alerts'
-import { Units, Border } from '../../constants/Style'
+import { Units, Colors } from '../../constants/Style'
 
 export const TouchableFill = styled.TouchableOpacity`
   position: absolute;
@@ -105,7 +105,7 @@ export const CenterColumn = styled.View`
 export const HorizontalRule = styled.View`
   width: 100%;
   height: ${Units.hairlineWidth};
-  background-color: ${({ color }) => color || Border.borderColor};
+  background-color: ${({ color }) => color || Colors.semantic.divider};
 `
 
 export const Spacer = styled.View`

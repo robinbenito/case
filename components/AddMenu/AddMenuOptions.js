@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, CameraRoll } from 'react-native'
+import { CameraRoll } from 'react-native'
 import { ImagePicker } from 'expo'
 import styled from 'styled-components/native'
 
@@ -19,8 +19,10 @@ const CancelButtonGroup = styled(MenuButtonGroup)`
   border-width: 0;
 `
 
-const CancelButton = styled(MenuButton)`
-  border-color: ${Colors.gray.semiBold};
+const CancelButton = styled(MenuButton).attrs({
+  secondary: true,
+})`
+  border-color: ${Colors.semantic.label.secondary};
   border-width: 1;
   border-radius: ${Border.borderRadius}
 `
@@ -115,9 +117,7 @@ class AddMenuOptions extends Component {
 
         <CancelButtonGroup>
           <CancelButton onPress={this.close} icon={ICONS.cancel}>
-            <Text style={{ color: Colors.gray.semiBold }}>
-              Cancel
-            </Text>
+            Cancel
           </CancelButton>
         </CancelButtonGroup>
       </BackgroundFill>

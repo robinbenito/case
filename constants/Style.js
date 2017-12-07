@@ -33,6 +33,13 @@ export const Colors = {
   semantic: {
     text: '#333',
     background: '#f7f7f7',
+    label: {
+      active: 'black',
+      default: 'rgb(109, 109, 109)',
+      secondary: 'rgb(151, 151, 151)',
+    },
+    divider: 'rgb(151, 151, 151)',
+    border: 'rgb(151, 151, 151)',
   },
 
   alert: {
