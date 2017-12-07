@@ -3,38 +3,21 @@ import styled from 'styled-components/native'
 import PropTypes from 'prop-types'
 import Swipeout from 'react-native-swipeout'
 
-import { BaseIcon } from './Icons'
+import { BaseIcon } from '../Icons'
+import ButtonOutline from './ButtonOutline'
 
-import { Border, Typography, Units, Colors } from '../../constants/Style'
-
-export const ButtonOutline = styled.TouchableOpacity`
-  border-width: ${Border.borderWidthMedium};
-  border-radius: ${Border.borderRadius};
-  border-color: ${Colors.semantic.text};
-`
+import { Border, Typography, Units, Colors } from '../../../constants/Style'
 
 export const Button = ButtonOutline.extend`
   padding-vertical: ${Units.scale[2]};
   padding-horizontal: ${Units.scale[3]};
-  margin-vertical: ${props => Units.scale[props.space || 0]}
-  align-items: center;
-`
-
-export const SmallButton = Button.extend`
-  padding-vertical: ${Units.scale[1]};
-  padding-horizontal: ${Units.scale[2]};
 `
 
 export const ButtonLabel = styled.Text`
   font-size: ${Typography.fontSize.medium};
   font-weight: ${Typography.fontWeight.medium};
-  color: ${Colors.semantic.text};
+  color: ${x => x.color || Colors.semantic.label.default};
   text-align: center;
-`
-
-export const SmallButtonLabel = ButtonLabel.extend`
-  font-size: ${Typography.fontSize.small};
-  font-weight: ${Typography.fontWeight.medium};
 `
 
 export const StackedButtonBorder = styled.View`
