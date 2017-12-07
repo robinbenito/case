@@ -50,5 +50,5 @@ class AddMenu extends Component {
   }
 }
 
-export default connect(({ ui: { isHeaderTitleVisible } }) =>
-  ({ visible: isHeaderTitleVisible }))(AddMenu)
+export default connect(({ ui: { isAddButtonVisible } }) =>
+  ({ visible: isAddButtonVisible }))(AddMenu)
