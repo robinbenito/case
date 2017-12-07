@@ -4,14 +4,16 @@ import { View } from 'react-native'
 import { pickBy } from 'lodash'
 import styled from 'styled-components/native'
 
-import { Units, Typography } from '../../../constants/Style'
 import TabToggle from '../../../components/TabToggle'
 import UserAvatar from '../../../components/UserAvatar'
 import HTML from '../../../components/HTML'
 import FollowButtonWithData from '../../../components/FollowButton'
-import { SmallButton } from '../../../components/UI/Buttons'
-import NavigationService from '../../../utilities/navigationService'
+import SmallButton from '../../../components/UI/Buttons/SmallButton'
+
+import navigationService from '../../../utilities/navigationService'
 import { pluralize } from '../../../utilities/inflections'
+
+import { Units, Typography } from '../../../constants/Style'
 
 const cogIcon = require('../../../assets/images/settings.png')
 
@@ -53,7 +55,7 @@ const SettingsIcon = styled.Image.attrs({
   align-self: center;
 `
 
-const Button = styled(SmallButton)`
+const Button = styled(SmallButton.Outline)`
   padding-horizontal: ${Units.scale[1]};
 `
 
@@ -61,7 +63,7 @@ const ProfileAction = ({ isTheCurrentUser, user }) => (
   <View>
     {isTheCurrentUser &&
       <Button
-        onPress={() => NavigationService.navigate('userSettings')}
+        onPress={() => navigationService.navigate('userSettings')}
       >
         <SettingsIcon />
       </Button>
