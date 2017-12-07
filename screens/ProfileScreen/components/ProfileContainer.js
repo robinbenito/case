@@ -208,6 +208,7 @@ export const ProfileContentsQuery = gql`
 const DecoratedProfileContainer = withLoading(withErrors(ProfileContainer, {
   errorMessage: 'Error getting profile',
   dataKeys: ['data', 'userBlocksData'],
+  showRefresh: true,
 }))
 
 const ProfileContainerWithData = compose(

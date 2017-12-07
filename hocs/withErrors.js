@@ -5,7 +5,11 @@ import ErrorScreen from '../components/ErrorScreen'
 
 const DEFAULT_KEYS = ['data']
 
-export default (WrappedComponent, { errorMessage, dataKeys = DEFAULT_KEYS } = {}) => {
+export default (WrappedComponent, {
+  errorMessage,
+  dataKeys = DEFAULT_KEYS,
+  showRefresh = false,
+} = {}) => {
   class WithErrors extends Component {
 
     onRefresh = () => {
@@ -24,6 +28,7 @@ export default (WrappedComponent, { errorMessage, dataKeys = DEFAULT_KEYS } = {}
             message={errorMessage}
             errors={errors}
             onRefresh={this.onRefresh}
+            showRefresh={showRefresh}
           />
         )
       }
