@@ -11,7 +11,6 @@ import BlockModalMenu from '../../../components/BlockModalMenu'
 import { openModal } from '../../../components/Modal'
 
 import scrollSensorForHeader from '../../../utilities/scrollSensorForHeader'
-import scrollSensorForAddButton from '../../../utilities/scrollSensorForAddButton'
 import { networkStatusesService } from '../../../utilities/networkStatusService'
 import alertErrors from '../../../utilities/alertErrors'
 
@@ -95,7 +94,7 @@ class ChannelContents extends Component {
     data.refetch()
   }
 
-  onScroll = compose(scrollSensorForHeader, scrollSensorForAddButton)
+  onScroll = scrollSensorForHeader
 
   onBlockLongPress = ({ block, channel }) => () => {
     openModal({

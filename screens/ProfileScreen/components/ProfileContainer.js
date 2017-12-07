@@ -19,7 +19,6 @@ import withErrors from '../../../hocs/withErrors'
 import CurrentUser from '../../../utilities/currentUserService'
 import navigationService from '../../../utilities/navigationService'
 import scrollSensorForHeader from '../../../utilities/scrollSensorForHeader'
-import scrollSensorForAddButton from '../../../utilities/scrollSensorForAddButton'
 
 import { Units } from '../../../constants/Style'
 
@@ -81,7 +80,7 @@ class ProfileContainer extends React.Component {
     this.props.data.refetch()
   }
 
-  onScroll = compose(scrollSensorForHeader, scrollSensorForAddButton)
+  onScroll = scrollSensorForHeader
 
   onToggleChange = (type) => {
     this.setState({ page: 1, type }, () => {
