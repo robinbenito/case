@@ -3,11 +3,14 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
 import { View } from 'react-native'
 import { decode } from 'he'
+
 import navigationService from '../../utilities/navigationService'
+
 import { HeaderButton, HeaderButtonLabel, Caret } from './HeaderButton'
 import ToggleCheck from './ToggleCheck'
 import { ToggleSelect, ToggleSelectOption } from './ToggleSelect'
 import { HorizontalRule } from '../UI/Layout'
+
 import { Units } from '../../constants/Style'
 
 const HeaderDrawer = styled.View`
@@ -20,6 +23,7 @@ const SelectDrawer = styled.View`
   margin-horizontal: ${Units.base};
 `
 
+
 const HeaderPullDown = (props) => {
   const { primary, secondary, onPress, isExpanded, isHeaderTitleVisible } = props
 
@@ -27,7 +31,7 @@ const HeaderPullDown = (props) => {
     <HeaderDrawer>
       {!isExpanded &&
         <HeaderButton onPress={onPress}>
-          <HeaderButtonLabel color={primary.color} active>
+          <HeaderButtonLabel color={primary.color}>
             {isHeaderTitleVisible && primary.title && decode(primary.title)}
             <Caret color={primary.color} />
           </HeaderButtonLabel>

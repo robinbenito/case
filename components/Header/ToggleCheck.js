@@ -11,7 +11,7 @@ const ToggleCheckIcon = styled(BaseIcon).attrs({
   font-size: ${SIZE};
   background-color: transparent;
   top: 2;
-  color: ${Colors.gray.semiBold}
+  color: ${Colors.semantic.label.active};
 `
 
 const ToggleCheckBox = styled.View`
