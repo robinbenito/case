@@ -14,7 +14,7 @@ import StatusMessage from './components/StatusMessage'
 import SearchHeader from '../../components/SearchHeader'
 import SearchConnectionsWithData from './components/SearchConnections'
 import RecentConnectionsWithData, { RecentConnectionsQuery } from './components/RecentConnections'
-import { StatusBarAwareContainer } from '../../components/UI/Layout'
+import StatusBarAwareContainer from '../../components/UI/Layout/StatusBarAwareContainer'
 import SimulatedProgressHeader from '../../components/SimulatedProgressHeader'
 
 import channelConnectionsQuery from '../ChannelScreen/queries/channelConnections'

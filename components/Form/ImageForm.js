@@ -4,7 +4,8 @@ import styled from 'styled-components/native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 import HeaderRightButton from '../HeaderRightButton'
-import { Container, Section } from '../UI/Layout'
+import { Section } from '../UI/Layout'
+import HeaderAwareContainer from '../UI/Layout/HeaderAwareContainer'
 import { FieldsetLabel, Fieldset, StackedInput, StackedTextArea } from '../UI/Inputs'
 import { BLOCK_SIZES } from '../BlockItem'
 
@@ -93,7 +94,7 @@ export default class ImageForm extends React.Component {
     const { image, title, description } = this.state
 
     return (
-      <Container>
+      <HeaderAwareContainer>
         <KeyboardAwareScrollView>
           <ImagePreview source={{ uri: image }} />
 
@@ -122,7 +123,7 @@ export default class ImageForm extends React.Component {
             </Fieldset>
           </Section>
         </KeyboardAwareScrollView>
-      </Container>
+      </HeaderAwareContainer>
     )
   }
 }

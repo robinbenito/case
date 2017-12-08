@@ -4,7 +4,8 @@ import { isURL } from 'validator'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 import HeaderRightButton from '../HeaderRightButton'
-import { Container, Section } from '../UI/Layout'
+import { Section } from '../UI/Layout'
+import HeaderAwareContainer from '../UI/Layout/HeaderAwareContainer'
 import { FieldsetLabel, Fieldset, StackedInput, StackedTextArea } from '../UI/Inputs'
 import { sendAlert, dismissAllAlerts } from '../Alerts'
 
@@ -89,7 +90,7 @@ export default class LinkForm extends Component {
     const { source_url, title, description } = this.state
 
     return (
-      <Container>
+      <HeaderAwareContainer>
         <KeyboardAwareScrollView>
           <Section space={4}>
             <FieldsetLabel>
@@ -139,7 +140,7 @@ export default class LinkForm extends Component {
             </Section>
           }
         </KeyboardAwareScrollView>
-      </Container>
+      </HeaderAwareContainer>
     )
   }
 }

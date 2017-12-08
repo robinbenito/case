@@ -4,7 +4,7 @@ import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 
 import ChannelVisibilitySelect from './components/ChannelVisibilitySelect'
-import { Container } from '../../components/UI/Layout'
+import HeaderAwareContainer from '../../components/UI/Layout/HeaderAwareContainer'
 
 import withLoadingAndErrors from '../../hocs/withLoadingAndErrors'
 
@@ -37,13 +37,13 @@ class ChannelVisibilityScreen extends Component {
     } = this.props
 
     return (
-      <Container>
+      <HeaderAwareContainer>
         <ChannelVisibilitySelect
           me={me}
           visibility={visibility}
           onVisibilityChangeUpdate={onVisibilityChangeUpdate}
         />
-      </Container>
+      </HeaderAwareContainer>
     )
   }
 }

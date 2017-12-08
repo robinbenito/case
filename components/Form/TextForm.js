@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 import HeaderRightButton from '../HeaderRightButton'
-import { Container, Section } from '../UI/Layout'
+import { Section } from '../UI/Layout'
+import HeaderAwareContainer from '../UI/Layout/HeaderAwareContainer'
 import { FieldsetLabel, Fieldset, StackedInput, StackedTextArea } from '../UI/Inputs'
 
 import injectButtonWhenDiff from '../../utilities/injectButtonWhenDiff'
@@ -68,7 +69,7 @@ export default class TextForm extends Component {
     const { title, description, content } = this.state
 
     return (
-      <Container>
+      <HeaderAwareContainer>
         <KeyboardAwareScrollView>
           <Section space={4}>
             <FieldsetLabel>
@@ -114,7 +115,7 @@ export default class TextForm extends Component {
             </Fieldset>
           </Section>
         </KeyboardAwareScrollView>
-      </Container>
+      </HeaderAwareContainer>
     )
   }
 }

@@ -8,7 +8,8 @@ import alertErrors from '../../utilities/alertErrors'
 
 import HeaderRightButton from '../../components/HeaderRightButton'
 import { Fieldset, StackedInput } from '../../components/UI/Inputs'
-import { Container, Section } from '../../components/UI/Layout'
+import { Section } from '../../components/UI/Layout'
+import HeaderAwareContainer from '../../components/UI/Layout/HeaderAwareContainer'
 import { sendAlert, dismissAllAlerts } from '../../components/Alerts'
 
 import withLoadingAndErrors from '../../hocs/withLoadingAndErrors'
@@ -82,7 +83,7 @@ class EditAccountEmailScreen extends React.Component {
     const { email } = this.state
 
     return (
-      <Container>
+      <HeaderAwareContainer>
         <Section space={5}>
           <Fieldset>
             <StackedInput
@@ -97,7 +98,7 @@ class EditAccountEmailScreen extends React.Component {
             />
           </Fieldset>
         </Section>
-      </Container>
+      </HeaderAwareContainer>
     )
   }
 }

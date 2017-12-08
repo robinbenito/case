@@ -3,7 +3,7 @@ import gql from 'graphql-tag'
 import { graphql, compose } from 'react-apollo'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
-import { ActivityIndicator, FlatList, View } from 'react-native'
+import { FlatList, View } from 'react-native'
 
 import ProfileHeader from './ProfileHeader'
 import ProfileActions from './ProfileActions'
@@ -12,6 +12,7 @@ import BlockItem from '../../../components/BlockItem'
 import UserAvatar from '../../../components/UserAvatar'
 import Empty from '../../../components/Empty'
 import { CenterColumn } from '../../../components/UI/Layout'
+import FlatListFooter from '../../../components/UI/Layout/FlatListFooter'
 import { ButtonLabel, Button } from '../../../components/UI/Buttons'
 
 import withLoading from '../../../hocs/withLoading'
@@ -89,16 +90,6 @@ class ProfileContainer extends React.Component {
     })
   }
 
-  renderLoader = () => {
-    if (!this.props.userBlocksData.loading) return null
-
-    return (
-      <Submit>
-        <ActivityIndicator animating size="small" />
-      </Submit>
-    )
-  }
-
   render() {
     const { userBlocksData, data } = this.props
 
@@ -161,7 +152,7 @@ class ProfileContainer extends React.Component {
           onEndReachedThreshold={0.9}
           scrollEventThrottle={50}
           onScroll={this.onScroll}
-          ListFooterComponent={this.renderLoader}
+          ListFooterComponent={<FlatListFooter loading={userBlocksData.loading} />}
           ListHeaderComponent={header}
           renderItem={({ item }) => {
             if (item.klass === 'Block') {

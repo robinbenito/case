@@ -14,7 +14,8 @@ import { Colors } from '../../constants/Style'
 
 import { Fieldset, FieldsetLabel, InputDescription } from '../../components/UI/Inputs'
 import { StackedButton, StackedJumpButton } from '../../components/UI/Buttons'
-import { Container, Section } from '../../components/UI/Layout'
+import { Section } from '../../components/UI/Layout'
+import HeaderAwareContainer from '../../components/UI/Layout/HeaderAwareContainer'
 import UserAvatar from '../../components/UserAvatar'
 
 import withLoadingAndErrors from '../../hocs/withLoadingAndErrors'
@@ -44,7 +45,7 @@ class UserSettingsScreen extends React.Component {
     const { data: { me } } = this.props
 
     return (
-      <Container>
+      <HeaderAwareContainer>
         <ScrollView>
           <Section>
             <UserAvatar user={me} style={{ alignSelf: 'center' }} />
@@ -152,7 +153,7 @@ class UserSettingsScreen extends React.Component {
             </Fieldset>
           </Section>
         </ScrollView>
-      </Container>
+      </HeaderAwareContainer>
     )
   }
 }

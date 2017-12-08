@@ -45,6 +45,8 @@ const HeaderLeft = styled(HeaderRight)`
 `
 
 class Header extends Component {
+  static HEIGHT = HEADER_HEIGHT
+
   constructor(props) {
     super(props)
 

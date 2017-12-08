@@ -8,7 +8,8 @@ import alertErrors from '../../utilities/alertErrors'
 
 import { Fieldset } from '../../components/UI/Inputs'
 import { StackedToggle } from '../../components/UI/Buttons'
-import { Container, Section } from '../../components/UI/Layout'
+import { Section } from '../../components/UI/Layout'
+import HeaderAwareContainer from '../../components/UI/Layout/HeaderAwareContainer'
 import { dismissAllAlerts } from '../../components/Alerts'
 
 import withLoadingAndErrors from '../../hocs/withLoadingAndErrors'
@@ -54,7 +55,7 @@ class EditEmailNotificationsScreen extends Component {
   render() {
     // TODO: Can I return the contents of an Enum for rendering?
     return (
-      <Container>
+      <HeaderAwareContainer>
         <Section space={5}>
           <Fieldset>
             <StackedToggle
@@ -79,7 +80,7 @@ class EditEmailNotificationsScreen extends Component {
             </StackedToggle>
           </Fieldset>
         </Section>
-      </Container>
+      </HeaderAwareContainer>
     )
   }
 }

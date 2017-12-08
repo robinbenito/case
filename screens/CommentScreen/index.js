@@ -4,7 +4,7 @@ import { ScrollView } from 'react-native'
 import KeyboardSpacer from 'react-native-keyboard-spacer'
 import BlockComments from '../BlockScreen/components/BlockComments'
 import CommentForm from './components/CommentForm'
-import { Container } from '../../components/UI/Layout'
+import HeaderAwareContainer from '../../components/UI/Layout/HeaderAwareContainer'
 
 export default class CommentScreen extends React.Component {
   constructor(props) {
@@ -32,7 +32,7 @@ export default class CommentScreen extends React.Component {
     const { id } = this.props.navigation.state.params
 
     return (
-      <Container>
+      <HeaderAwareContainer>
         <ScrollView
           ref={ref => this.Comments = ref}
         >
@@ -51,7 +51,7 @@ export default class CommentScreen extends React.Component {
         />
 
         <KeyboardSpacer />
-      </Container>
+      </HeaderAwareContainer>
     )
   }
 }

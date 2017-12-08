@@ -6,7 +6,8 @@ import { propType } from 'graphql-anywhere'
 import { View, Text } from 'react-native'
 
 import HeaderRightButton from '../HeaderRightButton'
-import { Section, Container } from '../UI/Layout'
+import { Section } from '../UI/Layout'
+import HeaderAwareContainer from '../UI/Layout/HeaderAwareContainer'
 import { StackedButton, StackedJumpButton } from '../UI/Buttons'
 import { FieldsetLabel, Fieldset, StackedInput, StackedTextArea } from '../UI/Inputs'
 import CollaboratorsForm from './CollaboratorsForm'
@@ -100,7 +101,7 @@ class ChannelForm extends Component {
     const { title, description, visibility } = this.state
 
     return (
-      <Container>
+      <HeaderAwareContainer>
         <KeyboardAwareScrollView>
           <Section spaceT={4} spaceB={4}>
             <FieldsetLabel>
@@ -159,7 +160,7 @@ class ChannelForm extends Component {
             </View>
           }
         </KeyboardAwareScrollView>
-      </Container>
+      </HeaderAwareContainer>
     )
   }
 }

@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import ProfileContainer from './components/ProfileContainer'
-import { Container } from '../../components/UI/Layout'
+import HeaderAwareContainer from '../../components/UI/Layout/HeaderAwareContainer'
 import AddMenu from '../../components/AddMenu'
 
 import currentUserService from '../../utilities/currentUserService'
@@ -14,14 +14,14 @@ export default class ProfileScreen extends React.Component {
     const id = profileParam || currentUserService.sync.get('id')
 
     return (
-      <Container>
+      <HeaderAwareContainer>
         <ProfileContainer
           id={id}
           type="CHANNEL"
           page={1}
         />
         <AddMenu />
-      </Container>
+      </HeaderAwareContainer>
     )
   }
 }

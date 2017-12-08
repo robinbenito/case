@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 
-import { StatusBarAwareContainer } from '../../components/UI/Layout'
+import StatusBarAwareContainer from '../../components/UI/Layout/StatusBarAwareContainer'
 import SearchHeader from '../../components/SearchHeader'
 import SearchContents from '../../components/SearchContents'
 
