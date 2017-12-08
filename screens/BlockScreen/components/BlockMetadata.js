@@ -71,7 +71,7 @@ const BlockMetadata = ({ block }) => {
         stylesheet={{
           p: {
             fontSize: Typography.fontSize.small,
-            lineHeight: Typography.lineHeightFor('small', 'compact'),
+            lineHeight: Typography.lineHeightFor('small'),
           },
         }}
       />
