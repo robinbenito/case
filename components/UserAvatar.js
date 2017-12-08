@@ -43,6 +43,9 @@ const Avatar = styled.View`
   height: ${x => x.size};
   border-radius: ${x => x.size};
   background-color: ${Colors.semantic.background};
+  border-width: 1;
+  border-style: solid;
+  border-color: ${Colors.semantic.outline};
   flex-direction: column;
   align-items: center;
   justify-content: center;

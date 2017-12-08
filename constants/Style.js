@@ -40,6 +40,7 @@ export const Colors = {
     },
     divider: 'rgb(151, 151, 151)',
     border: 'rgb(151, 151, 151)',
+    outline: 'rgb(197, 197, 197)',
   },
 
   alert: {
