@@ -45,7 +45,6 @@ const Thumbnail = styled(Image).attrs({
 const Metadata = styled.View`
   height: ${BLOCK_METADATA_HEIGHT};
   padding-top: ${Units.scale[2]};
-  flex: 1;
 `
 
 const MetadataTitle = styled.View`
