@@ -5,6 +5,8 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
 import { ActivityIndicator, FlatList, View } from 'react-native'
 
+import ExploreHeader from './ExploreHeader'
+
 import ChannelItem from '../../../components/ChannelItem'
 import BlockItem from '../../../components/BlockItem'
 import { CenterColumn } from '../../../components/UI/Layout'
@@ -26,11 +28,11 @@ const StyledChannelItem = styled(ChannelItem)`
 
 class ExploreContainer extends React.Component {
   static propTypes = {
-    data: PropTypes.any.isRequired,
     exploreBlocksData: PropTypes.any.isRequired,
     type: PropTypes.oneOf(['CHANNEL', 'BLOCK']).isRequired,
     loadMore: PropTypes.func,
     page: PropTypes.number,
+    showHeadline: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
@@ -49,14 +51,14 @@ class ExploreContainer extends React.Component {
   }
 
   componentDidMount() {
-    scrollSensorForHeader.dispatch(false)
+    scrollSensorForHeader.dispatch(true)
   }
 
   onEndReached = () => {
     const { exploreBlocksData } = this.props
     if (!exploreBlocksData.explore) return false
 
-    const { loading } = this.props.data
+    const { loading } = this.props.exploreBlocksData
 
     if (loading) return false
 
@@ -67,7 +69,7 @@ class ExploreContainer extends React.Component {
 
   onRefresh = () => {
     this.setState({ page: 1 })
-    this.props.data.refetch()
+    this.props.exploreBlocksData.refetch()
   }
 
   onScroll = scrollSensorForHeader
@@ -89,7 +91,7 @@ class ExploreContainer extends React.Component {
   }
 
   render() {
-    const { exploreBlocksData } = this.props
+    const { exploreBlocksData, showHeadline } = this.props
 
     const { type } = this.state
     const contents = (
@@ -102,15 +104,13 @@ class ExploreContainer extends React.Component {
     const columnCount = shouldShowChannel ? 1 : 2
     const columnStyle = columnCount > 1 ? { justifyContent: 'space-around' } : false
 
-    const contentsLoading = exploreBlocksData.networkStatus === 2 || exploreBlocksData.networkStatus === 1
-
-    if (contents.length === 0 && !contentsLoading) {
-      return (
-        <View style={{ flex: 1 }}>
-          
-        </View>
-      )
-    }
+    const header = (
+      <ExploreHeader
+        onToggle={this.onToggleChange}
+        type={type}
+        showHeadline={showHeadline}
+      />
+    )
 
     return (
       <View>
@@ -126,6 +126,7 @@ class ExploreContainer extends React.Component {
           onEndReachedThreshold={0.9}
           scrollEventThrottle={50}
           onScroll={this.onScroll}
+          ListHeaderComponent={header}
           ListFooterComponent={this.renderLoader}
           renderItem={({ item }) => {
             if (item.klass === 'Block') {
@@ -143,14 +144,20 @@ export const ExploreContentsQuery = gql`
   query ExploreContentsQuery($page: Int!, $type: SearchType) {
     explore(per: 10, page: $page, sort_by: UPDATED_AT, direction: DESC, type: $type) {
       __typename
-      ...BlockThumb
+      ... on Channel {
+        ...ChannelThumb
+      }
+      ... on Connectable {
+        ...BlockThumb
+      }
     }
   }
   ${BlockItem.fragments.block}
+  ${ChannelItem.fragments.channel}
 `
 
 const DecoratedExploreContainer = withLoading(withErrors(ExploreContainer, {
-  errorMessage: 'Error getting feed',
+  errorMessage: 'Error getting explore',
   dataKeys: ['data', 'exploreBlocksData'],
   showRefresh: true,
 }))
@@ -169,7 +176,7 @@ const ExploreContainerWithData = compose(
       return {
         exploreBlocksData,
         loadMore(page) {
-          return props.userBlocksData.fetchMore({
+          return props.exploreBlocksData.fetchMore({
             variables: {
               id,
               page,
