@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { Component } from 'react'
 import gql from 'graphql-tag'
-import { compose, graphql } from 'react-apollo'
+import { graphql } from 'react-apollo'
 import PropTypes from 'prop-types'
+import { propType } from 'graphql-anywhere'
 
 import navigationService from '../../utilities/navigationService'
 import injectButtonWhenDiff from '../../utilities/injectButtonWhenDiff'
@@ -14,47 +15,31 @@ import { dismissAllAlerts } from '../../components/Alerts'
 
 import withLoadingAndErrors from '../../hocs/withLoadingAndErrors'
 
-const refetchAccountNameQuery = gql`
-  query refetchAccountNameQuery($id: ID!) {
-    me {
-      id
-      name
-      initials
-    }
+import refetchAccountNameQuery from './queries/refetchAccountName'
+import editAccountNameFragment from './fragments/editAccountName'
+import updateAccountNameMutation from './mutations/updateAccountName'
 
-    user(id: $id) {
-      id
-      name
-      initials
-    }
+class EditAccountNameScreen extends Component {
+  static fragment = editAccountNameFragment
+
+  static propTypes = {
+    me: propType(editAccountNameFragment).isRequired,
+    updateAccountName: PropTypes.func.isRequired,
   }
-`
 
-class EditAccountNameScreen extends React.Component {
   constructor(props) {
     super(props)
 
+    const { me: { first_name, last_name } } = this.props
+
     this.state = {
-      first_name: '',
-      last_name: '',
+      first_name,
+      last_name,
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.data.loading) return
-
-    this.setState({ ...nextProps.data.me })
-  }
-
   componentDidUpdate() {
-    const {
-      data: {
-        me: {
-          first_name,
-          last_name,
-        },
-      },
-    } = this.props
+    const { me: { first_name, last_name } } = this.props
 
     injectButtonWhenDiff({
       state: this.state,
@@ -69,26 +54,26 @@ class EditAccountNameScreen extends React.Component {
   onSubmit = () => {
     dismissAllAlerts()
 
-    const { id, first_name, last_name } = this.state
+    const { me: { id }, updateAccountName } = this.props
+    const { first_name, last_name } = this.state
     const variables = { first_name, last_name }
 
-    this.props
-      .mutate({
-        variables,
+    updateAccountName({
+      variables,
 
-        // We update the `first_name` and `last_name` here
-        // but elsewhere reference `name`
-        refetchQueries: [{
-          variables: { id },
-          query: refetchAccountNameQuery,
-        }],
-      })
+      // We update the `first_name` and `last_name` here
+      // but elsewhere reference `name`
+      refetchQueries: [{
+        variables: { id },
+        query: refetchAccountNameQuery,
+      }],
+    })
 
-      .then(() => {
-        navigationService.back()
-      })
+    .then(() => {
+      navigationService.back()
+    })
 
-      .catch(alertErrors)
+    .catch(alertErrors)
   }
 
   onChangeText = key => (value) => {
@@ -125,41 +110,10 @@ class EditAccountNameScreen extends React.Component {
   }
 }
 
-EditAccountNameScreen.propTypes = {
-  data: PropTypes.object.isRequired,
-  mutate: PropTypes.func.isRequired,
-}
-
-const editAccountNameQuery = gql`
-  query editAccountNameQuery {
-    me {
-      id
-      first_name
-      last_name
-    }
-  }
-`
-
-const updateAccountNameMutation = gql`
-  mutation updateAccountNameMutation($first_name: String, $last_name: String){
-    update_account(input: { first_name: $first_name, last_name: $last_name }) {
-      clientMutationId
-      me {
-        id
-        first_name
-        last_name
-      }
-    }
-  }
-`
-
 const DecoratedEditAccountNameScreen = withLoadingAndErrors(EditAccountNameScreen, {
   errorMessage: 'Error getting your settings',
 })
 
-const EditAccountNameScreenWithData = compose(
-  graphql(editAccountNameQuery),
-  graphql(updateAccountNameMutation),
-)(DecoratedEditAccountNameScreen)
-
-export default EditAccountNameScreenWithData
+export default graphql(updateAccountNameMutation, {
+  name: 'updateAccountName',
+})(DecoratedEditAccountNameScreen)

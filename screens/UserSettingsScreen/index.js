@@ -19,6 +19,8 @@ import UserAvatar from '../../components/UserAvatar'
 
 import withLoadingAndErrors from '../../hocs/withLoadingAndErrors'
 
+import editAccountNameFragment from '../EditAccountScreens/fragments/editAccountName'
+
 class UserSettingsScreen extends React.Component {
   static propTypes = {
     data: PropTypes.shape({
@@ -52,7 +54,7 @@ class UserSettingsScreen extends React.Component {
             <Fieldset>
               <StackedJumpButton
                 label="Name"
-                onPress={() => navigationService.navigate('editAccountName')}
+                onPress={() => navigationService.navigate('editAccountName', { me })}
               >
                 {me.name}
               </StackedJumpButton>
@@ -167,9 +169,11 @@ const UserSettingsQuery = gql`
         private_connections
         private_connections_limit
       }
+      ...EditAccountName
     }
   }
   ${UserAvatar.fragments.avatar}
+  ${editAccountNameFragment}
 `
 
 const DecoratedUserSettingsScreen = withLoadingAndErrors(UserSettingsScreen, {

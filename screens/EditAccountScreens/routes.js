@@ -8,9 +8,11 @@ import EditAccountReceiveNewsletter from './EditAccountReceiveNewsletter'
 
 import SubmittableHeader from '../../components/SubmittableHeader'
 
+import withParams from '../../hocs/withParams'
+
 export default {
   editAccountName: {
-    screen: EditAccountNameScreen,
+    screen: withParams(EditAccountNameScreen),
     navigationOptions: ({ navigation }) => ({
       header: <SubmittableHeader
         navigation={navigation}
