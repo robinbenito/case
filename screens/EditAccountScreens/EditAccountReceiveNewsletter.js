@@ -8,7 +8,8 @@ import alertErrors from '../../utilities/alertErrors'
 
 import { Fieldset } from '../../components/UI/Inputs'
 import { StackedToggle } from '../../components/UI/Buttons'
-import { Container, Section } from '../../components/UI/Layout'
+import { Section } from '../../components/UI/Layout'
+import HeaderAwareContainer from '../../components/UI/Layout/HeaderAwareContainer'
 import { dismissAllAlerts } from '../../components/Alerts'
 
 import withLoadingAndErrors from '../../hocs/withLoadingAndErrors'
@@ -53,7 +54,7 @@ class EditAccountReceiveNewsletterScreen extends React.Component {
 
   render() {
     return (
-      <Container>
+      <HeaderAwareContainer>
         <Section space={5}>
           <Fieldset>
             <StackedToggle
@@ -71,7 +72,7 @@ class EditAccountReceiveNewsletterScreen extends React.Component {
             </StackedToggle>
           </Fieldset>
         </Section>
-      </Container>
+      </HeaderAwareContainer>
     )
   }
 }

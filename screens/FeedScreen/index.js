@@ -4,7 +4,7 @@ import { graphql } from 'react-apollo'
 
 import FeedContainer from './components/FeedContainer'
 import AddMenu from '../../components/AddMenu'
-import { Container } from '../../components/UI/Layout'
+import HeaderAwareContainer from '../../components/UI/Layout/HeaderAwareContainer'
 import { sendAlert } from '../../components/Alerts'
 
 import alertsQuery from './queries/alerts'
@@ -52,10 +52,10 @@ class FeedScreen extends React.Component {
 
   render() {
     return (
-      <Container>
+      <HeaderAwareContainer>
         <FeedContainer limit={20} />
         <AddMenu />
-      </Container>
+      </HeaderAwareContainer>
     )
   }
 }

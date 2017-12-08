@@ -5,15 +5,14 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { BlurView } from 'expo'
 import styled from 'styled-components/native'
 
-import { HEADER_HEIGHT } from '../Header'
-import Alerts from '../Alerts'
-import { Units, Colors } from '../../constants/Style'
+import { Units, Colors } from '../../../constants/Style'
 
 const TouchableHighlightHitArea = styled.TouchableHighlight.attrs({
   underlayColor: 'white',
   activeOpacity: 0.5,
 })`
 `
+
 export const TouchableHighlight = ({ children, ...rest }) => (
   <TouchableHighlightHitArea {...rest}>
     <View>
@@ -70,39 +69,6 @@ export const Section = styled.View`
   ${x => x.spaceB && `margin-bottom: ${Units.scale[x.spaceB]};`}
   ${x => (x.fill ? 'flex: 1;' : '')}
 `
-
-const HeaderMargin = styled.View`
-  flex: 1;
-  margin-top: ${HEADER_HEIGHT};
-`
-
-const StatusBarMargin = styled.View`
-  flex: 1;
-  margin-top: ${Units.statusBarHeight};
-`
-
-export const StatusBarAwareContainer = ({ children, ...rest }) => (
-  <StatusBarMargin {...rest}>
-    {children}
-    <Alerts />
-  </StatusBarMargin>
-)
-
-StatusBarAwareContainer.propTypes = {
-  children: PropTypes.node.isRequired,
-}
-
-// TODO: Rename to HeaderAwareContainer
-export const Container = ({ children, ...rest }) => (
-  <HeaderMargin {...rest}>
-    {children}
-    <Alerts />
-  </HeaderMargin>
-)
-
-Container.propTypes = {
-  children: PropTypes.node.isRequired,
-}
 
 export const CenteringPane = styled(KeyboardAwareScrollView).attrs({
   contentContainerStyle: {

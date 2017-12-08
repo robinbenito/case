@@ -10,7 +10,8 @@ import alertErrors from '../../utilities/alertErrors'
 
 import HeaderRightButton from '../../components/HeaderRightButton'
 import { Fieldset, StackedTextArea, InputDescription } from '../../components/UI/Inputs'
-import { Container, Section } from '../../components/UI/Layout'
+import { Section } from '../../components/UI/Layout'
+import HeaderAwareContainer from '../../components/UI/Layout/HeaderAwareContainer'
 import { dismissAllAlerts } from '../../components/Alerts'
 
 import withLoadingAndErrors from '../../hocs/withLoadingAndErrors'

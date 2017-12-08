@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import { StatusBarAwareContainer } from '../../components/UI/Layout'
+import StatusBarAwareContainer from '../../components/UI/Layout/StatusBarAwareContainer'
 import SimulatedProgressHeader from '../../components/SimulatedProgressHeader'
 import LoadingScreen from '../../components/LoadingScreen'
 

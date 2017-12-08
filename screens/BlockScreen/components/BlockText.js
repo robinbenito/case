@@ -6,7 +6,7 @@ import HTMLView from 'react-native-htmlview'
 
 import { Border, Units } from '../../../constants/Style'
 import HTMLStyles from '../../../constants/HtmlView'
-import { Container } from '../../../components/UI/Layout'
+import HeaderAwareContainer from '../../../components/UI/Layout/HeaderAwareContainer'
 
 const Wrapper = styled.View`
   border-width: ${Border.borderWidth};
@@ -22,7 +22,7 @@ export default class BlockText extends React.Component {
     const { block } = this.props.navigation.state.params
 
     return (
-      <Container>
+      <HeaderAwareContainer>
         <ScrollView>
           <Wrapper>
             <HTMLView
@@ -31,7 +31,7 @@ export default class BlockText extends React.Component {
             />
           </Wrapper>
         </ScrollView>
-      </Container>
+      </HeaderAwareContainer>
     )
   }
 }

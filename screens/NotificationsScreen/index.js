@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { graphql } from 'react-apollo'
 
-import { Container } from '../../components/UI/Layout'
+import HeaderAwareContainer from '../../components/UI/Layout/HeaderAwareContainer'
 import LoadingScreen from '../../components/LoadingScreen'
 import NotificationContents from './components/NotificationContents'
 import NotificationsFooter from './components/NotificationFooter'
@@ -45,7 +45,7 @@ class NotificationsScreen extends Component {
     } = me
 
     return (
-      <Container>
+      <HeaderAwareContainer>
         <NotificationContents
           notifications={notifications.slice().reverse()}
           refreshing={refreshing}
@@ -55,7 +55,7 @@ class NotificationsScreen extends Component {
         {counts.notifications > 0 &&
           <NotificationsFooter />
         }
-      </Container>
+      </HeaderAwareContainer>
     )
   }
 }
