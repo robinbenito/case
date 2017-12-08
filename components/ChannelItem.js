@@ -3,10 +3,14 @@ import gql from 'graphql-tag'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
 import { decode } from 'he'
+
+import { TouchableHighlight } from './UI/Layout'
+
 import { Border, Colors, Typography, Units } from '../constants/Style'
+
 import navigationService from '../utilities/navigationService'
 
-const Background = styled.TouchableOpacity`
+const Background = styled(TouchableHighlight)`
   margin-horizontal: ${Units.scale[2]};
   margin-bottom: ${Units.scale[2]};
   padding-vertical: ${Units.base};

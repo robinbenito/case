@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { View } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { BlurView } from 'expo'
 import styled from 'styled-components/native'
@@ -7,6 +8,23 @@ import styled from 'styled-components/native'
 import { HEADER_HEIGHT } from '../Header'
 import Alerts from '../Alerts'
 import { Units, Colors } from '../../constants/Style'
+
+const TouchableHighlightHitArea = styled.TouchableHighlight.attrs({
+  underlayColor: 'white',
+  activeOpacity: 0.5,
+})`
+`
+export const TouchableHighlight = ({ children, ...rest }) => (
+  <TouchableHighlightHitArea {...rest}>
+    <View>
+      {children}
+    </View>
+  </TouchableHighlightHitArea>
+)
+
+TouchableHighlight.propTypes = {
+  children: PropTypes.node.isRequired,
+}
 
 export const TouchableFill = styled.TouchableOpacity`
   position: absolute;

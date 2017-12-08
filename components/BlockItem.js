@@ -9,6 +9,7 @@ import Image from 'react-native-image-progress'
 
 import TruncatedHTML from './TruncatedHTML'
 import BlockItemIcon from './BlockItemIcon'
+import { TouchableHighlight } from './UI/Layout'
 
 import navigationService from '../utilities/navigationService'
 
@@ -21,7 +22,7 @@ export const BLOCK_SIZES = {
   '2-up': ((Units.window.width / 2) - (Units.scale[1] * 3)),
 }
 
-const Container = styled.TouchableOpacity`
+const Container = styled(TouchableHighlight)`
   width: ${x => BLOCK_SIZES[x.size]};
   height: ${x => BLOCK_SIZES[x.size] + BLOCK_METADATA_HEIGHT};
 `
@@ -44,7 +45,6 @@ const Thumbnail = styled(Image).attrs({
 const Metadata = styled.View`
   height: ${BLOCK_METADATA_HEIGHT};
   padding-top: ${Units.scale[2]};
-  flex: 1;
 `
 
 const MetadataTitle = styled.View`
