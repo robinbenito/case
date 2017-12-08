@@ -107,7 +107,6 @@ class ExploreContainer extends React.Component {
 
     const { type } = this.state
     const contents = (
-      exploreBlocksData.networkStatus !== 2 &&
       exploreBlocksData &&
       exploreBlocksData.explore
     ) || []
