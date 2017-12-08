@@ -13,9 +13,11 @@ import { CenterColumn, CenteringPane } from '../../../components/UI/Layout'
 import FeedGroupSentence from '../../../components/FeedGroupSentence'
 import LoadingScreen from '../../../components/LoadingScreen'
 import { GenericMessage } from '../../../components/UI/Alerts'
+import { Strong } from '../../../components/UI/Texts'
 
 import feedQuery from '../queries/feed'
 
+import navigationService from '../../../utilities/navigationService'
 import scrollSensorForHeader from '../../../utilities/scrollSensorForHeader'
 
 const ItemContainer = styled.View`
@@ -111,10 +113,13 @@ class FeedContainer extends React.Component {
         <GenericMessage>
           You aren’t following anything yet.
         </GenericMessage>
+        <GenericMessage>
+          Go to <Strong onPress={() => navigationService.navigate('explore', { showHeadline: true })}>Explore</Strong> and see what other people on Are.na are up to.
+        </GenericMessage>
       </CenteringPane>
     )
 
-    if (me.feed.groups.length === 0) return EmptyComponent
+    if (me.feed.groups.length > 0) return EmptyComponent
 
     return (
       <FlatList

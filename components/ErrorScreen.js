@@ -7,14 +7,14 @@ import { ButtonLabel, Button } from './UI/Buttons'
 
 const ErrorScreen = ({ message, errors, showRefresh, onRefresh, ...rest }) => (
   <RelativeFill {...rest}>
+    <GenericMessage>
+      Oops! Something went wrong.
+    </GenericMessage>
     {message &&
       <StatusMessage>
         {message}
       </StatusMessage>
     }
-    <GenericMessage>
-      Oops! Something went wrong.
-    </GenericMessage>
     <ErrorMessage>
       {formatErrors(errors)}
     </ErrorMessage>

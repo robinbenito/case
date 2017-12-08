@@ -7,6 +7,7 @@ import ChannelScreen from '../screens/ChannelScreen'
 import CommentScreen from '../screens/CommentScreen'
 import FeedScreen from '../screens/FeedScreen'
 import SearchScreen from '../screens/SearchScreen'
+import ExploreScreen from '../screens/ExploreScreen'
 import ProfileScreen from '../screens/ProfileScreen'
 // New objects
 import NewChannelScreen from '../screens/NewChannelScreen'
@@ -152,6 +153,21 @@ export default ({
           { title: 'Your profile', key: 'profile' },
           { title: 'Feed', key: 'feed' },
         ]}
+      />,
+    }),
+  },
+
+  explore: {
+    screen: ExploreScreen,
+    navigationOptions: ({ navigation }) => ({
+      header: <Header
+        navigation={navigation}
+        primary={{ title: 'Explore' }}
+        secondary={[
+          { title: 'Your profile', key: 'profile' },
+        ]}
+        headerLeft={null}
+        headerRight={<HeaderIcon navigation={navigation} />}
       />,
     }),
   },
