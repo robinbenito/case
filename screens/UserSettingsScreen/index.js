@@ -19,7 +19,11 @@ import UserAvatar from '../../components/UserAvatar'
 
 import withLoadingAndErrors from '../../hocs/withLoadingAndErrors'
 
+import editAccountBioFragment from '../EditAccountScreens/fragments/editAccountBio'
+import editAccountEmailFragment from '../EditAccountScreens/fragments/editAccountEmail'
 import editAccountNameFragment from '../EditAccountScreens/fragments/editAccountName'
+import editAccountReceiveNewsletterFragment from '../EditAccountScreens/fragments/editAccountReceiveNewsletter'
+import editEmailNotificationsFragment from '../EditAccountScreens/fragments/editEmailNotifications'
 
 class UserSettingsScreen extends React.Component {
   static propTypes = {
@@ -60,14 +64,14 @@ class UserSettingsScreen extends React.Component {
               </StackedJumpButton>
 
               <StackedJumpButton
-                onPress={() => navigationService.navigate('editAccountBio')}
+                onPress={() => navigationService.navigate('editAccountBio', { me })}
               >
                 Bio
               </StackedJumpButton>
 
               <StackedJumpButton
                 label="Email"
-                onPress={() => navigationService.navigate('editAccountEmail')}
+                onPress={() => navigationService.navigate('editAccountEmail', { me })}
               >
                 {me.email}
               </StackedJumpButton>
@@ -82,7 +86,7 @@ class UserSettingsScreen extends React.Component {
             <Fieldset>
               <StackedJumpButton
                 label="Email Notifications"
-                onPress={() => navigationService.navigate('editEmailNotifications')}
+                onPress={() => navigationService.navigate('editEmailNotifications', { me })}
               >
                 {{
                   digest: 'Periodic Digest',
@@ -93,7 +97,7 @@ class UserSettingsScreen extends React.Component {
 
               <StackedJumpButton
                 label="Newsletter"
-                onPress={() => navigationService.navigate('editAccountReceiveNewsletter')}
+                onPress={() => navigationService.navigate('editAccountReceiveNewsletter', { me })}
               >
                 {{
                   true: 'Subscribed',
@@ -170,10 +174,18 @@ const UserSettingsQuery = gql`
         private_connections_limit
       }
       ...EditAccountName
+      ...EditAccountBio
+      ...EditAccountEmail
+      ...EditAccountReceiveNewsletter
+      ...EditEmailNotifications
     }
   }
   ${UserAvatar.fragments.avatar}
+  ${editAccountBioFragment}
+  ${editAccountEmailFragment}
   ${editAccountNameFragment}
+  ${editAccountReceiveNewsletterFragment}
+  ${editEmailNotificationsFragment}
 `
 
 const DecoratedUserSettingsScreen = withLoadingAndErrors(UserSettingsScreen, {
