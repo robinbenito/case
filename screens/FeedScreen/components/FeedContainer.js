@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
 import { ActivityIndicator, FlatList } from 'react-native'
 
-import { Units, Typography } from '../../../constants/Style'
+import { Units } from '../../../constants/Style'
 
 import withErrors from '../../../hocs/withErrors'
 
@@ -13,6 +13,7 @@ import { CenterColumn, CenteringPane } from '../../../components/UI/Layout'
 import FeedGroupSentence from '../../../components/FeedGroupSentence'
 import LoadingScreen from '../../../components/LoadingScreen'
 import { GenericMessage } from '../../../components/UI/Alerts'
+import { Strong } from '../../../components/UI/Texts'
 
 import feedQuery from '../queries/feed'
 
@@ -25,10 +26,6 @@ const ItemContainer = styled.View`
 
 const Footer = styled(CenterColumn)`
   margin-vertical: ${Units.base};
-`
-
-const Link = styled.Text`
-  font-weight: ${Typography.fontWeight.bold};
 `
 
 class FeedContainer extends React.Component {
@@ -117,7 +114,7 @@ class FeedContainer extends React.Component {
           You aren’t following anything yet.
         </GenericMessage>
         <GenericMessage>
-          Go to <Link onPress={() => navigationService.navigate('explore', { showHeadline: true })}>Explore</Link> and see what other people on Are.na are up to.
+          Go to <Strong onPress={() => navigationService.navigate('explore', { showHeadline: true })}>Explore</Strong> and see what other people on Are.na are up to.
         </GenericMessage>
       </CenteringPane>
     )
