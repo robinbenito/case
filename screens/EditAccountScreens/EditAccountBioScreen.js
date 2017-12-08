@@ -85,7 +85,7 @@ class EditAccountBioScreen extends React.Component {
     const { bio } = this.state
 
     return (
-      <Container>
+      <HeaderAwareContainer>
         <Section space={5}>
           <Fieldset>
             <StackedTextArea
@@ -101,7 +101,7 @@ class EditAccountBioScreen extends React.Component {
              Markdown is OK
           </InputDescription>
         </Section>
-      </Container>
+      </HeaderAwareContainer>
     )
   }
 }

@@ -2,7 +2,7 @@ import React from 'react'
 import { graphql } from 'react-apollo'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
-import { ActivityIndicator, FlatList } from 'react-native'
+import { FlatList } from 'react-native'
 
 import { Units } from '../../../constants/Style'
 
