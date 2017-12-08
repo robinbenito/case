@@ -159,12 +159,17 @@ export default ({
 
   explore: {
     screen: ExploreScreen,
-    navigationOptions: {
-      header: null,
-      cardStyle: {
-        backgroundColor: 'white',
-      },
-    },
+    navigationOptions: ({ navigation }) => ({
+      header: <Header
+        navigation={navigation}
+        primary={{ title: 'Explore' }}
+        secondary={[
+          { title: 'Your profile', key: 'profile' },
+        ]}
+        headerLeft={null}
+        headerRight={<HeaderIcon navigation={navigation} />}
+      />,
+    }),
   },
 
   search: {
