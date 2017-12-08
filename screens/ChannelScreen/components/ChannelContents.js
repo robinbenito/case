@@ -4,7 +4,8 @@ import { FlatList } from 'react-native'
 import { graphql, compose } from 'react-apollo'
 import { get } from 'lodash'
 
-import { ConnectionFooter, LoadingFooter } from './ChannelFooters'
+import ConnectionFooter from './ConnectionFooter'
+import FlatListFooter from '../../../components/UI/Layout/FlatListFooter'
 import ChannelItem from '../../../components/ChannelItem'
 import BlockItem from '../../../components/BlockItem'
 import BlockModalMenu from '../../../components/BlockModalMenu'
@@ -29,13 +30,13 @@ const TYPE_CONFIG = {
   CHANNEL: {
     columnWrapperStyle: false,
     numColumns: 1,
-    ListFooterComponent: LoadingFooter,
+    ListFooterComponent: FlatListFooter,
   },
 
   BLOCK: {
     columnWrapperStyle: { justifyContent: 'space-around' },
     numColumns: 2,
-    ListFooterComponent: LoadingFooter,
+    ListFooterComponent: FlatListFooter,
   },
 }
 

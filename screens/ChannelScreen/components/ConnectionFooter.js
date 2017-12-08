@@ -1,18 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styled from 'styled-components/native'
-import { ActivityIndicator } from 'react-native'
 
 import navigationService from '../../../utilities/navigationService'
 
-import { CenterColumn } from '../../../components/UI/Layout'
+import FlatListFooter from '../../../components/UI/Layout/FlatListFooter'
 import { ButtonLabel, Button } from '../../../components/UI/Buttons'
-
-import { Units } from '../../../constants/Style'
-
-const Container = styled(CenterColumn)`
-  margin-vertical: ${Units.base};
-`
 
 const navigateToConnectWithChannel = ({ id, title }) => () =>
   navigationService.navigate('connect', {
@@ -21,12 +13,12 @@ const navigateToConnectWithChannel = ({ id, title }) => () =>
     connectable_type: 'CHANNEL',
   })
 
-export const ConnectionFooter = ({ channel, ...rest }) => (
-  <Container {...rest}>
+const ConnectionFooter = ({ channel, ...rest }) => (
+  <FlatListFooter {...rest}>
     <Button space={1} onPress={navigateToConnectWithChannel(channel)}>
       <ButtonLabel>Connect &rarr;</ButtonLabel>
     </Button>
-  </Container>
+  </FlatListFooter>
 )
 
 ConnectionFooter.propTypes = {
@@ -36,17 +28,4 @@ ConnectionFooter.propTypes = {
   }).isRequired,
 }
 
-export const LoadingFooter = ({ loading, ...rest }) => (
-  <Container {...rest}>
-    {loading &&
-      <ActivityIndicator
-        animating
-        size="small"
-      />
-    }
-  </Container>
-)
-
-LoadingFooter.propTypes = {
-  loading: PropTypes.bool.isRequired,
-}
+export default ConnectionFooter

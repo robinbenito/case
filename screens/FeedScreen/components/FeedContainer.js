@@ -9,7 +9,8 @@ import { Units } from '../../../constants/Style'
 import withErrors from '../../../hocs/withErrors'
 
 import FeedContents from './FeedContents'
-import { CenterColumn, CenteringPane } from '../../../components/UI/Layout'
+import { CenteringPane } from '../../../components/UI/Layout'
+import FlatListFooter from '../../../components/UI/Layout/FlatListFooter'
 import FeedGroupSentence from '../../../components/FeedGroupSentence'
 import LoadingScreen from '../../../components/LoadingScreen'
 import { GenericMessage } from '../../../components/UI/Alerts'
@@ -20,10 +21,6 @@ import scrollSensorForHeader from '../../../utilities/scrollSensorForHeader'
 
 const ItemContainer = styled.View`
   margin-bottom: ${Units.scale[4]};
-`
-
-const Footer = styled(CenterColumn)`
-  margin-vertical: ${Units.base};
 `
 
 class FeedContainer extends React.Component {
@@ -77,18 +74,6 @@ class FeedContainer extends React.Component {
   keyExtractor = (group, index) =>
     `${group.key}-${index}`
 
-  renderLoader = () => {
-    const { data: { loading } } = this.props
-
-    return (
-      <Footer>
-        {loading &&
-          <ActivityIndicator animating size="small" />
-        }
-      </Footer>
-    )
-  }
-
   renderItem = ({ item, index }) => (
     <ItemContainer key={`${item.key}-${index}`}>
       <FeedGroupSentence group={item} />
@@ -127,7 +112,7 @@ class FeedContainer extends React.Component {
         onRefresh={this.onRefresh}
         onEndReached={this.onEndReached}
         onEndReachedThreshold={0.9}
-        ListFooterComponent={this.renderLoader}
+        ListFooterComponent={<FlatListFooter loading={loading} />}
         ListEmptyComponent={EmptyComponent}
         renderItem={this.renderItem}
       />
