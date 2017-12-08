@@ -26,6 +26,9 @@ class AddMenu extends Component {
     title: 'Are.na',
   }
 
+  static HEIGHT = AddButton.height
+  static SAFE_AREA = AddButton.height + (Units.base * 2)
+
   open = () =>
     openModal({ children: <AddMenuOptions /> })
 
