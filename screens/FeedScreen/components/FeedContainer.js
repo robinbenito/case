@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
 import { ActivityIndicator, FlatList } from 'react-native'
 
-import { Units } from '../../../constants/Style'
+import { Units, Typography } from '../../../constants/Style'
 
 import withErrors from '../../../hocs/withErrors'
 
@@ -16,6 +16,7 @@ import { GenericMessage } from '../../../components/UI/Alerts'
 
 import feedQuery from '../queries/feed'
 
+import navigationService from '../../../utilities/navigationService'
 import scrollSensorForHeader from '../../../utilities/scrollSensorForHeader'
 
 const ItemContainer = styled.View`
@@ -24,6 +25,10 @@ const ItemContainer = styled.View`
 
 const Footer = styled(CenterColumn)`
   margin-vertical: ${Units.base};
+`
+
+const Link = styled.Text`
+  font-weight: ${Typography.fontWeight.bold};
 `
 
 class FeedContainer extends React.Component {
@@ -111,10 +116,13 @@ class FeedContainer extends React.Component {
         <GenericMessage>
           You aren’t following anything yet.
         </GenericMessage>
+        <GenericMessage>
+          Go to <Link onPress={() => navigationService.navigate('explore', { showHeadline: true })}>Explore</Link> and see what other people on Are.na are up to.
+        </GenericMessage>
       </CenteringPane>
     )
 
-    if (me.feed.groups.length === 0) return EmptyComponent
+    if (me.feed.groups.length > 0) return EmptyComponent
 
     return (
       <FlatList
