@@ -109,6 +109,13 @@ class BlockItem extends Component {
             size={size}
             value={block.kind.content}
             numberOfFadedLines={1}
+            stylesheet={{
+              p: {
+                fontSize: Typography.fontSize.small,
+                lineHeight: Typography.lineHeightFor('small'),
+                color: 'black',
+              },
+            }}
           />
         )
         break
