@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import gql from 'graphql-tag'
 import PropTypes from 'prop-types'
-import { ActivityIndicator, Text, View } from 'react-native'
+import { ActivityIndicator, Text } from 'react-native'
 import { decode } from 'he'
 import styled from 'styled-components/native'
 import { propType } from 'graphql-anywhere'
@@ -142,23 +142,21 @@ class BlockItem extends Component {
         onPress={this.onPress}
         {...rest}
       >
-        <View>
-          <Outline hasImage={!!block.kind.image_url} size={size}>
-            {inner}
-          </Outline>
+        <Outline hasImage={!!block.kind.image_url} size={size}>
+          {inner}
+        </Outline>
 
-          <Metadata size={size}>
-            <MetadataTitle>
-              {title &&
-                <Title size={size} numberOfLines={1}>
-                  {title}
-                </Title>
-              }
+        <Metadata size={size}>
+          <MetadataTitle>
+            {title &&
+              <Title size={size} numberOfLines={1}>
+                {title}
+              </Title>
+            }
 
-              <BlockItemIcon type={__typename} />
-            </MetadataTitle>
-          </Metadata>
-        </View>
+            <BlockItemIcon type={__typename} />
+          </MetadataTitle>
+        </Metadata>
       </Container>
     )
   }
