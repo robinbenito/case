@@ -1,7 +1,7 @@
 import React from 'react'
-import gql from 'graphql-tag'
-import { compose, graphql } from 'react-apollo'
+import { graphql } from 'react-apollo'
 import PropTypes from 'prop-types'
+import { propType } from 'graphql-anywhere'
 
 import injectButtonWhenDiff from '../../utilities/injectButtonWhenDiff'
 import alertErrors from '../../utilities/alertErrors'
@@ -13,35 +13,33 @@ import { sendAlert, dismissAllAlerts } from '../../components/Alerts'
 
 import withLoadingAndErrors from '../../hocs/withLoadingAndErrors'
 
+import editAccountEmailFragment from './fragments/editAccountEmail'
+import updateAccountEmailMutation from './mutations/updateAccountEmail'
+
 class EditAccountEmailScreen extends React.Component {
+  static propTypes = {
+    me: propType(editAccountEmailFragment).isRequired,
+    updateAccountEmail: PropTypes.func.isRequired,
+  }
+
   constructor(props) {
     super(props)
 
+    const { me: { email } } = this.props
+
     this.state = {
-      email: '',
+      email,
     }
   }
 
   componentDidMount() {
-    const { data: { me: { unconfirmed_email } } } = this.props
+    const { me: { unconfirmed_email } } = this.props
 
     if (unconfirmed_email) this.alertChange(unconfirmed_email)
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.data.loading) return
-
-    this.setState({ ...nextProps.data.me })
-  }
-
   componentDidUpdate() {
-    const {
-      data: {
-        me: {
-          email,
-        },
-      },
-    } = this.props
+    const { me: { email } } = this.props
 
     injectButtonWhenDiff({
       state: this.state,
@@ -56,12 +54,11 @@ class EditAccountEmailScreen extends React.Component {
   onSubmit = () => {
     dismissAllAlerts()
 
+    const { updateAccountEmail } = this.props
     const { email } = this.state
     const variables = { email }
 
-    this.props
-      .mutate({ variables })
-
+    updateAccountEmail({ variables })
       .then(({ data: { update_account: { me: { unconfirmed_email } } } }) => {
         this.alertChange(unconfirmed_email)
       })
@@ -105,41 +102,10 @@ class EditAccountEmailScreen extends React.Component {
   }
 }
 
-EditAccountEmailScreen.propTypes = {
-  data: PropTypes.object.isRequired,
-  mutate: PropTypes.func.isRequired,
-}
-
-const editAccountEmailQuery = gql`
-  query editAccountEmailQuery {
-    me {
-      id
-      email
-      unconfirmed_email
-    }
-  }
-`
-
-const updateAccountEmailMutation = gql`
-  mutation updateAccountEmailMutation($email: String){
-    update_account(input: { email: $email }) {
-      clientMutationId
-      me {
-        id
-        email
-        unconfirmed_email
-      }
-    }
-  }
-`
-
 const DecoratedEditAccountEmailScreen = withLoadingAndErrors(EditAccountEmailScreen, {
   errorMessage: 'Error getting your settings',
 })
 
-const EditAccountEmailScreenWithData = compose(
-  graphql(editAccountEmailQuery),
-  graphql(updateAccountEmailMutation),
-)(DecoratedEditAccountEmailScreen)
-
-export default EditAccountEmailScreenWithData
+export default graphql(updateAccountEmailMutation, {
+  name: 'updateAccountEmail',
+})(DecoratedEditAccountEmailScreen)

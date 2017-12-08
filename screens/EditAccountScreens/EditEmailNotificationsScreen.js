@@ -1,7 +1,7 @@
-import React from 'react'
-import gql from 'graphql-tag'
-import { compose, graphql } from 'react-apollo'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { propType } from 'graphql-anywhere'
+import { graphql } from 'react-apollo'
 
 import navigationService from '../../utilities/navigationService'
 import alertErrors from '../../utilities/alertErrors'
@@ -13,36 +13,34 @@ import { dismissAllAlerts } from '../../components/Alerts'
 
 import withLoadingAndErrors from '../../hocs/withLoadingAndErrors'
 
-class EditEmailNotificationsScreen extends React.Component {
+import editEmailNotificationsFragment from './fragments/editEmailNotifications'
+import updateEmailNotificationsMutation from './mutations/updateEmailNotifications'
+
+class EditEmailNotificationsScreen extends Component {
   static propTypes = {
-    data: PropTypes.object.isRequired,
-    mutate: PropTypes.func.isRequired,
+    me: propType(editEmailNotificationsFragment).isRequired,
+    updateEmailNotifications: PropTypes.func.isRequired,
   }
 
   constructor(props) {
     super(props)
 
+    const { me: { settings: { receive_email } } } = this.props
+
     this.state = {
-      receive_email: null,
+      receive_email,
     }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.data.loading) return
-
-    this.setState({ ...nextProps.data.me.settings })
   }
 
   onPress = value => () => {
     dismissAllAlerts()
 
+    const { updateEmailNotifications } = this.props
     const variables = { receive_email: value }
 
     this.setState(variables)
 
-    this.props
-      .mutate({ variables })
-
+    updateEmailNotifications({ variables })
       .then(() => {
         navigationService.back()
       })
@@ -86,37 +84,10 @@ class EditEmailNotificationsScreen extends React.Component {
   }
 }
 
-const editEmailNotificationsQuery = gql`
-  query editEmailNotificationsQuery {
-    me {
-      settings {
-        receive_email
-      }
-    }
-  }
-`
-
-const updateEmailNotificationsMutation = gql`
-  mutation updateAccountEmailNotificationsMutation($receive_email: String){
-    update_account(input: { receive_email: $receive_email }) {
-      clientMutationId
-      me {
-        id
-        settings {
-          receive_email
-        }
-      }
-    }
-  }
-`
-
 const DecoratedEditEmailNotificationsScreen = withLoadingAndErrors(EditEmailNotificationsScreen, {
   errorMessage: 'Error getting your settings',
 })
 
-const EditEmailNotificationsScreenWithData = compose(
-  graphql(editEmailNotificationsQuery),
-  graphql(updateEmailNotificationsMutation),
-)(DecoratedEditEmailNotificationsScreen)
-
-export default EditEmailNotificationsScreenWithData
+export default graphql(updateEmailNotificationsMutation, {
+  name: 'updateEmailNotifications',
+})(DecoratedEditEmailNotificationsScreen)

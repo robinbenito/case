@@ -1,7 +1,7 @@
 import React from 'react'
-import gql from 'graphql-tag'
-import { compose, graphql } from 'react-apollo'
+import { graphql } from 'react-apollo'
 import PropTypes from 'prop-types'
+import { propType } from 'graphql-anywhere'
 
 import navigationService from '../../utilities/navigationService'
 import alertErrors from '../../utilities/alertErrors'
@@ -13,36 +13,34 @@ import { dismissAllAlerts } from '../../components/Alerts'
 
 import withLoadingAndErrors from '../../hocs/withLoadingAndErrors'
 
+import editAccountReceiveNewsletterFragment from './fragments/editAccountReceiveNewsletter'
+import updateAccountReceiveNewsletterMutation from './mutations/updateAccountReceiveNewsletter'
+
 class EditAccountReceiveNewsletterScreen extends React.Component {
   static propTypes = {
-    data: PropTypes.object.isRequired,
-    mutate: PropTypes.func.isRequired,
+    me: propType(editAccountReceiveNewsletterFragment).isRequired,
+    updateAccountReceiveNewsletter: PropTypes.func.isRequired,
   }
 
   constructor(props) {
     super(props)
 
+    const { me: { settings: { receive_newsletter } } } = this.props
+
     this.state = {
-      receive_newsletter: null,
+      receive_newsletter,
     }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.data.loading) return
-
-    this.setState({ ...nextProps.data.me.settings })
   }
 
   onPress = value => () => {
     dismissAllAlerts()
 
+    const { updateAccountReceiveNewsletter } = this.props
     const variables = { receive_newsletter: value }
 
     this.setState(variables)
 
-    this.props
-      .mutate({ variables })
-
+    updateAccountReceiveNewsletter({ variables })
       .then(() => {
         navigationService.back()
       })
@@ -78,38 +76,12 @@ class EditAccountReceiveNewsletterScreen extends React.Component {
   }
 }
 
-const editAccountReceiveNewsletterQuery = gql`
-  query editAccountReceiveNewsletterQuery {
-    me {
-      settings {
-        receive_newsletter
-      }
-    }
-  }
-`
-
-const updateAccountReceiveNewsletterMutation = gql`
-  mutation updateAccountAccountReceiveNewsletterMutation($receive_newsletter: Boolean){
-    update_account(input: { receive_newsletter: $receive_newsletter }) {
-      clientMutationId
-      me {
-        id
-        settings {
-          receive_newsletter
-        }
-      }
-    }
-  }
-`
-
 const DecoratedEditAccountReceiveNewsletterScreen =
   withLoadingAndErrors(EditAccountReceiveNewsletterScreen, {
     errorMessage: 'Error getting your settings',
   })
 
-const EditAccountReceiveNewsletterScreenWithData = compose(
-  graphql(editAccountReceiveNewsletterQuery),
-  graphql(updateAccountReceiveNewsletterMutation),
-)(DecoratedEditAccountReceiveNewsletterScreen)
+export default graphql(updateAccountReceiveNewsletterMutation, {
+  name: 'updateAccountReceiveNewsletter',
+})(DecoratedEditAccountReceiveNewsletterScreen)
 
-export default EditAccountReceiveNewsletterScreenWithData

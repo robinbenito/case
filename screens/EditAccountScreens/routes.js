@@ -8,9 +8,11 @@ import EditAccountReceiveNewsletter from './EditAccountReceiveNewsletter'
 
 import SubmittableHeader from '../../components/SubmittableHeader'
 
+import withParams from '../../hocs/withParams'
+
 export default {
   editAccountName: {
-    screen: EditAccountNameScreen,
+    screen: withParams(EditAccountNameScreen),
     navigationOptions: ({ navigation }) => ({
       header: <SubmittableHeader
         navigation={navigation}
@@ -20,7 +22,7 @@ export default {
   },
 
   editAccountBio: {
-    screen: EditAccountBioScreen,
+    screen: withParams(EditAccountBioScreen),
     navigationOptions: ({ navigation }) => ({
       header: <SubmittableHeader
         navigation={navigation}
@@ -30,7 +32,7 @@ export default {
   },
 
   editAccountEmail: {
-    screen: EditAccountEmailScreen,
+    screen: withParams(EditAccountEmailScreen),
     navigationOptions: ({ navigation }) => ({
       header: <SubmittableHeader
         navigation={navigation}
@@ -40,7 +42,7 @@ export default {
   },
 
   editEmailNotifications: {
-    screen: EditEmailNotificationsScreen,
+    screen: withParams(EditEmailNotificationsScreen),
     navigationOptions: ({ navigation }) => ({
       header: <SubmittableHeader
         navigation={navigation}
@@ -50,7 +52,7 @@ export default {
   },
 
   editAccountReceiveNewsletter: {
-    screen: EditAccountReceiveNewsletter,
+    screen: withParams(EditAccountReceiveNewsletter),
     navigationOptions: ({ navigation }) => ({
       header: <SubmittableHeader
         navigation={navigation}

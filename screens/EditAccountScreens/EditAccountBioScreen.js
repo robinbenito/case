@@ -1,7 +1,8 @@
 import React from 'react'
 import gql from 'graphql-tag'
-import { compose, graphql } from 'react-apollo'
+import { graphql } from 'react-apollo'
 import PropTypes from 'prop-types'
+import { propType } from 'graphql-anywhere'
 
 import navigationService from '../../utilities/navigationService'
 import injectButtonWhenDiff from '../../utilities/injectButtonWhenDiff'
@@ -14,29 +15,27 @@ import { dismissAllAlerts } from '../../components/Alerts'
 
 import withLoadingAndErrors from '../../hocs/withLoadingAndErrors'
 
+import editAccountBioFragment from './fragments/editAccountBio'
+import updateAccountBioMutation from './mutations/updateAccountBio'
+
 class EditAccountBioScreen extends React.Component {
+  static propTypes = {
+    me: propType(editAccountBioFragment).isRequired,
+    updateAccountBio: PropTypes.func.isRequired,
+  }
+
   constructor(props) {
     super(props)
 
+    const { me: { bio } } = this.props
+
     this.state = {
-      bio: '',
+      bio,
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.data.loading) return
-
-    this.setState({ ...nextProps.data.me })
-  }
-
   componentDidUpdate() {
-    const {
-      data: {
-        me: {
-          bio,
-        },
-      },
-    } = this.props
+    const { me: { bio } } = this.props
 
     injectButtonWhenDiff({
       state: this.state,
@@ -51,30 +50,30 @@ class EditAccountBioScreen extends React.Component {
   onSubmit = () => {
     dismissAllAlerts()
 
-    const { id, bio } = this.state
+    const { me: { id }, updateAccountBio } = this.props
+    const { bio } = this.state
     const variables = { bio }
 
-    this.props
-      .mutate({
-        variables,
-        refetchQueries: [{
-          variables: { id },
-          query: gql`
-            {
-              user(id: ${id}) {
-                id
-                bio(format: HTML)
-              }
+    updateAccountBio({
+      variables,
+      refetchQueries: [{
+        variables: { id },
+        query: gql`
+          {
+            user(id: ${id}) {
+              id
+              bio(format: HTML)
             }
-          `,
-        }],
-      })
+          }
+        `,
+      }],
+    })
 
-      .then(() => {
-        navigationService.back()
-      })
+    .then(() => {
+      navigationService.back()
+    })
 
-      .catch(alertErrors)
+    .catch(alertErrors)
   }
 
   onChangeText = key => (value) => {
@@ -106,39 +105,10 @@ class EditAccountBioScreen extends React.Component {
   }
 }
 
-EditAccountBioScreen.propTypes = {
-  data: PropTypes.object.isRequired,
-  mutate: PropTypes.func.isRequired,
-}
-
-const editAccountBioQuery = gql`
-  query editAccountBioQuery {
-    me {
-      id
-      bio
-    }
-  }
-`
-
-const updateAccountBioMutation = gql`
-  mutation updateAccountBioMutation($bio: String){
-    update_account(input: { bio: $bio }) {
-      clientMutationId
-      me {
-        id
-        bio
-      }
-    }
-  }
-`
-
 const DecoratedEditAccountBioScreen = withLoadingAndErrors(EditAccountBioScreen, {
   errorMessage: 'Error getting your settings',
 })
 
-const EditAccountBioScreenWithData = compose(
-  graphql(editAccountBioQuery),
-  graphql(updateAccountBioMutation),
-)(DecoratedEditAccountBioScreen)
-
-export default EditAccountBioScreenWithData
+export default graphql(updateAccountBioMutation, {
+  name: 'updateAccountBio',
+})(DecoratedEditAccountBioScreen)
