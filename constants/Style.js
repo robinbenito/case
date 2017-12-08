@@ -31,7 +31,7 @@ export const Colors = {
   },
 
   semantic: {
-    text: '#333',
+    text: 'rgb(109, 109, 109)',
     background: '#f7f7f7',
     label: {
       active: 'black',

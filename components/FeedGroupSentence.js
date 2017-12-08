@@ -13,7 +13,7 @@ const Container = styled.View`
 `
 
 const Sentence = styled.Text`
-  color: ${Colors.semantic.text};
+  color: black;
   font-size: ${Typography.fontSize.medium};
   line-height: ${Typography.lineHeightFor('medium', 'compact')};
   font-weight: ${Typography.fontWeight.semiBold};

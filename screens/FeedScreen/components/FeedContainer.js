@@ -16,6 +16,8 @@ import { GenericMessage } from '../../../components/UI/Alerts'
 
 import feedQuery from '../queries/feed'
 
+import scrollSensorForHeader from '../../../utilities/scrollSensorForHeader'
+
 const ItemContainer = styled.View`
   margin-bottom: ${Units.scale[4]};
 `
@@ -45,6 +47,10 @@ class FeedContainer extends React.Component {
     this.state = {
       offset: 0,
     }
+  }
+
+  componentDidMount() {
+    scrollSensorForHeader.dispatch(true)
   }
 
   onEndReached = () => {

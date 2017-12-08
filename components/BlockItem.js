@@ -14,7 +14,7 @@ import navigationService from '../utilities/navigationService'
 
 import { Border, Colors, Typography, Units } from '../constants/Style'
 
-export const BLOCK_METADATA_HEIGHT = Units.scale[4]
+export const BLOCK_METADATA_HEIGHT = Units.scale[4] + Units.base
 
 export const BLOCK_SIZES = {
   '1-up': (Units.window.width - (Units.scale[4] * 2)),
@@ -42,12 +42,15 @@ const Thumbnail = styled(Image).attrs({
 `
 
 const Metadata = styled.View`
+  height: ${BLOCK_METADATA_HEIGHT};
+  padding-top: ${Units.scale[2]};
+  flex: 1;
+`
+
+const MetadataTitle = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  height: ${BLOCK_METADATA_HEIGHT};
-  padding-bottom: ${Units.scale[2]};
-  flex: 1;
 `
 
 const Title = styled.Text`
@@ -109,6 +112,13 @@ class BlockItem extends Component {
             size={size}
             value={block.kind.content}
             numberOfFadedLines={1}
+            stylesheet={{
+              p: {
+                fontSize: Typography.fontSize.small,
+                lineHeight: Typography.lineHeightFor('small'),
+                color: 'black',
+              },
+            }}
           />
         )
         break
@@ -137,13 +147,15 @@ class BlockItem extends Component {
         </Outline>
 
         <Metadata size={size}>
-          {title &&
-            <Title size={size} numberOfLines={1}>
-              {title}
-            </Title>
-          }
+          <MetadataTitle>
+            {title &&
+              <Title size={size} numberOfLines={1}>
+                {title}
+              </Title>
+            }
 
-          <BlockItemIcon type={__typename} />
+            <BlockItemIcon type={__typename} />
+          </MetadataTitle>
         </Metadata>
       </Container>
     )
