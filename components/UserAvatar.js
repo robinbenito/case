@@ -3,9 +3,12 @@ import PropTypes from 'prop-types'
 import gql from 'graphql-tag'
 import { propType } from 'graphql-anywhere'
 import styled from 'styled-components/native'
+
+import { TouchableHighlight } from './UI/Layout'
+
 import { Colors, Typography, Units } from '../constants/Style'
 
-const HitArea = styled.TouchableOpacity`
+const HitArea = styled(TouchableHighlight)`
   width: ${x => x.size};
 `
 

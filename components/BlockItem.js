@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import gql from 'graphql-tag'
 import PropTypes from 'prop-types'
-import { ActivityIndicator, Text } from 'react-native'
+import { ActivityIndicator, Text, View } from 'react-native'
 import { decode } from 'he'
 import styled from 'styled-components/native'
 import { propType } from 'graphql-anywhere'
@@ -9,6 +9,7 @@ import Image from 'react-native-image-progress'
 
 import TruncatedHTML from './TruncatedHTML'
 import BlockItemIcon from './BlockItemIcon'
+import { TouchableHighlight } from './UI/Layout'
 
 import navigationService from '../utilities/navigationService'
 
@@ -21,7 +22,7 @@ export const BLOCK_SIZES = {
   '2-up': ((Units.window.width / 2) - (Units.scale[1] * 3)),
 }
 
-const Container = styled.TouchableOpacity`
+const Container = styled(TouchableHighlight)`
   width: ${x => BLOCK_SIZES[x.size]};
   height: ${x => BLOCK_SIZES[x.size] + BLOCK_METADATA_HEIGHT};
 `
@@ -142,21 +143,23 @@ class BlockItem extends Component {
         onPress={this.onPress}
         {...rest}
       >
-        <Outline hasImage={!!block.kind.image_url} size={size}>
-          {inner}
-        </Outline>
+        <View>
+          <Outline hasImage={!!block.kind.image_url} size={size}>
+            {inner}
+          </Outline>
 
-        <Metadata size={size}>
-          <MetadataTitle>
-            {title &&
-              <Title size={size} numberOfLines={1}>
-                {title}
-              </Title>
-            }
+          <Metadata size={size}>
+            <MetadataTitle>
+              {title &&
+                <Title size={size} numberOfLines={1}>
+                  {title}
+                </Title>
+              }
 
-            <BlockItemIcon type={__typename} />
-          </MetadataTitle>
-        </Metadata>
+              <BlockItemIcon type={__typename} />
+            </MetadataTitle>
+          </Metadata>
+        </View>
       </Container>
     )
   }
