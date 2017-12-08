@@ -119,7 +119,7 @@ class FeedContainer extends React.Component {
       </CenteringPane>
     )
 
-    if (me.feed.groups.length > 0) return EmptyComponent
+    if (me.feed.groups.length === 0) return EmptyComponent
 
     return (
       <FlatList
