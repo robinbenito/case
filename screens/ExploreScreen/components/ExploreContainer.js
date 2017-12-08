@@ -26,6 +26,18 @@ const StyledChannelItem = styled(ChannelItem)`
   margin-horizontal: ${Units.base};
 `
 
+const TYPE_CONFIG = {
+  CHANNEL: {
+    columnWrapperStyle: false,
+    numColumns: 1,
+  },
+
+  CONNECTABLE: {
+    columnWrapperStyle: { justifyContent: 'space-around' },
+    numColumns: 2,
+  },
+}
+
 class ExploreContainer extends React.Component {
   static propTypes = {
     exploreBlocksData: PropTypes.any.isRequired,
@@ -100,9 +112,10 @@ class ExploreContainer extends React.Component {
       exploreBlocksData.explore
     ) || []
 
-    const shouldShowChannel = type === 'CHANNEL'
-    const columnCount = shouldShowChannel ? 1 : 2
-    const columnStyle = columnCount > 1 ? { justifyContent: 'space-around' } : false
+    const {
+      numColumns,
+      columnWrapperStyle,
+    } = TYPE_CONFIG[type]
 
     const header = (
       <ExploreHeader
@@ -116,10 +129,10 @@ class ExploreContainer extends React.Component {
       <View>
         <FlatList
           data={contents}
-          columnWrapperStyle={columnStyle}
+          columnWrapperStyle={columnWrapperStyle}
           refreshing={exploreBlocksData.networkStatus === 4}
           onRefresh={this.onRefresh}
-          numColumns={columnCount}
+          numColumns={numColumns}
           keyExtractor={(item, index) => `${item.klass}-${item.id}-${index}`}
           key={type}
           onEndReached={this.onEndReached}
