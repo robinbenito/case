@@ -7,6 +7,7 @@ import ChannelScreen from '../screens/ChannelScreen'
 import CommentScreen from '../screens/CommentScreen'
 import FeedScreen from '../screens/FeedScreen'
 import SearchScreen from '../screens/SearchScreen'
+import ExploreScreen from '../screens/ExploreScreen'
 import ProfileScreen from '../screens/ProfileScreen'
 // New objects
 import NewChannelScreen from '../screens/NewChannelScreen'
@@ -154,6 +155,16 @@ export default ({
         ]}
       />,
     }),
+  },
+
+  explore: {
+    screen: ExploreScreen,
+    navigationOptions: {
+      header: null,
+      cardStyle: {
+        backgroundColor: 'white',
+      },
+    },
   },
 
   search: {

@@ -87,7 +87,7 @@ class AppContainer extends Component {
     const { isAssetsLoaded, isStorageChecked, isLoggedIn } = this.state
 
     if (isAssetsLoaded && isStorageChecked) {
-      const initialRouteName = isLoggedIn ? 'feed' : 'loggedOut'
+      const initialRouteName = isLoggedIn ? 'explore' : 'loggedOut'
       const Navigation = createRootNavigator(initialRouteName)
 
       return (
