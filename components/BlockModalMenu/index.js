@@ -148,7 +148,7 @@ class BlockModalMenu extends Component {
           </View>
         }
 
-        {block.can.manage &&
+        {block.can && block.can.manage &&
           <View>
             <HorizontalRule />
             <MenuButton
@@ -160,7 +160,7 @@ class BlockModalMenu extends Component {
           </View>
         }
 
-        {block.connection.can.destroy &&
+        {block.connection && block.connection.can.destroy &&
           <View>
             <HorizontalRule />
             <MenuButton
