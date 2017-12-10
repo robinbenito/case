@@ -2,14 +2,12 @@ import React from 'react'
 import gql from 'graphql-tag'
 import { compose, graphql } from 'react-apollo'
 import PropTypes from 'prop-types'
-import { ActivityIndicator, TouchableOpacity, View } from 'react-native'
-import HTMLView from 'react-native-htmlview'
 import { WebBrowser } from 'expo'
 import styled from 'styled-components/native'
-import Image from 'react-native-image-progress'
 
 import BlockMetadata from './BlockMetadata'
 import BlockTabs from './BlockTabs'
+import BlockInner from '../../../components/BlockInner'
 import { BaseIcon } from '../../../components/UI/Icons'
 import ScrollWithRefresh from '../../../components/ScrollWithRefresh'
 import { HEADER_HEIGHT } from '../../../components/Header'
@@ -17,10 +15,7 @@ import { HEADER_HEIGHT } from '../../../components/Header'
 import pollForBlockAvailability from '../../../hocs/pollForBlockAvailability'
 import withLoadingAndErrors from '../../../hocs/withLoadingAndErrors'
 
-import HTMLStyles from '../../../constants/HtmlView'
 import { Colors, Units } from '../../../constants/Style'
-
-import navigationService from '../../../utilities/navigationService'
 
 const CONTENT_HEIGHT = Units.window.height - HEADER_HEIGHT
 const CONTENT_WIDTH = Units.window.width - Units.base
@@ -65,53 +60,6 @@ const BlockFold = styled.View`
   min-height: ${CONTENT_HEIGHT};
 `
 
-const TextContainer = styled.View`
-  flex: 1;
-  padding-horizontal: ${Units.scale[2]};
-  padding-vertical: ${Units.scale[2]};
-  overflow: hidden;
-  position: relative;
-`
-
-const ExpandTextContainer = styled.TouchableHighlight`
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  flex: 1;
-  align-items: center;
-`
-
-const TextIcon = styled(BaseIcon)`
-  font-size: 24;
-`
-
-const BlockImage = styled(Image).attrs({
-  resizeMode: 'contain',
-})`
-  width: 100%;
-  height: 100%;
-`
-
-const ExpandText = ({ block }) => (
-  <ExpandTextContainer
-    onPress={() => navigationService.navigate('text', {
-      block,
-      title: block.title,
-    })}
-    underlayColor={Colors.semantic.background}
-  >
-    {/* TouchableHighlight needs a view for rendering */}
-    <View>
-      <TextIcon name="ios-more" />
-    </View>
-  </ExpandTextContainer>
-)
-
-ExpandText.propTypes = {
-  block: PropTypes.any.isRequired,
-}
-
 class BlockContents extends React.Component {
   constructor(props) {
     super(props)
@@ -142,42 +90,6 @@ class BlockContents extends React.Component {
   render() {
     const { data: { block }, imageLocation } = this.props
 
-    const __typename = block.kind && block.kind.__typename
-    const imageUrl = block.kind.image_url || imageLocation
-
-    let blockInner
-
-    switch (__typename) {
-      case 'Attachment':
-      case 'Embed':
-      case 'Link':
-      case 'Image':
-        blockInner = (
-          <TouchableOpacity onPress={() => this.openBrowser(block.source.url)}>
-            <BlockImage
-              source={{ uri: imageUrl, cache: 'force-cache' }}
-            />
-          </TouchableOpacity>
-        )
-        break
-
-      case 'Text':
-        blockInner = (
-          <TextContainer>
-            <HTMLView
-              value={block.kind.displayContent}
-              stylesheet={HTMLStyles}
-            />
-            <ExpandText block={block} />
-          </TextContainer>
-        )
-        break
-
-      default: // Processing or stalled
-        blockInner = <ActivityIndicator />
-        break
-    }
-
     const refreshing = this.props.data.networkStatus === 2
     const { refetched } = this.state
 
@@ -191,7 +103,11 @@ class BlockContents extends React.Component {
           <TopSpacer />
 
           <BlockContainer>
-            {blockInner}
+            <BlockInner
+              block={block}
+              imageLocation={imageLocation}
+              onPress={() => this.openBrowser(block.source.url)}
+            />
           </BlockContainer>
 
           <ScrollToMetadata onPress={this.scrollToMetadata}>
