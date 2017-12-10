@@ -3,13 +3,15 @@ import { View } from 'react-native'
 import { graphql } from 'react-apollo'
 import { propType } from 'graphql-anywhere'
 import PropTypes from 'prop-types'
+import styled from 'styled-components/native'
 
-import { HorizontalRule } from '../UI/Layout'
+import { HorizontalRule, AbsoluteFill } from '../UI/Layout'
 import MenuButtonGroup from '../Menu/MenuButtonGroup'
 import MenuButton from '../Menu/MenuButton'
 import { closeModal } from '../Modal'
+import BlockInner from '../BlockInner'
 
-import { Colors } from '../../constants/Style'
+import { Colors, Units } from '../../constants/Style'
 
 import navigationService from '../../utilities/navigationService'
 import alertErrors from '../../utilities/alertErrors'
@@ -21,6 +23,16 @@ import channelBlocksQuery from '../../screens/ChannelScreen/queries/channelBlock
 import deleteConnectionMutation from './mutations/deleteConnection'
 import blockModalMenuBlockFragment from './fragments/blockModalMenuBlock'
 import blockModalMenuChannelFragment from './fragments/blockModalMenuChannel'
+
+const Fill = styled(AbsoluteFill)`
+  padding-horizontal: ${Units.base};
+  padding-vertical: ${Units.base};
+  justify-content: flex-end;
+`
+
+const Menu = styled(MenuButtonGroup)`
+  margin-top: ${Units.base}
+`
 
 class BlockModalMenu extends Component {
   static fragments = {
@@ -112,66 +124,69 @@ class BlockModalMenu extends Component {
     const { channel, block } = this.props
 
     return (
-      <MenuButtonGroup>
-        <MenuButton
-          centered
-          onPress={this.connect}
-        >
-            Connect &rarr;
-        </MenuButton>
+      <Fill>
+        <BlockInner block={block} />
+        <Menu>
+          <MenuButton
+            centered
+            onPress={this.connect}
+          >
+              Connect &rarr;
+          </MenuButton>
 
-        <HorizontalRule />
-        <MenuButton
-          centered
-          onPress={this.leaveComment}
-        >
-          Leave comment
-        </MenuButton>
+          <HorizontalRule />
+          <MenuButton
+            centered
+            onPress={this.leaveComment}
+          >
+            Leave comment
+          </MenuButton>
 
-        <HorizontalRule />
-        <MenuButton
-          centered
-          onPress={this.visitBlock}
-        >
-          Visit block
-        </MenuButton>
+          <HorizontalRule />
+          <MenuButton
+            centered
+            onPress={this.visitBlock}
+          >
+            Visit block
+          </MenuButton>
 
-        {channel &&
-          <View>
-            <HorizontalRule />
-            <MenuButton
-              centered
-              onPress={this.visitChannel}
-            >
-              Visit channel
-            </MenuButton>
-          </View>
-        }
+          {channel &&
+            <View>
+              <HorizontalRule />
+              <MenuButton
+                centered
+                onPress={this.visitChannel}
+              >
+                Visit channel
+              </MenuButton>
+            </View>
+          }
 
-        {block.can && block.can.manage &&
-          <View>
-            <HorizontalRule />
-            <MenuButton
-              centered
-              onPress={this.editBlock}
-            >
-              Edit block
-            </MenuButton>
-          </View>
-        }
+          {block.can && block.can.manage &&
+            <View>
+              <HorizontalRule />
+              <MenuButton
+                centered
+                onPress={this.editBlock}
+              >
+                Edit block
+              </MenuButton>
+            </View>
+          }
 
-        {block.connection && block.connection.can.destroy &&
-          <View>
-            <HorizontalRule />
-            <MenuButton
-              centered
-              onPress={this.deleteConnection}
-            >
-              Remove from {channel.title}
-            </MenuButton>
-          </View>
-        }
-      </MenuButtonGroup>
+          {block.connection && block.connection.can.destroy &&
+            <View>
+              <HorizontalRule />
+              <MenuButton
+                centered
+                onPress={this.deleteConnection}
+              >
+                Remove from {channel.title}
+              </MenuButton>
+            </View>
+          }
+        </Menu>
+      </Fill>
     )
   }
 }
