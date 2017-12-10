@@ -26,7 +26,7 @@ export default class BlockText extends React.Component {
         <ScrollView>
           <Wrapper>
             <HTMLView
-              value={block.kind.displayContent}
+              value={block.kind.displayContent || block.kind.content}
               stylesheet={HTMLStyles}
             />
           </Wrapper>

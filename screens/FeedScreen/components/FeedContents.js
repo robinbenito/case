@@ -4,6 +4,8 @@ import PropTypes from 'prop-types'
 import Carousel from 'react-native-snap-carousel'
 import styled from 'styled-components/native'
 import NavigationService from '../../../utilities/navigationService'
+
+import onBlockLongPress from '../../../components/BlockModalMenu/onBlockLongPress'
 import BlockItem, { BLOCK_SIZES } from '../../../components/BlockItem'
 import ChannelItem from '../../../components/ChannelItem'
 import UserAvatar from '../../../components/UserAvatar'
@@ -32,6 +34,7 @@ const renderItem = ({ item }) => {
             size="1-up"
             block={item}
             key={item.id}
+            onLongPress={onBlockLongPress(item)}
             style={{
               marginHorizontal: Units.scale[1],
             }}
