@@ -150,18 +150,6 @@ class BlockModalMenu extends Component {
             Visit block
           </MenuButton>
 
-          {channel &&
-            <View>
-              <HorizontalRule />
-              <MenuButton
-                centered
-                onPress={this.visitChannel}
-              >
-                Visit channel
-              </MenuButton>
-            </View>
-          }
-
           {block.can && block.can.manage &&
             <View>
               <HorizontalRule />
