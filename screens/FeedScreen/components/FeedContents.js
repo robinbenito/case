@@ -4,6 +4,9 @@ import PropTypes from 'prop-types'
 import Carousel from 'react-native-snap-carousel'
 import styled from 'styled-components/native'
 import NavigationService from '../../../utilities/navigationService'
+
+import { openModal } from '../../../components/Modal'
+import BlockModalMenu from '../../../components/BlockModalMenu'
 import BlockItem, { BLOCK_SIZES } from '../../../components/BlockItem'
 import ChannelItem from '../../../components/ChannelItem'
 import UserAvatar from '../../../components/UserAvatar'
@@ -20,6 +23,14 @@ const Container = styled.View`
 const SLIDER_WIDTH = Units.window.width
 const SLIDER_ITEM_WIDTH = BLOCK_SIZES['1-up'] - (Units.scale[1] * 2)
 
+const onBlockLongPress = block => () => {
+  openModal({
+    children: <BlockModalMenu
+      block={block}
+    />,
+  })
+}
+
 const renderItem = ({ item }) => {
   let component = null
 
@@ -32,6 +43,7 @@ const renderItem = ({ item }) => {
             size="1-up"
             block={item}
             key={item.id}
+            onLongPress={onBlockLongPress(item)}
             style={{
               marginHorizontal: Units.scale[1],
             }}
