@@ -118,6 +118,7 @@ export const BlockConnectionsQuery = gql`
     block(id: $id) {
       __typename
       id
+      title
       channels {
         ...ChannelThumb
       }
