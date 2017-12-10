@@ -2,14 +2,13 @@ import React from 'react'
 import styled from 'styled-components/native'
 import PropTypes from 'prop-types'
 import Image from 'react-native-image-progress'
-import HTMLView from 'react-native-htmlview'
 
 import { ActivityIndicator, TouchableOpacity, View } from 'react-native'
 
-import { Colors, Units } from '../constants/Style'
-import HTMLStyles from '../constants/HtmlView'
+import { Colors, Units, Typography } from '../constants/Style'
 import { BaseIcon } from './UI/Icons'
 import { closeModal } from './Modal'
+import TruncatedHTML from './TruncatedHTML'
 
 import navigationService from '../utilities/navigationService'
 
@@ -100,9 +99,16 @@ export default class BlockInner extends React.Component {
       case 'Text':
         blockInner = (
           <TextContainer>
-            <HTMLView
+            <TruncatedHTML
               value={block.kind.displayContent || block.kind.content}
-              stylesheet={HTMLStyles}
+              numberOfFadedLines={4}
+              stylesheet={{
+                p: {
+                  fontSize: Typography.fontSize.base,
+                  lineHeight: Typography.lineHeightFor('base'),
+                  color: 'black',
+                },
+              }}
             />
             <ExpandText block={block} />
           </TextContainer>
