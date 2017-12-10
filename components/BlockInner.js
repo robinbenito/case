@@ -8,9 +8,12 @@ import { ActivityIndicator, TouchableOpacity, View } from 'react-native'
 
 import { Colors, Units } from '../constants/Style'
 import HTMLStyles from '../constants/HtmlView'
-import { BaseIcon } from '../components/UI/Icons'
+import { BaseIcon } from './UI/Icons'
+import { closeModal } from './Modal'
 
 import navigationService from '../utilities/navigationService'
+
+const CONTENT_WIDTH = Units.window.width - Units.base
 
 const ExpandTextContainer = styled.TouchableHighlight`
   position: absolute;
@@ -22,6 +25,15 @@ const ExpandTextContainer = styled.TouchableHighlight`
 `
 const TextIcon = styled(BaseIcon)`
   font-size: 24;
+`
+
+const BlockContainer = styled.View`
+  width: ${CONTENT_WIDTH};
+  height: ${CONTENT_WIDTH};
+  border-width: 1;
+  border-color: ${Colors.gray.light};
+  align-self: center;
+  justify-content: center;
 `
 
 const BlockImage = styled(Image).attrs({
@@ -37,14 +49,18 @@ const TextContainer = styled.View`
   padding-vertical: ${Units.scale[2]};
   overflow: hidden;
   position: relative;
+  background: ${Colors.white}
 `
 
 const ExpandText = ({ block }) => (
   <ExpandTextContainer
-    onPress={() => navigationService.navigate('text', {
-      block,
-      title: block.title,
-    })}
+    onPress={() => {
+      closeModal()
+      navigationService.navigate('text', {
+        block,
+        title: block.title,
+      })
+    }}
     underlayColor={Colors.semantic.background}
   >
     {/* TouchableHighlight needs a view for rendering */}
@@ -85,7 +101,7 @@ export default class BlockInner extends React.Component {
         blockInner = (
           <TextContainer>
             <HTMLView
-              value={block.kind.displayContent}
+              value={block.kind.displayContent || block.kind.content}
               stylesheet={HTMLStyles}
             />
             <ExpandText block={block} />
@@ -97,7 +113,11 @@ export default class BlockInner extends React.Component {
         blockInner = <ActivityIndicator />
         break
     }
-    return blockInner
+    return (
+      <BlockContainer>
+        {blockInner}
+      </BlockContainer>
+    )
   }
 }
 

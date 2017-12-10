@@ -15,10 +15,9 @@ import { HEADER_HEIGHT } from '../../../components/Header'
 import pollForBlockAvailability from '../../../hocs/pollForBlockAvailability'
 import withLoadingAndErrors from '../../../hocs/withLoadingAndErrors'
 
-import { Colors, Units } from '../../../constants/Style'
+import { Units } from '../../../constants/Style'
 
 const CONTENT_HEIGHT = Units.window.height - HEADER_HEIGHT
-const CONTENT_WIDTH = Units.window.width - Units.base
 
 const BlockFill = styled.View`
   width: 100%;
@@ -31,15 +30,6 @@ const TopSpacer = styled.View`
   flex: 1;
   width: 100%;
   margin-top: ${-HEADER_HEIGHT};
-`
-
-const BlockContainer = styled.View`
-  width: ${CONTENT_WIDTH};
-  height: ${CONTENT_WIDTH};
-  border-width: 1;
-  border-color: ${Colors.gray.light};
-  align-self: center;
-  justify-content: center;
 `
 
 const ScrollToMetadata = styled.TouchableOpacity`
@@ -102,13 +92,11 @@ class BlockContents extends React.Component {
         <BlockFill>
           <TopSpacer />
 
-          <BlockContainer>
-            <BlockInner
-              block={block}
-              imageLocation={imageLocation}
-              onPress={() => this.openBrowser(block.source.url)}
-            />
-          </BlockContainer>
+          <BlockInner
+            block={block}
+            imageLocation={imageLocation}
+            onPress={() => this.openBrowser(block.source.url)}
+          />
 
           <ScrollToMetadata onPress={this.scrollToMetadata}>
             <ArrowDown />
