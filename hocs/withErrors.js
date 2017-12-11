@@ -8,7 +8,7 @@ const DEFAULT_KEYS = ['data']
 export default (WrappedComponent, {
   errorMessage,
   dataKeys = DEFAULT_KEYS,
-  showRefresh = false,
+  showRefresh = true,
 } = {}) => {
   class WithErrors extends Component {
 
