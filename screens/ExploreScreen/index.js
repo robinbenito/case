@@ -20,7 +20,7 @@ export default class ExploreScreen extends Component {
 
     this.state = {
       page: 1,
-      type: 'CHANNEL',
+      type: 'CONNECTABLE',
     }
   }
 

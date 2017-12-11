@@ -44,6 +44,7 @@ export default ({
         primary={{ title: 'Feed' }}
         secondary={[
           { title: 'Your profile', key: 'profile' },
+          { title: 'Explore', key: 'explore' },
         ]}
         headerLeft={null}
         headerRight={<HeaderIcon navigation={navigation} />}
@@ -60,6 +61,7 @@ export default ({
         secondary={[
           { title: 'Your profile', key: 'profile' },
           { title: 'Feed', key: 'feed' },
+          { title: 'Explore', key: 'explore' },
         ]}
         headerLeft={<BackButton />}
       />,
@@ -75,6 +77,7 @@ export default ({
         secondary={[
           { title: 'Your profile', key: 'profile' },
           { title: 'Feed', key: 'feed' },
+          { title: 'Explore', key: 'explore' },
         ]}
         headerRight={<BlockEditButton id={navigation.state.params.id} />}
       />,
@@ -90,6 +93,7 @@ export default ({
         secondary={[
           { title: 'Your profile', key: 'profile' },
           { title: 'Feed', key: 'feed' },
+          { title: 'Explore', key: 'explore' },
         ]}
       />,
     }),
@@ -114,6 +118,7 @@ export default ({
         secondary={[
           { title: 'Your profile', key: 'profile' },
           { title: 'Feed', key: 'feed' },
+          { title: 'Explore', key: 'explore' },
         ]}
         isHeaderTitleVisible={false}
         headerRight={<SearchIcon />}
@@ -128,6 +133,7 @@ export default ({
       const headerLeft = notMyProfile ? <BackButton /> : null
       const secondary = notMyProfile ? [
         { title: 'Feed', key: 'feed' },
+        { title: 'Explore', key: 'explore' },
         { title: 'Profile', key: 'profile' },
       ] : [{ title: 'Feed', key: 'feed' }]
       return {
@@ -152,6 +158,7 @@ export default ({
         secondary={[
           { title: 'Your profile', key: 'profile' },
           { title: 'Feed', key: 'feed' },
+          { title: 'Explore', key: 'explore' },
         ]}
       />,
     }),
