@@ -1,14 +1,13 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import ExploreContainer from './components/ExploreContainer'
-import { Container } from '../../components/UI/Layout'
+import HeaderAwareContainer from '../../components/UI/Layout/HeaderAwareContainer'
 import AddMenu from '../../components/AddMenu'
 
-export default class ExploreScreen extends React.Component {
+export default class ExploreScreen extends Component {
   static propTypes = {
     showHeadline: PropTypes.bool,
-    navigation: PropTypes.object.isRequired,
   }
 
   static defaultProps = {
@@ -16,21 +15,17 @@ export default class ExploreScreen extends React.Component {
   }
 
   render() {
-    const { navigation } = this.props
-    const showHeadline = (
-      (navigation.state.params && navigation.state.params.showHeadline) ||
-      this.props.showHeadline
-    )
+    const { showHeadline } = this.props
 
     return (
-      <Container>
+      <HeaderAwareContainer>
         <ExploreContainer
           type="CHANNEL"
           page={1}
           showHeadline={showHeadline}
         />
         <AddMenu />
-      </Container>
+      </HeaderAwareContainer>
     )
   }
 }

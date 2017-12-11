@@ -41,7 +41,7 @@ const TYPE_CONFIG = {
 class ExploreContainer extends React.Component {
   static propTypes = {
     exploreBlocksData: PropTypes.any.isRequired,
-    type: PropTypes.oneOf(['CHANNEL', 'BLOCK']).isRequired,
+    type: PropTypes.oneOf(['CHANNEL', 'CONNECTABLE']).isRequired,
     loadMore: PropTypes.func,
     page: PropTypes.number,
     showHeadline: PropTypes.bool.isRequired,

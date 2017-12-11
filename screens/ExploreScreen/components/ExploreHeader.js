@@ -29,6 +29,12 @@ const Subheadline = styled(H2)`
 `
 
 class ExploreHeader extends Component {
+  static propTypes = {
+    type: PropTypes.oneOf(['CHANNEL', 'CONNECTABLE']).isRequired,
+    onToggle: PropTypes.func.isRequired,
+    showHeadline: PropTypes.bool.isRequired,
+  }
+
   render() {
     const { type, onToggle, showHeadline } = this.props
 
@@ -57,17 +63,6 @@ class ExploreHeader extends Component {
       </Container>
     )
   }
-}
-
-ExploreHeader.propTypes = {
-  type: PropTypes.oneOf(['CHANNEL', 'BLOCK']).isRequired,
-  onToggle: PropTypes.func,
-  showHeadline: PropTypes.bool,
-}
-
-ExploreHeader.defaultProps = {
-  onToggle: () => null,
-  showHeadline: false,
 }
 
 export default ExploreHeader
