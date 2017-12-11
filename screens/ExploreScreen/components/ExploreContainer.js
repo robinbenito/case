@@ -1,26 +1,22 @@
 import React from 'react'
-import gql from 'graphql-tag'
 import { graphql, compose } from 'react-apollo'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
-import { ActivityIndicator, FlatList, View } from 'react-native'
-
-import ExploreHeader from './ExploreHeader'
+import { FlatList } from 'react-native'
 
 import ChannelItem from '../../../components/ChannelItem'
 import BlockItem from '../../../components/BlockItem'
-import { CenterColumn } from '../../../components/UI/Layout'
+import FlatListFooter from '../../../components/UI/Layout/FlatListFooter'
 
-import withLoading from '../../../hocs/withLoading'
 import withErrors from '../../../hocs/withErrors'
 
 import scrollSensorForHeader from '../../../utilities/scrollSensorForHeader'
+import networkStatusService from '../../../utilities/networkStatusService'
+import alertErrors from '../../../utilities/alertErrors'
 
 import { Units } from '../../../constants/Style'
 
-const Submit = styled(CenterColumn)`
-  margin-vertical: ${Units.base};
-`
+import exploreQuery from '../queries/explore'
 
 const StyledChannelItem = styled(ChannelItem)`
   margin-horizontal: ${Units.base};
@@ -40,16 +36,16 @@ const TYPE_CONFIG = {
 
 class ExploreContainer extends React.Component {
   static propTypes = {
-    exploreBlocksData: PropTypes.any.isRequired,
+    data: PropTypes.any.isRequired,
+    header: PropTypes.node.isRequired,
+    // TODO: This is incorrect: CONNECTABLE should be BLOCK
     type: PropTypes.oneOf(['CHANNEL', 'CONNECTABLE']).isRequired,
-    loadMore: PropTypes.func,
-    page: PropTypes.number,
-    showHeadline: PropTypes.bool.isRequired,
+    loadPage: PropTypes.func.isRequired,
+    page: PropTypes.number.isRequired,
   }
 
   static defaultProps = {
     page: 1,
-    loadMore: () => null,
     type: 'CHANNEL',
   }
 
@@ -58,7 +54,7 @@ class ExploreContainer extends React.Component {
 
     this.state = {
       page: props.page,
-      type: props.type,
+      endReached: false,
     }
   }
 
@@ -66,148 +62,122 @@ class ExploreContainer extends React.Component {
     scrollSensorForHeader.dispatch(true)
   }
 
+  componentWillReceiveProps(nextProps) {
+    // Resets the page state when type updates
+    if (nextProps.page !== this.state.page && nextProps.type !== this.props.type) {
+      this.setState({ page: nextProps.page, endReached: false })
+    }
+  }
+
   onEndReached = () => {
-    const { exploreBlocksData } = this.props
-    if (!exploreBlocksData.explore) return false
+    const { data: { loading }, loadPage } = this.props
 
-    const { loading } = this.props.exploreBlocksData
+    if (loading) return
+    if (this.state.endReached) return
 
-    if (loading) return false
+    const nextPage = this.state.page + 1
+    this.setState({ page: nextPage })
 
-    const page = this.state.page + 1
-    this.setState({ page })
-    return this.props.loadMore(page)
+    return loadPage(nextPage)
+      .then((res) => {
+        const { data: { contents } } = res
+
+        if (contents.length === 0) {
+          this.setState({ endReached: true })
+        }
+
+        return res
+      })
+      .catch(alertErrors)
   }
 
   onRefresh = () => {
     this.setState({ page: 1 })
-    this.props.exploreBlocksData.refetch()
+    this.props.data.refetch()
   }
 
   onScroll = scrollSensorForHeader
 
-  onToggleChange = (type) => {
-    this.setState({ page: 1, type }, () => {
-      this.props.exploreBlocksData.refetch({ page: 1, type })
-    })
-  }
+  keyExtractor = ({ klass, id }, index) =>
+    `${klass}-${id}-${index}`
 
-  renderLoader = () => {
-    if (!this.props.exploreBlocksData.loading) return null
+  renderItem = ({ item }) => {
+    if (item.klass === 'Block') {
+      return <BlockItem block={item} size="2-up" />
+    }
 
-    return (
-      <Submit>
-        <ActivityIndicator animating size="small" />
-      </Submit>
-    )
+    return <StyledChannelItem channel={item} />
   }
 
   render() {
-    const { exploreBlocksData, showHeadline } = this.props
+    const { data, header, type } = this.props
 
-    const { type } = this.state
-    const contents = (
-      exploreBlocksData &&
-      exploreBlocksData.explore
-    ) || []
+    const contents = data.contents || []
+    const networkStatus = networkStatusService(data.networkStatus)
 
-    const {
-      numColumns,
-      columnWrapperStyle,
-    } = TYPE_CONFIG[type]
-
-    const header = (
-      <ExploreHeader
-        onToggle={this.onToggleChange}
-        type={type}
-        showHeadline={showHeadline}
-      />
-    )
+    const { numColumns, columnWrapperStyle } = TYPE_CONFIG[type]
 
     return (
-      <View>
-        <FlatList
-          data={contents}
-          columnWrapperStyle={columnWrapperStyle}
-          refreshing={exploreBlocksData.networkStatus === 4}
-          onRefresh={this.onRefresh}
-          numColumns={numColumns}
-          keyExtractor={(item, index) => `${item.klass}-${item.id}-${index}`}
-          key={type}
-          onEndReached={this.onEndReached}
-          onEndReachedThreshold={0.9}
-          scrollEventThrottle={50}
-          onScroll={this.onScroll}
-          ListHeaderComponent={header}
-          ListFooterComponent={this.renderLoader}
-          renderItem={({ item }) => {
-            if (item.klass === 'Block') {
-              return <BlockItem block={item} size="2-up" />
-            }
-            return <StyledChannelItem channel={item} />
-          }}
-        />
-      </View>
+      <FlatList
+        key={type}
+        data={contents}
+        columnWrapperStyle={columnWrapperStyle}
+        refreshing={networkStatus.is.refreshing}
+        onRefresh={this.onRefresh}
+        numColumns={numColumns}
+        keyExtractor={this.keyExtractor}
+        onEndReached={this.onEndReached}
+        onEndReachedThreshold={0.9}
+        scrollEventThrottle={50}
+        onScroll={this.onScroll}
+        ListHeaderComponent={header}
+        ListFooterComponent={<FlatListFooter loading={data.loading} />}
+        renderItem={this.renderItem}
+      />
     )
   }
 }
 
-export const ExploreContentsQuery = gql`
-  query ExploreContentsQuery($page: Int!, $type: SearchType) {
-    explore(per: 10, page: $page, sort_by: UPDATED_AT, direction: DESC, type: $type) {
-      __typename
-      ... on Channel {
-        ...ChannelThumb
-      }
-      ... on Connectable {
-        ...BlockThumb
-      }
-    }
-  }
-  ${BlockItem.fragments.block}
-  ${ChannelItem.fragments.channel}
-`
-
-const DecoratedExploreContainer = withLoading(withErrors(ExploreContainer, {
+const DecoratedExploreContainer = withErrors(ExploreContainer, {
   errorMessage: 'Error getting explore',
-  dataKeys: ['data', 'exploreBlocksData'],
-  showRefresh: true,
-}))
+})
 
-const ExploreContainerWithData = compose(
-  graphql(ExploreContentsQuery, {
-    name: 'exploreBlocksData',
-    options: ({ id, page, type }) => ({
-      variables: { id, page, type },
-      notifyOnNetworkStatusChange: true,
+const props = ({ data, data: { fetchMore } }) => ({
+  data,
+  loadPage(page) {
+    return fetchMore({
+      variables: { page },
+      updateQuery: (previousResult, { fetchMoreResult }) => {
+        const { contents: newContents } = fetchMoreResult
+        const { contents: previousContents } = previousResult
+
+        if (!newContents.length) return previousResult
+
+        return {
+          contents: [
+            ...previousContents,
+            ...newContents,
+          ],
+        }
+      },
+    })
+  },
+})
+
+export default compose(
+  graphql(exploreQuery, {
+    props,
+    skip: ({ type }) => type !== 'CONNECTABLE',
+    options: {
       fetchPolicy: 'cache-and-network',
-    }),
-    props: (props) => {
-      const { exploreBlocksData } = props
-      const { id, type } = exploreBlocksData.variables
-      return {
-        exploreBlocksData,
-        loadMore(page) {
-          return props.exploreBlocksData.fetchMore({
-            variables: {
-              id,
-              page,
-              type,
-            },
-            updateQuery: (previousResult, { fetchMoreResult }) => {
-              if (!fetchMoreResult.explore.length || !previousResult.explore) {
-                return previousResult
-              }
-              const response = {
-                explore: [...previousResult.explore, ...fetchMoreResult.explore],
-              }
-              return response
-            },
-          })
-        },
-      }
+    },
+  }),
+
+  graphql(exploreQuery, {
+    props,
+    skip: ({ type }) => type !== 'CHANNEL',
+    options: {
+      fetchPolicy: 'cache-and-network',
     },
   }),
 )(DecoratedExploreContainer)
-
-export default ExploreContainerWithData

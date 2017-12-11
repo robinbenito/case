@@ -1,38 +1,49 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import formatErrors from '../utilities/formatErrors'
+
 import { RelativeFill } from './UI/Layout'
 import { ErrorMessage, StatusMessage, GenericMessage } from './UI/Alerts'
 import { ButtonLabel, Button } from './UI/Buttons'
 
-const ErrorScreen = ({ message, errors, showRefresh, onRefresh, ...rest }) => (
-  <RelativeFill {...rest}>
-    <GenericMessage>
-      Oops! Something went wrong.
-    </GenericMessage>
-    {message &&
-      <StatusMessage>
-        {message}
-      </StatusMessage>
-    }
-    <ErrorMessage>
-      {formatErrors(errors)}
-    </ErrorMessage>
-    {showRefresh && <Button space={1} onPress={onRefresh}>
-      <ButtonLabel>Refresh</ButtonLabel>
-    </Button>}
-  </RelativeFill>
-)
+import formatErrors from '../utilities/formatErrors'
 
-ErrorScreen.propTypes = {
-  message: PropTypes.node,
-  errors: PropTypes.arrayOf(PropTypes.object).isRequired,
-  showRefresh: PropTypes.bool.isRequired,
-  onRefresh: PropTypes.func.isRequired,
+export default class ErrorScreen extends Component {
+  static propTypes = {
+    message: PropTypes.node,
+    errors: PropTypes.arrayOf(PropTypes.object).isRequired,
+    onRefresh: PropTypes.func,
+  }
+
+  static defaultProps = {
+    message: null,
+    onRefresh: null,
+  }
+
+  render() {
+    const { message, errors, onRefresh, ...rest } = this.props
+
+    return (
+      <RelativeFill {...rest}>
+        <GenericMessage>
+          Oops! Something went wrong.
+        </GenericMessage>
+
+        {message &&
+          <StatusMessage>
+            {message}
+          </StatusMessage>
+        }
+
+        <ErrorMessage>
+          {formatErrors(errors)}
+        </ErrorMessage>
+
+        {onRefresh &&
+          <Button space={1} onPress={onRefresh}>
+            <ButtonLabel>Refresh</ButtonLabel>
+          </Button>
+        }
+      </RelativeFill>
+    )
+  }
 }
-
-ErrorScreen.defaultProps = {
-  message: null,
-}
-
-export default ErrorScreen
