@@ -31,16 +31,16 @@ const Subheadline = styled(H2)`
 class ExploreHeader extends Component {
   static propTypes = {
     type: PropTypes.oneOf(['CHANNEL', 'CONNECTABLE']).isRequired,
-    onToggle: PropTypes.func.isRequired,
+    onToggleChange: PropTypes.func.isRequired,
     showHeadline: PropTypes.bool.isRequired,
   }
 
   render() {
-    const { type, onToggle, showHeadline } = this.props
+    const { type, onToggleChange, showHeadline } = this.props
 
     const TAB_OPTIONS = {
-      'Recent Channels': 'CHANNEL',
       'Recent Blocks': 'CONNECTABLE',
+      'Recent Channels': 'CHANNEL',
     }
 
     return (
@@ -54,9 +54,10 @@ class ExploreHeader extends Component {
             </Subheadline>
           </HeadlineWrapper>
         }
+
         <TabToggle
           selectedSegment={type}
-          onToggleChange={onToggle}
+          onToggleChange={onToggleChange}
           options={TAB_OPTIONS}
           color={Colors.black}
         />
