@@ -45,6 +45,14 @@ const getCurrentParams = (state = null) =>
 const getCurrentRouteName = (state = null) =>
   (getCurrentRoute(state) || {}).routeName
 
+const getCurrentIndex = (state = null) => {
+  if (!_container) return 0
+
+  if (state) return state.index
+
+  return _container.state.nav.index
+}
+
 const getPreviousRoute = () =>
   _container.state.nav.routes[_container.state.nav.index - 1]
 
@@ -75,6 +83,7 @@ export default {
   getCurrentRoute,
   getCurrentParams,
   getCurrentRouteName,
+  getCurrentIndex,
   getPreviousRoute,
   isStateCurrentState,
 }
