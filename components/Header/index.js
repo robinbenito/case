@@ -13,6 +13,9 @@ import { SET_HEADER_MENU_VISIBILITY } from '../../state/actions'
 
 import { Units } from '../../constants/Style'
 
+import navigationService from '../../utilities/navigationService'
+import params from '../../utilities/params'
+
 export const HEADER_HEIGHT = HEADER_BUTTON_HEIGHT + Units.statusBarHeight
 
 const HeaderModal = styled.TouchableOpacity`
@@ -45,6 +48,24 @@ const HeaderLeft = styled(HeaderRight)`
 `
 
 class Header extends Component {
+  static propTypes = {
+    // BUG: The object composition below causes this to not pass lint for some reason
+    /* eslint-disable react/no-unused-prop-types */
+    title: PropTypes.string.isRequired,
+    color: PropTypes.string,
+    headerRight: PropTypes.node,
+    isHeaderTitleVisible: PropTypes.bool,
+    navigation: PropTypes.object.isRequired,
+    /* eslint-enable react/no-unused-proptypes */
+  }
+
+  static defaultProps = {
+    title: '',
+    color: null,
+    headerRight: null,
+    isHeaderTitleVisible: true,
+  }
+
   static HEIGHT = HEADER_HEIGHT
 
   constructor(props) {
@@ -57,6 +78,7 @@ class Header extends Component {
 
   onPress = () => {
     this.setState({ isExpanded: !this.state.isExpanded })
+
     Store.dispatch({
       type: SET_HEADER_MENU_VISIBILITY,
       isHeaderMenuActive: !this.state.isExpanded,
@@ -65,16 +87,23 @@ class Header extends Component {
 
   onModalPress = () => {
     this.setState({ isExpanded: false })
+
     Store.dispatch({
       type: SET_HEADER_MENU_VISIBILITY,
       isHeaderMenuActive: false,
     })
   }
 
+  shouldDisplayBack = () =>
+    navigationService.getCurrentIndex() > 0
+
   render() {
     const { isExpanded } = this.state
-    const primary = { ...this.props.primary, ...this.props.navigation.state.params }
-    const { secondary, headerLeft, isHeaderTitleVisible, headerRight } = this.props
+    const { title, color, isHeaderTitleVisible, headerRight } = {
+      ...this.props,
+      // The initially loaded route sometimes doesn't have a navigation prop
+      ...params(this.props.navigation),
+    }
 
     return (
       <HeaderModal
@@ -88,16 +117,16 @@ class Header extends Component {
           }
 
           <HeaderPullDown
-            primary={primary}
-            secondary={secondary}
+            title={title}
+            color={color}
             isExpanded={isExpanded}
             isHeaderTitleVisible={isHeaderTitleVisible}
             onPress={this.onPress}
           />
 
-          {headerLeft &&
+          {this.shouldDisplayBack() &&
             <HeaderLeft isExpanded={isExpanded}>
-              {headerLeft}
+              <BackButton />
             </HeaderLeft>
           }
 
@@ -110,33 +139,6 @@ class Header extends Component {
       </HeaderModal>
     )
   }
-}
-
-Header.propTypes = {
-  navigation: PropTypes.shape({
-    state: PropTypes.shape({
-      params: PropTypes.shape({
-        title: PropTypes.string,
-        color: PropTypes.string,
-      }),
-    }),
-  }).isRequired,
-  primary: PropTypes.shape({
-    title: PropTypes.string,
-  }).isRequired,
-  secondary: PropTypes.arrayOf(PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    key: PropTypes.string.isRequired,
-  })).isRequired,
-  headerRight: PropTypes.node,
-  headerLeft: PropTypes.node,
-  isHeaderTitleVisible: PropTypes.bool,
-}
-
-Header.defaultProps = {
-  headerRight: null,
-  headerLeft: <BackButton />,
-  isHeaderTitleVisible: true,
 }
 
 export default connect(({ ui: { isHeaderTitleVisible } }) =>

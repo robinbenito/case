@@ -30,7 +30,6 @@ import Header from '../components/Header'
 import HeaderIcon from '../screens/FeedScreen/components/HeaderIcons'
 import SearchIcon from '../components/SearchIcon'
 import BlockEditButton from '../components/BlockEditButton'
-import BackButton from '../components/BackButton'
 import SubmittableHeader from '../components/SubmittableHeader'
 
 import withParams from '../hocs/withParams'
@@ -41,12 +40,7 @@ export default ({
     navigationOptions: ({ navigation }) => ({
       header: <Header
         navigation={navigation}
-        primary={{ title: 'Feed' }}
-        secondary={[
-          { title: 'Your profile', key: 'profile' },
-          { title: 'Explore', key: 'explore' },
-        ]}
-        headerLeft={null}
+        title="Feed"
         headerRight={<HeaderIcon navigation={navigation} />}
       />,
     }),
@@ -57,13 +51,7 @@ export default ({
     navigationOptions: ({ navigation }) => ({
       header: <Header
         navigation={navigation}
-        primary={{ title: 'Notifications' }}
-        secondary={[
-          { title: 'Your profile', key: 'profile' },
-          { title: 'Feed', key: 'feed' },
-          { title: 'Explore', key: 'explore' },
-        ]}
-        headerLeft={<BackButton />}
+        title="Notifications"
       />,
     }),
   },
@@ -73,12 +61,7 @@ export default ({
     navigationOptions: ({ navigation }) => ({
       header: <Header
         navigation={navigation}
-        primary={{ title: '' }}
-        secondary={[
-          { title: 'Your profile', key: 'profile' },
-          { title: 'Feed', key: 'feed' },
-          { title: 'Explore', key: 'explore' },
-        ]}
+        title=""
         headerRight={<BlockEditButton id={navigation.state.params.id} />}
       />,
     }),
@@ -89,12 +72,7 @@ export default ({
     navigationOptions: ({ navigation }) => ({
       header: <Header
         navigation={navigation}
-        primary={{ title: null }}
-        secondary={[
-          { title: 'Your profile', key: 'profile' },
-          { title: 'Feed', key: 'feed' },
-          { title: 'Explore', key: 'explore' },
-        ]}
+        title="ul"
       />,
     }),
   },
@@ -114,12 +92,7 @@ export default ({
     navigationOptions: ({ navigation }) => ({
       header: <Header
         navigation={navigation}
-        primary={{ title: 'Channel' }}
-        secondary={[
-          { title: 'Your profile', key: 'profile' },
-          { title: 'Feed', key: 'feed' },
-          { title: 'Explore', key: 'explore' },
-        ]}
+        title="Channel"
         isHeaderTitleVisible={false}
         headerRight={<SearchIcon />}
       />,
@@ -128,25 +101,26 @@ export default ({
 
   profile: {
     screen: ProfileScreen,
-    navigationOptions: ({ navigation }) => {
-      const notMyProfile = navigation.state.params && navigation.state.params.id
-      const headerLeft = notMyProfile ? <BackButton /> : null
-      const secondary = notMyProfile ? [
-        { title: 'Feed', key: 'feed' },
-        { title: 'Explore', key: 'explore' },
-        { title: 'Profile', key: 'profile' },
-      ] : [{ title: 'Feed', key: 'feed' }]
-      return {
-        header: <Header
-          navigation={navigation}
-          primary={{ title: 'Profile' }}
-          headerLeft={headerLeft}
-          secondary={secondary}
-          isHeaderTitleVisible={false}
-          headerRight={<SearchIcon />}
-        />,
-      }
-    },
+    navigationOptions: ({ navigation }) => ({
+      header: <Header
+        navigation={navigation}
+        title="Profile"
+        isHeaderTitleVisible={false}
+        headerRight={<SearchIcon />}
+      />,
+    }),
+  },
+
+  me: {
+    screen: ProfileScreen,
+    navigationOptions: ({ navigation }) => ({
+      header: <Header
+        navigation={navigation}
+        title="Your Profile"
+        isHeaderTitleVisible={false}
+        headerRight={<SearchIcon />}
+      />,
+    }),
   },
 
   userSettings: {
@@ -154,12 +128,7 @@ export default ({
     navigationOptions: ({ navigation }) => ({
       header: <Header
         navigation={navigation}
-        primary={{ title: 'Settings' }}
-        secondary={[
-          { title: 'Your profile', key: 'profile' },
-          { title: 'Feed', key: 'feed' },
-          { title: 'Explore', key: 'explore' },
-        ]}
+        title="Settings"
       />,
     }),
   },
@@ -169,11 +138,7 @@ export default ({
     navigationOptions: ({ navigation }) => ({
       header: <Header
         navigation={navigation}
-        primary={{ title: 'Explore' }}
-        secondary={[
-          { title: 'Your profile', key: 'profile' },
-        ]}
-        headerLeft={null}
+        title="Explore"
         headerRight={<HeaderIcon navigation={navigation} />}
       />,
     }),
