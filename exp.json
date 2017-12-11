@@ -4,13 +4,13 @@
   "slug": "arena",
   "privacy": "public",
   "sdkVersion": "23.0.0",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "orientation": "portrait",
   "primaryColor": "#ffffff",
   "scheme": "arena",
-  "icon": "https://s3.amazonaws.com/arena_assets/assets/brand/arena-app-icon.png",
+  "icon": "https://s3.amazonaws.com/arena_assets/assets/brand/iTunesArtwork.png",
   "notification": {
-    "icon": "https://s3.amazonaws.com/arena_assets/assets/brand/arena-app-icon.png",
+    "icon": "https://s3.amazonaws.com/arena_assets/assets/brand/iTunesArtwork.png",
     "color": "#000000"
   },
   "loading": {
