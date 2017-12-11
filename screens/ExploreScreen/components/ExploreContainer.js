@@ -171,7 +171,6 @@ export const ExploreContentsQuery = gql`
 const DecoratedExploreContainer = withLoading(withErrors(ExploreContainer, {
   errorMessage: 'Error getting explore',
   dataKeys: ['data', 'exploreBlocksData'],
-  showRefresh: true,
 }))
 
 const ExploreContainerWithData = compose(
@@ -179,7 +178,6 @@ const ExploreContainerWithData = compose(
     name: 'exploreBlocksData',
     options: ({ id, page, type }) => ({
       variables: { id, page, type },
-      notifyOnNetworkStatusChange: true,
       fetchPolicy: 'cache-and-network',
     }),
     props: (props) => {
