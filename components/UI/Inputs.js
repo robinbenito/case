@@ -52,12 +52,15 @@ const StackedInputOutline = styled.View`
 `
 // Baselines in `Text` are `1` off from from `Input`... apparently
 // Hence the `top: -1`
-const StackedInputLabel = styled.Text`
+const StackedInputLabel = styled.Text.attrs({
+  numberOfLines: 1,
+})`
   top: -1;
   font-size: ${Typography.fontSize.smedium};
   color: ${Colors.semantic.text};
   padding-left: ${Units.scale[2]};
   padding-right: ${Units.scale[3]};
+  width: 20%;
 `
 
 export class StackedInput extends Component {
