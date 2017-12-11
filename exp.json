@@ -8,9 +8,9 @@
   "orientation": "portrait",
   "primaryColor": "#ffffff",
   "scheme": "arena",
-  "icon": "https://s3.amazonaws.com/arena_assets/assets/brand/arena-app-icon.png",
+  "icon": "https://s3.amazonaws.com/arena_assets/assets/brand/iTunesArtwork.png",
   "notification": {
-    "icon": "https://s3.amazonaws.com/arena_assets/assets/brand/arena-app-icon.png",
+    "icon": "https://s3.amazonaws.com/arena_assets/assets/brand/iTunesArtwork.png",
     "color": "#000000"
   },
   "loading": {
