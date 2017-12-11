@@ -158,7 +158,7 @@ export default ({
   },
 
   explore: {
-    screen: ExploreScreen,
+    screen: withParams(ExploreScreen),
     navigationOptions: ({ navigation }) => ({
       header: <Header
         navigation={navigation}
