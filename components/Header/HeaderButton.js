@@ -9,7 +9,7 @@ export const HEADER_BUTTON_HEIGHT = (HEADER_BUTTON_V_PADDING * 2) + HEADER_BUTTO
 
 const CaretSpacer = styled.View`
   width: ${Units.base};
-  height: ${Typography.fontSize.h2};
+  height: ${Typography.fontSize.smedium};
   align-items: center;
   justify-content: center;
   align-self: center;
@@ -18,6 +18,7 @@ const CaretSpacer = styled.View`
 `
 
 const ColorableCaretGlyph = styled(CaretGlyph)`
+  top: 1;
   color: ${x => x.color || Colors.semantic.label.default};
 `
 
