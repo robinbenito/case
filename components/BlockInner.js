@@ -31,6 +31,7 @@ const BlockContainer = styled.View`
   height: ${CONTENT_WIDTH};
   border-width: 1;
   border-color: ${Colors.gray.light};
+  background-color: white;
   align-self: center;
   justify-content: center;
 `
