@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import gql from 'graphql-tag'
 import PropTypes from 'prop-types'
 import { ActivityIndicator, Text } from 'react-native'
 import { decode } from 'he'
@@ -7,13 +6,17 @@ import styled from 'styled-components/native'
 import { propType } from 'graphql-anywhere'
 import Image from 'react-native-image-progress'
 
-import TruncatedHTML from './TruncatedHTML'
-import BlockItemIcon from './BlockItemIcon'
-import { TouchableHighlight } from './UI/Layout'
+import TruncatedHTML from '../TruncatedHTML'
+import BlockItemIcon from '../BlockItemIcon'
+import { TouchableHighlight } from '../UI/Layout'
+import BlockModalMenu from '../BlockModalMenu'
+import { openModal } from '../Modal'
 
-import navigationService from '../utilities/navigationService'
+import navigationService from '../../utilities/navigationService'
 
-import { Border, Colors, Typography, Units } from '../constants/Style'
+import { Border, Colors, Typography, Units } from '../../constants/Style'
+
+import blockItemFragment from './fragments/blockItem'
 
 export const BLOCK_METADATA_HEIGHT = Units.scale[4] + Units.base
 
@@ -66,11 +69,35 @@ const ProcessingIndicator = styled(ActivityIndicator)`
   height: 100%;
 `
 
-class BlockItem extends Component {
+export default class BlockItem extends Component {
+  static propTypes = {
+    size: PropTypes.oneOf(['2-up', '1-up']).isRequired,
+    block: propType(blockItemFragment).isRequired,
+    channel: propType(BlockModalMenu.fragments.channel),
+  }
+
+  static defaultProps = {
+    size: '2-up',
+    channel: null,
+  }
+
+  static fragment = blockItemFragment
+
   onPress = () => {
     navigationService.navigate('block', {
       id: this.props.block.id,
       title: this.props.block.title,
+    })
+  }
+
+  onLongPress = () => {
+    const { block, channel } = this.props
+
+    openModal({
+      children: <BlockModalMenu
+        block={block}
+        channel={channel}
+      />,
     })
   }
 
@@ -140,6 +167,7 @@ class BlockItem extends Component {
       <Container
         size={size}
         onPress={this.onPress}
+        onLongPress={this.onLongPress}
         {...rest}
       >
         <Outline hasImage={!!block.kind.image_url} size={size}>
@@ -161,62 +189,3 @@ class BlockItem extends Component {
     )
   }
 }
-
-BlockItem.fragments = {
-  block: gql`
-    fragment BlockThumb on Connectable {
-      __typename
-      id
-      title
-      state
-      updated_at(relative: true)
-      user {
-        id
-        name
-      }
-      klass
-      source {
-        url
-      }
-      kind {
-        __typename
-        ... on Attachment {
-          image_url(size: DISPLAY)
-        }
-        ... on Embed {
-          image_url(size: DISPLAY)
-          source_url
-        }
-        ... on Text {
-          content(format: HTML)
-        }
-        ... on Image {
-          image_url(size: DISPLAY)
-        }
-        ... on Link {
-          image_url(size: DISPLAY)
-        }
-        ... on Channel {
-          visibility
-          counts {
-            contents
-          }
-        }
-      }
-    }
-  `,
-}
-
-BlockItem.propTypes = {
-  size: PropTypes.oneOf(['2-up', '1-up']).isRequired,
-  block: propType(BlockItem.fragments.block).isRequired,
-}
-
-BlockItem.defaultProps = {
-  size: '2-up',
-}
-
-// export default pollForBlockAvailability(BlockItem)
-
-export default BlockItem
-

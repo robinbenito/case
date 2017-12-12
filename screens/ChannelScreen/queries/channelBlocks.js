@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
 
-import BlockItem from '../../../components/BlockItem'
+import blockItemFragment from '../../../components/BlockItem/fragments/blockItem'
 import blockModalMenuBlockFragment from '../../../components/BlockModalMenu/fragments/blockModalMenuBlock'
 
 export default gql`
@@ -18,6 +18,6 @@ export default gql`
       }
     }
   }
-  ${BlockItem.fragments.block}
+  ${blockItemFragment}
   ${blockModalMenuBlockFragment}
 `

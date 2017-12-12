@@ -8,8 +8,6 @@ import ConnectionFooter from './ConnectionFooter'
 import FlatListFooter from '../../../components/UI/Layout/FlatListFooter'
 import ChannelItem from '../../../components/ChannelItem'
 import BlockItem from '../../../components/BlockItem'
-import BlockModalMenu from '../../../components/BlockModalMenu'
-import { openModal } from '../../../components/Modal'
 
 import scrollSensorForHeader from '../../../utilities/scrollSensorForHeader'
 import { networkStatusesService } from '../../../utilities/networkStatusService'
@@ -97,15 +95,6 @@ class ChannelContents extends Component {
 
   onScroll = scrollSensorForHeader
 
-  onBlockLongPress = ({ block, channel }) => () => {
-    openModal({
-      children: <BlockModalMenu
-        block={block}
-        channel={channel}
-      />,
-    })
-  }
-
   keyExtractor = ({ klass, id }, index) =>
     `${klass}-${id}-${index}`
 
@@ -120,7 +109,7 @@ class ChannelContents extends Component {
       return (
         <BlockItem
           block={item}
-          onLongPress={this.onBlockLongPress({ channel, block: item })}
+          channel={channel}
           style={{
             // Ensures margins are even
             marginLeft: isLeft ? Units.scale[1] : 0,

@@ -14,7 +14,6 @@ import Empty from '../../../components/Empty'
 import { CenterColumn } from '../../../components/UI/Layout'
 import FlatListFooter from '../../../components/UI/Layout/FlatListFooter'
 import { ButtonLabel, Button } from '../../../components/UI/Buttons'
-import onBlockLongPress from '../../../components/BlockModalMenu/onBlockLongPress'
 
 import withLoading from '../../../hocs/withLoading'
 import withErrors from '../../../hocs/withErrors'
@@ -157,13 +156,7 @@ class ProfileContainer extends React.Component {
           ListHeaderComponent={header}
           renderItem={({ item }) => {
             if (item.klass === 'Block') {
-              return (
-                <BlockItem
-                  block={item}
-                  size="2-up"
-                  onLongPress={onBlockLongPress(item)}
-                />
-              )
+              return <BlockItem block={item} size="2-up" />
             }
             return <StyledChannelItem channel={item} />
           }}
@@ -206,7 +199,7 @@ export const ProfileContentsQuery = gql`
       }
     }
   }
-  ${BlockItem.fragments.block}
+  ${BlockItem.fragment}
 `
 
 const DecoratedProfileContainer = withLoading(withErrors(ProfileContainer, {
