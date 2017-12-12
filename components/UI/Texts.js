@@ -14,3 +14,7 @@ export const H2 = styled.Text`
 export const Strong = styled.Text`
   font-weight: ${Typography.fontWeight.bold};
 `
+
+export const Color = styled.Text`
+  ${x => x.color && `color: ${x.color};`}
+`

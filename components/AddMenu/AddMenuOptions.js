@@ -1,18 +1,33 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { CameraRoll } from 'react-native'
 import { ImagePicker } from 'expo'
 import styled from 'styled-components/native'
 
 import { AbsoluteFill, HorizontalRule } from '../UI/Layout'
+import { Color } from '../UI/Texts'
 import MenuButtonGroup from '../Menu/MenuButtonGroup'
 import MenuButton from '../Menu/MenuButton'
 import { closeModal } from '../Modal'
 
-import { Border, Colors, Units } from '../../constants/Style'
+import { Border, Colors, Typography, Units } from '../../constants/Style'
 
 import navigationService from '../../utilities/navigationService'
 
 import ICONS from './icons'
+
+const ContextualHint = styled.Text`
+  margin-vertical: ${Units.scale[4]};
+  margin-horizontal: ${Units.base};
+  font-size: ${Typography.fontSize.smedium};
+  font-weight: ${Typography.fontWeight.semiBold};
+  color: ${Colors.semantic.label.default};
+  background-color: transparent;
+`
+
+const Menu = styled.View`
+  width: 100%;
+`
 
 const CancelButtonGroup = styled(MenuButtonGroup)`
   margin-vertical: ${Units.base};
@@ -27,12 +42,22 @@ const CancelButton = styled(MenuButton).attrs({
   border-radius: ${Border.borderRadius}
 `
 
-const BackgroundFill = styled(AbsoluteFill)`
+const Container = styled(AbsoluteFill)`
   padding-horizontal: ${Units.base};
-  justify-content: flex-end;
+  justify-content: space-between;
 `
 
 class AddMenuOptions extends Component {
+  static propTypes = {
+    title: PropTypes.string.isRequired,
+    color: PropTypes.string,
+  }
+
+  static defaultProps = {
+    title: 'Are.na',
+    color: null,
+  }
+
   newChannel = () => {
     this.close()
     navigationService.navigate('newChannel')
@@ -83,44 +108,52 @@ class AddMenuOptions extends Component {
     closeModal()
 
   render() {
+    const { title, color } = this.props
+
     return (
-      <BackgroundFill>
-        <MenuButtonGroup>
-          <MenuButton onPress={this.newChannel} icon={ICONS.add}>
-            New channel
-          </MenuButton>
+      <Container>
+        <ContextualHint>
+          Add to <Color color={color}>{title}</Color>:
+        </ContextualHint>
 
-          <HorizontalRule />
+        <Menu>
+          <MenuButtonGroup>
+            <MenuButton onPress={this.newChannel} icon={ICONS.add}>
+              New channel
+            </MenuButton>
 
-          <MenuButton onPress={this.enterText} icon={ICONS.text}>
-            New text block
-          </MenuButton>
+            <HorizontalRule />
 
-          <HorizontalRule />
+            <MenuButton onPress={this.enterText} icon={ICONS.text}>
+              New text block
+            </MenuButton>
 
-          <MenuButton onPress={this.pasteLink} icon={ICONS.link}>
-            Paste link
-          </MenuButton>
+            <HorizontalRule />
 
-          <HorizontalRule />
+            <MenuButton onPress={this.pasteLink} icon={ICONS.link}>
+              Paste link
+            </MenuButton>
 
-          <MenuButton onPress={this.uploadImage} icon={ICONS.image}>
-            Upload image
-          </MenuButton>
+            <HorizontalRule />
 
-          <HorizontalRule />
+            <MenuButton onPress={this.uploadImage} icon={ICONS.image}>
+              Upload image
+            </MenuButton>
 
-          <MenuButton onPress={this.takePhoto} icon={ICONS.camera}>
-            Take picture
-          </MenuButton>
-        </MenuButtonGroup>
+            <HorizontalRule />
 
-        <CancelButtonGroup>
-          <CancelButton onPress={this.close} icon={ICONS.cancel}>
-            Cancel
-          </CancelButton>
-        </CancelButtonGroup>
-      </BackgroundFill>
+            <MenuButton onPress={this.takePhoto} icon={ICONS.camera}>
+              Take picture
+            </MenuButton>
+          </MenuButtonGroup>
+
+          <CancelButtonGroup>
+            <CancelButton onPress={this.close} icon={ICONS.cancel}>
+              Cancel
+            </CancelButton>
+          </CancelButtonGroup>
+        </Menu>
+      </Container>
     )
   }
 }

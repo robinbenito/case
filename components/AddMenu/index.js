@@ -20,17 +20,27 @@ const Container = styled.View`
 class AddMenu extends Component {
   static propTypes = {
     title: PropTypes.string.isRequired,
+    color: PropTypes.string,
   }
 
   static defaultProps = {
     title: 'Are.na',
+    color: null,
   }
 
   static HEIGHT = AddButton.height
   static SAFE_AREA = AddButton.height + (Units.base * 2)
 
-  open = () =>
-    openModal({ children: <AddMenuOptions /> })
+  open = () => {
+    const { title, color } = this.props
+
+    openModal({
+      children: <AddMenuOptions
+        title={title}
+        color={color}
+      />,
+    })
+  }
 
   render() {
     const { title } = this.props

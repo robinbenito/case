@@ -13,6 +13,8 @@ import navigationService from '../../../utilities/navigationService'
 
 import channelQuery from '../queries/channel'
 
+import { Colors } from '../../../constants/Style'
+
 const Container = styled.View`
   width: 100%;
   height: 100%;
@@ -76,6 +78,9 @@ class ChannelContainer extends React.Component {
         <AddMenu
           title={
             channel.can.add_to ? channel.title : undefined
+          }
+          color={
+            channel.can.add_to ? Colors.channel[channel.visibility] : undefined
           }
         />
       </Container>
