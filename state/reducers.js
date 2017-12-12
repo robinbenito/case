@@ -14,8 +14,9 @@ import {
 const INITIAL_STATES = {
   ui: {
     isHeaderTitleVisible: true,
-    isHeaderMenuActive: false,
-    modal: {},
+    modal: {
+      active: false,
+    },
     header: {},
   },
 
