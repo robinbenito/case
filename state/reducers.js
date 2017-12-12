@@ -2,7 +2,6 @@ import { reduce } from 'lodash'
 
 import {
   SET_HEADER_TITLE_VISIBILITY,
-  SET_HEADER_MENU_VISIBILITY,
   SEND_ALERT,
   DISMISS_ALERT,
   DISMISS_ALL_ALERTS,
@@ -15,8 +14,9 @@ import {
 const INITIAL_STATES = {
   ui: {
     isHeaderTitleVisible: true,
-    isHeaderMenuActive: false,
-    modal: {},
+    modal: {
+      active: false,
+    },
     header: {},
   },
 
@@ -30,9 +30,6 @@ export const ui = (state = INITIAL_STATES.ui, action) => {
   switch (action.type) {
     case SET_HEADER_TITLE_VISIBILITY:
       return { ...state, isHeaderTitleVisible: action.isHeaderTitleVisible }
-
-    case SET_HEADER_MENU_VISIBILITY:
-      return { ...state, isHeaderMenuActive: action.isHeaderMenuActive }
 
     case OPEN_MODAL:
       return { ...state, modal: { ...action.modal, active: true } }

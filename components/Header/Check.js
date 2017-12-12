@@ -5,7 +5,7 @@ import { Colors } from '../../constants/Style'
 
 const SIZE = 40
 
-const ToggleCheckIcon = styled(BaseIcon).attrs({
+const CheckIcon = styled(BaseIcon).attrs({
   name: 'ios-checkmark',
 })`
   font-size: ${SIZE};
@@ -14,7 +14,7 @@ const ToggleCheckIcon = styled(BaseIcon).attrs({
   color: ${Colors.semantic.label.active};
 `
 
-const ToggleCheckBox = styled.View`
+const CheckBox = styled.View`
   position: absolute;
   top: 0;
   right: 0;
@@ -25,7 +25,7 @@ const ToggleCheckBox = styled.View`
 `
 
 export default () => (
-  <ToggleCheckBox>
-    <ToggleCheckIcon />
-  </ToggleCheckBox>
+  <CheckBox>
+    <CheckIcon />
+  </CheckBox>
 )

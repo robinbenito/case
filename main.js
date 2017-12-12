@@ -20,8 +20,8 @@ import { trackPage } from './utilities/analytics'
 
 import cachedAssets from './cachedAssets'
 
-const StatusBarWithState = connect(({ ui }) => ({
-  hidden: (ui.isAddMenuActive || ui.isHeaderMenuActive),
+const StatusBarWithState = connect(({ ui: { modal: { active } } }) => ({
+  hidden: active,
 }))(StatusBar)
 
 class AppContainer extends Component {
