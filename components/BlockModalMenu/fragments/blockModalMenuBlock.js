@@ -4,6 +4,7 @@ export default gql`
   fragment BlockModalMenuBlock on Connectable {
     id
     title
+    href
     can {
       manage
     }
