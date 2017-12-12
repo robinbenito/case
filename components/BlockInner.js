@@ -12,7 +12,7 @@ import TruncatedHTML from './TruncatedHTML'
 
 import navigationService from '../utilities/navigationService'
 
-const CONTENT_WIDTH = Units.window.width - Units.base
+const CONTENT_WIDTH = Units.window.width - (Units.base * 2)
 
 const ExpandTextContainer = styled.TouchableHighlight`
   position: absolute;
