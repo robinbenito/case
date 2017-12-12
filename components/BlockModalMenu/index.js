@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View } from 'react-native'
+import { View, Share } from 'react-native'
 import { graphql } from 'react-apollo'
 import { propType } from 'graphql-anywhere'
 import PropTypes from 'prop-types'
@@ -67,10 +67,10 @@ class BlockModalMenu extends Component {
     })
   }
 
-  visitBlock = () => {
-    const { block: { id } } = this.props
-    this.close()
-    navigationService.navigate('block', { id })
+  share = () => {
+    const { block: { href } } = this.props
+
+    Share.share({ url: `https://www.are.na/${href}` })
   }
 
   visitChannel = () => {
@@ -145,9 +145,9 @@ class BlockModalMenu extends Component {
           <HorizontalRule />
           <MenuButton
             centered
-            onPress={this.visitBlock}
+            onPress={this.share}
           >
-            Visit block
+            Share
           </MenuButton>
 
           {block.can && block.can.manage &&
@@ -157,7 +157,7 @@ class BlockModalMenu extends Component {
                 centered
                 onPress={this.editBlock}
               >
-                Edit block
+                Edit
               </MenuButton>
             </View>
           }
@@ -173,6 +173,14 @@ class BlockModalMenu extends Component {
               </MenuButton>
             </View>
           }
+
+          <HorizontalRule />
+          <MenuButton
+            centered
+            onPress={this.close}
+          >
+            Close
+          </MenuButton>
         </Menu>
       </Fill>
     )
