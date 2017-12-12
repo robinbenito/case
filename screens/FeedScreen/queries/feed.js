@@ -1,7 +1,7 @@
 import gql from 'graphql-tag'
 
 import FeedWordLink from '../../../components/FeedWordLink'
-import BlockItem from '../../../components/BlockItem'
+import blockItemFragment from '../../../components/BlockItem/fragments/blockItem'
 import ChannelItem from '../../../components/ChannelItem'
 import UserAvatar from '../../../components/UserAvatar'
 
@@ -54,7 +54,7 @@ export default gql`
     }
   }
   ${UserAvatar.fragments.avatar}
-  ${BlockItem.fragments.block}
+  ${blockItemFragment}
   ${ChannelItem.fragments.channel}
   ${FeedWordLink.fragments.channel}
   ${FeedWordLink.fragments.connectable}

@@ -32,7 +32,7 @@ const SelectDrawer = styled.View`
 
 export default class HeaderPullDown extends Component {
   static propTypes = {
-    title: PropTypes.string.isRequired,
+    title: PropTypes.string,
     color: PropTypes.string,
     onPress: PropTypes.func.isRequired,
     isExpanded: PropTypes.bool,
@@ -40,6 +40,7 @@ export default class HeaderPullDown extends Component {
   }
 
   static defaultProps = {
+    title: '',
     color: null,
     isExpanded: false,
     isHeaderTitleVisible: true,

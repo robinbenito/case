@@ -51,7 +51,7 @@ class Header extends Component {
   static propTypes = {
     // BUG: The object composition below causes this to not pass lint for some reason
     /* eslint-disable react/no-unused-prop-types */
-    title: PropTypes.string.isRequired,
+    title: PropTypes.string,
     color: PropTypes.string,
     headerRight: PropTypes.node,
     isHeaderTitleVisible: PropTypes.bool,

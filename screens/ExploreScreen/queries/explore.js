@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
 
-import BlockItem from '../../../components/BlockItem'
+import blockItemFragment from '../../../components/BlockItem/fragments/blockItem'
 import ChannelItem from '../../../components/ChannelItem'
 
 export default gql`
@@ -15,6 +15,6 @@ export default gql`
       }
     }
   }
-  ${BlockItem.fragments.block}
+  ${blockItemFragment}
   ${ChannelItem.fragments.channel}
 `

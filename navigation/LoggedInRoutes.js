@@ -61,7 +61,6 @@ export default ({
     navigationOptions: ({ navigation }) => ({
       header: <Header
         navigation={navigation}
-        title=""
         headerRight={<BlockEditButton id={navigation.state.params.id} />}
       />,
     }),
