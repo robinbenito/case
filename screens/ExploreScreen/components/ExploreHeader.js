@@ -39,8 +39,8 @@ class ExploreHeader extends Component {
     const { type, onToggleChange, showHeadline } = this.props
 
     const TAB_OPTIONS = {
-      'Recent Blocks': 'CONNECTABLE',
       'Recent Channels': 'CHANNEL',
+      'Recent Blocks': 'CONNECTABLE',
     }
 
     return (

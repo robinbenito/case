@@ -37,7 +37,7 @@ export const StackedButtonLabel = styled.Text.attrs({
   padding-left: ${x => (x.secondary ? Units.scale[2] : 0)};
   text-align: ${x => (x.secondary ? 'right' : 'left')};
   font-size: ${Typography.fontSize.smedium};
-  color: ${x => (x.secondary ? Colors.gray.medium : Colors.semantic.text)};
+  color: ${x => (x.secondary ? Colors.gray.medium : 'black')};
 `
 
 export const StackedButton = ({ children, ...rest }) => (

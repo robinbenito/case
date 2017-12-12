@@ -42,6 +42,7 @@ export const StackedInputField = Input.extend`
   height: ${INPUT_HEIGHT};
   padding-horizontal: ${Units.scale[2]};
   font-size: ${Typography.fontSize.smedium};
+  color: black;
 `
 
 const StackedInputOutline = styled.View`
@@ -57,10 +58,10 @@ const StackedInputLabel = styled.Text.attrs({
 })`
   top: -1;
   font-size: ${Typography.fontSize.smedium};
-  color: ${Colors.semantic.text};
+  color: black;
   padding-left: ${Units.scale[2]};
   padding-right: ${Units.scale[3]};
-  width: 20%;
+  min-width: 20%;
 `
 
 export class StackedInput extends Component {

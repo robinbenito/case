@@ -27,7 +27,8 @@ const MenuButtonLabel = styled.Text.attrs({
 })`
   flex: 1;
   font-size: ${Typography.fontSize.smedium};
-  font-weight: ${Typography.fontWeight.medium};
+  line-height: ${Typography.lineHeightFor('smedium')};
+  font-weight: ${Typography.fontWeight.semiBold};
   ${x => x.centered && 'text-align: center;'}
   color: ${({ active, secondary }) => {
     const colors = Colors.semantic.label
