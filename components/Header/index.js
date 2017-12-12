@@ -1,15 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
-import { connect } from 'react-redux'
 
-import { BlurredAbsoluteFill, AbsoluteFill } from '../UI/Layout'
 import HeaderPullDown from './HeaderPullDown'
 import { HEADER_BUTTON_HEIGHT } from './HeaderButton'
 import BackButton from '../BackButton'
-
-import Store from '../../state/Store'
-import { SET_HEADER_MENU_VISIBILITY } from '../../state/actions'
 
 import { Units } from '../../constants/Style'
 
@@ -18,12 +13,12 @@ import params from '../../utilities/params'
 
 export const HEADER_HEIGHT = HEADER_BUTTON_HEIGHT + Units.statusBarHeight
 
-const HeaderModal = styled.TouchableOpacity`
+const HeaderModal = styled.View`
   position: absolute;
   top: 0;
   right: 0;
   left: 0;
-  height: ${({ isExpanded }) => (isExpanded ? '100%' : HEADER_HEIGHT)};
+  height: ${HEADER_HEIGHT};
   padding-top: ${Units.statusBarHeight};
   align-items: center;
   justify-content: center;
@@ -39,7 +34,6 @@ const HeaderRight = styled.View`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  display: ${({ isExpanded }) => (isExpanded ? 'none' : 'flex')}
 `
 
 const HeaderLeft = styled(HeaderRight)`
@@ -47,99 +41,53 @@ const HeaderLeft = styled(HeaderRight)`
   left: 0;
 `
 
-class Header extends Component {
+export default class Header extends Component {
   static propTypes = {
     // BUG: The object composition below causes this to not pass lint for some reason
     /* eslint-disable react/no-unused-prop-types */
     title: PropTypes.string,
     color: PropTypes.string,
     headerRight: PropTypes.node,
-    isHeaderTitleVisible: PropTypes.bool,
-    navigation: PropTypes.object.isRequired,
     /* eslint-enable react/no-unused-proptypes */
+    navigation: PropTypes.object.isRequired,
   }
 
   static defaultProps = {
     title: '',
     color: null,
     headerRight: null,
-    isHeaderTitleVisible: true,
   }
 
   static HEIGHT = HEADER_HEIGHT
-
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      isExpanded: false,
-    }
-  }
-
-  onPress = () => {
-    this.setState({ isExpanded: !this.state.isExpanded })
-
-    Store.dispatch({
-      type: SET_HEADER_MENU_VISIBILITY,
-      isHeaderMenuActive: !this.state.isExpanded,
-    })
-  }
-
-  onModalPress = () => {
-    this.setState({ isExpanded: false })
-
-    Store.dispatch({
-      type: SET_HEADER_MENU_VISIBILITY,
-      isHeaderMenuActive: false,
-    })
-  }
 
   shouldDisplayBack = () =>
     navigationService.getCurrentIndex() > 0
 
   render() {
-    const { isExpanded } = this.state
-    const { title, color, isHeaderTitleVisible, headerRight } = {
+    const { title, color, headerRight } = {
       ...this.props,
-      // The initially loaded route sometimes doesn't have a navigation prop
       ...params(this.props.navigation),
     }
 
     return (
-      <HeaderModal
-        isExpanded={isExpanded}
-        onPress={this.onModalPress}
-        disabled={!isExpanded}
-      >
-        <AbsoluteFill>
-          {isExpanded &&
-            <BlurredAbsoluteFill />
-          }
+      <HeaderModal>
+        <HeaderPullDown
+          title={title}
+          color={color}
+        />
 
-          <HeaderPullDown
-            title={title}
-            color={color}
-            isExpanded={isExpanded}
-            isHeaderTitleVisible={isHeaderTitleVisible}
-            onPress={this.onPress}
-          />
+        {this.shouldDisplayBack() &&
+          <HeaderLeft>
+            <BackButton />
+          </HeaderLeft>
+        }
 
-          {this.shouldDisplayBack() &&
-            <HeaderLeft isExpanded={isExpanded}>
-              <BackButton />
-            </HeaderLeft>
-          }
-
-          {headerRight &&
-            <HeaderRight isExpanded={isExpanded}>
-              {headerRight}
-            </HeaderRight>
-          }
-        </AbsoluteFill>
+        {headerRight &&
+          <HeaderRight>
+            {headerRight}
+          </HeaderRight>
+        }
       </HeaderModal>
     )
   }
 }
-
-export default connect(({ ui: { isHeaderTitleVisible } }) =>
-  ({ isHeaderTitleVisible }))(Header)

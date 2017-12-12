@@ -14,7 +14,7 @@ import { OPEN_MODAL, CLOSE_MODAL } from '../../state/actions'
 const BackgroundFill = styled(AbsoluteFill)`
   padding-horizontal: ${Units.base};
   padding-vertical: ${Units.base};
-  justify-content: flex-end;
+  flex-direction: column;
 `
 
 export const openModal = (options = {}) =>
