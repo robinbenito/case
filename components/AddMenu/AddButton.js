@@ -47,7 +47,14 @@ export default class AddButton extends React.Component {
       <HitArea onPress={onPress} {...rest}>
         <VisibleArea>
           <MenuButton.Icon source={addIcon} />
-          <MenuButton.Label>
+          <MenuButton.Label
+            style={{
+              // Since the bg here is semi-transparent
+              // make this color semi-transparent
+              // TODO: Icon transparency
+              color: 'rgba(0, 0, 0, 0.5)',
+            }}
+          >
             Add to {title}
           </MenuButton.Label>
         </VisibleArea>
