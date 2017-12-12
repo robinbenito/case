@@ -40,8 +40,8 @@ export const HeaderButtonLabel = styled.Text.attrs({
   numberOfLines: 1,
 })`
   color: ${x => x.color || Colors.semantic.label[x.active ? 'active' : 'default']};
-  font-size: ${Typography.fontSize.h2};
-  line-height: ${Typography.lineHeightFor(Typography.fontSize.h2)}
-  font-weight: ${Typography.fontWeight.medium};
+  font-size: ${Typography.fontSize.smedium};
+  line-height: ${Typography.lineHeightFor('smedium')}
+  font-weight: ${Typography.fontWeight.semiBold};
   align-self: center;
 `
