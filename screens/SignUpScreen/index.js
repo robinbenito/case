@@ -11,7 +11,8 @@ import navigationService from '../../utilities/navigationService'
 
 import Alerts, { dismissAllAlerts } from '../../components/Alerts'
 import { StatusMessage } from '../../components/UI/Alerts'
-import { Button, ButtonLabel, SecondaryButton } from '../../components/UI/Buttons'
+import { SecondaryButton } from '../../components/UI/Buttons'
+import LargeButton from '../../components/UI/Buttons/LargeButton'
 import { CenteringPane, CenterColumn, Spacer } from '../../components/UI/Layout'
 import { SmallLogo } from '../../components/UI/Logos'
 import { UnderlineInput } from '../../components/UI/Inputs'
@@ -138,9 +139,9 @@ class SignUpScreen extends Component {
             <Spacer space={4} />
 
             <CenterColumn>
-              <Button onPress={this.onSubmit}>
-                <ButtonLabel>Create account</ButtonLabel>
-              </Button>
+              <LargeButton onPress={this.onSubmit}>
+                Create account
+              </LargeButton>
 
               <Spacer space={2} />
 

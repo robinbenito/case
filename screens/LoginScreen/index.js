@@ -12,7 +12,7 @@ import wait from '../../utilities/wait'
 
 import Alerts, { sendAlert, dismissAllAlerts } from '../../components/Alerts'
 import { StatusMessage } from '../../components/UI/Alerts'
-import { Button, ButtonLabel } from '../../components/UI/Buttons'
+import LargeButton from '../../components/UI/Buttons/LargeButton'
 import { UnderlineInput } from '../../components/UI/Inputs'
 import { Section, CenteringPane, CenterColumn } from '../../components/UI/Layout'
 import { SmallLogo } from '../../components/UI/Logos'
@@ -121,9 +121,9 @@ class LoginScreen extends Component {
 
             <Section space={4}>
               <CenterColumn>
-                <Button onPress={this.onSubmit}>
-                  <ButtonLabel>Log In</ButtonLabel>
-                </Button>
+                <LargeButton onPress={this.onSubmit}>
+                  Log In
+                </LargeButton>
               </CenterColumn>
             </Section>
           </View>

@@ -7,7 +7,7 @@ import { ActivityIndicator, FlatList } from 'react-native'
 import Empty from '../../../components/Empty'
 import Comment, { PendingCommentWithData } from '../../../components/Comment'
 import { Units } from '../../../constants/Style'
-import { Button, ButtonLabel } from '../../../components/UI/Buttons'
+import LargeButton from '../../../components/UI/Buttons/LargeButton'
 import { CenterColumn } from '../../../components/UI/Layout'
 import navigationService from '../../../utilities/navigationService'
 import { pluralize } from '../../../utilities/inflections'
@@ -68,9 +68,9 @@ class BlockComments extends React.Component {
     const { block, block: { comments } } = data
 
     const leaveCommentButton = (!isLeavingComment &&
-      <Button space={1} onPress={() => this.leaveComment(block)}>
-        <ButtonLabel>Leave comment</ButtonLabel>
-      </Button>
+      <LargeButton space={1} onPress={() => this.leaveComment(block)}>
+        Leave comment
+      </LargeButton>
     )
 
     if (comments.length === 0) {

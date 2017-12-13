@@ -13,7 +13,7 @@ import UserAvatar from '../../../components/UserAvatar'
 import Empty from '../../../components/Empty'
 import { CenterColumn } from '../../../components/UI/Layout'
 import FlatListFooter from '../../../components/UI/Layout/FlatListFooter'
-import { ButtonLabel, Button } from '../../../components/UI/Buttons'
+import LargeButton from '../../../components/UI/Buttons/LargeButton'
 
 import withLoading from '../../../hocs/withLoading'
 import withErrors from '../../../hocs/withErrors'
@@ -123,9 +123,9 @@ class ProfileContainer extends React.Component {
       const emptyComponent = isTheCurrentUser ? (
         <Empty>
           <Submit>
-            <Button space={1} onPress={() => navigationService.navigate('newChannel')}>
-              <ButtonLabel>New Channel</ButtonLabel>
-            </Button>
+            <LargeButton space={1} onPress={() => navigationService.navigate('newChannel')}>
+              New Channel
+            </LargeButton>
           </Submit>
         </Empty>
       ) : (<Empty text="Nothing here yet" />)

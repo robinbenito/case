@@ -7,7 +7,7 @@ import { ActivityIndicator, FlatList } from 'react-native'
 
 import ChannelItem from '../../../components/ChannelItem'
 import { CenterColumn } from '../../../components/UI/Layout'
-import { Button, ButtonLabel } from '../../../components/UI/Buttons'
+import LargeButton from '../../../components/UI/Buttons/LargeButton'
 import { Units } from '../../../constants/Style'
 import Empty from '../../../components/Empty'
 
@@ -71,9 +71,9 @@ class BlockConnections extends React.Component {
     const contentsLoading = data.networkStatus === 2 || data.networkStatus === 1
     const empty = (<Empty text="No connections yet" />)
     const addConnectionButton = (
-      <Button space={1} onPress={this.navigateToConnect}>
-        <ButtonLabel>Connect &rarr;</ButtonLabel>
-      </Button>
+      <LargeButton space={1} onPress={this.navigateToConnect}>
+        Connect &rarr;
+      </LargeButton>
     )
 
     if (contents.length === 0 && !contentsLoading) {
