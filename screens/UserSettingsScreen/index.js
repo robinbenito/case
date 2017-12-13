@@ -145,6 +145,10 @@ class UserSettingsScreen extends React.Component {
                 Privacy Policy
               </StackedButton>
 
+              <StackedButton onPress={() => navigationService.navigate('onboarding')}>
+                View Welcome Guide
+              </StackedButton>
+
               <StackedButton onPress={this.logOut}>
                 <Text style={{ color: Colors.state.alert }}>
                   Log Out
