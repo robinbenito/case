@@ -29,7 +29,7 @@ const Close = styled(Ionicons)`
 `
 
 const Title = styled.Text`
-  font-weight: ${Typography.fontWeight.semiBold};
+  font-weight: ${Typography.fontWeight.bold};
 `
 
 export default class SelectedChannels extends React.Component {
