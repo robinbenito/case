@@ -25,7 +25,7 @@ const Headline = styled(H2)`
 
 const Subheadline = styled(H2)`
   text-align: center;
-  font-weight: ${Typography.fontWeight.normal};
+  font-weight: ${Typography.fontWeight.regular};
 `
 
 class ExploreHeader extends Component {
