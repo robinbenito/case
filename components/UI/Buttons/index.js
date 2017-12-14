@@ -4,21 +4,8 @@ import PropTypes from 'prop-types'
 import Swipeout from 'react-native-swipeout'
 
 import { BaseIcon } from '../Icons'
-import ButtonOutline from './ButtonOutline'
 
 import { Border, Typography, Units, Colors } from '../../../constants/Style'
-
-export const Button = ButtonOutline.extend`
-  padding-vertical: ${Units.scale[2]};
-  padding-horizontal: ${Units.scale[3]};
-`
-
-export const ButtonLabel = styled.Text`
-  font-size: ${Typography.fontSize.medium};
-  font-weight: ${Typography.fontWeight.medium};
-  color: ${x => x.color || Colors.semantic.label.default};
-  text-align: center;
-`
 
 export const StackedButtonBorder = styled.View`
   border-color: ${Border.borderColor};

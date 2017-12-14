@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import { RelativeFill } from './UI/Layout'
 import { ErrorMessage, StatusMessage, GenericMessage } from './UI/Alerts'
-import { ButtonLabel, Button } from './UI/Buttons'
+import LargeButton from './UI/Buttons/LargeButton'
 
 import formatErrors from '../utilities/formatErrors'
 
@@ -39,9 +39,9 @@ export default class ErrorScreen extends Component {
         </ErrorMessage>
 
         {onRefresh &&
-          <Button space={1} onPress={onRefresh}>
-            <ButtonLabel>Refresh</ButtonLabel>
-          </Button>
+          <LargeButton space={1} onPress={onRefresh}>
+            Refresh
+          </LargeButton>
         }
       </RelativeFill>
     )

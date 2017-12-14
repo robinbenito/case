@@ -23,6 +23,7 @@ import EditBlockScreen from '../screens/EditBlockScreen'
 import ChannelVisibilityScreen from '../screens/ChannelVisibilityScreen'
 import routesForEditAccountScreens from '../screens/EditAccountScreens/routes'
 // Misc.
+import OnboardingScreen from '../screens/OnboardingScreen'
 import ProgressScreen from '../screens/ProgressScreen'
 import NotificationsScreen from '../screens/NotificationsScreen'
 
@@ -35,6 +36,13 @@ import SubmittableHeader from '../components/SubmittableHeader'
 import withParams from '../hocs/withParams'
 
 export default ({
+  onboarding: {
+    screen: OnboardingScreen,
+    navigationOptions: {
+      header: null,
+    },
+  },
+
   feed: {
     screen: FeedScreen,
     navigationOptions: ({ navigation }) => ({

@@ -3,7 +3,7 @@ import { View } from 'react-native'
 import navigate from '../../utilities/navigationService'
 import { SmallLogo } from '../../components/UI/Logos'
 import { CenteringPane, CenterColumn } from '../../components/UI/Layout'
-import { Button, ButtonLabel } from '../../components/UI/Buttons'
+import LargeButton from '../../components/UI/Buttons/LargeButton'
 
 export default class LoginScreen extends React.Component {
   render() {
@@ -17,13 +17,13 @@ export default class LoginScreen extends React.Component {
             <SmallLogo />
           </View>
 
-          <Button space={1} onPress={() => navigate.reset('login')}>
-            <ButtonLabel>Log In</ButtonLabel>
-          </Button>
+          <LargeButton space={1} onPress={() => navigate.reset('login')}>
+            Log In
+          </LargeButton>
 
-          <Button space={1} onPress={() => navigate.reset('signUp')}>
-            <ButtonLabel>Join</ButtonLabel>
-          </Button>
+          <LargeButton space={1} onPress={() => navigate.reset('signUp')}>
+            Join
+          </LargeButton>
         </CenterColumn>
       </CenteringPane>
     )

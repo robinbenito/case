@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import navigationService from '../../../utilities/navigationService'
 
 import FlatListFooter from '../../../components/UI/Layout/FlatListFooter'
-import { ButtonLabel, Button } from '../../../components/UI/Buttons'
+import LargeButton from '../../../components/UI/Buttons/LargeButton'
 
 const navigateToConnectWithChannel = ({ id, title }) => () =>
   navigationService.navigate('connect', {
@@ -15,9 +15,9 @@ const navigateToConnectWithChannel = ({ id, title }) => () =>
 
 const ConnectionFooter = ({ channel, ...rest }) => (
   <FlatListFooter {...rest}>
-    <Button space={1} onPress={navigateToConnectWithChannel(channel)}>
-      <ButtonLabel>Connect &rarr;</ButtonLabel>
-    </Button>
+    <LargeButton space={1} onPress={navigateToConnectWithChannel(channel)}>
+      Connect &rarr;
+    </LargeButton>
   </FlatListFooter>
 )
 
