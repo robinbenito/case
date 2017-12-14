@@ -13,7 +13,7 @@ import params from '../../utilities/params'
 
 export const HEADER_HEIGHT = HEADER_BUTTON_HEIGHT + Units.statusBarHeight
 
-const HeaderModal = styled.View`
+const Container = styled.View`
   position: absolute;
   top: 0;
   right: 0;
@@ -70,7 +70,7 @@ export default class Header extends Component {
     }
 
     return (
-      <HeaderModal>
+      <Container>
         <HeaderPullDown
           title={title}
           color={color}
@@ -87,7 +87,7 @@ export default class Header extends Component {
             {headerRight}
           </HeaderRight>
         }
-      </HeaderModal>
+      </Container>
     )
   }
 }
