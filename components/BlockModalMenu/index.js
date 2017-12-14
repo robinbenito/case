@@ -17,9 +17,6 @@ import navigationService from '../../utilities/navigationService'
 import alertErrors from '../../utilities/alertErrors'
 import { pluralize } from '../../utilities/inflections'
 
-import channelQuery from '../../screens/ChannelScreen/queries/channel'
-import channelBlocksQuery from '../../screens/ChannelScreen/queries/channelBlocks'
-
 import deleteConnectionMutation from './mutations/deleteConnection'
 import blockModalMenuBlockFragment from './fragments/blockModalMenuBlock'
 import blockModalMenuChannelFragment from './fragments/blockModalMenuChannel'
@@ -51,9 +48,21 @@ class BlockModalMenu extends Component {
     deleteConnection: null,
   }
 
+  constructor(props) {
+    super(props)
+
+    const { channel } = props
+
+    this.state = {
+      removeLabel: channel ? `Remove from ${channel.title}` : '',
+    }
+  }
+
   connect = () => {
     const { block: { id, title } } = this.props
+
     this.close()
+
     navigationService.navigate('connect', {
       title, connectable_id: id, connectable_type: 'BLOCK',
     })
@@ -61,7 +70,9 @@ class BlockModalMenu extends Component {
 
   leaveComment = () => {
     const { block: { id, kind: { counts: { comments } } } } = this.props
+
     this.close()
+
     navigationService.navigate('comment', {
       id, title: pluralize(comments, 'Comment'),
     })
@@ -75,7 +86,9 @@ class BlockModalMenu extends Component {
 
   visitChannel = () => {
     const { channel: { id, title, visibility } } = this.props
+
     this.close()
+
     navigationService.navigate('channel', {
       id, title, color: Colors.channel[visibility],
     })
@@ -83,7 +96,9 @@ class BlockModalMenu extends Component {
 
   editBlock = () => {
     const { block: { id } } = this.props
+
     this.close()
+
     navigationService.navigate('editBlock', { id })
   }
 
@@ -92,6 +107,8 @@ class BlockModalMenu extends Component {
       deleteConnection,
       channel: {
         id: channel_id,
+        title,
+        visibility,
       },
       block: {
         connection: {
@@ -100,15 +117,21 @@ class BlockModalMenu extends Component {
       },
     } = this.props
 
-    return deleteConnection({
-      variables: { id },
-      refetchQueries: [
-        { query: channelQuery, variables: { id: channel_id } },
-        { query: channelBlocksQuery, variables: { id: channel_id, page: 1, type: 'BLOCK' } },
-      ],
+    this.setState({
+      removeLabel: 'Removing...',
     })
 
-    .then(() => this.close())
+    return deleteConnection({
+      variables: { id },
+    })
+
+    .then(() => {
+      this.close()
+
+      navigationService.navigate('channel', {
+        id: channel_id, title, color: Colors.channel[visibility],
+      })
+    })
 
     .catch((err) => {
       alertErrors(err)
@@ -121,7 +144,8 @@ class BlockModalMenu extends Component {
   }
 
   render() {
-    const { channel, block } = this.props
+    const { removeLabel } = this.state
+    const { block } = this.props
 
     return (
       <Fill>
@@ -169,7 +193,7 @@ class BlockModalMenu extends Component {
                 centered
                 onPress={this.deleteConnection}
               >
-                Remove from {channel.title}
+                {removeLabel}
               </MenuButton>
             </View>
           }
