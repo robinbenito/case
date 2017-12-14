@@ -22,7 +22,7 @@ const TabLabel = styled.Text.attrs({
   numberOfLines: 1,
 })`
   font-size: ${Typography.fontSize.base};
-  font-weight: ${({ isSelected }) => Typography.fontWeight[isSelected ? 'semiBold' : 'normal']};
+  font-weight: ${({ isSelected }) => Typography.fontWeight[isSelected ? 'semiBold' : 'regular']};
   color: ${({ color }) => color || Colors.semantic.text};
 `
 
