@@ -21,23 +21,26 @@ class AddMenu extends Component {
   static propTypes = {
     title: PropTypes.string.isRequired,
     color: PropTypes.string,
+    newChannel: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
     title: 'Are.na',
     color: null,
+    newChannel: true,
   }
 
   static HEIGHT = AddButton.height
   static SAFE_AREA = AddButton.height + (Units.base * 2)
 
   open = () => {
-    const { title, color } = this.props
+    const { title, color, newChannel } = this.props
 
     openModal({
       children: <AddMenuOptions
         title={title}
         color={color}
+        newChannel={newChannel}
       />,
     })
   }

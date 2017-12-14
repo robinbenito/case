@@ -1,17 +1,25 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { propType } from 'graphql-anywhere'
 import styled from 'styled-components/native'
 import { Easing } from 'react-native'
 import Carousel from 'react-native-snap-carousel'
 import { values } from 'lodash'
+import { graphql } from 'react-apollo'
 
 import StatusBarAwareContainer from '../../components/UI/Layout/StatusBarAwareContainer'
-import SmallButton from './components/SmallButton'
 import SlideDescription from './components/SlideDescription'
+import SlideNavigation from './components/SlideNavigation'
 
 import navigationService from '../../utilities/navigationService'
 import cacheAssetsAsync from '../../utilities/cacheAssetsAsync'
 
-import { Colors, Typography, Units } from '../../constants/Style'
+import withLoadingAndErrors from '../../hocs/withLoadingAndErrors'
+
+import onboardingQuery from './queries/onboarding'
+import onboardingMeFragment from './fragments/onboardingMe'
+
+import { Units } from '../../constants/Style'
 
 import DATA from './data'
 import IMAGES from './images'
@@ -40,23 +48,17 @@ const Image = styled.Image.attrs({
   height: 65%;
 `
 
-const Count = styled.Text`
-  color: ${Colors.gray.medium};
-  font-size: ${Typography.fontSize.small};
-`
+class OnboardingScreen extends Component {
+  static propTypes = {
+    data: PropTypes.shape({
+      me: propType(onboardingMeFragment).isRequired,
+    }),
+  }
 
-const Footer = styled.View`
-  width: 100%;
-  height: 10%;
-  flex-direction: row;
-  justify-content: ${x => (x.centered ? 'center' : 'space-between')};
-  align-items: center;
-  align-content: center;
-  padding-vertical: ${Units.base};
-  padding-horizontal: ${Units.base};
-`
+  static defaultProps = {
+    data: {},
+  }
 
-export default class OnboardingScreen extends Component {
   constructor(props) {
     super(props)
 
@@ -73,12 +75,6 @@ export default class OnboardingScreen extends Component {
   onSnapToItem = index =>
     this.setState({ index })
 
-  isAtBeginning = () =>
-    this.state.index === 0
-
-  isProgressing = () =>
-    this.state.index >= 1 && this.state.index < this.state.last
-
   isAtEnd = () =>
     this.state.index === this.state.last
 
@@ -87,8 +83,12 @@ export default class OnboardingScreen extends Component {
     this.Carousel.snapToNext()
   }
 
-  done = () =>
-    navigationService.reset('feed')
+  done = () => {
+    const { data: { me: { feed: { total } } } } = this.props
+    const location = total > 0 ? ['feed'] : ['explore', { showHeadline: true }]
+
+    navigationService.reset(...location)
+  }
 
   renderItem = ({ item: { image, ...rest } }) => {
     const Message = image ? TopMessage : CenterMessage
@@ -128,34 +128,15 @@ export default class OnboardingScreen extends Component {
           onSnapToItem={this.onSnapToItem}
         />
 
-        {this.isAtBeginning() &&
-          <Footer centered>
-            <SmallButton onPress={this.done}>
-              Skip
-            </SmallButton>
-          </Footer>
-        }
-
-        {this.isProgressing() &&
-          <Footer>
-            <SmallButton onPress={this.done}>
-              Skip
-            </SmallButton>
-
-            <Count>
-              {index} / {last}
-            </Count>
-
-            <SmallButton color="black" onPress={this.next}>
-              Next &rarr;
-            </SmallButton>
-          </Footer>
-        }
-
-        {this.isAtEnd() &&
-          <Footer />
-        }
+        <SlideNavigation
+          index={index}
+          last={last}
+          done={this.done}
+          next={this.next}
+        />
       </StatusBarAwareContainer>
     )
   }
 }
+
+export default graphql(onboardingQuery)(withLoadingAndErrors(OnboardingScreen))
