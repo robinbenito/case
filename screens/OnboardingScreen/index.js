@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { propType } from 'graphql-anywhere'
 import styled from 'styled-components/native'
 import { Easing } from 'react-native'
 import Carousel from 'react-native-snap-carousel'
 import { values } from 'lodash'
+import { graphql } from 'react-apollo'
 
 import StatusBarAwareContainer from '../../components/UI/Layout/StatusBarAwareContainer'
 import SlideDescription from './components/SlideDescription'
@@ -10,6 +13,11 @@ import SlideNavigation from './components/SlideNavigation'
 
 import navigationService from '../../utilities/navigationService'
 import cacheAssetsAsync from '../../utilities/cacheAssetsAsync'
+
+import withLoadingAndErrors from '../../hocs/withLoadingAndErrors'
+
+import onboardingQuery from './queries/onboarding'
+import onboardingMeFragment from './fragments/onboardingMe'
 
 import { Units } from '../../constants/Style'
 
@@ -40,7 +48,17 @@ const Image = styled.Image.attrs({
   height: 65%;
 `
 
-export default class OnboardingScreen extends Component {
+class OnboardingScreen extends Component {
+  static propTypes = {
+    data: PropTypes.shape({
+      me: propType(onboardingMeFragment).isRequired,
+    }),
+  }
+
+  static defaultProps = {
+    data: {},
+  }
+
   constructor(props) {
     super(props)
 
@@ -65,8 +83,12 @@ export default class OnboardingScreen extends Component {
     this.Carousel.snapToNext()
   }
 
-  done = () =>
-    navigationService.reset('feed')
+  done = () => {
+    const { data: { me: { feed: { total } } } } = this.props
+    const location = total > 0 ? ['feed'] : ['explore', { showHeadline: true }]
+
+    navigationService.reset(...location)
+  }
 
   renderItem = ({ item: { image, ...rest } }) => {
     const Message = image ? TopMessage : CenterMessage
@@ -116,3 +138,5 @@ export default class OnboardingScreen extends Component {
     )
   }
 }
+
+export default graphql(onboardingQuery)(withLoadingAndErrors(OnboardingScreen))
