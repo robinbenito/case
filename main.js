@@ -52,6 +52,9 @@ class AppContainer extends Component {
     }
   }
 
+  getInitialRoute = () =>
+    (this.state.isLoggedIn ? 'feed' : 'loggedOut')
+
   async loadAssetsAsync() {
     try {
       await cacheAssetsAsync(cachedAssets)
@@ -79,17 +82,8 @@ class AppContainer extends Component {
     }
   }
 
-  getInitialRoute = () =>
-    this.state.isLoggedIn ? 'feed' : 'loggedOut'
-
   render() {
-    const {
-      isAssetsLoaded,
-      isLoggedIn,
-      isReady,
-    } = this.state
-
-    if (isReady) {
+    if (this.state.isReady) {
       const Navigation = createRootNavigator(this.getInitialRoute())
 
       return (

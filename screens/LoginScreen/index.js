@@ -9,6 +9,7 @@ import currentUserService, { LoginFragment } from '../../utilities/currentUserSe
 import formatErrors from '../../utilities/formatErrors'
 import navigationService from '../../utilities/navigationService'
 import wait from '../../utilities/wait'
+import flagService from '../../utilities/flagService'
 
 import Alerts, { sendAlert, dismissAllAlerts } from '../../components/Alerts'
 import { StatusMessage } from '../../components/UI/Alerts'
@@ -18,9 +19,6 @@ import { Section, CenteringPane, CenterColumn } from '../../components/UI/Layout
 import { SmallLogo } from '../../components/UI/Logos'
 
 import { Units } from '../../constants/Style'
-
-import flagService from '../../utilities/flagService'
-import AsyncStorage from '../../utilities/AsyncStorage'
 
 class LoginScreen extends Component {
   static propTypes = {
