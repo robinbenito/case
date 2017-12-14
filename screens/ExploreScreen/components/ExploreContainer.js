@@ -96,8 +96,6 @@ class ExploreContainer extends React.Component {
     this.props.data.refetch()
   }
 
-  onScroll = scrollSensorForHeader
-
   keyExtractor = ({ klass, id }, index) =>
     `${klass}-${id}-${index}`
 
@@ -129,7 +127,6 @@ class ExploreContainer extends React.Component {
         onEndReached={this.onEndReached}
         onEndReachedThreshold={0.9}
         scrollEventThrottle={50}
-        onScroll={this.onScroll}
         ListHeaderComponent={header}
         ListFooterComponent={<FlatListFooter loading={data.loading} />}
         renderItem={this.renderItem}
