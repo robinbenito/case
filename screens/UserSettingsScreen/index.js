@@ -39,7 +39,7 @@ class UserSettingsScreen extends React.Component {
 
     Apollo.resetStore()
 
-    navigationService.navigate('loggedOut')
+    navigationService.reset('loggedOut')
   }
 
   refresh = () =>

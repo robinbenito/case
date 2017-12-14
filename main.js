@@ -25,18 +25,20 @@ const StatusBarWithState = connect(({ ui: { modal: { active } } }) => ({
 }))(StatusBar)
 
 class AppContainer extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      isAssetsLoaded: false,
-      isStorageChecked: false,
-    }
+  state = {
+    isAssetsLoaded: false,
+    isReady: false,
   }
 
-  componentWillMount() {
-    this.loadAssetsAsync()
-    this.checkLoginStateAsync()
+  async componentWillMount() {
+    try {
+      await Promise.all([
+        this.loadAssetsAsync(),
+        this.checkLoginStateAsync(),
+      ])
+    } finally {
+      this.setState({ isReady: true })
+    }
   }
 
   onNavigationStateChange = (prevState, currentState) => {
@@ -49,6 +51,9 @@ class AppContainer extends Component {
       dismissAlertsOnCurrentRoute()
     }
   }
+
+  getInitialRoute = () =>
+    (this.state.isLoggedIn ? 'feed' : 'loggedOut')
 
   async loadAssetsAsync() {
     try {
@@ -65,10 +70,7 @@ class AppContainer extends Component {
         Client.query({ query: gql`{ me { id } }` }), // Ping user to check to see if actually logged in
       ])
 
-      this.setState({
-        isLoggedIn: true,
-        isStorageChecked: true,
-      })
+      this.setState({ isLoggedIn: true })
     } catch (err) {
       // TODO: Log only in dev mode?
       // `console.error` causes a red screen
@@ -76,24 +78,19 @@ class AppContainer extends Component {
 
       currentUserService.clear()
 
-      this.setState({
-        isLoggedIn: false,
-        isStorageChecked: true,
-      })
+      this.setState({ isLoggedIn: false })
     }
   }
 
   render() {
-    const { isAssetsLoaded, isStorageChecked, isLoggedIn } = this.state
-
-    if (isAssetsLoaded && isStorageChecked) {
-      const initialRouteName = isLoggedIn ? 'feed' : 'loggedOut'
-      const Navigation = createRootNavigator(initialRouteName)
+    if (this.state.isReady) {
+      const Navigation = createRootNavigator(this.getInitialRoute())
 
       return (
         <ApolloProvider store={Store} client={Client}>
           <View style={StyleSheet.absoluteFill}>
             <StatusBarWithState />
+
             <Navigation
               onNavigationStateChange={this.onNavigationStateChange}
               ref={navigationService.setContainer}
