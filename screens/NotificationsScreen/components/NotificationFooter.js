@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { graphql } from 'react-apollo'
 import styled from 'styled-components/native'
@@ -28,9 +28,21 @@ const Footer = styled.TouchableOpacity`
 const Headline = styled(H2)`
   color: ${Colors.gray.semiBold};
 `
-class NotificationsFooter extends React.Component {
+class NotificationsFooter extends Component {
+  static propTypes = {
+    readAllNotifications: PropTypes.func.isRequired,
+  }
+
+  state = {
+    clearLabel: 'Mark all as read',
+  }
+
   clearNotifcations = () => {
     const { readAllNotifications } = this.props
+
+    this.setState({
+      clearLabel: 'Marking...',
+    })
 
     readAllNotifications({
       refetchQueries: [
@@ -51,16 +63,14 @@ class NotificationsFooter extends React.Component {
   }
 
   render() {
+    const { clearLabel } = this.state
+
     return (
       <Footer onPress={this.clearNotifcations}>
-        <Headline>Mark all as read</Headline>
+        <Headline>{clearLabel}</Headline>
       </Footer>
     )
   }
-}
-
-NotificationsFooter.propTypes = {
-  readAllNotifications: PropTypes.func.isRequired,
 }
 
 export default graphql(readAllNotificationsMutation, {

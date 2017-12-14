@@ -38,7 +38,7 @@ export default [
   },
   {
     title: 'Connect',
-    blurb: 'Press  Connect →  in the block menu to connect a piece of content to another channel.',
+    blurb: 'Press  Connect → to connect a piece of content to another channel.',
     image: IMAGES.connect,
   },
   {
