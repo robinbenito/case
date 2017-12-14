@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
+
+import AddMenu from './AddMenu'
 
 import { Units, Typography, Colors } from '../constants/Style'
 
@@ -10,34 +12,33 @@ const EmptyText = styled.Text`
 `
 
 const Container = styled.View`
-  padding-horizontal: ${Units.base};
-  padding-vertical: ${Units.base};
+  flex: 1;
   align-items: center;
   justify-content: center;
-  flex: 1;
+  padding-horizontal: ${Units.base};
+  padding-top: ${Units.base};
+  padding-bottom: ${AddMenu.SAFE_AREA + Units.base};
 `
 
-export default class Empty extends React.Component {
+export default class Empty extends Component {
+  static propTypes = {
+    children: PropTypes.node,
+    text: PropTypes.string,
+  }
+
+  static defaultProps = {
+    children: null,
+    text: null,
+  }
+
   render() {
-    const { children, text } = this.props
-    const content = children || (
-      <EmptyText>{text}</EmptyText>
-    )
+    const { children, text, ...rest } = this.props
+    const content = children || <EmptyText>{text}</EmptyText>
 
     return (
-      <Container>
+      <Container {...rest}>
         {content}
       </Container>
     )
   }
-}
-
-Empty.propTypes = {
-  children: PropTypes.any,
-  text: PropTypes.string,
-}
-
-Empty.defaultProps = {
-  children: null,
-  text: null,
 }

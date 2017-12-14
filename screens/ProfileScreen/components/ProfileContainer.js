@@ -34,16 +34,15 @@ const StyledChannelItem = styled(ChannelItem)`
 
 class ProfileContainer extends React.Component {
   static propTypes = {
-    data: PropTypes.any.isRequired,
-    userBlocksData: PropTypes.any.isRequired,
+    data: PropTypes.any.isRequired, // NO
+    userBlocksData: PropTypes.any.isRequired, // NO
     type: PropTypes.oneOf(['CHANNEL', 'BLOCK']).isRequired,
-    loadMore: PropTypes.func,
-    page: PropTypes.number,
+    loadMore: PropTypes.func.isRequired,
+    page: PropTypes.number.isRequired,
   }
 
   static defaultProps = {
     page: 1,
-    loadMore: () => null,
     type: 'CHANNEL',
   }
 
@@ -128,7 +127,7 @@ class ProfileContainer extends React.Component {
             </LargeButton>
           </Submit>
         </Empty>
-      ) : (<Empty text="Nothing here yet" />)
+      ) : <Empty text="Nothing here yet" />
 
       return (
         <View style={{ flex: 1 }}>
