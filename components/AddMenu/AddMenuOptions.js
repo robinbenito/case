@@ -29,6 +29,7 @@ const Hint = styled.Text`
   font-weight: ${Typography.fontWeight.semiBold};
   color: ${Colors.semantic.label.default};
   background-color: transparent;
+  text-align: center;
 `
 
 const Menu = styled.View`
