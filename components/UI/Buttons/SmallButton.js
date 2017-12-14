@@ -14,7 +14,7 @@ const SmallButtonOutline = styled(ButtonOutline)`
 const SmallButtonLabel = styled.Text`
   text-align: center;
   font-size: ${Typography.fontSize.small};
-  font-weight: ${Typography.fontWeight.semiBold};
+  font-weight: ${Typography.fontWeight.bold};
   color: ${x => x.color || Colors.semantic.label.default};
 `
 

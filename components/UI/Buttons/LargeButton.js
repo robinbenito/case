@@ -14,7 +14,7 @@ const LargeButtonOutline = styled(ButtonOutline)`
 const LargeButtonLabel = styled.Text`
   text-align: center;
   font-size: ${Typography.fontSize.medium};
-  font-weight: ${Typography.fontWeight.medium};
+  font-weight: ${Typography.fontWeight.bold};
   color: ${x => x.color || Colors.semantic.label.default};
 `
 

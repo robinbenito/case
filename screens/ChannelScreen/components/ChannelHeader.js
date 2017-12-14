@@ -41,7 +41,7 @@ const Metadata = styled.Text`
 `
 
 const Author = styled(UserNameText)`
-  font-weight: ${Typography.fontWeight.semiBold};
+  font-weight: ${Typography.fontWeight.bold};
 `
 
 const Description = styled(HTML)`

@@ -74,7 +74,7 @@ export const Typography = {
   fontWeight: {
     // thin: '100',
     // ultraLight: '200',
-    // light: '300',
+    light: '300',
     regular: '400',
     medium: '500',
     semiBold: '600',
