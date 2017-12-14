@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { CameraRoll } from 'react-native'
+import { View, CameraRoll } from 'react-native'
 import { ImagePicker } from 'expo'
 import styled from 'styled-components/native'
 
@@ -58,6 +58,7 @@ class AddMenuOptions extends Component {
   static propTypes = {
     title: PropTypes.string.isRequired,
     color: PropTypes.string,
+    newChannel: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
@@ -115,7 +116,7 @@ class AddMenuOptions extends Component {
     closeModal()
 
   render() {
-    const { title, color } = this.props
+    const { title, color, newChannel } = this.props
 
     return (
       <Container>
@@ -127,11 +128,15 @@ class AddMenuOptions extends Component {
 
         <Menu>
           <MenuButtonGroup>
-            <MenuButton onPress={this.newChannel} icon={ICONS.add}>
-              New channel
-            </MenuButton>
+            {newChannel &&
+              <View>
+                <MenuButton onPress={this.newChannel} icon={ICONS.add}>
+                  New channel
+                </MenuButton>
 
-            <HorizontalRule />
+                <HorizontalRule />
+              </View>
+            }
 
             <MenuButton onPress={this.enterText} icon={ICONS.text}>
               New text block
