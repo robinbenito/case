@@ -1,3 +1,4 @@
+import Expo from 'expo'
 import React from 'react'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
@@ -40,6 +41,9 @@ class UserSettingsScreen extends React.Component {
 
     navigationService.navigate('loggedOut')
   }
+
+  refresh = () =>
+    Expo.Util.reload()
 
   render() {
     const { data: { me } } = this.props
@@ -147,6 +151,10 @@ class UserSettingsScreen extends React.Component {
 
               <StackedButton onPress={() => navigationService.navigate('onboarding')}>
                 View Welcome Guide
+              </StackedButton>
+
+              <StackedButton onPress={this.refresh}>
+                Refresh App
               </StackedButton>
 
               <StackedButton onPress={this.logOut}>
