@@ -19,19 +19,18 @@ import { SmallLogo } from '../../components/UI/Logos'
 
 import { Units } from '../../constants/Style'
 
+import flagService from '../../utilities/flagService'
+import AsyncStorage from '../../utilities/AsyncStorage'
+
 class LoginScreen extends Component {
   static propTypes = {
-    mutate: PropTypes.func.isRequired,
+    login: PropTypes.func.isRequired,
   }
 
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      email: '',
-      password: '',
-      isLoggingIn: false,
-    }
+  state = {
+    email: '',
+    password: '',
+    isLoggingIn: false,
   }
 
   onChangeText = key => (value) => {
@@ -43,22 +42,32 @@ class LoginScreen extends Component {
   onSubmit = async () => {
     dismissAllAlerts()
 
+    const { login } = this.props
     const variables = pick(this.state, ['email', 'password'])
 
     this.setState({ isLoggingIn: true })
 
-    await wait(500)
+    await wait(250)
 
-    this.props
-      .mutate({ variables })
-
+    return login({ variables })
       .then(({ data: { login: { me } } }) => {
         currentUserService.set(me)
       })
 
       .then(() => {
-        navigationService.reset('feed')
+        // Changing this value will cause *all* users to see onboarding again
+        const ONBOARDING_KEY = 'onboarding'
+
+        return flagService
+          .check(ONBOARDING_KEY)
+          .then(isFlagged =>
+            (isFlagged ? 'feed' : 'onboarding'),
+          )
       })
+
+      .then(routeName =>
+        navigationService.reset(routeName),
+      )
 
       .catch(async (err) => {
         const error = formatErrors(err)
@@ -147,6 +156,6 @@ const login = gql`
   ${LoginFragment}
 `
 
-const LoginScreenWithData = graphql(login)(LoginScreen)
+const LoginScreenWithData = graphql(login, { name: 'login' })(LoginScreen)
 
 export default LoginScreenWithData
