@@ -28,7 +28,7 @@ const Title = styled.Text`
   width: 100%;
   margin-bottom: ${Units.scale[1]};
   font-size: ${Typography.fontSize.h1};
-  font-weight: ${Typography.fontWeight.medium};
+  font-weight: ${Typography.fontWeight.semiBold};
   color: ${({ visibility }) => Colors.channel[visibility]};
 `
 

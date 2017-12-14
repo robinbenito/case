@@ -19,7 +19,7 @@ const Container = styled.View`
 const Name = styled.Text`
   margin-bottom: ${Units.scale[1]};
   font-size: ${Typography.fontSize.h1};
-  font-weight: ${Typography.fontWeight.medium};
+  font-weight: ${Typography.fontWeight.semiBold};
   text-align: center;
 `
 
