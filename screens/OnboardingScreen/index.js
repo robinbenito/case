@@ -5,13 +5,13 @@ import Carousel from 'react-native-snap-carousel'
 import { values } from 'lodash'
 
 import StatusBarAwareContainer from '../../components/UI/Layout/StatusBarAwareContainer'
-import SmallButton from './components/SmallButton'
 import SlideDescription from './components/SlideDescription'
+import SlideNavigation from './components/SlideNavigation'
 
 import navigationService from '../../utilities/navigationService'
 import cacheAssetsAsync from '../../utilities/cacheAssetsAsync'
 
-import { Colors, Typography, Units } from '../../constants/Style'
+import { Units } from '../../constants/Style'
 
 import DATA from './data'
 import IMAGES from './images'
@@ -40,22 +40,6 @@ const Image = styled.Image.attrs({
   height: 65%;
 `
 
-const Count = styled.Text`
-  color: ${Colors.gray.medium};
-  font-size: ${Typography.fontSize.small};
-`
-
-const Footer = styled.View`
-  width: 100%;
-  height: 10%;
-  flex-direction: row;
-  justify-content: ${x => (x.centered ? 'center' : 'space-between')};
-  align-items: center;
-  align-content: center;
-  padding-vertical: ${Units.base};
-  padding-horizontal: ${Units.base};
-`
-
 export default class OnboardingScreen extends Component {
   constructor(props) {
     super(props)
@@ -72,12 +56,6 @@ export default class OnboardingScreen extends Component {
 
   onSnapToItem = index =>
     this.setState({ index })
-
-  isAtBeginning = () =>
-    this.state.index === 0
-
-  isProgressing = () =>
-    this.state.index >= 1 && this.state.index < this.state.last
 
   isAtEnd = () =>
     this.state.index === this.state.last
@@ -128,33 +106,12 @@ export default class OnboardingScreen extends Component {
           onSnapToItem={this.onSnapToItem}
         />
 
-        {this.isAtBeginning() &&
-          <Footer centered>
-            <SmallButton onPress={this.done}>
-              Skip
-            </SmallButton>
-          </Footer>
-        }
-
-        {this.isProgressing() &&
-          <Footer>
-            <SmallButton onPress={this.done}>
-              Skip
-            </SmallButton>
-
-            <Count>
-              {index} / {last}
-            </Count>
-
-            <SmallButton color="black" onPress={this.next}>
-              Next &rarr;
-            </SmallButton>
-          </Footer>
-        }
-
-        {this.isAtEnd() &&
-          <Footer />
-        }
+        <SlideNavigation
+          index={index}
+          last={last}
+          done={this.done}
+          next={this.next}
+        />
       </StatusBarAwareContainer>
     )
   }
