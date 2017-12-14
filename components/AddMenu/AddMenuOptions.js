@@ -9,6 +9,7 @@ import { Color } from '../UI/Texts'
 import MenuButtonGroup from '../Menu/MenuButtonGroup'
 import MenuButton from '../Menu/MenuButton'
 import { closeModal } from '../Modal'
+import Header from '../Header'
 
 import { Border, Colors, Typography, Units } from '../../constants/Style'
 
@@ -16,9 +17,14 @@ import navigationService from '../../utilities/navigationService'
 
 import ICONS from './icons'
 
-const ContextualHint = styled.Text`
-  margin-vertical: ${Units.scale[4]};
+const ContextualHint = styled.View`
+  height: ${Header.HEIGHT};
+  padding-top: ${Units.statusBarHeight};
   margin-horizontal: ${Units.base};
+  justify-content: center;
+`
+
+const Hint = styled.Text`
   font-size: ${Typography.fontSize.smedium};
   font-weight: ${Typography.fontWeight.semiBold};
   color: ${Colors.semantic.label.default};
@@ -113,7 +119,9 @@ class AddMenuOptions extends Component {
     return (
       <Container>
         <ContextualHint>
-          Add to <Color color={color}>{title}</Color>:
+          <Hint>
+            Add to <Color color={color}>{title}</Color>:
+          </Hint>
         </ContextualHint>
 
         <Menu>
