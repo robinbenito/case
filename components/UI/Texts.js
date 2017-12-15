@@ -1,5 +1,7 @@
 import styled from 'styled-components/native'
-import { Typography } from '../../constants/Style'
+import { get } from 'lodash'
+
+import { Colors, Typography } from '../../constants/Style'
 
 export const H1 = styled.Text`
   font-size: ${Typography.fontSize.h1};
@@ -17,4 +19,5 @@ export const Strong = styled.Text`
 
 export const Color = styled.Text`
   ${x => x.color && `color: ${x.color};`}
+  ${x => x.path && `color: ${get(Colors, x.path)};`}
 `
