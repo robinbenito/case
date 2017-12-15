@@ -42,10 +42,13 @@ class HeaderPullDown extends Component {
     return (
       <Container>
         <HeaderButton onPress={this.onPress}>
-          <HeaderButtonLabel color={color}>
-            {isHeaderTitleVisible && title && decode(title)}
-            <Caret color={color} />
-          </HeaderButtonLabel>
+          {isHeaderTitleVisible && title &&
+            <HeaderButtonLabel color={color}>
+              {decode(title)}
+            </HeaderButtonLabel>
+          }
+
+          <Caret color={color} isWithLabel={isHeaderTitleVisible} />
         </HeaderButton>
       </Container>
     )
