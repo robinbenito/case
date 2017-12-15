@@ -5,6 +5,7 @@ export default gql`
     id
     title
     href
+    visibility
     can {
       manage
     }

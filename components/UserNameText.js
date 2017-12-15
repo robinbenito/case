@@ -1,15 +1,37 @@
-import React from 'react'
+import React, { Component } from 'react'
+import gql from 'graphql-tag'
 import PropTypes from 'prop-types'
 import { Text } from 'react-native'
-import NavigatorService from '../utilities/navigationService'
+import { propType } from 'graphql-anywhere'
 
-export default class UserNameText extends React.Component {
+import navigationService from '../utilities/navigationService'
+
+const userNameFragment = gql`
+  fragment UserNameText on User {
+    id
+    name
+  }
+`
+
+export default class UserNameText extends Component {
+  static propTypes = {
+    user: propType(userNameFragment).isRequired,
+    onPress: PropTypes.func,
+  }
+
+  static defaultProps = {
+    onPress: () => null,
+  }
+
+  static fragment = userNameFragment
+
   goToProfile = () => {
-    this.props.onPress()
+    const { onPress, user: { id, name } } = this.props
 
-    NavigatorService.navigate('profile', {
-      id: this.props.user.id,
-      title: this.props.user.name,
+    onPress()
+
+    navigationService.navigate('profile', {
+      id, title: name,
     })
   }
 
@@ -22,16 +44,4 @@ export default class UserNameText extends React.Component {
       </Text>
     )
   }
-}
-
-UserNameText.propTypes = {
-  user: PropTypes.shape({
-    name: PropTypes.string,
-    id: PropTypes.any,
-  }).isRequired,
-  onPress: PropTypes.func,
-}
-
-UserNameText.defaultProps = {
-  onPress: () => null,
 }

@@ -123,8 +123,6 @@ export const BlockQuery = gql`
       title
       state
       updated_at(relative: true)
-      created_at(relative: true)
-      displayDescription: description(format: HTML)
       description(format: MARKDOWN)
       user {
         __typename
@@ -161,13 +159,15 @@ export const BlockQuery = gql`
           image_url(size: ORIGINAL)
         }
       }
+      ...BlockMetadata
     }
   }
+  ${BlockMetadata.fragment}
 `
 
 BlockContents.propTypes = {
-  data: PropTypes.object.isRequired,
-  imageLocation: PropTypes.any,
+  data: PropTypes.object.isRequired, // TODO
+  imageLocation: PropTypes.any, // NO
 }
 
 BlockContents.defaultProps = {
