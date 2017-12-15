@@ -6,7 +6,7 @@ import styled from 'styled-components/native'
 
 import { TouchableHighlight } from './UI/Layout'
 
-import { Colors, Typography, Units } from '../constants/Style'
+import { Border, Colors, Typography, Units } from '../constants/Style'
 
 const HitArea = styled(TouchableHighlight)`
   width: ${x => x.size};
@@ -46,7 +46,7 @@ const Avatar = styled.View`
   height: ${x => x.size};
   border-radius: ${x => x.size};
   background-color: ${Colors.semantic.background};
-  border-width: 1;
+  border-width: ${Border.borderWidth};
   border-style: solid;
   border-color: ${Colors.semantic.outline};
   flex-direction: column;
