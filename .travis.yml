@@ -8,6 +8,6 @@ before_install:
 - npm install -g exp
 script:
 - yarn lint
-- if [ $TRAVIS_BRANCH = 'deploy' ]; then yarn publish; fi
+- if [ $TRAVIS_BRANCH = 'deploy' ]; then yarn deploy; fi
 sudo: false
 

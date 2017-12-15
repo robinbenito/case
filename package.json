@@ -8,7 +8,7 @@
     "lint": "eslint ./",
     "test": "node_modules/.bin/jest",
     "test-update": "node_modules/.bin/jest --updateSnapshot",
-    "publish": "exp login --username $EXPO_USERNAME --password $EXPO_PASSWORD && exp publish --non-interactive"
+    "deploy": "exp login --username $EXPO_USERNAME --password $EXPO_PASSWORD && exp publish --non-interactive"
   },
   "jest": {
     "preset": "jest-expo"
