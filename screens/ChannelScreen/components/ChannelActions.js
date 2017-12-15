@@ -51,7 +51,7 @@ export default class ChannelActions extends Component {
 
   share = () => {
     const { channel: { href } } = this.props
-    Share.share({ url: `https://www.are.na/${href}` })
+    Share.share({ url: `https://www.are.na${href}` })
   }
 
   render() {
