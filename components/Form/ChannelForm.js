@@ -92,7 +92,7 @@ class ChannelForm extends Component {
     const { deleteChannel, channel: { id } } = this.props
 
     return deleteChannel({ variables: { id } })
-    .then(() => navigationService.navigate('profile'))
+    .then(() => navigationService.navigate('me'))
     .catch(alertErrors)
   }
 

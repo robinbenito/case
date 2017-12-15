@@ -81,7 +81,7 @@ class BlockModalMenu extends Component {
   share = () => {
     const { block: { href } } = this.props
 
-    Share.share({ url: `https://www.are.na/${href}` })
+    Share.share({ url: `https://www.are.na${href}` })
   }
 
   visitChannel = () => {
