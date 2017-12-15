@@ -166,13 +166,17 @@ class BlockModalMenu extends Component {
             Leave comment
           </MenuButton>
 
-          <HorizontalRule />
-          <MenuButton
-            centered
-            onPress={this.share}
-          >
-            Share
-          </MenuButton>
+          {block.visibility !== 'private' &&
+            <View>
+              <HorizontalRule />
+              <MenuButton
+                centered
+                onPress={this.share}
+              >
+                Share
+              </MenuButton>
+            </View>
+          }
 
           {block.can && block.can.manage &&
             <View>

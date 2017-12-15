@@ -1,11 +1,15 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { Component } from 'react'
 import { Share } from 'react-native'
 import styled from 'styled-components/native'
+import { propType } from 'graphql-anywhere'
+
 import UserNameText from '../../../components/UserNameText'
 import ExternalLink from '../../../components/UI/Link'
 import HTML from '../../../components/HTML'
+
 import { Units, Typography, Colors } from '../../../constants/Style'
+
+import blockMetadataFragment from '../fragments/blockMetadata'
 
 const Container = styled.View`
   width: 100%;
@@ -52,57 +56,75 @@ const action = `
 const Action = styled.Text`${action}`
 const ExternalAction = styled(ExternalLink)`${action}`
 
-const BlockMetadata = ({ block }) => {
-  const { kind: { __typename: typeName } } = block
-  const sourceUrl = block.source.url || block.kind.image_url
+export default class BlockMetadata extends Component {
+  static propTypes = {
+    block: propType(blockMetadataFragment).isRequired,
+  }
 
-  return (
-    <Container>
-      <Title>
-        {block.title}
-      </Title>
+  static fragment = blockMetadataFragment
 
-      <Metadata>
-        Added {block.created_at} by <UserNameLink user={block.user} />
-      </Metadata>
+  render() {
+    const {
+      block: {
+        href,
+        user,
+        title,
+        created_at,
+        visibility,
+        displayDescription,
+        source: {
+          source_url,
+        },
+        kind: {
+          __typename,
+          image_url,
+        },
+      },
+    } = this.props
 
-      <Description
-        value={block.displayDescription || '<p>—</p>'}
-        stylesheet={{
-          p: {
-            fontSize: Typography.fontSize.small,
-            lineHeight: Typography.lineHeightFor('small'),
-          },
-        }}
-      />
+    // TODO: Put this in the GraphQL response
+    const sourceUrl = source_url || image_url
 
-      <Actions>
-        {sourceUrl &&
-          <ExternalAction url={sourceUrl}>
-            Source
-          </ExternalAction>
-        }
+    return (
+      <Container>
+        <Title>
+          {title}
+        </Title>
 
-        {typeName === 'Image' &&
-          <ExternalAction url={`https://www.google.com/searchbyimage?&image_url=${block.kind.image_url}`}>
-            Find original
-          </ExternalAction>
-        }
+        <Metadata>
+          Added {created_at} by <UserNameLink user={user} />
+        </Metadata>
 
-        <Action onPress={() => Share.share({ url: `https://www.are.na/block/${block.id}` })}>
-          Share
-        </Action>
-      </Actions>
-    </Container>
-  )
+        <Description
+          value={displayDescription || '<p>—</p>'}
+          stylesheet={{
+            p: {
+              fontSize: Typography.fontSize.small,
+              lineHeight: Typography.lineHeightFor('small'),
+            },
+          }}
+        />
+
+        <Actions>
+          {sourceUrl &&
+            <ExternalAction url={sourceUrl}>
+              Source
+            </ExternalAction>
+          }
+
+          {__typename === 'Image' &&
+            <ExternalAction url={`https://www.google.com/searchbyimage?&image_url=${image_url}`}>
+              Find original
+            </ExternalAction>
+          }
+
+          {visibility !== 'private' &&
+            <Action onPress={() => Share.share({ url: `https://www.are.na${href}` })}>
+              Share
+            </Action>
+          }
+        </Actions>
+      </Container>
+    )
+  }
 }
-
-BlockMetadata.propTypes = {
-  block: PropTypes.any,
-}
-
-BlockMetadata.defaultProps = {
-  block: {},
-}
-
-export default BlockMetadata
