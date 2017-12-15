@@ -17,6 +17,7 @@ import navigationService from './utilities/navigationService'
 import cacheAssetsAsync from './utilities/cacheAssetsAsync'
 import currentUserService from './utilities/currentUserService'
 import { trackPage } from './utilities/analytics'
+import navigateOnce from './utilities/navigateOnce'
 
 import cachedAssets from './cachedAssets'
 
@@ -85,6 +86,7 @@ class AppContainer extends Component {
   render() {
     if (this.state.isReady) {
       const Navigation = createRootNavigator(this.getInitialRoute())
+      Navigation.router.getStateForAction = navigateOnce(Navigation.router.getStateForAction)
 
       return (
         <ApolloProvider store={Store} client={Client}>
