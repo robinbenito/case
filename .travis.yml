@@ -2,6 +2,8 @@ language: node_js
 node_js:
   - "node"
 cache: yarn
+after_install:
+  - npm install -g exp
 script:
   - yarn lint
   # - yarn test
