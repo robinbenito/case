@@ -5,6 +5,7 @@ import { propType } from 'graphql-anywhere'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
 
+import { Color } from '../UI/Texts'
 import { HorizontalRule, AbsoluteFill } from '../UI/Layout'
 import MenuButtonGroup from '../Menu/MenuButtonGroup'
 import MenuButton from '../Menu/MenuButton'
@@ -197,7 +198,9 @@ class BlockModalMenu extends Component {
                 centered
                 onPress={this.deleteConnection}
               >
-                {removeLabel}
+                <Color path="state.alert">
+                  {removeLabel}
+                </Color>
               </MenuButton>
             </View>
           }
