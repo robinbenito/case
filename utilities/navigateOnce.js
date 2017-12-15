@@ -1,3 +1,6 @@
+// NOTE: Taken from
+// https://github.com/react-community/react-navigation/issues/271#issuecomment-303217976
+
 import { NavigationActions } from 'react-navigation'
 
 const navigateOnce = getStateForAction => (action, state) => {
@@ -13,7 +16,6 @@ const navigateOnce = getStateForAction => (action, state) => {
     routeName === latestRoute.routeName &&
     possibleId === latestId
   ) ? null : getStateForAction(action, state)
-  // you might want to replace 'null' with 'state' if you're using redux (see comments below)
 }
 
 export default navigateOnce
