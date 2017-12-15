@@ -1,8 +1,13 @@
 language: node_js
 node_js:
-  - "node"
+- node
 cache: yarn
+before_install:
+- openssl aes-256-cbc -K $encrypted_ef2df7dc4107_key -iv $encrypted_ef2df7dc4107_iv
+  -in config.js.enc -out config.js -d
+- npm install -g exp
 script:
-  - yarn lint
-  # - yarn test
+- yarn lint
+- if [ $TRAVIS_BRANCH = 'deploy' ]; then yarn publish; fi
 sudo: false
+
