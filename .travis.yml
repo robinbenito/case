@@ -5,4 +5,5 @@ cache: yarn
 script:
   - yarn lint
   # - yarn test
+  - if [ $TRAVIS_BRANCH = 'deploy' ]; then yarn publish; fi
 sudo: false

@@ -18,7 +18,8 @@
     "hideExponentText": false
   },
   "packagerOpts": {
-    "assetExts": ["ttf"]
+    "assetExts": ["ttf"],
+    "nonPersistent": true
   },
   "ios": {
     "loadJSInBackgroundExperimental": false,
