@@ -50,7 +50,7 @@ class ExploreHeader extends Component {
             <Headline>Welcome to Are.na</Headline>
             <Subheadline>
               Start by exploring recent channels and blocks. Or just go to your
-              <Strong onPress={() => navigationService.navigate('profile')}> Profile</Strong>.
+              <Strong onPress={() => navigationService.navigate('me')}> Profile</Strong>.
             </Subheadline>
           </HeadlineWrapper>
         }
