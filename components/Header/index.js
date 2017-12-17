@@ -30,7 +30,7 @@ const HeaderRight = styled.View`
   right: 0;
   height: ${HEADER_HEIGHT};
   padding-top: ${Units.statusBarHeight};
-  padding-right: ${Units.statusBarHeight / 2};
+  padding-right: ${Units.scale[1]};
   align-items: center;
   justify-content: center;
   flex-direction: column;

@@ -1,4 +1,5 @@
 import { Dimensions, StyleSheet } from 'react-native'
+import { Constants } from 'expo'
 
 export const Colors = {
   black: 'black',
@@ -111,7 +112,7 @@ Typography.lineHeightFor = (size, lineHeight = 'base') => {
 const base = Typography.lineHeightFor(Typography.fontSize.base)
 
 export const Units = {
-  statusBarHeight: 20,
+  statusBarHeight: Constants.statusBarHeight,
   hairlineWidth: StyleSheet.hairlineWidth,
   window: {
     width: Dimensions.get('window').width,
