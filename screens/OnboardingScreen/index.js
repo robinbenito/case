@@ -13,6 +13,7 @@ import SlideNavigation from './components/SlideNavigation'
 
 import navigationService from '../../utilities/navigationService'
 import cacheAssetsAsync from '../../utilities/cacheAssetsAsync'
+import { trackEvent } from '../../utilities/analytics'
 
 import withLoadingAndErrors from '../../hocs/withLoadingAndErrors'
 
@@ -72,8 +73,15 @@ class OnboardingScreen extends Component {
     last: DATA.length - 1,
   }
 
-  onSnapToItem = index =>
+  onSnapToItem = (index) => {
+    trackEvent({
+      category: 'Onboarding',
+      action: 'Advance slide',
+      label: 'Slide index',
+      value: index,
+    })
     this.setState({ index })
+  }
 
   isAtEnd = () =>
     this.state.index === this.state.last
@@ -86,6 +94,11 @@ class OnboardingScreen extends Component {
   done = () => {
     const { data: { me: { feed: { total } } } } = this.props
     const location = total > 0 ? ['feed'] : ['explore', { showHeadline: true }]
+
+    trackEvent({
+      category: 'Onboarding',
+      action: 'Done',
+    })
 
     navigationService.reset(...location)
   }
