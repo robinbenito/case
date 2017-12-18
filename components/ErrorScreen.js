@@ -6,6 +6,7 @@ import { ErrorMessage, StatusMessage, GenericMessage } from './UI/Alerts'
 import LargeButton from './UI/Buttons/LargeButton'
 
 import formatErrors from '../utilities/formatErrors'
+import { trackErrors } from '../utilities/analytics'
 
 export default class ErrorScreen extends Component {
   static propTypes = {
@@ -21,6 +22,8 @@ export default class ErrorScreen extends Component {
 
   render() {
     const { message, errors, onRefresh, ...rest } = this.props
+
+    trackErrors(errors)
 
     return (
       <RelativeFill {...rest}>
