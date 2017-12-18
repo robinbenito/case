@@ -1,4 +1,3 @@
-import Expo from 'expo'
 import React, { Component } from 'react'
 import { StyleSheet, View, StatusBar } from 'react-native'
 import { ApolloProvider } from 'react-apollo'
@@ -25,7 +24,7 @@ const StatusBarWithState = connect(({ ui: { modal: { active } } }) => ({
   hidden: active,
 }))(StatusBar)
 
-class AppContainer extends Component {
+export default class AppContainer extends Component {
   state = {
     isAssetsLoaded: false,
     isReady: false,
@@ -110,5 +109,3 @@ class AppContainer extends Component {
 console.ignoredYellowBox = [
   'Header.HEIGHT is deprecated and will be removed before react-navigation comes out of beta',
 ]
-
-Expo.registerRootComponent(AppContainer)
