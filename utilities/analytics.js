@@ -16,7 +16,7 @@ export const trackPage = ({ page }) =>
   analytics.hit(new PageHit(page))
 
 export const trackError = error =>
-  analytics.event(new Event('Error', '', 'Error message', error))
+  analytics.event(new Event('Error', 'Error thrown', 'Error Message', error))
 
 export const trackErrors = errors => trackError(formatErrors(errors))
 

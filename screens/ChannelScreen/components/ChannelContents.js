@@ -11,7 +11,7 @@ import BlockItem from '../../../components/BlockItem'
 
 import scrollSensorForHeader from '../../../utilities/scrollSensorForHeader'
 import { networkStatusesService } from '../../../utilities/networkStatusService'
-import alertErrors from '../../../utilities/alertErrors'
+import { trackErrors } from '../../../utilities/analytics'
 
 import channelBlocksQuery from '../queries/channelBlocks'
 import channelConnectionsQuery from '../queries/channelConnections'
@@ -81,7 +81,7 @@ class ChannelContents extends Component {
     const nextPage = this.state.page + 1
     this.setState({ page: nextPage })
 
-    return loadPage(nextPage).catch(alertErrors)
+    return loadPage(nextPage).catch(trackErrors)
   }
 
   onRefresh = () => {
