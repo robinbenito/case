@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
 import { decode } from 'he'
 import { connect } from 'react-redux'
+import { isEmpty } from 'lodash'
 
 import HeaderPullDownDrawer from './HeaderPullDownDrawer'
 import { HeaderButton, HeaderButtonLabel, Caret } from './HeaderButton'
@@ -42,13 +43,13 @@ class HeaderPullDown extends Component {
     return (
       <Container>
         <HeaderButton onPress={this.onPress}>
-          {isHeaderTitleVisible && title &&
+          {isHeaderTitleVisible && !isEmpty(title) &&
             <HeaderButtonLabel color={color}>
               {decode(title)}
             </HeaderButtonLabel>
           }
 
-          <Caret color={color} isWithLabel={isHeaderTitleVisible} />
+          <Caret color={color} isWithLabel={isHeaderTitleVisible && !isEmpty(title)} />
         </HeaderButton>
       </Container>
     )
