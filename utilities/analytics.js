@@ -5,6 +5,7 @@
 
 import { Analytics, PageHit, Event } from 'expo-analytics'
 import Config from '../config'
+import formatErrors from './formatErrors'
 
 const analytics = new Analytics(Config.ANALYTICS_ID)
 
@@ -13,5 +14,10 @@ export const trackEvent = ({ category, action, label, value }) =>
 
 export const trackPage = ({ page }) =>
   analytics.hit(new PageHit(page))
+
+export const trackError = error =>
+  analytics.event(new Event('Error', 'Error thrown', 'Error Message', error))
+
+export const trackErrors = errors => trackError(formatErrors(errors))
 
 export default analytics
