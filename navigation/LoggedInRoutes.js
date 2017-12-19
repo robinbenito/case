@@ -65,7 +65,7 @@ export default ({
   },
 
   block: {
-    screen: BlockScreen,
+    screen: withParams(BlockScreen),
     navigationOptions: ({ navigation }) => ({
       header: <Header
         navigation={navigation}
@@ -79,7 +79,7 @@ export default ({
     navigationOptions: ({ navigation }) => ({
       header: <Header
         navigation={navigation}
-        title="ul"
+        title={navigation.state.params.title}
       />,
     }),
   },
