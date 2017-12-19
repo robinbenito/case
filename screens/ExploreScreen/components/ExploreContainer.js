@@ -12,7 +12,7 @@ import withErrors from '../../../hocs/withErrors'
 
 import scrollSensorForHeader from '../../../utilities/scrollSensorForHeader'
 import networkStatusService from '../../../utilities/networkStatusService'
-import { trackErrors } from '../../../utilities/analytics'
+import alertErrors from '../../../utilities/alertErrors'
 
 import { Units } from '../../../constants/Style'
 
@@ -88,7 +88,7 @@ class ExploreContainer extends React.Component {
 
         return res
       })
-      .catch(trackErrors)
+      .catch(alertErrors)
   }
 
   onRefresh = () => {
