@@ -91,7 +91,7 @@ class NotificationSentence extends React.Component {
 
           <FeedWordLink
             object={item}
-            phrase={item.title}
+            phrase={item.title || item.body}
             onPress={onPressEvent}
           />
 
@@ -138,6 +138,9 @@ NotificationSentence.fragments = {
         ...ChannelWord
         ...ConnectableWord
         ...UserWord
+        ... on Comment {
+          body
+        }
       }
       connector
       target {
