@@ -167,7 +167,7 @@ export const BlockQuery = gql`
 
 BlockContents.propTypes = {
   data: PropTypes.object.isRequired, // TODO
-  imageLocation: PropTypes.any, // NO
+  imageLocation: PropTypes.string,
 }
 
 BlockContents.defaultProps = {
