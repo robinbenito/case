@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import styled from 'styled-components/native'
 import { decode } from 'he'
 import { connect } from 'react-redux'
 import { isEmpty } from 'lodash'
@@ -8,14 +7,6 @@ import { isEmpty } from 'lodash'
 import HeaderPullDownDrawer from './HeaderPullDownDrawer'
 import { HeaderButton, HeaderButtonLabel, Caret } from './HeaderButton'
 import { openModal } from '../Modal'
-
-import { Units } from '../../constants/Style'
-
-const Container = styled.View`
-  position: absolute;
-  top: ${Units.statusBarHeight};
-  width: 100%;
-`
 
 class HeaderPullDown extends Component {
   static propTypes = {
@@ -41,17 +32,15 @@ class HeaderPullDown extends Component {
     const { title, color, isHeaderTitleVisible } = this.props
 
     return (
-      <Container>
-        <HeaderButton onPress={this.onPress}>
-          {isHeaderTitleVisible && !isEmpty(title) &&
-            <HeaderButtonLabel color={color}>
-              {decode(title)}
-            </HeaderButtonLabel>
-          }
+      <HeaderButton onPress={this.onPress}>
+        {isHeaderTitleVisible && !isEmpty(title) &&
+          <HeaderButtonLabel color={color}>
+            {decode(title)}
+          </HeaderButtonLabel>
+        }
 
-          <Caret color={color} isWithLabel={isHeaderTitleVisible && !isEmpty(title)} />
-        </HeaderButton>
-      </Container>
+        <Caret color={color} isWithLabel={isHeaderTitleVisible && !isEmpty(title)} />
+      </HeaderButton>
     )
   }
 }
