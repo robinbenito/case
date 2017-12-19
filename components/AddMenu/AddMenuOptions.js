@@ -19,13 +19,17 @@ import ICONS from './icons'
 
 const ContextualHint = styled.View`
   height: ${Header.HEIGHT};
-  padding-top: ${Units.statusBarHeight};
+  padding-top: ${
+    // Line up with underlying header
+    Units.statusBarHeight + 0.5
+  };
   margin-horizontal: ${Units.base};
   justify-content: center;
 `
 
 const Hint = styled.Text`
   font-size: ${Typography.fontSize.smedium};
+  line-height: ${Typography.lineHeightFor('smedium')};
   font-weight: ${Typography.fontWeight.semiBold};
   color: ${Colors.semantic.label.default};
   background-color: transparent;

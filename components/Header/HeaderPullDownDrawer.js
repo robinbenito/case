@@ -22,8 +22,8 @@ const LINKS = [
 const SelectDrawer = styled(AbsoluteFill)`
   padding-horizontal: ${Units.base};
   padding-top: ${
-    // Line up with underlying header by subtracting the border width
-    Units.statusBarHeight - 1
+    // Line up with underlying header
+    Units.statusBarHeight + 0.5
   };
   justify-content: flex-start;
 `

@@ -56,6 +56,6 @@ export const HeaderButtonLabel = styled.Text.attrs({
   max-width: 95%;
   color: ${x => x.color || Colors.semantic.label[x.active ? 'active' : 'default']};
   font-size: ${Typography.fontSize.smedium};
-  line-height: ${Typography.lineHeightFor('smedium')}
+  line-height: ${Typography.lineHeightFor('smedium')};
   font-weight: ${Typography.fontWeight.semiBold};
 `
