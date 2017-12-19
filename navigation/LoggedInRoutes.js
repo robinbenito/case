@@ -79,7 +79,7 @@ export default ({
     navigationOptions: ({ navigation }) => ({
       header: <Header
         navigation={navigation}
-        title="ul"
+        title={navigation.state.params.title}
       />,
     }),
   },
