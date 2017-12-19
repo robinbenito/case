@@ -82,7 +82,7 @@ class ChannelContainer extends React.Component {
           color={
             channel.can.add_to ? Colors.channel[channel.visibility] : undefined
           }
-          newChannel={false}
+          newChannel={!channel.can.add_to}
         />
       </Container>
     )
