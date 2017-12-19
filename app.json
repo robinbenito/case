@@ -1,0 +1,32 @@
+{
+  "expo": {
+    "name": "Are.na",
+    "description": "Organize your Internet.",
+    "slug": "arena",
+    "privacy": "public",
+    "sdkVersion": "23.0.0",
+    "version": "1.0.5",
+    "orientation": "portrait",
+    "primaryColor": "#ffffff",
+    "scheme": "arena",
+    "icon": "./assets/images/icon.png",
+    "notification": {
+      "icon": "./assets/images/icon.png",
+      "color": "#000000"
+    },
+    "splash": {
+      "image": "./assets/images/splash.png"
+    },
+    "ios": {
+      "loadJSInBackgroundExperimental": false,
+      "supportsTablet": false,
+      "bundleIdentifier": "na.are.arenaapp",
+      "config": {
+        "usesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "package": "na.are.arenaapp"
+    }
+  }
+}
