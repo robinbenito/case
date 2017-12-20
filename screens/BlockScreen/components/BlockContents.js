@@ -95,7 +95,7 @@ class BlockContents extends React.Component {
           <BlockInner
             block={block}
             imageLocation={imageLocation}
-            onPress={() => this.openBrowser(block.source.url)}
+            onPress={() => this.openBrowser(block.source.url || block.kind.file_url)}
           />
 
           <ScrollToMetadata onPress={this.scrollToMetadata}>
@@ -147,6 +147,7 @@ export const BlockQuery = gql`
         }
         ... on Attachment {
           image_url(size: ORIGINAL)
+          file_url
         }
         ... on Text {
           displayContent: content(format: HTML)
