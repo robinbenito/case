@@ -33,9 +33,9 @@ class AddImageScreen extends Component {
   }
 
   render() {
-    const { navigation } = this.props
+    const { navigation, can } = this.props
     const { block } = navigation.state.params
-
+    const submitText = can.add_to ? 'Connect' : 'Next'
     return (
       <ImageForm
         onSubmit={this.onSubmit}
@@ -44,7 +44,7 @@ class AddImageScreen extends Component {
           ...block,
           state: 'pending',
         }}
-        submitText="Next"
+        submitText={submitText}
       />
     )
   }
