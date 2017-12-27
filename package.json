@@ -5,6 +5,7 @@
   "author": "Are.na",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
+    "appr": "appr",
     "lint": "eslint ./",
     "test": "node_modules/.bin/jest",
     "test-update": "node_modules/.bin/jest --updateSnapshot",
