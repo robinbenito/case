@@ -33,12 +33,13 @@ class AddTextScreen extends Component {
   }
 
   render() {
-    const { navigation } = this.props
+    const { navigation, can } = this.props
+    const submitText = can.add_to ? 'Connect' : 'Next'
 
     return (
       <TextForm
         onSubmit={this.onSubmit}
-        submitText="Next"
+        submitText={submitText}
         navigation={navigation}
       />
     )
