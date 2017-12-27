@@ -150,7 +150,7 @@ class UserSettingsScreen extends React.Component {
               </StackedButton>
 
               <StackedButton onPress={() => navigationService.navigate('onboarding')}>
-                View Welcome Guide
+                Welcome Guide
               </StackedButton>
 
               <StackedButton onPress={this.refresh}>
