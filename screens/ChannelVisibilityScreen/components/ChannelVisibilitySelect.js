@@ -119,7 +119,7 @@ export default class ChannelVisibilitySelect extends Component {
           {!me.is_premium && !me.is_exceeding_private_connections_limit &&
             <BlockLimitDisclaimer>
               <Text>
-                *You are currently using {me.counts.private_connections_limit} out of {
+                *You are currently using {me.counts.private_connections} out of {
                   me.counts.private_connections_limit
                 } private blocks.
               </Text>
