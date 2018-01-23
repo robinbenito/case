@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/native'
+import { debounce } from 'lodash' 
 
 import { Icon } from './SearchIcon'
 import { Input } from '../components/UI/Inputs'
@@ -67,6 +68,7 @@ export default class SearchHeader extends React.Component {
       search: '',
       isSubmitting: false,
     }
+    this.onChangeTextCallback = debounce(props.onChangeText, 300)
   }
 
   onSubmit = () => {
@@ -79,7 +81,7 @@ export default class SearchHeader extends React.Component {
       isSearching: text.length,
       search: text,
     })
-    this.props.onChangeText(text)
+    this.onChangeTextCallback(text)
   }
 
   render() {
