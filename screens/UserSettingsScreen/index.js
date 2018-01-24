@@ -141,16 +141,20 @@ class UserSettingsScreen extends React.Component {
                 About Are.na
               </StackedButton>
 
+              <StackedButton onPress={() => openExternalArenaPath('faqs')}>
+                Frequently Asked Questions
+              </StackedButton>
+
+              <StackedButton onPress={() => navigationService.navigate('onboarding')}>
+                Welcome Guide
+              </StackedButton>
+
               <StackedButton onPress={() => openExternalArenaPath('terms')}>
                 Terms of Service
               </StackedButton>
 
               <StackedButton onPress={() => openExternalArenaPath('privacy')}>
                 Privacy Policy
-              </StackedButton>
-
-              <StackedButton onPress={() => navigationService.navigate('onboarding')}>
-                View Welcome Guide
               </StackedButton>
 
               <StackedButton onPress={this.refresh}>

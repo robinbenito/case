@@ -79,13 +79,13 @@ class AddLinkScreen extends Component {
   }
 
   render() {
-    const { navigation } = this.props
-
+    const { navigation, can } = this.props
+    const submitText = can.add_to ? 'Connect' : 'Next'
     return (
       <LinkForm
         navigation={navigation}
         onSubmit={this.onSubmit}
-        submitText="Next"
+        submitText={submitText}
         block={{
           state: 'pending',
           source: { url: this.state.source_url },

@@ -19,7 +19,7 @@
     },
     "ios": {
       "loadJSInBackgroundExperimental": false,
-      "supportsTablet": false,
+      "supportsTablet": true,
       "bundleIdentifier": "na.are.arenaapp",
       "config": {
         "usesNonExemptEncryption": false
