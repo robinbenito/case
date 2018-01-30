@@ -19,8 +19,35 @@
 		B5CFBF4F1EDE419400B4BE24 /* EXBuildConstants.plist in Resources */ = {isa = PBXBuildFile; fileRef = B5CFBF4E1EDE419400B4BE24 /* EXBuildConstants.plist */; };
 		B5DB04801F3A684600E91581 /* shell-app-manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = B5DB047E1F3A684600E91581 /* shell-app-manifest.json */; };
 		B5DB04811F3A684600E91581 /* shell-app.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B5DB047F1F3A684600E91581 /* shell-app.bundle */; };
+		C5818BE62021236B00A5C4CF /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5818BE52021236B00A5C4CF /* ShareViewController.swift */; };
+		C5818BE92021236B00A5C4CF /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C5818BE72021236B00A5C4CF /* MainInterface.storyboard */; };
+		C5818BED2021236B00A5C4CF /* Add to Are.na.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C5818BE32021236B00A5C4CF /* Add to Are.na.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		EBB8117C1BFA0514F79CAF74 /* libPods-are-na.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C4A88D15726AD99E8A257BC7 /* libPods-are-na.a */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C5818BEB2021236B00A5C4CF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B56386391DB9693800A0598C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C5818BE22021236A00A5C4CF;
+			remoteInfo = "Add to Are.na";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		C5818BF12021236B00A5C4CF /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				C5818BED2021236B00A5C4CF /* Add to Are.na.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		2C1548D9E4CB1AEFA5CCAE6D /* Pods-are-na.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-are-na.debug.xcconfig"; path = "Pods/Target Support Files/Pods-are-na/Pods-are-na.debug.xcconfig"; sourceTree = "<group>"; };
@@ -41,6 +68,10 @@
 		B5DB047E1F3A684600E91581 /* shell-app-manifest.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "shell-app-manifest.json"; sourceTree = "<group>"; };
 		B5DB047F1F3A684600E91581 /* shell-app.bundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "shell-app.bundle"; sourceTree = "<group>"; };
 		C4A88D15726AD99E8A257BC7 /* libPods-are-na.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-are-na.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C5818BE32021236B00A5C4CF /* Add to Are.na.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Add to Are.na.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C5818BE52021236B00A5C4CF /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
+		C5818BE82021236B00A5C4CF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		C5818BEA2021236B00A5C4CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,6 +80,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				EBB8117C1BFA0514F79CAF74 /* libPods-are-na.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C5818BE02021236A00A5C4CF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,6 +114,7 @@
 			isa = PBXGroup;
 			children = (
 				B56386431DB9693800A0598C /* are-na */,
+				C5818BE42021236B00A5C4CF /* Add to Are.na */,
 				B56386421DB9693800A0598C /* Products */,
 				5B29BC350A332C58878A9F13 /* Pods */,
 				1A42804E64B7E9E0AB8B6799 /* Frameworks */,
@@ -86,6 +125,7 @@
 			isa = PBXGroup;
 			children = (
 				B56386411DB9693800A0598C /* are-na.app */,
+				C5818BE32021236B00A5C4CF /* Add to Are.na.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -119,6 +159,16 @@
 			path = Supporting;
 			sourceTree = "<group>";
 		};
+		C5818BE42021236B00A5C4CF /* Add to Are.na */ = {
+			isa = PBXGroup;
+			children = (
+				C5818BE52021236B00A5C4CF /* ShareViewController.swift */,
+				C5818BE72021236B00A5C4CF /* MainInterface.storyboard */,
+				C5818BEA2021236B00A5C4CF /* Info.plist */,
+			);
+			path = "Add to Are.na";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -133,15 +183,34 @@
 				B563863F1DB9693800A0598C /* Resources */,
 				8D34C7FE3D99F20E5EA1B18A /* [CP] Embed Pods Frameworks */,
 				AA38385B7D8D0854176B72FC /* [CP] Copy Pods Resources */,
+				C5818BF12021236B00A5C4CF /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				C5818BEC2021236B00A5C4CF /* PBXTargetDependency */,
 			);
 			name = "are-na";
 			productName = "are-na";
 			productReference = B56386411DB9693800A0598C /* are-na.app */;
 			productType = "com.apple.product-type.application";
+		};
+		C5818BE22021236A00A5C4CF /* Add to Are.na */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C5818BF02021236B00A5C4CF /* Build configuration list for PBXNativeTarget "Add to Are.na" */;
+			buildPhases = (
+				C5818BDF2021236A00A5C4CF /* Sources */,
+				C5818BE02021236A00A5C4CF /* Frameworks */,
+				C5818BE12021236A00A5C4CF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Add to Are.na";
+			productName = "Add to Are.na";
+			productReference = C5818BE32021236B00A5C4CF /* Add to Are.na.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -149,12 +218,18 @@
 		B56386391DB9693800A0598C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0920;
 				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = "650 Industries, Inc.";
 				TargetAttributes = {
 					B56386401DB9693800A0598C = {
 						CreatedOnToolsVersion = 8.0;
 						DevelopmentTeam = C8D8QTF339;
+						ProvisioningStyle = Automatic;
+					};
+					C5818BE22021236A00A5C4CF = {
+						CreatedOnToolsVersion = 9.2;
+						DevelopmentTeam = RCL6FRSRW9;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -173,6 +248,7 @@
 			projectRoot = "";
 			targets = (
 				B56386401DB9693800A0598C /* are-na */,
+				C5818BE22021236A00A5C4CF /* Add to Are.na */,
 			);
 		};
 /* End PBXProject section */
@@ -192,6 +268,14 @@
 				B5DB04801F3A684600E91581 /* shell-app-manifest.json in Resources */,
 				B5DB04811F3A684600E91581 /* shell-app.bundle in Resources */,
 				B56386511DB9693800A0598C /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C5818BE12021236A00A5C4CF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C5818BE92021236B00A5C4CF /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -299,7 +383,34 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C5818BDF2021236A00A5C4CF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C5818BE62021236B00A5C4CF /* ShareViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C5818BEC2021236B00A5C4CF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C5818BE22021236A00A5C4CF /* Add to Are.na */;
+			targetProxy = C5818BEB2021236B00A5C4CF /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		C5818BE72021236B00A5C4CF /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C5818BE82021236B00A5C4CF /* Base */,
+			);
+			name = MainInterface.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		B56386561DB9693800A0598C /* Debug */ = {
@@ -408,7 +519,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 2C1548D9E4CB1AEFA5CCAE6D /* Pods-are-na.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = C8D8QTF339;
 				INFOPLIST_FILE = "$(SRCROOT)/are-na/Supporting/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -422,12 +535,59 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A47FE4D7F70906B7DC8CE39B /* Pods-are-na.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = C8D8QTF339;
 				INFOPLIST_FILE = "$(SRCROOT)/are-na/Supporting/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = na.are.arenaapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		C5818BEE2021236B00A5C4CF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = RCL6FRSRW9;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = "Add to Are.na/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "na.are.arenaapp.Add-to-Are-na";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C5818BEF2021236B00A5C4CF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = RCL6FRSRW9;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = "Add to Are.na/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "na.are.arenaapp.Add-to-Are-na";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -449,6 +609,15 @@
 			buildConfigurations = (
 				B56386591DB9693800A0598C /* Debug */,
 				B563865A1DB9693800A0598C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C5818BF02021236B00A5C4CF /* Build configuration list for PBXNativeTarget "Add to Are.na" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C5818BEE2021236B00A5C4CF /* Debug */,
+				C5818BEF2021236B00A5C4CF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
