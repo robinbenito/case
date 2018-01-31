@@ -94,6 +94,10 @@ PODS:
   - GPUImage (0.1.7)
   - JKBigInteger2 (0.0.5)
   - lottie-ios (2.1.4)
+  - RCTUserDefaults (0.1.5):
+    - React
+  - React (0.52.0):
+    - React/Core (= 0.52.0)
   - React/ART (0.52.0):
     - React/Core
   - React/Core (0.52.0):
@@ -148,6 +152,7 @@ DEPENDENCIES:
   - ExpoKit/CPP (from `http://github.com/expo/expo.git`, tag `ios/2.3.3`)
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - GLog (from `../node_modules/react-native/third-party-podspecs/GLog.podspec`)
+  - RCTUserDefaults (from `https://github.com/wwayne/react-native-user-defaults.git`)
   - React/ART (from `../node_modules/react-native`)
   - React/Core (from `../node_modules/react-native`)
   - React/CxxBridge (from `../node_modules/react-native`)
@@ -173,6 +178,8 @@ EXTERNAL SOURCES:
     :podspec: ../node_modules/react-native/third-party-podspecs/Folly.podspec
   GLog:
     :podspec: ../node_modules/react-native/third-party-podspecs/GLog.podspec
+  RCTUserDefaults:
+    :git: https://github.com/wwayne/react-native-user-defaults.git
   React:
     :path: ../node_modules/react-native
   yoga:
@@ -182,6 +189,9 @@ CHECKOUT OPTIONS:
   ExpoKit:
     :git: http://github.com/expo/expo.git
     :tag: ios/2.3.3
+  RCTUserDefaults:
+    :commit: 5a757d3db39ab2e6d5a592bbd982cf7f41d56f57
+    :git: https://github.com/wwayne/react-native-user-defaults.git
 
 SPEC CHECKSUMS:
   Amplitude-iOS: 4a3c8807b2ea5369dc11e87e23825bff01e5a922
@@ -212,9 +222,10 @@ SPEC CHECKSUMS:
   GPUImage: 733a5f0fab92df9de1c37ba9df520a833ccb406d
   JKBigInteger2: e91672035c42328c48b7dd015b66812ddf40ca9b
   lottie-ios: 94fa2d82547ce3adf1e61157653ba99999fd279f
+  RCTUserDefaults: 8f2efda40b40791a54f519cae633ce03046c374b
   React: 43e97926f429d846050880666de1809e22dd5cc5
   yoga: 55da126afc384965b96bff46652464373b330add
 
-PODFILE CHECKSUM: 35a3eb134db2ca67e91459307aad1be23b428cd7
+PODFILE CHECKSUM: d3d8f360096abe1d939948b55548d2a90f6e7f2f
 
 COCOAPODS: 1.4.0

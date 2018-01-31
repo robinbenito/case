@@ -4,6 +4,7 @@ import { StyleSheet, View, StatusBar } from 'react-native'
 import { ApolloProvider } from 'react-apollo'
 import gql from 'graphql-tag'
 import { connect } from 'react-redux'
+import userDefaults from 'react-native-user-defaults'
 
 import Modal from './components/Modal'
 import { dismissAlertsOnCurrentRoute } from './components/Alerts'
@@ -72,6 +73,9 @@ export default class AppContainer extends Component {
       ])
 
       this.setState({ isLoggedIn: true })
+      userDefaults.set('key1', 'valueIsString', 'group.com.AddtoArena')
+        .then(data => console.log('saved', data))
+        .catch(error => console.log('err', error))
     } catch (err) {
       // TODO: Log only in dev mode?
       // `console.error` causes a red screen

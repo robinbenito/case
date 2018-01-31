@@ -10,10 +10,51 @@ import UIKit
 import Social
 
 class ShareViewController: SLComposeServiceViewController {
+    
+    lazy var configurationItem: SLComposeSheetConfigurationItem = {
+        let item = SLComposeSheetConfigurationItem()!
+        item.title = "Channel"
+        item.value = "Arena Influences"
+        item.tapHandler = self.configurationItemTapped
+        return item
+    }()
+    
+    func configurationItemTapped() {
+        print("config item tapped")
+    }
+    
+    func CGRectMake(_ x: CGFloat, _ y: CGFloat, _ width: CGFloat, _ height: CGFloat) -> CGRect {
+        return CGRect(x: x, y: y, width: width, height: height)
+    }
+    
+    func getTopWithColor(color: UIColor, size: CGSize) -> UIImage {
+        let rect = CGRectMake(0, 0, size.width, size.height)
+        UIGraphicsBeginImageContextWithOptions(size, false, 0)
+        color.setFill()
+        UIRectFill(rect)
+        let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        return image
+    }
 
     override func isContentValid() -> Bool {
         // Do validation of contentText and/or NSExtensionContext attachments here
         return true
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        let userDefaults = UserDefaults(suiteName: "group.com.AddtoArena")
+        userDefaults?.set("Hello", forKey: "key2")
+        if let testUserId = userDefaults?.string(forKey: "key1") {
+            print("User Id: \(testUserId)")
+        }
+        if let testString = userDefaults?.string(forKey: "key2") {
+            print("String: \(testString)")
+        }
+        self.navigationController?.navigationBar.tintColor = UIColor.black
+        let navSize = self.navigationController?.navigationBar.frame.size
+        self.navigationController?.navigationBar.setBackgroundImage(getTopWithColor(color: UIColor.white, size: navSize!), for: .default)
     }
 
     override func didSelectPost() {
@@ -24,8 +65,8 @@ class ShareViewController: SLComposeServiceViewController {
     }
 
     override func configurationItems() -> [Any]! {
-        // To add configuration options via table cells at the bottom of the sheet, return an array of SLComposeSheetConfigurationItem here.
-        return []
+        let configurationItems = [configurationItem]
+        return configurationItems
     }
 
 }

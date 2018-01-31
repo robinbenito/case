@@ -1,0 +1,22 @@
+{
+  "name": "RCTUserDefaults",
+  "version": "0.1.5",
+  "summary": "React Native User Defaults",
+  "homepage": "https://github.com/wwayne/react-native-user-defaults",
+  "license": "MIT",
+  "authors": "wwayne",
+  "platforms": {
+    "ios": "7.0"
+  },
+  "source": {
+    "git": "https://github.com/wwayne/react-native-user-defaults",
+    "tag": "v0.1.5"
+  },
+  "source_files": "*.{h,m}",
+  "preserve_paths": "**/*.js",
+  "dependencies": {
+    "React": [
+
+    ]
+  }
+}
