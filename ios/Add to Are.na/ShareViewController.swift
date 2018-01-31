@@ -8,25 +8,18 @@
 
 import UIKit
 import Social
+import MobileCoreServices
 
 class ShareViewController: SLComposeServiceViewController {
+    private var userChannels = [Channel]()
+    fileprivate var selectedChannel: Channel?
     
-    lazy var configurationItem: SLComposeSheetConfigurationItem = {
-        let item = SLComposeSheetConfigurationItem()!
-        item.title = "Channel"
-        item.value = "Arena Influences"
-        item.tapHandler = self.configurationItemTapped
-        return item
-    }()
-    
-    func configurationItemTapped() {
-        print("config item tapped")
-    }
-    
+    // Make a rectangle
     func CGRectMake(_ x: CGFloat, _ y: CGFloat, _ width: CGFloat, _ height: CGFloat) -> CGRect {
         return CGRect(x: x, y: y, width: width, height: height)
     }
     
+    // For setting the top bar
     func getTopWithColor(color: UIColor, size: CGSize) -> UIImage {
         let rect = CGRectMake(0, 0, size.width, size.height)
         UIGraphicsBeginImageContextWithOptions(size, false, 0)
@@ -36,14 +29,16 @@ class ShareViewController: SLComposeServiceViewController {
         UIGraphicsEndImageContext()
         return image
     }
-
-    override func isContentValid() -> Bool {
-        // Do validation of contentText and/or NSExtensionContext attachments here
-        return true
+    
+    // Set the top bar styles
+    func setupUI() {
+        self.navigationController?.navigationBar.tintColor = UIColor.black
+        let navSize = self.navigationController?.navigationBar.frame.size
+        self.navigationController?.navigationBar.setBackgroundImage(getTopWithColor(color: UIColor.white, size: navSize!), for: .default)
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    // Get user token and app token from main app
+    func getDefaults() {
         let userDefaults = UserDefaults(suiteName: "group.com.AddtoArena")
         userDefaults?.set("Hello", forKey: "key2")
         if let testUserId = userDefaults?.string(forKey: "key1") {
@@ -52,9 +47,26 @@ class ShareViewController: SLComposeServiceViewController {
         if let testString = userDefaults?.string(forKey: "key2") {
             print("String: \(testString)")
         }
-        self.navigationController?.navigationBar.tintColor = UIColor.black
-        let navSize = self.navigationController?.navigationBar.frame.size
-        self.navigationController?.navigationBar.setBackgroundImage(getTopWithColor(color: UIColor.white, size: navSize!), for: .default)
+        
+    }
+
+    override func isContentValid() -> Bool {
+        // Do validation of contentText and/or NSExtensionContext attachments here
+        return true
+    }
+    
+    //
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupUI()
+        getDefaults()
+        
+        for i in 1...3 {
+            let channel = Channel()
+            channel.title = "Channel \(i)"
+            userChannels.append(channel)
+        }
+        selectedChannel = userChannels.first
     }
 
     override func didSelectPost() {
@@ -65,8 +77,25 @@ class ShareViewController: SLComposeServiceViewController {
     }
 
     override func configurationItems() -> [Any]! {
-        let configurationItems = [configurationItem]
-        return configurationItems
+        if let channel = SLComposeSheetConfigurationItem() {
+            channel.title = "Selected Channel"
+            channel.value = selectedChannel?.title
+            channel.tapHandler = {
+                let vc = ShareSelectViewController()
+                vc.userChannels = self.userChannels
+                vc.delegate = self
+                self.pushConfigurationViewController(vc)
+            }
+            return [channel]
+        }
+        return nil
     }
+}
 
+extension ShareViewController: ShareSelectViewControllerDelegate {
+    func selected(channel: Channel) {
+        selectedChannel = channel
+        reloadConfigurationItems()
+        popConfigurationViewController()
+    }
 }

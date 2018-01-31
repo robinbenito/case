@@ -22,6 +22,8 @@
 		C5818BE62021236B00A5C4CF /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5818BE52021236B00A5C4CF /* ShareViewController.swift */; };
 		C5818BE92021236B00A5C4CF /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C5818BE72021236B00A5C4CF /* MainInterface.storyboard */; };
 		C5818BED2021236B00A5C4CF /* Add to Are.na.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C5818BE32021236B00A5C4CF /* Add to Are.na.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		C58CBC8420228A46009609F3 /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C58CBC8320228A46009609F3 /* Channel.swift */; };
+		C58CBC8620228AB1009609F3 /* ShareSelectController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C58CBC8520228AB1009609F3 /* ShareSelectController.swift */; };
 		EBB8117C1BFA0514F79CAF74 /* libPods-are-na.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C4A88D15726AD99E8A257BC7 /* libPods-are-na.a */; };
 /* End PBXBuildFile section */
 
@@ -74,6 +76,8 @@
 		C5818BEA2021236B00A5C4CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C58CBC802022598F009609F3 /* Add to Are.na.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Add to Are.na.entitlements"; sourceTree = "<group>"; };
 		C58CBC81202259A2009609F3 /* are-na.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "are-na.entitlements"; sourceTree = "<group>"; };
+		C58CBC8320228A46009609F3 /* Channel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Channel.swift; sourceTree = "<group>"; };
+		C58CBC8520228AB1009609F3 /* ShareSelectController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSelectController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -165,12 +169,22 @@
 		C5818BE42021236B00A5C4CF /* Add to Are.na */ = {
 			isa = PBXGroup;
 			children = (
+				C58CBC8220228A2F009609F3 /* Models */,
 				C58CBC802022598F009609F3 /* Add to Are.na.entitlements */,
 				C5818BE52021236B00A5C4CF /* ShareViewController.swift */,
+				C58CBC8520228AB1009609F3 /* ShareSelectController.swift */,
 				C5818BE72021236B00A5C4CF /* MainInterface.storyboard */,
 				C5818BEA2021236B00A5C4CF /* Info.plist */,
 			);
 			path = "Add to Are.na";
+			sourceTree = "<group>";
+		};
+		C58CBC8220228A2F009609F3 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				C58CBC8320228A46009609F3 /* Channel.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -402,6 +416,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				C5818BE62021236B00A5C4CF /* ShareViewController.swift in Sources */,
+				C58CBC8420228A46009609F3 /* Channel.swift in Sources */,
+				C58CBC8620228AB1009609F3 /* ShareSelectController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
