@@ -21,6 +21,8 @@
 		B5DB04811F3A684600E91581 /* shell-app.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B5DB047F1F3A684600E91581 /* shell-app.bundle */; };
 		C5088D4E2023861200144782 /* Apollo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5088D3F202385D500144782 /* Apollo.framework */; };
 		C5088D52202389DE00144782 /* RecentConnections.graphql in Resources */ = {isa = PBXBuildFile; fileRef = C5088D51202389DE00144782 /* RecentConnections.graphql */; };
+		C5088D542023C5D700144782 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C5088D532023C5D700144782 /* icon.png */; };
+		C5088D562023D28C00144782 /* CreateBlock.graphql in Resources */ = {isa = PBXBuildFile; fileRef = C5088D552023D28C00144782 /* CreateBlock.graphql */; };
 		C5818BE62021236B00A5C4CF /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5818BE52021236B00A5C4CF /* ShareViewController.swift */; };
 		C5818BE92021236B00A5C4CF /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C5818BE72021236B00A5C4CF /* MainInterface.storyboard */; };
 		C5818BED2021236B00A5C4CF /* Add to Are.na.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C5818BE32021236B00A5C4CF /* Add to Are.na.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -139,6 +141,8 @@
 		C4A88D15726AD99E8A257BC7 /* libPods-are-na.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-are-na.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5088D33202385D500144782 /* Apollo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Apollo.xcodeproj; path = "Add to Are.na/apollo-ios/Apollo.xcodeproj"; sourceTree = "<group>"; };
 		C5088D51202389DE00144782 /* RecentConnections.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = RecentConnections.graphql; sourceTree = "<group>"; };
+		C5088D532023C5D700144782 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
+		C5088D552023D28C00144782 /* CreateBlock.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = CreateBlock.graphql; sourceTree = "<group>"; };
 		C5818BE32021236B00A5C4CF /* Add to Are.na.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Add to Are.na.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5818BE52021236B00A5C4CF /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		C5818BE82021236B00A5C4CF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
@@ -257,6 +261,7 @@
 		C5818BE42021236B00A5C4CF /* Add to Are.na */ = {
 			isa = PBXGroup;
 			children = (
+				C5088D532023C5D700144782 /* icon.png */,
 				C5AFEFCD2023844D00C73E27 /* API.swift */,
 				C5AFEFCB202383AA00C73E27 /* schema.json */,
 				C58CBC8220228A2F009609F3 /* Models */,
@@ -266,6 +271,7 @@
 				C5818BE72021236B00A5C4CF /* MainInterface.storyboard */,
 				C5818BEA2021236B00A5C4CF /* Info.plist */,
 				C5088D51202389DE00144782 /* RecentConnections.graphql */,
+				C5088D552023D28C00144782 /* CreateBlock.graphql */,
 			);
 			path = "Add to Are.na";
 			sourceTree = "<group>";
@@ -461,7 +467,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C5088D542023C5D700144782 /* icon.png in Resources */,
 				C5AFEFCC202383AA00C73E27 /* schema.json in Resources */,
+				C5088D562023D28C00144782 /* CreateBlock.graphql in Resources */,
 				C5088D52202389DE00144782 /* RecentConnections.graphql in Resources */,
 				C5818BE92021236B00A5C4CF /* MainInterface.storyboard in Resources */,
 			);

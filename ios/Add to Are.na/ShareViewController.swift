@@ -23,23 +23,15 @@ class ShareViewController: SLComposeServiceViewController {
         return CGRect(x: x, y: y, width: width, height: height)
     }
     
-    // For setting the top bar
-    func getTopWithColor(color: UIColor, size: CGSize) -> UIImage {
-        let rect = CGRectMake(0, 0, size.width, size.height)
-        UIGraphicsBeginImageContextWithOptions(size, false, 0)
-        color.setFill()
-        UIRectFill(rect)
-        let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
-        UIGraphicsEndImageContext()
-        return image
-    }
-    
     // Set the top bar styles
     func setupUI() {
-        self.navigationController?.navigationBar.tintColor = UIColor.black
-        let navSize = self.navigationController?.navigationBar.frame.size
-        self.navigationController?.navigationBar.setBackgroundImage(getTopWithColor(color: UIColor.white, size: navSize!), for: .default)
-        self.navigationController?.view.backgroundColor = UIColor.white
+        let imageView = UIImageView(image: UIImage(named: "icon.png"))
+        imageView.contentMode = .scaleAspectFit
+        navigationItem.titleView = imageView
+        navigationController?.navigationBar.topItem?.titleView = imageView
+        navigationController?.navigationBar.tintColor = UIColor.black
+        navigationController?.navigationBar.backgroundColor = UIColor.white
+        navigationController?.view.backgroundColor = UIColor.white
     }
     
     func getDefaults() {
@@ -77,6 +69,7 @@ class ShareViewController: SLComposeServiceViewController {
                 let channel = Channel()
                 channel.id = $0?.id
                 channel.title = $0?.title
+                channel.visibility = $0?.visibility
                 self.userChannels.append(channel)
             }
             self.selectedChannel = self.userChannels.first
@@ -89,8 +82,12 @@ class ShareViewController: SLComposeServiceViewController {
         return true
     }
     
-    override func presentationAnimationDidFinish() {
+    override func viewDidLoad() {
+        super.viewDidLoad()
         setupUI()
+    }
+    
+    override func presentationAnimationDidFinish() {
         getDefaults()
         setupApollo()
         fetchRecentConnections()

@@ -3,6 +3,7 @@ query RecentConnections {
         recent_connections(per: 40) {
             id
             title
+            visibility
         }
     }
 }

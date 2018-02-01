@@ -11,4 +11,5 @@ import UIKit
 final class Channel {
     var id: Int?
     var title: String?
+    var visibility: String?
 }
