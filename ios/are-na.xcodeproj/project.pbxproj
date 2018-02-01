@@ -23,6 +23,7 @@
 		C5088D52202389DE00144782 /* RecentConnections.graphql in Resources */ = {isa = PBXBuildFile; fileRef = C5088D51202389DE00144782 /* RecentConnections.graphql */; };
 		C5088D542023C5D700144782 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C5088D532023C5D700144782 /* icon.png */; };
 		C5088D562023D28C00144782 /* CreateBlock.graphql in Resources */ = {isa = PBXBuildFile; fileRef = C5088D552023D28C00144782 /* CreateBlock.graphql */; };
+		C5088D582023D3C000144782 /* GetURL.js in Resources */ = {isa = PBXBuildFile; fileRef = C5088D572023D3C000144782 /* GetURL.js */; };
 		C5818BE62021236B00A5C4CF /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5818BE52021236B00A5C4CF /* ShareViewController.swift */; };
 		C5818BE92021236B00A5C4CF /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C5818BE72021236B00A5C4CF /* MainInterface.storyboard */; };
 		C5818BED2021236B00A5C4CF /* Add to Are.na.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C5818BE32021236B00A5C4CF /* Add to Are.na.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -143,6 +144,7 @@
 		C5088D51202389DE00144782 /* RecentConnections.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = RecentConnections.graphql; sourceTree = "<group>"; };
 		C5088D532023C5D700144782 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		C5088D552023D28C00144782 /* CreateBlock.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = CreateBlock.graphql; sourceTree = "<group>"; };
+		C5088D572023D3C000144782 /* GetURL.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = GetURL.js; sourceTree = "<group>"; };
 		C5818BE32021236B00A5C4CF /* Add to Are.na.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Add to Are.na.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5818BE52021236B00A5C4CF /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		C5818BE82021236B00A5C4CF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
@@ -272,6 +274,7 @@
 				C5818BEA2021236B00A5C4CF /* Info.plist */,
 				C5088D51202389DE00144782 /* RecentConnections.graphql */,
 				C5088D552023D28C00144782 /* CreateBlock.graphql */,
+				C5088D572023D3C000144782 /* GetURL.js */,
 			);
 			path = "Add to Are.na";
 			sourceTree = "<group>";
@@ -472,6 +475,7 @@
 				C5088D562023D28C00144782 /* CreateBlock.graphql in Resources */,
 				C5088D52202389DE00144782 /* RecentConnections.graphql in Resources */,
 				C5818BE92021236B00A5C4CF /* MainInterface.storyboard in Resources */,
+				C5088D582023D3C000144782 /* GetURL.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

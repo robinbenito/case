@@ -34,6 +34,8 @@
 				<key>NSExtensionActivationSupportsURLWithMaxCount</key>
 				<integer>1</integer>
 			</dict>
+            <key>NSExtensionJavaScriptPreprocessingFile</key>
+            <string>GetURL</string>
 		</dict>
 		<key>NSExtensionMainStoryboard</key>
 		<string>MainInterface</string>
