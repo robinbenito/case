@@ -13,6 +13,7 @@ import createRootNavigator from './navigation/Routes'
 
 import Store from './state/Store'
 import Client from './state/Apollo'
+import config from './config'
 
 import navigationService from './utilities/navigationService'
 import cacheAssetsAsync from './utilities/cacheAssetsAsync'
@@ -67,15 +68,15 @@ export default class AppContainer extends Component {
 
   async checkLoginStateAsync() {
     try {
-      await Promise.all([
+      const [user] = await Promise.all([
         currentUserService.get(),
         Client.query({ query: gql`{ me { id } }` }), // Ping user to check to see if actually logged in
       ])
 
       this.setState({ isLoggedIn: true })
-      userDefaults.set('key1', 'valueIsString', 'group.com.AddtoArena')
-        .then(data => console.log('saved', data))
-        .catch(error => console.log('err', error))
+      userDefaults.set('authToken', user.authentication_token, 'group.com.AddtoArena')
+      userDefaults.set('appToken', config.X_APP_TOKEN, 'group.com.AddtoArena')
+
     } catch (err) {
       // TODO: Log only in dev mode?
       // `console.error` causes a red screen

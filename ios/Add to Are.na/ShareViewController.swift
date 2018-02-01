@@ -11,6 +11,8 @@ import Social
 import MobileCoreServices
 
 class ShareViewController: SLComposeServiceViewController {
+    private var authToken: String?
+    private var appToken: String?
     private var userChannels = [Channel]()
     fileprivate var selectedChannel: Channel?
     
@@ -40,12 +42,13 @@ class ShareViewController: SLComposeServiceViewController {
     // Get user token and app token from main app
     func getDefaults() {
         let userDefaults = UserDefaults(suiteName: "group.com.AddtoArena")
-        userDefaults?.set("Hello", forKey: "key2")
-        if let testUserId = userDefaults?.string(forKey: "key1") {
-            print("User Id: \(testUserId)")
+        if let authToken = userDefaults?.string(forKey: "authToken") {
+            print("Auth Token: \(authToken)")
+            self.authToken = authToken
         }
-        if let testString = userDefaults?.string(forKey: "key2") {
-            print("String: \(testString)")
+        if let appToken = userDefaults?.string(forKey: "appToken") {
+            print("App Token: \(appToken)")
+            self.appToken = appToken
         }
         
     }
