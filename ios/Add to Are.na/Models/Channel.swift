@@ -9,6 +9,6 @@
 import UIKit
 
 final class Channel {
-    var id: String?
+    var id: Int?
     var title: String?
 }

@@ -9,10 +9,12 @@
 import UIKit
 import Social
 import MobileCoreServices
+import Apollo
 
 class ShareViewController: SLComposeServiceViewController {
-    private var authToken: String?
-    private var appToken: String?
+    private var apollo: ApolloClient?
+    private var authToken = String()
+    private var appToken = String()
     private var userChannels = [Channel]()
     fileprivate var selectedChannel: Channel?
     
@@ -37,11 +39,12 @@ class ShareViewController: SLComposeServiceViewController {
         self.navigationController?.navigationBar.tintColor = UIColor.black
         let navSize = self.navigationController?.navigationBar.frame.size
         self.navigationController?.navigationBar.setBackgroundImage(getTopWithColor(color: UIColor.white, size: navSize!), for: .default)
+        self.navigationController?.view.backgroundColor = UIColor.white
     }
     
-    // Get user token and app token from main app
     func getDefaults() {
         let userDefaults = UserDefaults(suiteName: "group.com.AddtoArena")
+        
         if let authToken = userDefaults?.string(forKey: "authToken") {
             print("Auth Token: \(authToken)")
             self.authToken = authToken
@@ -50,7 +53,35 @@ class ShareViewController: SLComposeServiceViewController {
             print("App Token: \(appToken)")
             self.appToken = appToken
         }
+    }
+    
+    func setupApollo() {
+        let configuration = URLSessionConfiguration.default
         
+        configuration.httpAdditionalHeaders = ["X-APP-TOKEN": self.appToken]
+        configuration.httpAdditionalHeaders = ["X-AUTH-TOKEN": self.authToken]
+        
+        let url = URL(string: "http://localhost:3000/graphql")!
+        
+        self.apollo = ApolloClient(networkTransport: HTTPNetworkTransport(url: url, configuration: configuration))
+    }
+    
+    func fetchRecentConnections() {
+        self.apollo?.fetch(query: RecentConnectionsQuery()) { (result, error) in
+            if let error = error {
+                NSLog("Error fetching connections: \(error.localizedDescription)")
+            }
+            
+            let recentConnections = result?.data?.me?.recentConnections
+            recentConnections?.forEach {
+                let channel = Channel()
+                channel.id = $0?.id
+                channel.title = $0?.title
+                self.userChannels.append(channel)
+            }
+            self.selectedChannel = self.userChannels.first
+            self.reloadConfigurationItems()
+        }
     }
 
     override func isContentValid() -> Bool {
@@ -58,18 +89,11 @@ class ShareViewController: SLComposeServiceViewController {
         return true
     }
     
-    //
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func presentationAnimationDidFinish() {
         setupUI()
         getDefaults()
-        
-        for i in 1...3 {
-            let channel = Channel()
-            channel.title = "Channel \(i)"
-            userChannels.append(channel)
-        }
-        selectedChannel = userChannels.first
+        setupApollo()
+        fetchRecentConnections()
     }
 
     override func didSelectPost() {
@@ -81,7 +105,7 @@ class ShareViewController: SLComposeServiceViewController {
 
     override func configurationItems() -> [Any]! {
         if let channel = SLComposeSheetConfigurationItem() {
-            channel.title = "Selected Channel"
+            channel.title = "Channel"
             channel.value = selectedChannel?.title
             channel.tapHandler = {
                 let vc = ShareSelectViewController()
