@@ -11,12 +11,23 @@ import Social
 import MobileCoreServices
 import Apollo
 
+extension NSItemProvider {
+    var isURL: Bool {
+        return hasItemConformingToTypeIdentifier(kUTTypeURL as String)
+    }
+    var isText: Bool {
+        return hasItemConformingToTypeIdentifier(kUTTypeText as String)
+    }
+}
+
 class ShareViewController: SLComposeServiceViewController {
     private var apollo: ApolloClient?
     private var authToken = String()
     private var appToken = String()
     private var userChannels = [Channel]()
-    fileprivate var selectedChannel: Channel?
+    fileprivate var selectedChannel: Channel!
+    private var urlString: String?
+    private var textString: String?
     
     // Make a rectangle
     func CGRectMake(_ x: CGFloat, _ y: CGFloat, _ width: CGFloat, _ height: CGFloat) -> CGRect {
@@ -32,6 +43,7 @@ class ShareViewController: SLComposeServiceViewController {
         navigationController?.navigationBar.tintColor = UIColor.black
         navigationController?.navigationBar.backgroundColor = UIColor.white
         navigationController?.view.backgroundColor = UIColor.white
+        navigationController?.navigationBar.topItem?.rightBarButtonItem?.title = "Connect"
     }
     
     func getDefaults() {
@@ -76,6 +88,29 @@ class ShareViewController: SLComposeServiceViewController {
             self.reloadConfigurationItems()
         }
     }
+    
+    func getContext() {
+        let extensionItem = extensionContext?.inputItems[0] as! NSExtensionItem
+        let contentTypeURL = kUTTypeURL as String
+        let contentTypeText = kUTTypeText as String
+        
+        for attachment in extensionItem.attachments as! [NSItemProvider] {
+            if attachment.isURL {
+                attachment.loadItem(forTypeIdentifier: contentTypeURL, options: nil, completionHandler: { (results, error) in
+                    let url = results as! URL?
+                    print("URL::: \(url!.absoluteString)")
+                    self.urlString = url!.absoluteString
+                })
+            }
+            if attachment.isText {
+                attachment.loadItem(forTypeIdentifier: contentTypeText, options: nil, completionHandler: { (results, error) in
+                    let text = results as! String
+                    self.textString = text
+                    _ = self.isContentValid()
+                })
+            }
+        }
+    }
 
     override func isContentValid() -> Bool {
         // Do validation of contentText and/or NSExtensionContext attachments here
@@ -85,6 +120,7 @@ class ShareViewController: SLComposeServiceViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        getContext()
     }
     
     override func presentationAnimationDidFinish() {
@@ -94,10 +130,10 @@ class ShareViewController: SLComposeServiceViewController {
     }
 
     override func didSelectPost() {
-        // This is called after the user selects Post. Do the upload of contentText and/or NSExtensionContext attachments.
-    
-        // Inform the host that we're done, so it un-blocks its UI. Note: Alternatively you could call super's -didSelectPost, which will similarly complete the extension context.
-        self.extensionContext!.completeRequest(returningItems: [], completionHandler: nil)
+//        guard let text = textView.text else { return }
+        apollo?.perform(mutation: CreateBlockMutationMutation(channel_ids: [GraphQLID(describing: selectedChannel.id!)], source_url: urlString)) { (result, error) in
+            self.extensionContext!.completeRequest(returningItems: [], completionHandler: nil)
+        }
     }
 
     override func configurationItems() -> [Any]! {

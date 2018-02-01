@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Add to Are.na/ShareViewController.swift"
-            timestampString = "539218641.915964"
+            timestampString = "539221096.363346"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "67"
-            endingLineNumber = "67"
+            startingLineNumber = "79"
+            endingLineNumber = "79"
             landmarkName = "fetchRecentConnections()"
             landmarkType = "7">
          </BreakpointContent>
