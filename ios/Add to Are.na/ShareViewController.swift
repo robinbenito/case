@@ -62,15 +62,18 @@ class ShareViewController: SLComposeServiceViewController {
     func setupApollo() {
         let configuration = URLSessionConfiguration.default
         
-        configuration.httpAdditionalHeaders = ["X-APP-TOKEN": self.appToken]
-        configuration.httpAdditionalHeaders = ["X-AUTH-TOKEN": self.authToken]
+        configuration.httpAdditionalHeaders = [
+            "X-APP-TOKEN": self.appToken,
+            "X-AUTH-TOKEN": self.authToken
+        ]
         
-        let url = URL(string: "http://localhost:3000/graphql")!
-        
-        self.apollo = ApolloClient(networkTransport: HTTPNetworkTransport(url: url, configuration: configuration))
+        let url = URL(string: "https://api.are.na/graphql")!
+        let transport = HTTPNetworkTransport(url: url, configuration: configuration)
+        self.apollo = ApolloClient(networkTransport: transport)
     }
     
     func fetchRecentConnections() {
+        
         self.apollo?.fetch(query: RecentConnectionsQuery()) { (result, error) in
             if let error = error {
                 NSLog("Error fetching connections: \(error.localizedDescription)")
