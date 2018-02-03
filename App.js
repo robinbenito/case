@@ -76,7 +76,6 @@ export default class AppContainer extends Component {
       this.setState({ isLoggedIn: true })
       userDefaults.set('authToken', user.authentication_token, 'group.com.AddtoArena')
       userDefaults.set('appToken', config.X_APP_TOKEN, 'group.com.AddtoArena')
-
     } catch (err) {
       // TODO: Log only in dev mode?
       // `console.error` causes a red screen

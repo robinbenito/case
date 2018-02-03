@@ -62,6 +62,9 @@ class ShareViewController: SLComposeServiceViewController {
     func setupApollo() {
         let configuration = URLSessionConfiguration.default
         
+        print("self.appToken \(self.appToken)")
+        print("self.authToken \(self.authToken)")
+        
         configuration.httpAdditionalHeaders = [
             "X-APP-TOKEN": self.appToken,
             "X-AUTH-TOKEN": self.authToken
