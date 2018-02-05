@@ -47,7 +47,7 @@ class ShareViewController: SLComposeServiceViewController {
     }
     
     func getDefaults() {
-        let userDefaults = UserDefaults(suiteName: "group.com.AddtoArena")
+        let userDefaults = UserDefaults(suiteName: "group.com.arenashare")
         
         if let authToken = userDefaults?.string(forKey: "authToken") {
             print("Auth Token: \(authToken)")

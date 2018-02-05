@@ -18,7 +18,7 @@ import config from './config'
 import navigationService from './utilities/navigationService'
 import cacheAssetsAsync from './utilities/cacheAssetsAsync'
 import currentUserService from './utilities/currentUserService'
-import { trackPage } from './utilities/analytics'
+import { trackPage, trackError } from './utilities/analytics'
 import navigateOnce from './utilities/navigateOnce'
 
 import cachedAssets from './cachedAssets'
@@ -68,20 +68,19 @@ export default class AppContainer extends Component {
 
   async checkLoginStateAsync() {
     try {
-      const [user] = await Promise.all([
+      await Promise.all([
         currentUserService.get(),
         Client.query({ query: gql`{ me { id } }` }), // Ping user to check to see if actually logged in
       ])
 
       this.setState({ isLoggedIn: true })
-      userDefaults.set('authToken', user.authentication_token, 'group.com.AddtoArena').then(data => console.log('token success'))
-      userDefaults.set('appToken', config.X_APP_TOKEN, 'group.com.AddtoArena').then(data => console.log(data))
     } catch (err) {
       // TODO: Log only in dev mode?
       // `console.error` causes a red screen
       console.log('checkLoginStateAsync', err)
 
       currentUserService.clear()
+      userDefaults.empty('group.com.arenashare')
 
       this.setState({ isLoggedIn: false })
     }
@@ -91,7 +90,14 @@ export default class AppContainer extends Component {
     if (this.state.isReady) {
       const Navigation = createRootNavigator(this.getInitialRoute())
       Navigation.router.getStateForAction = navigateOnce(Navigation.router.getStateForAction)
-
+      currentUserService.get().then((user) => {
+        userDefaults.set('authToken', user.authentication_token, 'group.com.arenashare')
+          .then(data => console.log('success', trackError(`Success: ${data}`)))
+          .catch(error => console.log('error', trackError(error)))
+        userDefaults.set('appToken', config.X_APP_TOKEN, 'group.com.arenashare')
+          .then(data => console.log('success', trackError(`Success: ${data}`)))
+          .catch(error => console.log('error', trackError(error)))
+      })
       return (
         <ApolloProvider store={Store} client={Client}>
           <View style={StyleSheet.absoluteFill}>

@@ -9,7 +9,7 @@
 	<key>loadJSInBackgroundExperimental</key>
 	<false/>
 	<key>manifestUrl</key>
-	<string>exp://exp.host/@broskoski/arena</string>
+	<string>exp://exp.host/@arena/arena</string>
 	<key>releaseChannel</key>
 	<string>default</string>
 </dict>

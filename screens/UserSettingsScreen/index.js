@@ -4,6 +4,7 @@ import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 import PropTypes from 'prop-types'
 import { Text, ScrollView } from 'react-native'
+import userDefaults from 'react-native-user-defaults'
 
 import Apollo from '../../state/Apollo'
 
@@ -35,6 +36,8 @@ class UserSettingsScreen extends React.Component {
   }
 
   logOut = () => {
+    console.log('clearing!')
+    userDefaults.empty('group.com.arenashare', data => console.log('cleared, dat', data))
     currentUserService.clear()
 
     Apollo.resetStore()
