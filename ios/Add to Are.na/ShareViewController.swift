@@ -92,6 +92,7 @@ class ShareViewController: SLComposeServiceViewController {
             }
             self.selectedChannel = self.userChannels.first
             self.reloadConfigurationItems()
+            self.validateContent()
         }
     }
     
@@ -119,8 +120,10 @@ class ShareViewController: SLComposeServiceViewController {
     }
 
     override func isContentValid() -> Bool {
-        // Do validation of contentText and/or NSExtensionContext attachments here
-        return true
+        if ((selectedChannel != nil) && (selectedChannel.id != nil)) {
+            return true
+        }
+        return false
     }
     
     override func viewDidLoad() {
