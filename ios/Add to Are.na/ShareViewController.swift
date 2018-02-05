@@ -121,19 +121,7 @@ class ShareViewController: SLComposeServiceViewController {
     
     func showAuthAlert() {
         let alert = UIAlertController(title: "Access Denied", message: "Please log in through the Are.na app and try again.", preferredStyle: UIAlertControllerStyle.alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { action in
-            switch action.style{
-            case .default:
-                print("default")
-                
-            case .cancel:
-                print("cancel")
-                
-            case .destructive:
-                print("destructive")
-                
-                
-            }}))
+        alert.addAction(UIAlertAction(title: "Ok", style: .default))
         self.present(alert, animated: true, completion: nil)
 
     }
@@ -158,7 +146,14 @@ class ShareViewController: SLComposeServiceViewController {
     }
 
     override func didSelectPost() {
-        apollo?.perform(mutation: CreateBlockMutationMutation(channel_ids: [GraphQLID(describing: selectedChannel.id!)], description: self.contentText, source_url: urlString)) { (result, error) in
+        var mutation = CreateBlockMutationMutation(channel_ids: [GraphQLID(describing: selectedChannel.id!)], description: self.contentText, source_url: urlString)
+        
+        // Content is text
+        if ((urlString) == nil && (self.contentText) != nil) {
+            mutation = CreateBlockMutationMutation(channel_ids: [GraphQLID(describing: selectedChannel.id!)], content: self.contentText)
+        }
+        
+        apollo?.perform(mutation: mutation) { (result, error) in
             self.extensionContext!.completeRequest(returningItems: [], completionHandler: nil)
         }
     }
