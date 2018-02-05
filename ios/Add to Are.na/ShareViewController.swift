@@ -36,7 +36,7 @@ class ShareViewController: SLComposeServiceViewController {
     
     // Set the top bar styles
     func setupUI() {
-        let imageView = UIImageView(image: UIImage(named: "icon.png"))
+        let imageView = UIImageView(image: UIImage(named: "logo.png"))
         imageView.contentMode = .scaleAspectFit
         navigationItem.titleView = imageView
         navigationController?.navigationBar.topItem?.titleView = imageView
@@ -76,9 +76,9 @@ class ShareViewController: SLComposeServiceViewController {
     }
     
     func fetchRecentConnections() {
-        
         self.apollo?.fetch(query: RecentConnectionsQuery()) { (result, error) in
             if let error = error {
+                self.showAuthAlert()
                 NSLog("Error fetching connections: \(error.localizedDescription)")
             }
             
@@ -118,6 +118,25 @@ class ShareViewController: SLComposeServiceViewController {
             }
         }
     }
+    
+    func showAuthAlert() {
+        let alert = UIAlertController(title: "Access Denied", message: "Please log in through the Are.na app and try again.", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { action in
+            switch action.style{
+            case .default:
+                print("default")
+                
+            case .cancel:
+                print("cancel")
+                
+            case .destructive:
+                print("destructive")
+                
+                
+            }}))
+        self.present(alert, animated: true, completion: nil)
+
+    }
 
     override func isContentValid() -> Bool {
         if ((selectedChannel != nil) && (selectedChannel.id != nil)) {
@@ -139,8 +158,7 @@ class ShareViewController: SLComposeServiceViewController {
     }
 
     override func didSelectPost() {
-//        guard let text = textView.text else { return }
-        apollo?.perform(mutation: CreateBlockMutationMutation(channel_ids: [GraphQLID(describing: selectedChannel.id!)], source_url: urlString)) { (result, error) in
+        apollo?.perform(mutation: CreateBlockMutationMutation(channel_ids: [GraphQLID(describing: selectedChannel.id!)], description: self.contentText, source_url: urlString)) { (result, error) in
             self.extensionContext!.completeRequest(returningItems: [], completionHandler: nil)
         }
     }
