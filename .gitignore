@@ -7,3 +7,7 @@ config.js
 yarn-error.log
 .vscode/launchReactNative.js
 .vscode/typings
+
+# Xcode
+xcuserdata
+ios/build/
