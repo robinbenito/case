@@ -21,6 +21,10 @@
 		B5DB04811F3A684600E91581 /* shell-app.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B5DB047F1F3A684600E91581 /* shell-app.bundle */; };
 		C5088D52202389DE00144782 /* RecentConnections.graphql in Resources */ = {isa = PBXBuildFile; fileRef = C5088D51202389DE00144782 /* RecentConnections.graphql */; };
 		C5088D562023D28C00144782 /* CreateBlock.graphql in Resources */ = {isa = PBXBuildFile; fileRef = C5088D552023D28C00144782 /* CreateBlock.graphql */; };
+		C532552C202A6DC6000229F6 /* AWSCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C532552B202A6DC5000229F6 /* AWSCore.framework */; };
+		C532552D202A6DC6000229F6 /* AWSCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C532552B202A6DC5000229F6 /* AWSCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C5325530202A6DFA000229F6 /* AWSS3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C532552F202A6DFA000229F6 /* AWSS3.framework */; };
+		C5325531202A6DFA000229F6 /* AWSS3.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C532552F202A6DFA000229F6 /* AWSS3.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C543A97620252BD40078AC91 /* Apollo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C59CB10D2024E60C00127E30 /* Apollo.framework */; };
 		C543A97820262D6B0078AC91 /* Apollo.framework in Copy Apollo */ = {isa = PBXBuildFile; fileRef = C59CB10D2024E60C00127E30 /* Apollo.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C543A979202642910078AC91 /* Apollo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C59CB10D2024E60C00127E30 /* Apollo.framework */; };
@@ -30,6 +34,7 @@
 		C5818BED2021236B00A5C4CF /* Add to Are.na.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C5818BE32021236B00A5C4CF /* Add to Are.na.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C58CBC8420228A46009609F3 /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C58CBC8320228A46009609F3 /* Channel.swift */; };
 		C58CBC8620228AB1009609F3 /* ShareSelectController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C58CBC8520228AB1009609F3 /* ShareSelectController.swift */; };
+		C599EDD1202A29B900D6070A /* FetchPolicy.graphql in Resources */ = {isa = PBXBuildFile; fileRef = C599EDD0202A29B900D6070A /* FetchPolicy.graphql */; };
 		C5AFEFCC202383AA00C73E27 /* schema.json in Resources */ = {isa = PBXBuildFile; fileRef = C5AFEFCB202383AA00C73E27 /* schema.json */; };
 		C5AFEFCE2023844D00C73E27 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5AFEFCD2023844D00C73E27 /* API.swift */; };
 		EBB8117C1BFA0514F79CAF74 /* libPods-are-na.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C4A88D15726AD99E8A257BC7 /* libPods-are-na.a */; };
@@ -102,6 +107,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		C532552E202A6DC6000229F6 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				C5325531202A6DFA000229F6 /* AWSS3.framework in Embed Frameworks */,
+				C532552D202A6DC6000229F6 /* AWSCore.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C543A97720262D5C0078AC91 /* Copy Apollo */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -115,7 +132,7 @@
 		};
 		C5818BF12021236B00A5C4CF /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 12;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
@@ -147,6 +164,8 @@
 		C4A88D15726AD99E8A257BC7 /* libPods-are-na.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-are-na.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5088D51202389DE00144782 /* RecentConnections.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = RecentConnections.graphql; sourceTree = "<group>"; };
 		C5088D552023D28C00144782 /* CreateBlock.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = CreateBlock.graphql; sourceTree = "<group>"; };
+		C532552B202A6DC5000229F6 /* AWSCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AWSCore.framework; sourceTree = "<group>"; };
+		C532552F202A6DFA000229F6 /* AWSS3.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AWSS3.framework; sourceTree = "<group>"; };
 		C56C1BEF2028ECBC002404E1 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		C5818BE32021236B00A5C4CF /* Add to Are.na.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Add to Are.na.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5818BE52021236B00A5C4CF /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
@@ -156,6 +175,7 @@
 		C58CBC81202259A2009609F3 /* are-na.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "are-na.entitlements"; sourceTree = "<group>"; };
 		C58CBC8320228A46009609F3 /* Channel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Channel.swift; sourceTree = "<group>"; };
 		C58CBC8520228AB1009609F3 /* ShareSelectController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSelectController.swift; sourceTree = "<group>"; };
+		C599EDD0202A29B900D6070A /* FetchPolicy.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = FetchPolicy.graphql; sourceTree = "<group>"; };
 		C59CB1012024E60C00127E30 /* Apollo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Apollo.xcodeproj; path = "apollo-ios/Apollo.xcodeproj"; sourceTree = "<group>"; };
 		C5AFEFCB202383AA00C73E27 /* schema.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = schema.json; sourceTree = "<group>"; };
 		C5AFEFCD2023844D00C73E27 /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
@@ -166,8 +186,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C5325530202A6DFA000229F6 /* AWSS3.framework in Frameworks */,
 				C543A97620252BD40078AC91 /* Apollo.framework in Frameworks */,
 				EBB8117C1BFA0514F79CAF74 /* libPods-are-na.a in Frameworks */,
+				C532552C202A6DC6000229F6 /* AWSCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -202,6 +224,8 @@
 		B56386381DB9693800A0598C = {
 			isa = PBXGroup;
 			children = (
+				C532552F202A6DFA000229F6 /* AWSS3.framework */,
+				C532552B202A6DC5000229F6 /* AWSCore.framework */,
 				C59CB1012024E60C00127E30 /* Apollo.xcodeproj */,
 				B56386431DB9693800A0598C /* are-na */,
 				C5818BE42021236B00A5C4CF /* Add to Are.na */,
@@ -264,6 +288,7 @@
 				C5818BEA2021236B00A5C4CF /* Info.plist */,
 				C5088D51202389DE00144782 /* RecentConnections.graphql */,
 				C5088D552023D28C00144782 /* CreateBlock.graphql */,
+				C599EDD0202A29B900D6070A /* FetchPolicy.graphql */,
 			);
 			path = "Add to Are.na";
 			sourceTree = "<group>";
@@ -307,6 +332,8 @@
 				AA38385B7D8D0854176B72FC /* [CP] Copy Pods Resources */,
 				C5818BF12021236B00A5C4CF /* Embed App Extensions */,
 				C543A97720262D5C0078AC91 /* Copy Apollo */,
+				C532552E202A6DC6000229F6 /* Embed Frameworks */,
+				C5325532202A6E24000229F6 /* Run AWS Script */,
 			);
 			buildRules = (
 			);
@@ -477,6 +504,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C599EDD1202A29B900D6070A /* FetchPolicy.graphql in Resources */,
 				C5AFEFCC202383AA00C73E27 /* schema.json in Resources */,
 				C56C1BF02028ECBD002404E1 /* logo.png in Resources */,
 				C5088D562023D28C00144782 /* CreateBlock.graphql in Resources */,
@@ -577,6 +605,20 @@
 			shellPath = /bin/bash;
 			shellScript = "set -eo pipefail\n\npushd ${SRCROOT}/..\nvalue=$(cat ~/.expo/PATH)\nPATH=\"$PATH:$value\" exp prepare-detached-build --platform ios\npopd\n";
 		};
+		C5325532202A6E24000229F6 /* Run AWS Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run AWS Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "Shell /bin/sh\n\nbash \"${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSCore.framework/strip-frameworks.sh\"\n";
+		};
 		C5AFEFC8202382E100C73E27 /* Generate Apollo GraphQL API */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 12;
@@ -589,7 +631,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "";
+			shellScript = "APOLLO_FRAMEWORK_PATH=\"$(eval find $FRAMEWORK_SEARCH_PATHS -name \"Apollo.framework\" -maxdepth 1)\"\n\nif [ -z \"$APOLLO_FRAMEWORK_PATH\" ]; then\necho \"error: Couldn't find Apollo.framework in FRAMEWORK_SEARCH_PATHS; make sure to add the framework to your project.\"\nexit 1\nfi\n\ncd \"${SRCROOT}/${TARGET_NAME}\"\n$APOLLO_FRAMEWORK_PATH/check-and-run-apollo-codegen.sh generate $(find . -name '*.graphql') --schema schema.json --output API.swift";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -747,6 +789,10 @@
 				CODE_SIGN_ENTITLEMENTS = "are-na/are-na.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = RCL6FRSRW9;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/are-na/Supporting/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = na.are.arenaapp;
@@ -764,6 +810,10 @@
 				CODE_SIGN_ENTITLEMENTS = "are-na/are-na.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = RCL6FRSRW9;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/are-na/Supporting/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = na.are.arenaapp;
@@ -795,10 +845,9 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				OTHER_SWIFT_FLAGS = "";
-				"OTHER_SWIFT_FLAGS[arch=*]" = "-D DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = "na.are.arenaapp.Add-to-Are-na";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
+				SKIP_INSTALL = NO;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
@@ -831,7 +880,7 @@
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "na.are.arenaapp.Add-to-Are-na";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
+				SKIP_INSTALL = NO;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

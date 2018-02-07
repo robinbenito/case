@@ -10,6 +10,7 @@ import UIKit
 import Social
 import MobileCoreServices
 import Apollo
+import AWSS3
 
 extension NSItemProvider {
     var isURL: Bool {
@@ -17,6 +18,9 @@ extension NSItemProvider {
     }
     var isText: Bool {
         return hasItemConformingToTypeIdentifier(kUTTypeText as String)
+    }
+    var isImage: Bool {
+        return hasItemConformingToTypeIdentifier(kUTTypeImage as String)
     }
 }
 
@@ -28,11 +32,7 @@ class ShareViewController: SLComposeServiceViewController {
     fileprivate var selectedChannel: Channel!
     private var urlString: String?
     private var textString: String?
-    
-    // Make a rectangle
-    func CGRectMake(_ x: CGFloat, _ y: CGFloat, _ width: CGFloat, _ height: CGFloat) -> CGRect {
-        return CGRect(x: x, y: y, width: width, height: height)
-    }
+    private var imageString: String?
     
     // Set the top bar styles
     func setupUI() {
@@ -100,12 +100,18 @@ class ShareViewController: SLComposeServiceViewController {
         let extensionItem = extensionContext?.inputItems[0] as! NSExtensionItem
         let contentTypeURL = kUTTypeURL as String
         let contentTypeText = kUTTypeText as String
+        let contentTypeImage = kUTTypeImage as String
         
         for attachment in extensionItem.attachments as! [NSItemProvider] {
+            if attachment.isImage {
+                attachment.loadItem(forTypeIdentifier: contentTypeImage, options: nil, completionHandler:  { (results, error) in
+                    let image = results as! URL
+                    self.imageString = image.absoluteString
+                })
+            }
             if attachment.isURL {
                 attachment.loadItem(forTypeIdentifier: contentTypeURL, options: nil, completionHandler: { (results, error) in
                     let url = results as! URL?
-                    print("URL::: \(url!.absoluteString)")
                     self.urlString = url!.absoluteString
                 })
             }
@@ -152,10 +158,57 @@ class ShareViewController: SLComposeServiceViewController {
         if ((urlString) == nil && (self.contentText) != nil) {
             mutation = CreateBlockMutationMutation(channel_ids: [GraphQLID(describing: selectedChannel.id!)], content: self.contentText)
         }
-        
-        apollo?.perform(mutation: mutation) { (result, error) in
-            self.extensionContext!.completeRequest(returningItems: [], completionHandler: nil)
+        // If content is not an image
+        if ((self.imageString) == nil) {
+            apollo?.perform(mutation: mutation) { (result, error) in
+                self.extensionContext!.completeRequest(returningItems: [], completionHandler: nil)
+            }
+        // If content is an image, get an s3 policy, then upload the image and create a block
+        } else {
+            print("going to be uploading an image")
+            apollo?.fetch(query: FetchPolicyQuery()) { (result, error) in
+                print("GOT POLICY")
+                let key = result?.data?.me?.policy?.key
+                let bucket = result?.data?.me?.policy?.bucket
+                let transferUtility = AWSS3TransferUtility.default()
+                let url = URL(string: self.imageString!)
+                let data = try? Data(contentsOf: url!)
+                
+                print("Got some fucking data")
+                
+                let expression = AWSS3TransferUtilityUploadExpression()
+                
+                var completionHandler: AWSS3TransferUtilityUploadCompletionHandlerBlock?
+                completionHandler = { (task, error) -> Void in
+                    DispatchQueue.main.async(execute: {
+                        print("TASK \(task)")
+                        print("ERROR \(error?.localizedDescription)")
+                        // Do something e.g. Alert a user for transfer completion.
+                        // On failed uploads, `error` contains the error object.
+                    })
+                }
+ 
+                transferUtility.uploadData(
+                    data!,
+                    bucket: bucket!,
+                    key: key!,
+                    contentType: "image/png",
+                    expression: expression,
+                    completionHandler: completionHandler).continueWith {
+                        (task) -> AnyObject! in
+                        if let error = task.error {
+                            print("Error: \(error.localizedDescription)")
+                        }
+                    
+                        if let _ = task.result {
+                            print("RESULT \(task.result?.request)")
+                            // Do something with uploadTask.
+                        }
+                        return nil;
+                }
+            }
         }
+        
     }
 
     override func configurationItems() -> [Any]! {

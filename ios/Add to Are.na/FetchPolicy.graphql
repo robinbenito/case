@@ -1,0 +1,15 @@
+
+query FetchPolicy {
+    me {
+        policy {
+            AWSAccessKeyId
+            acl
+            bucket
+            expires
+            key
+            policy
+            signature
+            success_action_status
+        }
+    }
+}
