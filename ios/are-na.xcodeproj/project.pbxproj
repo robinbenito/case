@@ -21,6 +21,7 @@
 		B5DB04811F3A684600E91581 /* shell-app.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B5DB047F1F3A684600E91581 /* shell-app.bundle */; };
 		C5088D52202389DE00144782 /* RecentConnections.graphql in Resources */ = {isa = PBXBuildFile; fileRef = C5088D51202389DE00144782 /* RecentConnections.graphql */; };
 		C5088D562023D28C00144782 /* CreateBlock.graphql in Resources */ = {isa = PBXBuildFile; fileRef = C5088D552023D28C00144782 /* CreateBlock.graphql */; };
+		C52A066D202BBAA3007AD5DC /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = C52A066C202BBAA3007AD5DC /* awsconfiguration.json */; };
 		C532552C202A6DC6000229F6 /* AWSCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C532552B202A6DC5000229F6 /* AWSCore.framework */; };
 		C532552D202A6DC6000229F6 /* AWSCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C532552B202A6DC5000229F6 /* AWSCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C5325530202A6DFA000229F6 /* AWSS3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C532552F202A6DFA000229F6 /* AWSS3.framework */; };
@@ -34,7 +35,6 @@
 		C5818BED2021236B00A5C4CF /* Add to Are.na.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C5818BE32021236B00A5C4CF /* Add to Are.na.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C58CBC8420228A46009609F3 /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C58CBC8320228A46009609F3 /* Channel.swift */; };
 		C58CBC8620228AB1009609F3 /* ShareSelectController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C58CBC8520228AB1009609F3 /* ShareSelectController.swift */; };
-		C599EDD1202A29B900D6070A /* FetchPolicy.graphql in Resources */ = {isa = PBXBuildFile; fileRef = C599EDD0202A29B900D6070A /* FetchPolicy.graphql */; };
 		C5AFEFCC202383AA00C73E27 /* schema.json in Resources */ = {isa = PBXBuildFile; fileRef = C5AFEFCB202383AA00C73E27 /* schema.json */; };
 		C5AFEFCE2023844D00C73E27 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5AFEFCD2023844D00C73E27 /* API.swift */; };
 		EBB8117C1BFA0514F79CAF74 /* libPods-are-na.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C4A88D15726AD99E8A257BC7 /* libPods-are-na.a */; };
@@ -164,6 +164,7 @@
 		C4A88D15726AD99E8A257BC7 /* libPods-are-na.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-are-na.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5088D51202389DE00144782 /* RecentConnections.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = RecentConnections.graphql; sourceTree = "<group>"; };
 		C5088D552023D28C00144782 /* CreateBlock.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = CreateBlock.graphql; sourceTree = "<group>"; };
+		C52A066C202BBAA3007AD5DC /* awsconfiguration.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = awsconfiguration.json; sourceTree = "<group>"; };
 		C532552B202A6DC5000229F6 /* AWSCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AWSCore.framework; sourceTree = "<group>"; };
 		C532552F202A6DFA000229F6 /* AWSS3.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AWSS3.framework; sourceTree = "<group>"; };
 		C56C1BEF2028ECBC002404E1 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
@@ -175,7 +176,6 @@
 		C58CBC81202259A2009609F3 /* are-na.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "are-na.entitlements"; sourceTree = "<group>"; };
 		C58CBC8320228A46009609F3 /* Channel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Channel.swift; sourceTree = "<group>"; };
 		C58CBC8520228AB1009609F3 /* ShareSelectController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSelectController.swift; sourceTree = "<group>"; };
-		C599EDD0202A29B900D6070A /* FetchPolicy.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = FetchPolicy.graphql; sourceTree = "<group>"; };
 		C59CB1012024E60C00127E30 /* Apollo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Apollo.xcodeproj; path = "apollo-ios/Apollo.xcodeproj"; sourceTree = "<group>"; };
 		C5AFEFCB202383AA00C73E27 /* schema.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = schema.json; sourceTree = "<group>"; };
 		C5AFEFCD2023844D00C73E27 /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
@@ -288,7 +288,7 @@
 				C5818BEA2021236B00A5C4CF /* Info.plist */,
 				C5088D51202389DE00144782 /* RecentConnections.graphql */,
 				C5088D552023D28C00144782 /* CreateBlock.graphql */,
-				C599EDD0202A29B900D6070A /* FetchPolicy.graphql */,
+				C52A066C202BBAA3007AD5DC /* awsconfiguration.json */,
 			);
 			path = "Add to Are.na";
 			sourceTree = "<group>";
@@ -504,7 +504,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C599EDD1202A29B900D6070A /* FetchPolicy.graphql in Resources */,
+				C52A066D202BBAA3007AD5DC /* awsconfiguration.json in Resources */,
 				C5AFEFCC202383AA00C73E27 /* schema.json in Resources */,
 				C56C1BF02028ECBD002404E1 /* logo.png in Resources */,
 				C5088D562023D28C00144782 /* CreateBlock.graphql in Resources */,

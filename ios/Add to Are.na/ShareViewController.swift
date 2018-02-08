@@ -10,6 +10,7 @@ import UIKit
 import Social
 import MobileCoreServices
 import Apollo
+import AWSCore
 import AWSS3
 
 extension NSItemProvider {
@@ -34,8 +35,14 @@ class ShareViewController: SLComposeServiceViewController {
     private var textString: String?
     private var imageString: String?
     
+    private var groupID = "group.com.arenashare"
+    private var AWSBucket = "arena_images-temp"
+    private var AWSPoolId = "us-east-1:9ff5a8f8-46df-456f-ad39-f63fdeb01fed"
+    private var AWSTransferKey = "USEast1S3TransferUtility"
+    
     // Set the top bar styles
     func setupUI() {
+        AWSDDLog.sharedInstance.logLevel = .verbose
         let imageView = UIImageView(image: UIImage(named: "logo.png"))
         imageView.contentMode = .scaleAspectFit
         navigationItem.titleView = imageView
@@ -47,23 +54,18 @@ class ShareViewController: SLComposeServiceViewController {
     }
     
     func getDefaults() {
-        let userDefaults = UserDefaults(suiteName: "group.com.arenashare")
+        let userDefaults = UserDefaults(suiteName: self.groupID)
         
         if let authToken = userDefaults?.string(forKey: "authToken") {
-            print("Auth Token: \(authToken)")
             self.authToken = authToken
         }
         if let appToken = userDefaults?.string(forKey: "appToken") {
-            print("App Token: \(appToken)")
             self.appToken = appToken
         }
     }
     
     func setupApollo() {
         let configuration = URLSessionConfiguration.default
-        
-        print("self.appToken \(self.appToken)")
-        print("self.authToken \(self.authToken)")
         
         configuration.httpAdditionalHeaders = [
             "X-APP-TOKEN": self.appToken,
@@ -78,7 +80,7 @@ class ShareViewController: SLComposeServiceViewController {
     func fetchRecentConnections() {
         self.apollo?.fetch(query: RecentConnectionsQuery()) { (result, error) in
             if let error = error {
-                self.showAuthAlert()
+                self.showAlert(message: "Please log in through the Are.na app and try again.", title: "Access Denied")
                 NSLog("Error fetching connections: \(error.localizedDescription)")
             }
             
@@ -125,11 +127,10 @@ class ShareViewController: SLComposeServiceViewController {
         }
     }
     
-    func showAuthAlert() {
-        let alert = UIAlertController(title: "Access Denied", message: "Please log in through the Are.na app and try again.", preferredStyle: UIAlertControllerStyle.alert)
+    func showAlert(message: String, title: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .default))
         self.present(alert, animated: true, completion: nil)
-
     }
 
     override func isContentValid() -> Bool {
@@ -163,49 +164,54 @@ class ShareViewController: SLComposeServiceViewController {
             apollo?.perform(mutation: mutation) { (result, error) in
                 self.extensionContext!.completeRequest(returningItems: [], completionHandler: nil)
             }
-        // If content is an image, get an s3 policy, then upload the image and create a block
+        // If content is an image, then upload the image and create a block
         } else {
-            print("going to be uploading an image")
-            apollo?.fetch(query: FetchPolicyQuery()) { (result, error) in
-                print("GOT POLICY")
-                let key = result?.data?.me?.policy?.key
-                let bucket = result?.data?.me?.policy?.bucket
-                let transferUtility = AWSS3TransferUtility.default()
-                let url = URL(string: self.imageString!)
-                let data = try? Data(contentsOf: url!)
-                
-                print("Got some fucking data")
-                
-                let expression = AWSS3TransferUtilityUploadExpression()
-                
-                var completionHandler: AWSS3TransferUtilityUploadCompletionHandlerBlock?
-                completionHandler = { (task, error) -> Void in
-                    DispatchQueue.main.async(execute: {
-                        print("TASK \(task)")
-                        print("ERROR \(error?.localizedDescription)")
-                        // Do something e.g. Alert a user for transfer completion.
-                        // On failed uploads, `error` contains the error object.
-                    })
-                }
- 
-                transferUtility.uploadData(
-                    data!,
-                    bucket: bucket!,
-                    key: key!,
-                    contentType: "image/png",
-                    expression: expression,
-                    completionHandler: completionHandler).continueWith {
-                        (task) -> AnyObject! in
-                        if let error = task.error {
-                            print("Error: \(error.localizedDescription)")
-                        }
+            let bucket = self.AWSBucket
+            let url = URL(string: self.imageString!)!
+            let data = try? Data(contentsOf: url)
+            let uuid = NSUUID().uuidString.lowercased()
+            let key = "\(uuid)/\(url.lastPathComponent)"
+            
+            let credentialProvider = AWSCognitoCredentialsProvider(regionType: .USEast1, identityPoolId: self.AWSPoolId)
+            let configuration = AWSServiceConfiguration(region: .USEast1, credentialsProvider: credentialProvider)
+            configuration?.sharedContainerIdentifier = self.groupID
+            
+            AWSServiceManager.default().defaultServiceConfiguration = configuration
+            AWSS3TransferUtility.register(with: configuration!, forKey: self.AWSTransferKey)
+            let transferUtility = AWSS3TransferUtility.s3TransferUtility(forKey: self.AWSTransferKey)
+            let expression = AWSS3TransferUtilityUploadExpression()
+            expression.setValue("public-read", forRequestHeader: "x-amz-acl")
+            
+            var completionHandler: AWSS3TransferUtilityUploadCompletionHandlerBlock?
+            completionHandler = { (task, error) -> Void in
+                DispatchQueue.main.async(execute: {
+                    let url = URL(string: "https://s3.amazonaws.com/arena_images-temp/")
+                    let publicURL = url?.appendingPathComponent(key).absoluteString
                     
-                        if let _ = task.result {
-                            print("RESULT \(task.result?.request)")
-                            // Do something with uploadTask.
-                        }
-                        return nil;
-                }
+                    // Create image in Are.na
+                    mutation = CreateBlockMutationMutation(channel_ids: [GraphQLID(describing: self.selectedChannel.id!)], description: self.contentText, source_url: publicURL)
+                    self.apollo?.perform(mutation: mutation) { (result, error) in }
+                    
+                    // Remove reference to transferUtility
+                    AWSS3TransferUtility.remove(forKey: self.AWSTransferKey)
+                })
+            }
+
+            transferUtility.uploadData(
+                data!,
+                bucket: "arena_images-temp",
+                key: key,
+                contentType: "image/png",
+                expression: expression,
+                completionHandler: completionHandler).continueWith { (task) -> AnyObject! in
+                    if let error = task.error {
+                        print("Error: \(error.localizedDescription)")
+                        self.showAlert(message: "Error uploading file \(error.localizedDescription)", title: "Error")
+                    }
+                    
+                    // Close the extension
+                    self.extensionContext!.completeRequest(returningItems: [], completionHandler: nil)
+                    return nil;
             }
         }
         
