@@ -185,7 +185,7 @@ class ShareViewController: SLComposeServiceViewController {
             var completionHandler: AWSS3TransferUtilityUploadCompletionHandlerBlock?
             completionHandler = { (task, error) -> Void in
                 DispatchQueue.main.async(execute: {
-                    let url = URL(string: "https://s3.amazonaws.com/arena_images-temp/")
+                    let url = URL(string: "https://s3.amazonaws.com/")?.appendingPathComponent(bucket)
                     let publicURL = url?.appendingPathComponent(key).absoluteString
                     
                     // Create image in Are.na
@@ -196,10 +196,10 @@ class ShareViewController: SLComposeServiceViewController {
                     AWSS3TransferUtility.remove(forKey: self.AWSTransferKey)
                 })
             }
-
+            
             transferUtility.uploadData(
                 data!,
-                bucket: "arena_images-temp",
+                bucket: bucket,
                 key: key,
                 contentType: "image/png",
                 expression: expression,

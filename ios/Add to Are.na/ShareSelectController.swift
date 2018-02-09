@@ -59,7 +59,6 @@ extension ShareSelectViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Identifiers.ChannelCell, for: indexPath)
         cell.textLabel?.text = userChannels[indexPath.row].title
-        print("visibility \(userChannels[indexPath.row].visibility)")
         cell.textLabel?.textColor = getChannelColor(visibility: userChannels[indexPath.row].visibility!)
         cell.backgroundColor = .clear
         return cell
