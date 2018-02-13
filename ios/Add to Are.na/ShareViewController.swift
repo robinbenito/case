@@ -186,6 +186,8 @@ class ShareViewController: SLComposeServiceViewController {
             let uuid = NSUUID().uuidString.lowercased()
             let key = "\(uuid)/\(url.lastPathComponent)"
             
+            print("GOING TO UPLOAD IMAGE")
+            
             let credentialProvider = AWSCognitoCredentialsProvider(regionType: .USEast1, identityPoolId: self.AWSPoolId)
             let configuration = AWSServiceConfiguration(region: .USEast1, credentialsProvider: credentialProvider)
             configuration?.sharedContainerIdentifier = self.groupID
@@ -201,13 +203,15 @@ class ShareViewController: SLComposeServiceViewController {
                 DispatchQueue.main.async(execute: {
                     let url = URL(string: "https://s3.amazonaws.com/")?.appendingPathComponent(bucket)
                     let publicURL = url?.appendingPathComponent(key).absoluteString
-                    
+                    print("Creating image from \(publicURL)")
+
                     // Create image in Are.na
-                    mutation = CreateBlockMutationMutation(channel_ids: [GraphQLID(describing: self.selectedChannel.id!)], description: self.contentText, source_url: publicURL)
+                    mutation.source_url = publicURL
                     self.apollo?.perform(mutation: mutation) { (result, error) in }
                     
                     // Remove reference to transferUtility
                     AWSS3TransferUtility.remove(forKey: self.AWSTransferKey)
+                    self.extensionContext!.completeRequest(returningItems: [], completionHandler: nil)
                 })
             }
             
@@ -221,10 +225,8 @@ class ShareViewController: SLComposeServiceViewController {
                     if let error = task.error {
                         print("Error: \(error.localizedDescription)")
                         self.showAlert(message: "Error uploading file \(error.localizedDescription)", title: "Error")
+                        self.extensionContext!.completeRequest(returningItems: [], completionHandler: nil)
                     }
-                    
-                    // Close the extension
-                    self.extensionContext!.completeRequest(returningItems: [], completionHandler: nil)
                     return nil;
             }
         }
