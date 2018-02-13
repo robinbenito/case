@@ -8,7 +8,6 @@ before_install:
 - npm install -g exp
 script:
 - yarn lint
-- if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then yarn appr; fi
 - if [ $TRAVIS_BRANCH = 'deploy' ]; then yarn deploy; fi
 sudo: false
 
