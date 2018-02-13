@@ -59,7 +59,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.0.7</string>
 	<key>CFBundleVersion</key>
-	<string>20</string>
+	<string>22</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
@@ -82,8 +82,8 @@
                 ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO "public.plain-text" ||
                 ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO "public.text" ||
                 ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO "public.image"
-                ).@count &gt;= 1
-                ).@count &gt;= 1</string>
+                ).@count &lt;= 1
+                ).@count &lt;= 1</string>
 			<key>NSExtensionActivationUsesStrictMatching</key>
 			<integer>2</integer>
 		</dict>

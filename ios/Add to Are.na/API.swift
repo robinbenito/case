@@ -92,7 +92,7 @@ public final class CreateBlockMutationMutation: GraphQLMutation {
 
 public final class RecentConnectionsQuery: GraphQLQuery {
   public static let operationString =
-    "query RecentConnections {\n  me {\n    __typename\n    recent_connections(per: 40) {\n      __typename\n      id\n      title\n      visibility\n    }\n  }\n}"
+    "query RecentConnections {\n  me {\n    __typename\n    recent_connections(per: 10) {\n      __typename\n      id\n      title\n      visibility\n    }\n    contents(per: 300, type: CHANNEL) {\n      __typename\n      id\n      title\n      visibility\n    }\n  }\n}"
 
   public init() {
   }
@@ -129,7 +129,8 @@ public final class RecentConnectionsQuery: GraphQLQuery {
 
       public static let selections: [GraphQLSelection] = [
         GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
-        GraphQLField("recent_connections", arguments: ["per": 40], type: .list(.object(RecentConnection.selections))),
+        GraphQLField("recent_connections", arguments: ["per": 10], type: .list(.object(RecentConnection.selections))),
+        GraphQLField("contents", arguments: ["per": 300, "type": "CHANNEL"], type: .list(.object(Content.selections))),
       ]
 
       public var snapshot: Snapshot
@@ -138,8 +139,8 @@ public final class RecentConnectionsQuery: GraphQLQuery {
         self.snapshot = snapshot
       }
 
-      public init(recentConnections: [RecentConnection?]? = nil) {
-        self.init(snapshot: ["__typename": "Me", "recent_connections": recentConnections.flatMap { $0.map { $0.flatMap { $0.snapshot } } }])
+      public init(recentConnections: [RecentConnection?]? = nil, contents: [Content?]? = nil) {
+        self.init(snapshot: ["__typename": "Me", "recent_connections": recentConnections.flatMap { $0.map { $0.flatMap { $0.snapshot } } }, "contents": contents.flatMap { $0.map { $0.flatMap { $0.snapshot } } }])
       }
 
       public var __typename: String {
@@ -157,6 +158,15 @@ public final class RecentConnectionsQuery: GraphQLQuery {
         }
         set {
           snapshot.updateValue(newValue.flatMap { $0.map { $0.flatMap { $0.snapshot } } }, forKey: "recent_connections")
+        }
+      }
+
+      public var contents: [Content?]? {
+        get {
+          return (snapshot["contents"] as? [Snapshot?]).flatMap { $0.map { $0.flatMap { Content(snapshot: $0) } } }
+        }
+        set {
+          snapshot.updateValue(newValue.flatMap { $0.map { $0.flatMap { $0.snapshot } } }, forKey: "contents")
         }
       }
 
@@ -178,6 +188,63 @@ public final class RecentConnectionsQuery: GraphQLQuery {
 
         public init(id: Int? = nil, title: String? = nil, visibility: String? = nil) {
           self.init(snapshot: ["__typename": "Channel", "id": id, "title": title, "visibility": visibility])
+        }
+
+        public var __typename: String {
+          get {
+            return snapshot["__typename"]! as! String
+          }
+          set {
+            snapshot.updateValue(newValue, forKey: "__typename")
+          }
+        }
+
+        public var id: Int? {
+          get {
+            return snapshot["id"] as? Int
+          }
+          set {
+            snapshot.updateValue(newValue, forKey: "id")
+          }
+        }
+
+        public var title: String? {
+          get {
+            return snapshot["title"] as? String
+          }
+          set {
+            snapshot.updateValue(newValue, forKey: "title")
+          }
+        }
+
+        public var visibility: String? {
+          get {
+            return snapshot["visibility"] as? String
+          }
+          set {
+            snapshot.updateValue(newValue, forKey: "visibility")
+          }
+        }
+      }
+
+      public struct Content: GraphQLSelectionSet {
+        public static let possibleTypes = ["Connectable"]
+
+        public static let selections: [GraphQLSelection] = [
+          GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+          GraphQLField("id", type: .scalar(Int.self)),
+          GraphQLField("title", type: .scalar(String.self)),
+          GraphQLField("visibility", type: .scalar(String.self)),
+        ]
+
+        public var snapshot: Snapshot
+
+        public init(snapshot: Snapshot) {
+          self.snapshot = snapshot
+        }
+
+        public init(id: Int? = nil, title: String? = nil, visibility: String? = nil) {
+          self.init(snapshot: ["__typename": "Connectable", "id": id, "title": title, "visibility": visibility])
         }
 
         public var __typename: String {

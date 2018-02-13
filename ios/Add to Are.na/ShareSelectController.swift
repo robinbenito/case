@@ -37,12 +37,29 @@ class ShareSelectViewController: UIViewController {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: Identifiers.ChannelCell)
         return tableView
     }()
+    
+    enum TableSection: Int {
+        case recent = 0, alpha
+    }
+    
+    var recentConnections = [Channel]()
     var userChannels = [Channel]()
+    var data = [TableSection: [Channel]]()
+    
+    
     weak var delegate: ShareSelectViewControllerDelegate?
+    let SectionHeaderHeight: CGFloat = 25
+    let RecentDivision: Int = 10
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        sortData()
         setupUI()
+    }
+    
+    private func sortData() {
+        data[.recent] = recentConnections
+        data[.alpha] = userChannels.sorted(){$0.title.lowercased() < $1.title.lowercased()}
     }
     
     private func setupUI() {
@@ -53,21 +70,58 @@ class ShareSelectViewController: UIViewController {
 }
 
 extension ShareSelectViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return userChannels.count
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
     }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if let tableSection = TableSection(rawValue: section), let channelData = data[tableSection] {
+            print("ChannelData \(channelData)")
+            return channelData.count
+        }
+        return 0
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return SectionHeaderHeight
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: SectionHeaderHeight))
+        view.backgroundColor = UIColor(red: 250.0/255.0, green: 250.0/255.0, blue: 250.0/255.0, alpha: 1)
+        let label = UILabel(frame: CGRect(x: 15, y: 0, width: tableView.bounds.width - 30, height: SectionHeaderHeight))
+        label.font = UIFont.boldSystemFont(ofSize: 13)
+        label.textColor = UIColor.black
+        if let tableSection = TableSection(rawValue: section) {
+            switch tableSection {
+            case .recent:
+                label.text = "Recent Connections"
+            case .alpha:
+                label.text = "All Channels"
+            default:
+                label.text = ""
+            }
+        }
+        view.addSubview(label)
+        return view
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Identifiers.ChannelCell, for: indexPath)
-        cell.textLabel?.text = userChannels[indexPath.row].title
-        cell.textLabel?.textColor = getChannelColor(visibility: userChannels[indexPath.row].visibility!)
-        cell.backgroundColor = .clear
+        if let tableSection = TableSection(rawValue: indexPath.section), let channel = data[tableSection]?[indexPath.row] {
+            cell.textLabel?.text = channel.title
+            cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 15)
+            cell.textLabel?.textColor = getChannelColor(visibility: channel.visibility!)
+            cell.backgroundColor = .clear
+        }
         return cell
     }
 }
 
 extension ShareSelectViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        delegate?.selected(channel: userChannels[indexPath.row])
+        let tableSection = TableSection(rawValue: indexPath.section)
+        delegate?.selected(channel: (data[tableSection!]?[indexPath.row])!)
     }
 }
 

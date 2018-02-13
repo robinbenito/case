@@ -22,6 +22,7 @@
 		C5088D52202389DE00144782 /* RecentConnections.graphql in Resources */ = {isa = PBXBuildFile; fileRef = C5088D51202389DE00144782 /* RecentConnections.graphql */; };
 		C5088D562023D28C00144782 /* CreateBlock.graphql in Resources */ = {isa = PBXBuildFile; fileRef = C5088D552023D28C00144782 /* CreateBlock.graphql */; };
 		C52A066D202BBAA3007AD5DC /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = C52A066C202BBAA3007AD5DC /* awsconfiguration.json */; };
+		C52A0677202E503D007AD5DC /* Preprocessor.js in Resources */ = {isa = PBXBuildFile; fileRef = C52A0676202E503D007AD5DC /* Preprocessor.js */; };
 		C532552C202A6DC6000229F6 /* AWSCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C532552B202A6DC5000229F6 /* AWSCore.framework */; };
 		C532552D202A6DC6000229F6 /* AWSCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C532552B202A6DC5000229F6 /* AWSCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C5325530202A6DFA000229F6 /* AWSS3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C532552F202A6DFA000229F6 /* AWSS3.framework */; };
@@ -165,6 +166,7 @@
 		C5088D51202389DE00144782 /* RecentConnections.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = RecentConnections.graphql; sourceTree = "<group>"; };
 		C5088D552023D28C00144782 /* CreateBlock.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = CreateBlock.graphql; sourceTree = "<group>"; };
 		C52A066C202BBAA3007AD5DC /* awsconfiguration.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = awsconfiguration.json; sourceTree = "<group>"; };
+		C52A0676202E503D007AD5DC /* Preprocessor.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = Preprocessor.js; sourceTree = "<group>"; };
 		C532552B202A6DC5000229F6 /* AWSCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AWSCore.framework; sourceTree = "<group>"; };
 		C532552F202A6DFA000229F6 /* AWSS3.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AWSS3.framework; sourceTree = "<group>"; };
 		C56C1BEF2028ECBC002404E1 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
@@ -289,6 +291,7 @@
 				C5088D51202389DE00144782 /* RecentConnections.graphql */,
 				C5088D552023D28C00144782 /* CreateBlock.graphql */,
 				C52A066C202BBAA3007AD5DC /* awsconfiguration.json */,
+				C52A0676202E503D007AD5DC /* Preprocessor.js */,
 			);
 			path = "Add to Are.na";
 			sourceTree = "<group>";
@@ -504,6 +507,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C52A0677202E503D007AD5DC /* Preprocessor.js in Resources */,
 				C52A066D202BBAA3007AD5DC /* awsconfiguration.json in Resources */,
 				C5AFEFCC202383AA00C73E27 /* schema.json in Resources */,
 				C56C1BF02028ECBD002404E1 /* logo.png in Resources */,

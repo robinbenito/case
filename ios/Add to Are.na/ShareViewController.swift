@@ -29,10 +29,12 @@ class ShareViewController: SLComposeServiceViewController {
     private var apollo: ApolloClient?
     private var authToken = String()
     private var appToken = String()
+    private var recentConnections = [Channel]()
     private var userChannels = [Channel]()
     fileprivate var selectedChannel: Channel!
     private var urlString: String?
     private var textString: String?
+    private var sourceURL: String?
     private var imageString: String?
     
     private var groupID = "group.com.arenashare"
@@ -90,9 +92,17 @@ class ShareViewController: SLComposeServiceViewController {
                 channel.id = $0?.id
                 channel.title = $0?.title
                 channel.visibility = $0?.visibility
+                self.recentConnections.append(channel)
+            }
+            let allChannels = result?.data?.me?.contents
+            allChannels?.forEach {
+                let channel = Channel()
+                channel.id = $0?.id
+                channel.title = $0?.title
+                channel.visibility = $0?.visibility
                 self.userChannels.append(channel)
             }
-            self.selectedChannel = self.userChannels.first
+            self.selectedChannel = self.recentConnections.first
             self.reloadConfigurationItems()
             self.validateContent()
         }
@@ -105,6 +115,7 @@ class ShareViewController: SLComposeServiceViewController {
         let contentTypeImage = kUTTypeImage as String
         
         for attachment in extensionItem.attachments as! [NSItemProvider] {
+            print("attachment \(attachment)")
             if attachment.isImage {
                 attachment.loadItem(forTypeIdentifier: contentTypeImage, options: nil, completionHandler:  { (results, error) in
                     let image = results as! URL
@@ -112,6 +123,7 @@ class ShareViewController: SLComposeServiceViewController {
                 })
             }
             if attachment.isURL {
+                print("ATTACHMENT IS URL")
                 attachment.loadItem(forTypeIdentifier: contentTypeURL, options: nil, completionHandler: { (results, error) in
                     let url = results as! URL?
                     self.urlString = url!.absoluteString
@@ -125,6 +137,8 @@ class ShareViewController: SLComposeServiceViewController {
                 })
             }
         }
+        print("self.urlString \(self.urlString)")
+        print("self.textString \(self.textString)")
     }
     
     func showAlert(message: String, title: String) {
@@ -223,6 +237,7 @@ class ShareViewController: SLComposeServiceViewController {
             channel.value = selectedChannel?.title
             channel.tapHandler = {
                 let vc = ShareSelectViewController()
+                vc.recentConnections = self.recentConnections
                 vc.userChannels = self.userChannels
                 vc.delegate = self
                 self.pushConfigurationViewController(vc)
