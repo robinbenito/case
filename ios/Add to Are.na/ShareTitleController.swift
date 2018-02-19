@@ -20,8 +20,9 @@ class ShareTitleViewController: UIViewController {
         let frame = CGRect(x: self.view.frame.minX, y: self.view.frame.minY, width: self.view.frame.width, height: self.view.frame.height)
         
         let tView = UITextView(frame: frame)
-        tView.font = UIFont.systemFont(ofSize: 18)
+        tView.font = UIFont.systemFont(ofSize: 17)
         tView.textColor = UIColor.black
+        tView.textContainerInset = UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0)
         tView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
         return tView

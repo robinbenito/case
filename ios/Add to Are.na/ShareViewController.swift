@@ -73,12 +73,11 @@ class ShareViewController: SLComposeServiceViewController {
     }
     
     override func didSelectPost() {
-        var mutation = CreateBlockMutationMutation(channel_ids: [GraphQLID(describing: selectedChannel.id!)], description: self.contentText, source_url: urlString)
+        var mutation = CreateBlockMutationMutation(channel_ids: [GraphQLID(describing: selectedChannel.id!)], title: self.customTitle, description: self.contentText, source_url: urlString)
         
         // Content is text
         if ((urlString) == nil && (self.contentText) != nil && (self.imageString) == nil) {
-            print("CONTENT IS TEXT")
-            mutation = CreateBlockMutationMutation(channel_ids: [GraphQLID(describing: selectedChannel.id!)], content: self.contentText, description: "")
+            mutation = CreateBlockMutationMutation(channel_ids: [GraphQLID(describing: selectedChannel.id!)], title: self.customTitle, content: self.contentText, description: "")
         }
         
         // If content is not an image
@@ -278,6 +277,7 @@ class ShareViewController: SLComposeServiceViewController {
                 attachment.loadItem(forTypeIdentifier: contentTypeImage, options: nil, completionHandler:  { (results, error) in
                     let image = results as! URL
                     self.imageString = image.absoluteString
+                    self.customTitle = image.lastPathComponent
                 })
             }
             if attachment.isURL {
