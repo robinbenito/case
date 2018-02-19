@@ -42,6 +42,12 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>AWS Bucket</key>
+	<string>arena_images-temp</string>
+	<key>AWS Cognito Pool ID</key>
+	<string>us-east-1:9ff5a8f8-46df-456f-ad39-f63fdeb01fed</string>
+	<key>AWS Transfer Key</key>
+	<string>USEast1S3TransferUtility</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
@@ -59,15 +65,9 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.0.7</string>
 	<key>CFBundleVersion</key>
-	<string>23</string>
+	<string>24</string>
 	<key>Group ID</key>
 	<string>group.com.arenashare</string>
-	<key>AWS Bucket</key>
-	<string>arena_images-temp</string>
-	<key>AWS Cognito Pool ID</key>
-	<string>us-east-1:9ff5a8f8-46df-456f-ad39-f63fdeb01fed</string>
-	<key>AWS Transfer Key</key>
-	<string>USEast1S3TransferUtility</string>
 	<key>LSApplicationCategoryType</key>
 	<string></string>
 	<key>NSAppTransportSecurity</key>
@@ -89,9 +89,9 @@
 				<integer>2</integer>
 				<key>NSExtensionActivationSupportsText</key>
 				<true/>
-				<key>NSExtensionActivationSupportsWebURLWithMaxCount</key>
-				<integer>1</integer>
 				<key>NSExtensionActivationSupportsWebPageWithMaxCount</key>
+				<integer>1</integer>
+				<key>NSExtensionActivationSupportsWebURLWithMaxCount</key>
 				<integer>1</integer>
 			</dict>
 			<key>NSExtensionActivationUsesStrictMatching</key>

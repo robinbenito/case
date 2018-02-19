@@ -3,7 +3,7 @@
 //  Add to Are.na
 //
 //  Created by Charles Broskoski on 1/30/18.
-//  Copyright © 2018 650 Industries, Inc. All rights reserved.
+//  Copyright © 2018 When It Changed, Inc. All rights reserved.
 //
 
 import UIKit
@@ -139,6 +139,7 @@ class ShareViewController: SLComposeServiceViewController {
         if let channel = SLComposeSheetConfigurationItem() {
             channel.title = "Channel"
             channel.value = selectedChannel?.title
+            channel.valuePending = selectedChannel?.title == nil
             channel.tapHandler = {
                 let vc = ShareSelectViewController()
                 vc.recentConnections = self.recentConnections
@@ -186,7 +187,9 @@ class ShareViewController: SLComposeServiceViewController {
         placeholderLabel.text = "Description"
         placeholderLabel.font = UIFont.italicSystemFont(ofSize: (textView.font?.pointSize)!)
         placeholderLabel.sizeToFit()
+        
         textView.addSubview(placeholderLabel)
+        
         placeholderLabel.frame.origin = CGPoint(x: 5, y: (textView.font?.pointSize)! / 2)
         placeholderLabel.textColor = UIColor.lightGray
         placeholderLabel.isHidden = !textView.text.isEmpty
