@@ -78,8 +78,8 @@
       launchAutomaticallySubstyle = "2">
       <RemoteRunnable
          runnableDebuggingMode = "1"
-         BundleIdentifier = "com.apple.mobileslideshow"
-         RemotePath = "/Applications/MobileSlideShow.app">
+         BundleIdentifier = "com.apple.mobilesafari"
+         RemotePath = "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/CoreSimulator/Profiles/Runtimes/iOS.simruntime/Contents/Resources/RuntimeRoot/Applications/MobileSafari.app">
       </RemoteRunnable>
       <MacroExpansion>
          <BuildableReference

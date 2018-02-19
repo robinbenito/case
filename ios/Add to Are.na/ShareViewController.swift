@@ -44,6 +44,7 @@ class ShareViewController: SLComposeServiceViewController {
     private var textString: String?
     private var sourceURL: String?
     private var imageString: String?
+    private var customTitle: String?
     
     // Values for uploading images to S3
     private var groupID = String()
@@ -75,15 +76,18 @@ class ShareViewController: SLComposeServiceViewController {
         var mutation = CreateBlockMutationMutation(channel_ids: [GraphQLID(describing: selectedChannel.id!)], description: self.contentText, source_url: urlString)
         
         // Content is text
-        if ((urlString) == nil && (self.contentText) != nil) {
+        if ((urlString) == nil && (self.contentText) != nil && (self.imageString) == nil) {
+            print("CONTENT IS TEXT")
             mutation = CreateBlockMutationMutation(channel_ids: [GraphQLID(describing: selectedChannel.id!)], content: self.contentText, description: "")
         }
+        
         // If content is not an image
         if ((self.imageString) == nil) {
             apollo?.perform(mutation: mutation) { (result, error) in
                 self.extensionContext!.completeRequest(returningItems: [], completionHandler: nil)
             }
-            // If content is an image, then upload the image and create a block
+        
+        // If content is an image, then upload the image and create a block
         } else {
             let bucket = self.AWSBucket
             let url = URL(string: self.imageString!)!
@@ -147,17 +151,27 @@ class ShareViewController: SLComposeServiceViewController {
                 vc.delegate = self
                 self.pushConfigurationViewController(vc)
             }
-            
-            return [channel]
+            let customTitle = SLComposeSheetConfigurationItem()
+            customTitle?.title = "Title"
+            customTitle?.value = self.customTitle
+            customTitle?.tapHandler = {
+                let vc = ShareTitleViewController()
+                vc.currentValue = self.customTitle
+                vc.delegate = self
+                self.pushConfigurationViewController(vc)
+            }
+            return [customTitle, channel]
         }
         return nil
     }
     
+    // Handle empty textView by showing the placeholder
     override func textViewDidChange(_ textView: UITextView) {
         super.textViewDidChange(textView)
         placeholderLabel.isHidden = !textView.text.isEmpty
     }
     
+    // Set values needed for S3 transfer
     private func setConfig() -> Any {
         guard let path = Bundle.main.path(forResource: "Info", ofType: "plist"),
             let dict = NSDictionary(contentsOfFile: path) else {
@@ -172,6 +186,7 @@ class ShareViewController: SLComposeServiceViewController {
         return true
     }
     
+    // "CSS"
     private func setupUI() {
         let imageView = UIImageView(image: UIImage(named: "logo.png"))
         imageView.contentMode = .scaleAspectFit
@@ -195,6 +210,7 @@ class ShareViewController: SLComposeServiceViewController {
         placeholderLabel.isHidden = !textView.text.isEmpty
     }
     
+    // Get tokens used for Apollo
     private func getDefaults() {
         let userDefaults = UserDefaults(suiteName: self.groupID)
         
@@ -206,6 +222,7 @@ class ShareViewController: SLComposeServiceViewController {
         }
     }
     
+    // Set headers on Apollo client
     private func setupApollo() {
         let configuration = URLSessionConfiguration.default
         
@@ -219,6 +236,7 @@ class ShareViewController: SLComposeServiceViewController {
         self.apollo = ApolloClient(networkTransport: transport)
     }
     
+    // Fetch both recent connections and all channels for the user
     private func fetchRecentConnections() {
         self.apollo?.fetch(query: RecentConnectionsQuery()) { (result, error) in
             if let error = error {
@@ -248,6 +266,7 @@ class ShareViewController: SLComposeServiceViewController {
         }
     }
     
+    // Figure out what kind of content we are dealing with
     private func getShareContext() {
         let extensionItem = extensionContext?.inputItems[0] as! NSExtensionItem
         let contentTypeURL = kUTTypeURL as String
@@ -263,7 +282,9 @@ class ShareViewController: SLComposeServiceViewController {
             }
             if attachment.isURL {
                 // if the attachment is a url, clear the default text field.
+                self.customTitle = self.contentText
                 self.textView.text = ""
+                placeholderLabel.isHidden = false
                 attachment.loadItem(forTypeIdentifier: contentTypeURL, options: nil, completionHandler: { (results, error) in
                     let url = results as! URL?
                     self.urlString = url!.absoluteString
@@ -279,6 +300,7 @@ class ShareViewController: SLComposeServiceViewController {
         }
     }
     
+    // Show an alert on the event of an error
     private func showAlert(message: String, title: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .default))
@@ -289,6 +311,14 @@ class ShareViewController: SLComposeServiceViewController {
 extension ShareViewController: ShareSelectViewControllerDelegate {
     func selected(channel: Channel) {
         selectedChannel = channel
+        reloadConfigurationItems()
+        popConfigurationViewController()
+    }
+}
+
+extension ShareViewController: ShareTitleViewControllerDelegate {
+    func titleFinshedEditing(newValue: String) {
+        self.customTitle = newValue
         reloadConfigurationItems()
         popConfigurationViewController()
     }
