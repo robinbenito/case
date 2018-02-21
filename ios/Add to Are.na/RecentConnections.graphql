@@ -1,0 +1,14 @@
+query RecentConnections {
+    me {
+        recent_connections(per: 10) {
+            id
+            title
+            visibility
+        }
+        contents(per: 300, type: CHANNEL) {
+            id
+            title
+            visibility
+        }
+    }
+}
