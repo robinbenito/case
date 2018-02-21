@@ -13,12 +13,11 @@ import createRootNavigator from './navigation/Routes'
 
 import Store from './state/Store'
 import Client from './state/Apollo'
-import config from './config'
 
 import navigationService from './utilities/navigationService'
 import cacheAssetsAsync from './utilities/cacheAssetsAsync'
 import currentUserService from './utilities/currentUserService'
-import { trackPage, trackError, trackEvent } from './utilities/analytics'
+import { trackPage, trackEvent } from './utilities/analytics'
 import navigateOnce from './utilities/navigateOnce'
 
 import cachedAssets from './cachedAssets'
@@ -91,15 +90,6 @@ export default class AppContainer extends Component {
       const Navigation = createRootNavigator(this.getInitialRoute())
       Navigation.router.getStateForAction = navigateOnce(Navigation.router.getStateForAction)
       trackEvent({ category: 'Log', action: 'Rendering main view' })
-      currentUserService.get().then((user) => {
-        trackEvent({ category: 'Log', action: 'Setting defaults' })
-        userDefaults.set('authToken', user.authentication_token, 'group.com.arenashare')
-          .then(() => trackEvent({ category: 'Log', action: 'Success saving auth' }))
-          .catch(error => trackError(error))
-        userDefaults.set('appToken', config.X_APP_TOKEN, 'group.com.arenashare')
-          .then(() => trackEvent({ category: 'Log', action: 'Success saving app token' }))
-          .catch(error => trackError(error))
-      }).catch(error => trackError(`error fetching user ${error}`))
       return (
         <ApolloProvider store={Store} client={Client}>
           <View style={StyleSheet.absoluteFill}>

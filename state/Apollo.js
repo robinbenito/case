@@ -5,9 +5,12 @@
 
 import ApolloClient, { createNetworkInterface } from 'apollo-client'
 import { IntrospectionFragmentMatcher } from 'react-apollo'
+import userDefaults from 'react-native-user-defaults'
+
 import Config from '../config'
 import CurrentUser from '../utilities/currentUserService'
 import fragmentSchema from './fragmentSchema'
+import { trackError, trackEvent } from '../utilities/analytics'
 
 const fragmentMatcher = new IntrospectionFragmentMatcher({
   introspectionQueryResultData: fragmentSchema.data,
@@ -28,6 +31,15 @@ networkInterface.use([{
     CurrentUser.get()
       .then((user) => {
         req.options.headers['X-AUTH-TOKEN'] = user.authentication_token
+
+        // Set user defaults for share extension
+        trackEvent({ category: 'Log', action: 'Setting defaults' })
+        userDefaults.set('authToken', user.authentication_token, 'group.com.arenashare')
+          .then(() => trackEvent({ category: 'Log', action: 'Success saving auth' }))
+          .catch(error => trackError(error))
+        userDefaults.set('appToken', Config.X_APP_TOKEN, 'group.com.arenashare')
+          .then(() => trackEvent({ category: 'Log', action: 'Success saving app token' }))
+          .catch(error => trackError(error))
         next()
       })
       .catch(next)
