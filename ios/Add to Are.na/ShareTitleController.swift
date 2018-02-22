@@ -14,7 +14,7 @@ protocol ShareTitleViewControllerDelegate: class {
 
 class ShareTitleViewController: UIViewController {
     weak var delegate: ShareTitleViewControllerDelegate?
-    var currentValue: String!
+    var currentValue = String()
     
     private lazy var textView: UITextView = {
         let frame = CGRect(x: self.view.frame.minX, y: self.view.frame.minY, width: self.view.frame.width, height: self.view.frame.height)
@@ -32,7 +32,9 @@ class ShareTitleViewController: UIViewController {
         super.viewDidLoad()
         
         title = "Edit Title"
+        
         textView.insertText(currentValue)
+        
         view.addSubview(textView)
         
         textView.becomeFirstResponder()

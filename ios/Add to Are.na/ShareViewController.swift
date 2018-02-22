@@ -44,7 +44,7 @@ class ShareViewController: SLComposeServiceViewController {
     private var textString: String?
     private var sourceURL: String?
     private var imageString: String?
-    private var customTitle: String?
+    private var customTitle = String()
     
     // Values for uploading images to S3
     private var groupID = String()
