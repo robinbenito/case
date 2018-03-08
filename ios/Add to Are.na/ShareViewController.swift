@@ -24,6 +24,10 @@ extension NSItemProvider {
         return hasItemConformingToTypeIdentifier(kUTTypeImage as String)
     }
 }
+func getDocumentsDirectory() -> URL {
+    let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+    return paths[0]
+}
 
 class ShareViewController: SLComposeServiceViewController {
     // For fetching data via Apollo
@@ -275,9 +279,18 @@ class ShareViewController: SLComposeServiceViewController {
         for attachment in extensionItem.attachments as! [NSItemProvider] {
             if attachment.isImage {
                 attachment.loadItem(forTypeIdentifier: contentTypeImage, options: nil, completionHandler:  { (results, error) in
-                    let image = results as! URL
-                    self.imageString = image.absoluteString
-                    self.customTitle = image.lastPathComponent
+                    if let image = results as? URL {
+                        self.imageString = image.absoluteString
+                        self.customTitle = image.lastPathComponent
+                    } else if let image = results as? UIImage {
+                        if let data = UIImagePNGRepresentation(image) {
+                            let filename = getDocumentsDirectory().appendingPathComponent("screenshot.png")
+                            try? data.write(to: filename)
+                            self.imageString = filename.absoluteString
+                            self.customTitle = filename.lastPathComponent
+                        }
+                    }
+                    
                 })
             }
             if attachment.isURL {
