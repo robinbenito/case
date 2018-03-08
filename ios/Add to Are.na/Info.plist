@@ -63,9 +63,9 @@
 	<key>CFBundlePackageType</key>
 	<string>XPC!</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0.8</string>
+	<string>1.0.9</string>
 	<key>CFBundleVersion</key>
-	<string>29</string>
+	<string>1</string>
 	<key>Group ID</key>
 	<string>group.com.arenashare</string>
 	<key>LSApplicationCategoryType</key>
