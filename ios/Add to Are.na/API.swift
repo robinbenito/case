@@ -3,7 +3,7 @@
 import Apollo
 
 public final class CreateBlockMutationMutation: GraphQLMutation {
-  public static let operationString =
+  public let operationDefinition =
     "mutation createBlockMutation($channel_ids: [ID]!, $title: String, $content: String, $description: String, $source_url: String) {\n  create_block(input: {channel_ids: $channel_ids, title: $title, content: $content, description: $description, source_url: $source_url}) {\n    __typename\n    clientMutationId\n  }\n}"
 
   public var channel_ids: [GraphQLID?]
@@ -31,22 +31,22 @@ public final class CreateBlockMutationMutation: GraphQLMutation {
       GraphQLField("create_block", arguments: ["input": ["channel_ids": GraphQLVariable("channel_ids"), "title": GraphQLVariable("title"), "content": GraphQLVariable("content"), "description": GraphQLVariable("description"), "source_url": GraphQLVariable("source_url")]], type: .object(CreateBlock.selections)),
     ]
 
-    public var snapshot: Snapshot
+    public private(set) var resultMap: ResultMap
 
-    public init(snapshot: Snapshot) {
-      self.snapshot = snapshot
+    public init(unsafeResultMap: ResultMap) {
+      self.resultMap = unsafeResultMap
     }
 
     public init(createBlock: CreateBlock? = nil) {
-      self.init(snapshot: ["__typename": "Mutation", "create_block": createBlock.flatMap { $0.snapshot }])
+      self.init(unsafeResultMap: ["__typename": "Mutation", "create_block": createBlock.flatMap { (value: CreateBlock) -> ResultMap in value.resultMap }])
     }
 
     public var createBlock: CreateBlock? {
       get {
-        return (snapshot["create_block"] as? Snapshot).flatMap { CreateBlock(snapshot: $0) }
+        return (resultMap["create_block"] as? ResultMap).flatMap { CreateBlock(unsafeResultMap: $0) }
       }
       set {
-        snapshot.updateValue(newValue?.snapshot, forKey: "create_block")
+        resultMap.updateValue(newValue?.resultMap, forKey: "create_block")
       }
     }
 
@@ -58,32 +58,32 @@ public final class CreateBlockMutationMutation: GraphQLMutation {
         GraphQLField("clientMutationId", type: .scalar(String.self)),
       ]
 
-      public var snapshot: Snapshot
+      public private(set) var resultMap: ResultMap
 
-      public init(snapshot: Snapshot) {
-        self.snapshot = snapshot
+      public init(unsafeResultMap: ResultMap) {
+        self.resultMap = unsafeResultMap
       }
 
       public init(clientMutationId: String? = nil) {
-        self.init(snapshot: ["__typename": "CreateBlockPayload", "clientMutationId": clientMutationId])
+        self.init(unsafeResultMap: ["__typename": "CreateBlockPayload", "clientMutationId": clientMutationId])
       }
 
       public var __typename: String {
         get {
-          return snapshot["__typename"]! as! String
+          return resultMap["__typename"]! as! String
         }
         set {
-          snapshot.updateValue(newValue, forKey: "__typename")
+          resultMap.updateValue(newValue, forKey: "__typename")
         }
       }
 
       /// A unique identifier for the client performing the mutation.
       public var clientMutationId: String? {
         get {
-          return snapshot["clientMutationId"] as? String
+          return resultMap["clientMutationId"] as? String
         }
         set {
-          snapshot.updateValue(newValue, forKey: "clientMutationId")
+          resultMap.updateValue(newValue, forKey: "clientMutationId")
         }
       }
     }
@@ -91,7 +91,7 @@ public final class CreateBlockMutationMutation: GraphQLMutation {
 }
 
 public final class RecentConnectionsQuery: GraphQLQuery {
-  public static let operationString =
+  public let operationDefinition =
     "query RecentConnections {\n  me {\n    __typename\n    recent_connections(per: 10) {\n      __typename\n      id\n      title\n      visibility\n    }\n    contents(per: 300, type: CHANNEL) {\n      __typename\n      id\n      title\n      visibility\n    }\n  }\n}"
 
   public init() {
@@ -104,23 +104,23 @@ public final class RecentConnectionsQuery: GraphQLQuery {
       GraphQLField("me", type: .object(Me.selections)),
     ]
 
-    public var snapshot: Snapshot
+    public private(set) var resultMap: ResultMap
 
-    public init(snapshot: Snapshot) {
-      self.snapshot = snapshot
+    public init(unsafeResultMap: ResultMap) {
+      self.resultMap = unsafeResultMap
     }
 
     public init(me: Me? = nil) {
-      self.init(snapshot: ["__typename": "Query", "me": me.flatMap { $0.snapshot }])
+      self.init(unsafeResultMap: ["__typename": "Query", "me": me.flatMap { (value: Me) -> ResultMap in value.resultMap }])
     }
 
     /// The current logged in user
     public var me: Me? {
       get {
-        return (snapshot["me"] as? Snapshot).flatMap { Me(snapshot: $0) }
+        return (resultMap["me"] as? ResultMap).flatMap { Me(unsafeResultMap: $0) }
       }
       set {
-        snapshot.updateValue(newValue?.snapshot, forKey: "me")
+        resultMap.updateValue(newValue?.resultMap, forKey: "me")
       }
     }
 
@@ -133,40 +133,40 @@ public final class RecentConnectionsQuery: GraphQLQuery {
         GraphQLField("contents", arguments: ["per": 300, "type": "CHANNEL"], type: .list(.object(Content.selections))),
       ]
 
-      public var snapshot: Snapshot
+      public private(set) var resultMap: ResultMap
 
-      public init(snapshot: Snapshot) {
-        self.snapshot = snapshot
+      public init(unsafeResultMap: ResultMap) {
+        self.resultMap = unsafeResultMap
       }
 
       public init(recentConnections: [RecentConnection?]? = nil, contents: [Content?]? = nil) {
-        self.init(snapshot: ["__typename": "Me", "recent_connections": recentConnections.flatMap { $0.map { $0.flatMap { $0.snapshot } } }, "contents": contents.flatMap { $0.map { $0.flatMap { $0.snapshot } } }])
+        self.init(unsafeResultMap: ["__typename": "Me", "recent_connections": recentConnections.flatMap { (value: [RecentConnection?]) -> [ResultMap?] in value.map { (value: RecentConnection?) -> ResultMap? in value.flatMap { (value: RecentConnection) -> ResultMap in value.resultMap } } }, "contents": contents.flatMap { (value: [Content?]) -> [ResultMap?] in value.map { (value: Content?) -> ResultMap? in value.flatMap { (value: Content) -> ResultMap in value.resultMap } } }])
       }
 
       public var __typename: String {
         get {
-          return snapshot["__typename"]! as! String
+          return resultMap["__typename"]! as! String
         }
         set {
-          snapshot.updateValue(newValue, forKey: "__typename")
+          resultMap.updateValue(newValue, forKey: "__typename")
         }
       }
 
       public var recentConnections: [RecentConnection?]? {
         get {
-          return (snapshot["recent_connections"] as? [Snapshot?]).flatMap { $0.map { $0.flatMap { RecentConnection(snapshot: $0) } } }
+          return (resultMap["recent_connections"] as? [ResultMap?]).flatMap { (value: [ResultMap?]) -> [RecentConnection?] in value.map { (value: ResultMap?) -> RecentConnection? in value.flatMap { (value: ResultMap) -> RecentConnection in RecentConnection(unsafeResultMap: value) } } }
         }
         set {
-          snapshot.updateValue(newValue.flatMap { $0.map { $0.flatMap { $0.snapshot } } }, forKey: "recent_connections")
+          resultMap.updateValue(newValue.flatMap { (value: [RecentConnection?]) -> [ResultMap?] in value.map { (value: RecentConnection?) -> ResultMap? in value.flatMap { (value: RecentConnection) -> ResultMap in value.resultMap } } }, forKey: "recent_connections")
         }
       }
 
       public var contents: [Content?]? {
         get {
-          return (snapshot["contents"] as? [Snapshot?]).flatMap { $0.map { $0.flatMap { Content(snapshot: $0) } } }
+          return (resultMap["contents"] as? [ResultMap?]).flatMap { (value: [ResultMap?]) -> [Content?] in value.map { (value: ResultMap?) -> Content? in value.flatMap { (value: ResultMap) -> Content in Content(unsafeResultMap: value) } } }
         }
         set {
-          snapshot.updateValue(newValue.flatMap { $0.map { $0.flatMap { $0.snapshot } } }, forKey: "contents")
+          resultMap.updateValue(newValue.flatMap { (value: [Content?]) -> [ResultMap?] in value.map { (value: Content?) -> ResultMap? in value.flatMap { (value: Content) -> ResultMap in value.resultMap } } }, forKey: "contents")
         }
       }
 
@@ -180,49 +180,49 @@ public final class RecentConnectionsQuery: GraphQLQuery {
           GraphQLField("visibility", type: .scalar(String.self)),
         ]
 
-        public var snapshot: Snapshot
+        public private(set) var resultMap: ResultMap
 
-        public init(snapshot: Snapshot) {
-          self.snapshot = snapshot
+        public init(unsafeResultMap: ResultMap) {
+          self.resultMap = unsafeResultMap
         }
 
         public init(id: Int? = nil, title: String? = nil, visibility: String? = nil) {
-          self.init(snapshot: ["__typename": "Channel", "id": id, "title": title, "visibility": visibility])
+          self.init(unsafeResultMap: ["__typename": "Channel", "id": id, "title": title, "visibility": visibility])
         }
 
         public var __typename: String {
           get {
-            return snapshot["__typename"]! as! String
+            return resultMap["__typename"]! as! String
           }
           set {
-            snapshot.updateValue(newValue, forKey: "__typename")
+            resultMap.updateValue(newValue, forKey: "__typename")
           }
         }
 
         public var id: Int? {
           get {
-            return snapshot["id"] as? Int
+            return resultMap["id"] as? Int
           }
           set {
-            snapshot.updateValue(newValue, forKey: "id")
+            resultMap.updateValue(newValue, forKey: "id")
           }
         }
 
         public var title: String? {
           get {
-            return snapshot["title"] as? String
+            return resultMap["title"] as? String
           }
           set {
-            snapshot.updateValue(newValue, forKey: "title")
+            resultMap.updateValue(newValue, forKey: "title")
           }
         }
 
         public var visibility: String? {
           get {
-            return snapshot["visibility"] as? String
+            return resultMap["visibility"] as? String
           }
           set {
-            snapshot.updateValue(newValue, forKey: "visibility")
+            resultMap.updateValue(newValue, forKey: "visibility")
           }
         }
       }
@@ -237,49 +237,49 @@ public final class RecentConnectionsQuery: GraphQLQuery {
           GraphQLField("visibility", type: .scalar(String.self)),
         ]
 
-        public var snapshot: Snapshot
+        public private(set) var resultMap: ResultMap
 
-        public init(snapshot: Snapshot) {
-          self.snapshot = snapshot
+        public init(unsafeResultMap: ResultMap) {
+          self.resultMap = unsafeResultMap
         }
 
         public init(id: Int? = nil, title: String? = nil, visibility: String? = nil) {
-          self.init(snapshot: ["__typename": "Connectable", "id": id, "title": title, "visibility": visibility])
+          self.init(unsafeResultMap: ["__typename": "Connectable", "id": id, "title": title, "visibility": visibility])
         }
 
         public var __typename: String {
           get {
-            return snapshot["__typename"]! as! String
+            return resultMap["__typename"]! as! String
           }
           set {
-            snapshot.updateValue(newValue, forKey: "__typename")
+            resultMap.updateValue(newValue, forKey: "__typename")
           }
         }
 
         public var id: Int? {
           get {
-            return snapshot["id"] as? Int
+            return resultMap["id"] as? Int
           }
           set {
-            snapshot.updateValue(newValue, forKey: "id")
+            resultMap.updateValue(newValue, forKey: "id")
           }
         }
 
         public var title: String? {
           get {
-            return snapshot["title"] as? String
+            return resultMap["title"] as? String
           }
           set {
-            snapshot.updateValue(newValue, forKey: "title")
+            resultMap.updateValue(newValue, forKey: "title")
           }
         }
 
         public var visibility: String? {
           get {
-            return snapshot["visibility"] as? String
+            return resultMap["visibility"] as? String
           }
           set {
-            snapshot.updateValue(newValue, forKey: "visibility")
+            resultMap.updateValue(newValue, forKey: "visibility")
           }
         }
       }
