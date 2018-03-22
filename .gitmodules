@@ -1,0 +1,3 @@
+[submodule "ios/apollo-ios"]
+	path = ios/apollo-ios
+	url = https://github.com/apollographql/apollo-ios
