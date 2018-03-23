@@ -6,7 +6,8 @@ The future is already here, its just not evenly distributed yet.
 1. Clone this repo
 2. Download Expo (at expo.io or `brew cask install expo-xde`)
 3. `yarn install`
-4. Take the `config.js.sample` and make a `config.js`
+4. Run `git submodule update --init --recursive` (to install Apollo into its proper directory)
+5. Take the `config.js.sample` and make a `config.js`
 
 ## Development (iOS)
 1. Open the directory in Expo (Project > Open Project)
