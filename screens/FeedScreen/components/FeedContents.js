@@ -38,13 +38,15 @@ export default class FeedContents extends Component {
 
     if (item) {
       const { __typename } = item
+      const key = [item.__typename, item.id].join('-')
+
       switch (__typename) {
         case 'Connectable':
           component = (
             <BlockItem
               size="1-up"
               block={item}
-              key={item.id}
+              key={key}
               style={{
                 marginHorizontal: Units.scale[1],
               }}
@@ -52,14 +54,14 @@ export default class FeedContents extends Component {
           )
           break
         case 'Channel':
-          component = <ChannelItem channel={item} key={item.id} />
+          component = <ChannelItem channel={item} key={key} />
           break
         case 'User':
           component = (
             <UserAvatar
               includeName
               user={item}
-              key={item.id}
+              key={key}
               size={90}
               mode="feed"
               onPress={() => navigationService.navigate('profile', {

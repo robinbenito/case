@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import gql from 'graphql-tag'
 import { propType } from 'graphql-anywhere'
-import { View } from 'react-native'
+import { View, Text } from 'react-native'
 
 import { StackedJumpButton, StackedSwipeable } from '../UI/Buttons'
 import { FieldsetLabel, Fieldset } from '../UI/Inputs'
@@ -11,18 +11,19 @@ import navigationService from '../../utilities/navigationService'
 import alertErrors from '../../utilities/alertErrors'
 
 export default class CollaboratorsForm extends Component {
-  removeCollaborator = id => () => {
+  removeCollaborator = (member_id, member_type) => () => {
     const {
-      removeCollaborators,
+      removeChannelMember,
       channel: {
         id: channel_id,
       },
     } = this.props
 
-    return removeCollaborators({
+    return removeChannelMember({
       variables: {
         channel_id,
-        user_ids: [id],
+        member_id,
+        member_type,
       },
     })
 
@@ -62,11 +63,20 @@ export default class CollaboratorsForm extends Component {
                     text: 'Delete',
                     backgroundColor: 'red',
                     color: 'white',
-                    onPress: this.removeCollaborator(collaborator.id),
+                    onPress: this.removeCollaborator(
+                      collaborator.id,
+                      collaborator.__typename.toUpperCase(),
+                    ),
                   },
                 ]}
               >
                 {collaborator.name}
+                {collaborator.__typename === 'Group' &&
+                  <Text>
+                    {' '}
+                    ({collaborator.users.length + 1} users)
+                  </Text>
+                }
               </StackedSwipeable>
             ))
           }
@@ -78,15 +88,30 @@ export default class CollaboratorsForm extends Component {
 
 CollaboratorsForm.fragments = {
   collaborator: gql`
-    fragment CollaboratorsFormCollaborator on User {
-      id
-      name
+    fragment CollaboratorsFormCollaborator on Member {
+      __typename
+      ... on User {
+        id
+        name
+      }
+      ... on Group {
+        id
+        name
+        user {
+          id
+          name
+        }
+        users {
+          id
+          name
+        }
+      }
     }
   `,
 }
 
 CollaboratorsForm.propTypes = {
-  removeCollaborators: PropTypes.func.isRequired,
+  removeChannelMember: PropTypes.func.isRequired,
   channel: PropTypes.shape({
     id: PropTypes.number.isRequired,
   }).isRequired,

@@ -6,6 +6,7 @@ import gql from 'graphql-tag'
 import StatusBarAwareContainer from '../../components/UI/Layout/StatusBarAwareContainer'
 import SearchHeader from '../../components/SearchHeader'
 import SearchContents from '../../components/SearchContents'
+import CollaboratorsForm from '../../components/Form/CollaboratorsForm'
 
 import alertErrors from '../../utilities/alertErrors'
 import navigationService from '../../utilities/navigationService'
@@ -27,7 +28,7 @@ class AddCollaboratorsScreen extends Component {
   search = query =>
     this.setState({ query })
 
-  addCollaborator = ({ id }) => {
+  addCollaborator = ({ __typename, id }) => {
     const {
       mutate,
       navigation: { state: { params: { channel_id } } },
@@ -36,19 +37,20 @@ class AddCollaboratorsScreen extends Component {
     return mutate({
       variables: {
         channel_id,
-        user_ids: [id],
+        member_id: id,
+        memmber_type: __typename.toUpperCase(),
       },
       refetchQueries: [{
         query: gql`
           {
             channel(id: ${channel_id}) {
               id
-              collaborators {
-                id
-                name
+              collaborators: members {
+                ...CollaboratorsFormCollaborator
               }
             }
           }
+          ${CollaboratorsForm.fragments.collaborator}
         `,
       }],
 
@@ -81,9 +83,9 @@ class AddCollaboratorsScreen extends Component {
   }
 }
 
-const AddCollaboratorsMutation = gql`
-  mutation addCollaboratorsMutation($user_ids: [ID]!, $channel_id: ID!){
-    add_collaborators(input: { user_ids: $user_ids, channel_id: $channel_id }) {
+const AddChannelMember = gql`
+  mutation addChannelMemberMutation($channel_id: ID!, $member_id: ID!, $member_type: MemberTypes) {
+    add_channel_members(input: { id: $channel_id, members: [{ id: $member_id, type: $member_type }] }) {
       channel {
         collaborators {
           id
@@ -94,4 +96,4 @@ const AddCollaboratorsMutation = gql`
   }
 `
 
-export default graphql(AddCollaboratorsMutation)(AddCollaboratorsScreen)
+export default graphql(AddChannelMember)(AddCollaboratorsScreen)
