@@ -10,7 +10,11 @@ import CurrentUser from '../utilities/currentUserService'
 import fragmentSchema from './fragmentSchema'
 
 const fragmentMatcher = new IntrospectionFragmentMatcher({
-  introspectionQueryResultData: fragmentSchema.data,
+  introspectionQueryResultData: {
+    __schema: {
+      types: fragmentSchema,
+    },
+  },
 })
 
 const networkInterface = createNetworkInterface({

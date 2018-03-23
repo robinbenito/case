@@ -2,8 +2,8 @@ import gql from 'graphql-tag'
 import ChannelForm from '../../../components/Form/ChannelForm'
 
 export default gql`
-  mutation removeCollaboratorsMutation($user_ids: [ID]!, $channel_id: ID!) {
-    remove_collaborators(input: { user_ids: $user_ids, channel_id: $channel_id }) {
+  mutation removeChannelMember($member_id: ID!, $member_type: MemberTypes, $channel_id: ID!) {
+    remove_channel_members(input: { id: $channel_id, members: [{ id: $member_id, type: $member_type }] }) {
       channel {
         ...ChannelForm
       }

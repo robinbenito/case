@@ -12,7 +12,7 @@ export default class EditChannelForm extends Component {
     channel: PropTypes.object.isRequired,
     navigation: PropTypes.object.isRequired,
     updateChannel: PropTypes.func.isRequired,
-    removeCollaborators: PropTypes.func.isRequired,
+    removeChannelMember: PropTypes.func.isRequired,
     deleteChannel: PropTypes.func.isRequired,
   }
 
@@ -45,7 +45,7 @@ export default class EditChannelForm extends Component {
     const {
       channel,
       navigation,
-      removeCollaborators,
+      removeChannelMember,
       deleteChannel,
     } = this.props
 
@@ -54,7 +54,7 @@ export default class EditChannelForm extends Component {
         channel={channel}
         navigation={navigation}
         onSubmit={this.onSubmit}
-        removeCollaborators={removeCollaborators}
+        removeChannelMember={removeChannelMember}
         deleteChannel={deleteChannel}
       />
     )
