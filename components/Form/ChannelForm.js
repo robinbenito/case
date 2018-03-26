@@ -97,7 +97,7 @@ class ChannelForm extends Component {
   }
 
   render() {
-    const { channel, removeCollaborators, mode } = this.props
+    const { channel, removeChannelMember, mode } = this.props
     const { title, description, visibility } = this.state
 
     return (
@@ -144,7 +144,7 @@ class ChannelForm extends Component {
                 <CollaboratorsForm
                   channel={channel}
                   collaborators={channel.collaborators}
-                  removeCollaborators={removeCollaborators}
+                  removeChannelMember={removeChannelMember}
                 />
               </Section>
 
@@ -172,7 +172,7 @@ ChannelForm.fragments = {
       title
       description
       visibility
-      collaborators {
+      collaborators: members {
         ...CollaboratorsFormCollaborator
       }
     }
@@ -184,7 +184,7 @@ ChannelForm.propTypes = {
   mode: PropTypes.oneOf(['NEW', 'EDIT']),
   channel: propType(ChannelForm.fragments.channelForm).isRequired,
   onSubmit: PropTypes.func.isRequired,
-  removeCollaborators: PropTypes.func,
+  removeChannelMember: PropTypes.func,
   deleteChannel: PropTypes.func,
 }
 
@@ -197,7 +197,7 @@ ChannelForm.defaultProps = {
     visibility: 'CLOSED',
     collaborators: [],
   },
-  removeCollaborators: () => {},
+  removeChannelMember: () => {},
   deleteChannel: () => {},
 }
 
