@@ -1,7 +1,7 @@
 // NOTE: Adapted from https://github.com/react-community/react-navigation/issues/1439
 
 import { has } from 'lodash'
-import { NavigationActions } from 'react-navigation'
+import { StackActions, NavigationActions } from 'react-navigation'
 
 let _container
 
@@ -13,7 +13,7 @@ const getContainer = () => _container
 
 const reset = (routeName, params = {}) => {
   _container.dispatch(
-    NavigationActions.reset({
+    StackActions.reset({
       index: 0,
       actions: [
         NavigationActions.navigate({
