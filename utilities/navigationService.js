@@ -64,7 +64,7 @@ const back = (key) => {
 
 const navigate = (routeName, params = {}) => {
   _container.dispatch(
-    NavigationActions.navigate({
+    StackActions.push({
       routeName,
       params,
     }),
