@@ -31,6 +31,7 @@
     "react-native": "https://github.com/expo/react-native/archive/sdk-25.0.0.tar.gz",
     "react-native-aws3": "^0.0.8",
     "react-native-config": "^0.2.1",
+    "react-native-fast-image": "^4.0.14",
     "react-native-htmlview": "^0.12.1",
     "react-native-image-progress": "^1.0.1",
     "react-native-keyboard-aware-scroll-view": "https://github.com/APSL/react-native-keyboard-aware-scroll-view",
