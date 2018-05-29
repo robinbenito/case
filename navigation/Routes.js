@@ -1,9 +1,9 @@
-import { StackNavigator } from 'react-navigation'
+import { createStackNavigator } from 'react-navigation'
 
 import LoggedOutRoutes from './LoggedOutRoutes'
 import LoggedInRoutes from './LoggedInRoutes'
 
-export default initialRouteName => StackNavigator({
+export default initialRouteName => createStackNavigator({
   ...LoggedOutRoutes,
   ...LoggedInRoutes,
 }, {
