@@ -49,6 +49,13 @@
 			remoteGlobalIDString = C5818BE22021236A00A5C4CF;
 			remoteInfo = "Add to Are.na";
 		};
+		C5BE395E20BDD31400904650 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C5BE395920BDD31400904650 /* FastImage.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A287971D1DE0C0A60081BDFA;
+			remoteInfo = FastImage;
+		};
 		C5F3C67E2064598100D93E3E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C5F3C6732064598000D93E3E /* Apollo.xcodeproj */;
@@ -180,6 +187,7 @@
 		C58CBC8520228AB1009609F3 /* ShareSelectController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSelectController.swift; sourceTree = "<group>"; };
 		C5AFEFCB202383AA00C73E27 /* schema.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = schema.json; sourceTree = "<group>"; };
 		C5AFEFCD2023844D00C73E27 /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
+		C5BE395920BDD31400904650 /* FastImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = FastImage.xcodeproj; path = "fastimage-ios/FastImage.xcodeproj"; sourceTree = "<group>"; };
 		C5F3C6732064598000D93E3E /* Apollo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Apollo.xcodeproj; path = "apollo-ios/Apollo.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -226,6 +234,7 @@
 		B56386381DB9693800A0598C = {
 			isa = PBXGroup;
 			children = (
+				C5BE395920BDD31400904650 /* FastImage.xcodeproj */,
 				C5F3C6732064598000D93E3E /* Apollo.xcodeproj */,
 				C532552F202A6DFA000229F6 /* AWSS3.framework */,
 				C532552B202A6DC5000229F6 /* AWSCore.framework */,
@@ -303,6 +312,14 @@
 				C58CBC8320228A46009609F3 /* Channel.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		C5BE395A20BDD31400904650 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C5BE395F20BDD31400904650 /* libFastImage.a */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		C5F3C6742064598000D93E3E /* Products */ = {
@@ -418,6 +435,10 @@
 					ProductGroup = C5F3C6742064598000D93E3E /* Products */;
 					ProjectRef = C5F3C6732064598000D93E3E /* Apollo.xcodeproj */;
 				},
+				{
+					ProductGroup = C5BE395A20BDD31400904650 /* Products */;
+					ProjectRef = C5BE395920BDD31400904650 /* FastImage.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -428,6 +449,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		C5BE395F20BDD31400904650 /* libFastImage.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libFastImage.a;
+			remoteRef = C5BE395E20BDD31400904650 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		C5F3C67F2064598100D93E3E /* Apollo.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
